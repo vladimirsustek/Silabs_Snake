@@ -1,0 +1,6 @@
+---
+label: "iostream_eusart_baremetal"
+project:
+- id: "main"
+  path: "xg24_eusart_lcd_snake_game.slcp"
+  output: "."

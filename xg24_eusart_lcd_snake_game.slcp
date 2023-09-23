@@ -1,0 +1,54 @@
+# Silicon Labs Project Configuration Tools: slcp, v0, Component selection file.
+project_name: xg24_eusart_lcd_snake_game
+label: xg24_eusart_lcd_snake_game
+description: "This example project uses the I/O Stream service running in a bare-metal\
+  \ configuration  to demonstrate the use of EUSART communication over the virtual\
+  \ COM port (VCOM). The  application will echo back any characters it receives over\
+  \ the serial connection. The  VCOM serial port can be used either over USB or by\
+  \ connecting to port 4902 if the kit  is connected via Ethernet. \n"
+category: Example|Platform
+filter:
+- name: Device Type
+  value: [SoC]
+- name: MCU
+  value: [32-bit MCU]
+- name: Project Difficulty
+  value: [Beginner]
+package: platform
+quality: production
+readme:
+- {path: readme.md}
+source:
+- {path: app.c}
+- {path: main.c}
+- {path: app_iostream_eusart.c}
+include:
+- path: ''
+  file_list:
+  - {path: app.h}
+  - {path: app_iostream_eusart.h}
+sdk: {id: gecko_sdk, version: 4.3.0}
+toolchain_settings: []
+component:
+- {id: glib}
+- {id: iostream_retarget_stdio}
+- {id: sl_system}
+- {id: memlcd_eusart}
+- {id: iostream}
+- {id: brd4187c}
+- {id: device_init}
+- {id: brd4002a}
+- {id: EFR32MG24B220F1536IM48}
+- {id: dmd_memlcd}
+- instance: [vcom]
+  id: iostream_eusart
+- {id: ls013b7dh03}
+define:
+- {name: DEBUG_EFM}
+configuration:
+- {name: SL_BOARD_ENABLE_VCOM, value: '1'}
+- {name: SL_IOSTREAM_EUSART_VCOM_CONVERT_BY_DEFAULT_LF_TO_CRLF, value: '1'}
+ui_hints:
+  highlight:
+  - {path: readme.md, focus: true}
+
