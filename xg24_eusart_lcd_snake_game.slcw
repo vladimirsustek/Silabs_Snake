@@ -1,5 +1,6 @@
 ---
-label: "iostream_eusart_baremetal"
+label: "xg24_eusart_lcd_snake_game"
+quality: "unknown"
 project:
 - id: "main"
   path: "xg24_eusart_lcd_snake_game.slcp"

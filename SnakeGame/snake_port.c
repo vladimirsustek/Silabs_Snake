@@ -14,6 +14,7 @@
 #include "sl_status.h"
 #include "sl_board_control.h"
 #include "sl_assert.h"
+#include "math.h"
 
 #define SNAKE_SERVER_PORT	(uint16_t)(8000u)
 
@@ -34,7 +35,7 @@ static void platform_control_init(void)
 
 
 /* wrapper around actual tft display init */
-static void platform_display_init(void)
+void platform_display_init(void)
 {
   uint32_t status;
 
@@ -51,6 +52,8 @@ static void platform_display_init(void)
 
   glibContext.backgroundColor = White;
   glibContext.foregroundColor = Black;
+
+  GLIB_clear(&glibContext);
 }
 
 
@@ -99,19 +102,12 @@ void platform_init_randomizer(void)
   */
 void platform_refresh_hw(void)
 {
-  for(int y = 0; y < 128; y++)
-  {
-      for(int x = 0; x < 128; x++)
-      {
-      GLIB_drawPixel(&glibContext, x, y);
-      }
-  }
-  DMD_updateDisplay();
+  GLIB_clear(&glibContext);
 }
 
 
 /**
-  * @brief  Draw a rectangle 'cell' into position x, y (white border, magenta filling).
+  * @brief  Draw a rectangle 'cell' into position x, y.
   *
   * @note   Function implementation fits into display ARENA_MAX_X, ARENA_MAX_X.
   *         Adjustment may be for a platform needed. See Snake port.h MACROs.
@@ -122,22 +118,29 @@ void platform_refresh_hw(void)
   */
 void platform_drawCell(uint16_t x, uint16_t y)
 {
-	drawRect(ARENA_OFFSET_X + CELL_SIZE*x,
-			ARENA_OFFSET_Y + CELL_SIZE*y,
-			CELL_SIZE,
-			CELL_SIZE,
-			WHITE);
-
-	fillRect(ARENA_OFFSET_X + CELL_SIZE*x + 1,
-			ARENA_OFFSET_Y + CELL_SIZE*y + 1,
-			CELL_SIZE - 2,
-			CELL_SIZE - 2,
-			MAGENTA);
+  const uint32_t black_color = 0u;
+  const uint32_t white_color = 0xFFFFFFFFu;
+  for(uint16_t idx = x*CELL_SIZE; idx < x*CELL_SIZE+CELL_SIZE; idx++)
+    {
+      for(uint16_t idy = y*CELL_SIZE; idy < y*CELL_SIZE+CELL_SIZE; idy++)
+        {
+          if((idx == x*CELL_SIZE) || (idx == x*CELL_SIZE+CELL_SIZE-1)||
+          (idy == y*CELL_SIZE) || (idy == y*CELL_SIZE+CELL_SIZE-1))
+            {
+              GLIB_drawPixelColor(&glibContext, idx, idy, black_color);
+            }
+          else
+            {
+              GLIB_drawPixelColor(&glibContext, idx, idy, white_color);
+            }
+        }
+    }
+  DMD_updateDisplay();
 }
 
 
 /**
-  * @brief  Erase a rectangle 'cell' of position x, y (black border and filling).
+  * @brief  Erase a rectangle 'cell' of position x, y.
   *
   * @note   Function implementation fits into display ARENA_MAX_X, ARENA_MAX_X.
   *         Adjustment may be for a platform needed. See Snake port.h MACROs.
@@ -148,11 +151,19 @@ void platform_drawCell(uint16_t x, uint16_t y)
   */
 void platform_eraseCell(uint16_t x, uint16_t y)
 {
-	fillRect(ARENA_OFFSET_X + CELL_SIZE*x,
-			ARENA_OFFSET_Y + CELL_SIZE*y,
-			CELL_SIZE,
-			CELL_SIZE,
-			BLACK);
+  const uint32_t white_color = 0xFFFFFFFF;
+  for(uint16_t idx = x*CELL_SIZE; idx < x*CELL_SIZE+CELL_SIZE; idx++)
+    {
+      for(uint16_t idy = y*CELL_SIZE; idy < y*CELL_SIZE+CELL_SIZE; idy++)
+        {
+          if((idx == x*CELL_SIZE) || (idx == x*CELL_SIZE+CELL_SIZE-1)||
+          (idy == y*CELL_SIZE) || (idy == y*CELL_SIZE+CELL_SIZE-1))
+            {
+              GLIB_drawPixelColor(&glibContext, idx, idy, white_color);
+            }
+        }
+    }
+  DMD_updateDisplay();
 }
 
 
@@ -168,10 +179,17 @@ void platform_eraseCell(uint16_t x, uint16_t y)
   */
 void platform_drawFood(uint16_t x, uint16_t y)
 {
-	fillCircle(ARENA_OFFSET_X + CELL_SIZE*x + CELL_SIZE/2,
-			   ARENA_OFFSET_Y + CELL_SIZE*y + CELL_SIZE/2,
-			   CELL_SIZE/3,
-			   GREEN);
+
+  const uint32_t black_color = 0u;
+  for(uint16_t idx = x*CELL_SIZE; idx < x*CELL_SIZE+CELL_SIZE; idx++)
+    {
+      for(uint16_t idy = y*CELL_SIZE; idy < y*CELL_SIZE+CELL_SIZE; idy++)
+        {
+          GLIB_drawPixelColor(&glibContext, idx, idy, black_color);
+        }
+    }
+  DMD_updateDisplay();
+
 }
 
 
@@ -187,10 +205,16 @@ void platform_drawFood(uint16_t x, uint16_t y)
   */
 void platform_eraseFood(uint16_t x, uint16_t y)
 {
-	fillCircle(ARENA_OFFSET_X + CELL_SIZE*x + CELL_SIZE/2,
-			   ARENA_OFFSET_Y + CELL_SIZE*y + CELL_SIZE/2,
-			   CELL_SIZE/3,
-			   BLACK);
+  const uint32_t white_color = 0xFFFFFFFF;
+  for(uint16_t idx = x*CELL_SIZE; idx < x*CELL_SIZE+CELL_SIZE; idx++)
+    {
+      for(uint16_t idy = y*CELL_SIZE; idy < y*CELL_SIZE+CELL_SIZE; idy++)
+        {
+          GLIB_drawPixelColor(&glibContext, idx, idy, white_color);
+        }
+    }
+  DMD_updateDisplay();
+
 }
 
 
@@ -265,7 +289,7 @@ uint16_t platform_randomize(void)
   */
 uint16_t platform_msTickGet(void)
 {
-	return (uint32_t)HAL_GetTick();
+	return sl_sleeptimer_get_tick_count();
 }
 
 
@@ -359,11 +383,13 @@ void platform_get_control(snake_t * snake)
   */
 void platform_display_border(void)
 {
+#if 0
 	for(int idx = 0; idx < 6; idx++)
 	{
 		/* Draw a white rectangle 'frame' around display of size 320x480 */
 		drawRect(idx, idx, 319 - 2*idx, 479 - 2*idx, WHITE);
 	}
+#endif
 }
 
 
@@ -381,11 +407,16 @@ void platform_display_border(void)
   */
 void platform_print_text(char *str, uint16_t length, uint16_t color)
 {
+  (void)(str);
+  (void)(length);
+  (void)(color);
+
+#if 0
 /*
   * mono18x7bold maximally 13 on line without fix
   * mono12x7bold maximally 19 on line without fix
 */
 	fillRect(7, 135, 290, 20, BLACK);
 	printnewtstr(150, color, &mono12x7bold, 1, str);
-
+#endif
 }

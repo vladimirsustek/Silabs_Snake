@@ -15,16 +15,9 @@
 #include <stdio.h>
 
 /* Platform - LCD dependencies */
-#include "tft.h"
-#include "functions.h"
-
 /* Platform MCU randomizer dependencies */
-#include "adc.h"
-#include "stm32f7xx_hal.h"
-#include "usart.h"
 
 /* Control dependencies */
-#include "server_tcp.h"
 
 /* Hardware dependent constants - LCD TFT 3.5'' 320x480
  *
@@ -58,18 +51,18 @@
 #define ARENA_OFFSET_Y		(uint16_t)(4)
 
 /* Size of the cell in pixels */
-#define CELL_SIZE			(uint16_t)(10)
+#define CELL_SIZE			(uint16_t)(8)
 
 /* Maximal coordination X and Y axis for a cell */
-#define ARENA_MAX_X			(uint16_t)(20)
-#define ARENA_MAX_Y			(uint16_t)(20)
+#define ARENA_MAX_X			(uint16_t)(16)
+#define ARENA_MAX_Y			(uint16_t)(16)
 #define ARENA_MIN_X			(uint16_t)(0)
 #define ARENA_MIN_Y			(uint16_t)(0)
 
 /* Maximal* coordination X and Y for a food cell */
-#define FOOD_MAX_X			(uint16_t)(19)
+#define FOOD_MAX_X			(uint16_t)(15)
 #define FOOD_MIN_X			(uint16_t)(1)
-#define FOOD_MAX_Y			(uint16_t)(19)
+#define FOOD_MAX_Y			(uint16_t)(15)
 #define FOOD_MIN_Y			(uint16_t)(1)
 
 /* General constants (applicable across platforms) */

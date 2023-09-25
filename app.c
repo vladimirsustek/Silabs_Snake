@@ -20,7 +20,6 @@
 void app_init(void)
 {
   app_iostream_eusart_init();
-  memlcd_app_init();
 }
 
 void app_process_action(void)

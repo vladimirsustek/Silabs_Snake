@@ -308,7 +308,7 @@ void snake_move(snake_t* snake)
   *
   * @retval None
   */
-uint16_t static generate_food(snake_t* snake, food_t *food)
+static uint16_t generate_food(snake_t* snake, food_t *food)
 {
 	uint16_t isInvalid = 0;
 	uint16_t iter = 0;
@@ -461,26 +461,26 @@ void snake_inform(snake_t* snake, food_t* food)
 	if(snake->direction == PAUSE && !pauseStringAppeared)
 	{
 		sprintf(printStr, " Paused:score:%05d", snake->length - SNAKE_INIT_LNG);
-		platform_print_text(printStr, strlen(printStr), WHITE);
+		//platform_print_text(printStr, strlen(printStr), WHITE);
 		pauseStringAppeared = 1;
 	}
 	if(snake->direction != PAUSE && pauseStringAppeared)
 	{
 		sprintf(printStr, " Paused:score:%05d", snake->length - SNAKE_INIT_LNG);
 		pauseStringAppeared = 0;
-		platform_print_text(printStr, strlen(printStr), BLACK);
+		//platform_print_text(printStr, strlen(printStr), BLACK);
 		snake->printWholeSnake = 1;
 		food->rePrintFood = 1;
 	}
 	if(snake->state == CRASHED)
 	{
 		sprintf(printStr, " Crash!:score:%05d", snake->length - SNAKE_INIT_LNG);
-		platform_print_text(printStr, strlen(printStr), WHITE);
+		//platform_print_text(printStr, strlen(printStr), WHITE);
 	}
 	if(snake->state == WON)
 	{
 		sprintf(printStr, " Win  !:score:%05d", snake->length - SNAKE_INIT_LNG);
-		platform_print_text(printStr, strlen(printStr), WHITE);
+		//platform_print_text(printStr, strlen(printStr), WHITE);
 	}
 }
 
@@ -507,12 +507,6 @@ void snake_delay(uint32_t Delay, fn_t func)
   uint32_t tickstart = platform_msTickGet();
   uint32_t wait = Delay;
   uint32_t dummyArgRet = 0;
-
-  /* Add a freq to guarantee minimum wait */
-  if (wait < HAL_MAX_DELAY)
-  {
-    wait += (uint32_t)(uwTickFreq);
-  }
 
   while ((platform_msTickGet() - tickstart) < wait)
   {

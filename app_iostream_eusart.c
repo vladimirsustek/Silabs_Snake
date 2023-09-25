@@ -23,6 +23,7 @@
 
 #include "glib.h"
 #include "dmd.h"
+#include "SnakeGame/snake_port.h"
 
 /*******************************************************************************
  *******************************   DEFINES   ***********************************
@@ -66,6 +67,7 @@ static char buffer[BUFSIZE];
 
 void memlcd_app_init(void)
 {
+#if 0
   uint32_t status;
 
   /* Enable the memory lcd */
@@ -82,7 +84,6 @@ void memlcd_app_init(void)
 
   glibContext.backgroundColor = White;
   glibContext.foregroundColor = Black;
-#if 0
   /* Fill lcd with background color */
   GLIB_clear(&glibContext);
 
@@ -123,17 +124,17 @@ void app_iostream_eusart_init(void)
 #endif
 
   /* Output on vcom usart instance */
-  const char str1[] = "IOstream EUSART example\r\n\r\n";
-  sl_iostream_write(sl_iostream_vcom_handle, str1, strlen(str1));
+  //const char str1[] = "IOstream EUSART example\r\n\r\n";
+  //sl_iostream_write(sl_iostream_vcom_handle, str1, strlen(str1));
 
   /* Setting default stream */
   sl_iostream_set_default(sl_iostream_vcom_handle);
-  const char str2[] = "This is output on the default stream\r\n";
-  sl_iostream_write(SL_IOSTREAM_STDOUT, str2, strlen(str2));
+  //const char str2[] = "This is output on the default stream\r\n";
+  //sl_iostream_write(SL_IOSTREAM_STDOUT, str2, strlen(str2));
 
   /* Using printf */
   /* Writing ASCII art to the VCOM iostream */
-  printf("Printf uses the default stream, as long as iostream_retarget_stdio is included.\r\n");
+  printf("Snake game control upper-case: W A S D P.\r\n");
 
   memlcd_app_init();
 }
@@ -154,6 +155,11 @@ void app_iostream_eusart_process_action(void)
 
   /* Retrieve characters, print local echo and full line back */
   c = getchar();
+  if(c != -1)
+    {
+      platform_snake_set_control(c);
+    }
+#if 0
   if (c > 0) {
     if (c == '\r' || c == '\n') {
       buffer[index] = '\0';
@@ -168,4 +174,5 @@ void app_iostream_eusart_process_action(void)
       putchar(c);
     }
   }
+#endif
 }
