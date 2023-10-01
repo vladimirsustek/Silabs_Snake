@@ -70,9 +70,6 @@
 
 #include "snake_function.h"
 
-/* Counter incremented each game cycle (to know, when to generate a snake's food) */
-static uint32_t gPrgCycle = 0;
-
 /**
   * @brief  Function to set snake's direction.
   *
@@ -109,19 +106,23 @@ void snake_hw_init(void)
   *         the platform_refresh_hw() function is called to "clean screen".
   *
   * @param snake - pointer to a snake structure
+  * @param food - pointer to a food structure
+  * @param food - pointer to a game cycle
   * @retval None
   */
-void snake_init(snake_t* snake)
+void snake_init(snake_t* snake, food_t* food, uint32_t* cycle)
 {
 	snake->length = SNAKE_INIT_LNG;
 	snake->direction = PAUSE;
-	snake->state = PLAYING;
+	snake->state = GAME_ONGOING;
 	snake->ghost.x = INVALID_COORDS;
 	snake->ghost.y = INVALID_COORDS;
 	snake->printWholeSnake = 1;
 	memset(&snake->body[0], 0, SNAKE_MAX_LNG*sizeof(coord_t));
 
-	gPrgCycle = 0;
+	*cycle = 0;
+
+  memset(food, 0, sizeof(food_t));
 
 	for (int idx = 0; idx < SNAKE_INIT_LNG; idx++)
 	{
@@ -217,7 +218,7 @@ void snake_move(snake_t* snake)
 	{
 		if ((snake->body[snake->length - 1].y - 1) == ARENA_MIN_Y - 1) // because 0 is still valid
 		{
-			snake->state = CRASHED;
+			snake->state = GAME_OVER;
 			break;
 		}
 		for (int idx = 0; idx < snake->length; idx++)
@@ -225,7 +226,7 @@ void snake_move(snake_t* snake)
 			if (((snake->body[snake->length - 1].y - 1) == snake->body[idx].y) &&
 				((snake->body[snake->length - 1].x) == snake->body[idx].x))
 			{
-				snake->state = CRASHED;
+				snake->state = GAME_OVER;
 			}
 		}
 		snake->body[snake->length - 1].y--;
@@ -235,7 +236,7 @@ void snake_move(snake_t* snake)
 	{
 		if ((snake->body[snake->length - 1].y + 1) == ARENA_MAX_Y)
 		{
-			snake->state = CRASHED;
+			snake->state = GAME_OVER;
 			break;
 		}
 		for (int idx = 0; idx < snake->length; idx++)
@@ -243,7 +244,7 @@ void snake_move(snake_t* snake)
 			if (((snake->body[snake->length - 1].y + 1) == snake->body[idx].y) &&
 				((snake->body[snake->length - 1].x) == snake->body[idx].x))
 			{
-				snake->state = CRASHED;
+				snake->state = GAME_OVER;
 			}
 		}
 
@@ -254,7 +255,7 @@ void snake_move(snake_t* snake)
 	{
 		if ((snake->body[snake->length - 1].x + 1) == ARENA_MAX_X)
 		{
-			snake->state = CRASHED;
+			snake->state = GAME_OVER;
 			break;
 		}
 		for (int idx = 0; idx < snake->length; idx++)
@@ -262,7 +263,7 @@ void snake_move(snake_t* snake)
 			if (((snake->body[snake->length - 1].x + 1) == snake->body[idx].x) &&
 				((snake->body[snake->length - 1].y) == snake->body[idx].y))
 			{
-				snake->state = CRASHED;
+				snake->state = GAME_OVER;
 			}
 		}
 		snake->body[snake->length - 1].x++;
@@ -272,7 +273,7 @@ void snake_move(snake_t* snake)
 	{
 		if ((snake->body[snake->length - 1].x - 1) == ARENA_MIN_X - 1) // because 0 is still valid
 		{
-			snake->state = CRASHED;
+			snake->state = GAME_OVER;
 			break;
 		}
 		for (int idx = 0; idx < snake->length; idx++)
@@ -280,7 +281,7 @@ void snake_move(snake_t* snake)
 			if (((snake->body[snake->length - 1].x - 1) == snake->body[idx].x) &&
 				((snake->body[snake->length - 1].y) == snake->body[idx].y))
 			{
-				snake->state = CRASHED;
+				snake->state = GAME_OVER;
 			}
 		}
 		snake->body[snake->length - 1].x--;
@@ -293,7 +294,7 @@ void snake_move(snake_t* snake)
 
 	if (snake->length == SNAKE_WON_LIMIT)
 	{
-		snake->state = WON;
+		snake->state = GAME_WON;
 	}
 }
 
@@ -367,15 +368,17 @@ static uint16_t generate_food(snake_t* snake, food_t *food)
   *         be immediately placed.
   *
   * @param snake - pointer to a snake structure
+  * @param food - pointer to a food structure
+  * @param cycle - pointer to a cycle
   * @retval None
   */
-void snake_place_food(snake_t* snake, food_t* food)
+void snake_place_food(snake_t* snake, food_t* food, uint32_t *cycle)
 {
 	if (NULL == snake || NULL == food )
 	{
 		return;
 	}
-	if (food->rePrintFood && PLACED == food->state)
+	if (food->rePrintFood && FOOD_PLACED == food->state)
 	{
 		platform_drawFood(food->coord.x, food->coord.y);
 		food->rePrintFood = 0;
@@ -385,9 +388,9 @@ void snake_place_food(snake_t* snake, food_t* food)
 		return;
 	}
 
-	if (0 == gPrgCycle % 10 || food->time_elapsed)
+	if (0 == *cycle % 10 || food->time_elapsed)
 	{
-		if (food->state != PLACED)
+		if (food->state != FOOD_PLACED)
 		{
 			if (GENERAL_ERROR == generate_food(snake, food))
 			{
@@ -396,7 +399,7 @@ void snake_place_food(snake_t* snake, food_t* food)
 			else
 			{
 				food->time_elapsed = 0;
-				food->state = PLACED;
+				food->state = FOOD_PLACED;
 			}
 		}
 		else
@@ -405,7 +408,7 @@ void snake_place_food(snake_t* snake, food_t* food)
 		}
 
 	}
-	gPrgCycle++;
+	*cycle = (*cycle) + 1;
 
 }
 
@@ -442,7 +445,7 @@ void snake_haseaten(snake_t* snake, food_t* food)
 		snake->ghost.y = INVALID_COORDS;
 		snake->length++;
 
-		food->state = EATEN;
+		food->state = FOOD_EATEN;
 	}
 }
 
@@ -472,18 +475,17 @@ void snake_inform(snake_t* snake, food_t* food)
 		snake->printWholeSnake = 1;
 		food->rePrintFood = 1;
 	}
-	if(snake->state == CRASHED)
+	if(snake->state == GAME_OVER)
 	{
 		sprintf(printStr, " Crash!:score:%05d", snake->length - SNAKE_INIT_LNG);
 		//platform_print_text(printStr, strlen(printStr), WHITE);
 	}
-	if(snake->state == WON)
+	if(snake->state == GAME_WON)
 	{
 		sprintf(printStr, " Win  !:score:%05d", snake->length - SNAKE_INIT_LNG);
 		//platform_print_text(printStr, strlen(printStr), WHITE);
 	}
 }
-
 
 /**
   * @brief  Function to do a pseudo-blocking delay
@@ -510,12 +512,12 @@ void snake_delay(uint32_t Delay, fn_t func)
 
   while ((platform_msTickGet() - tickstart) < wait)
   {
-	  if (NULL != func)
-	  {
-		  /* Arguments are in original case unused,
-		   * however may be useful ... once ?*/
-		  dummyArgRet = func(dummyArgRet);
-	  }
+    if (NULL != func)
+    {
+      /* Arguments are in original case unused,
+       * however may be useful ... once ?*/
+      dummyArgRet = func(dummyArgRet);
+    }
 
   }
 }

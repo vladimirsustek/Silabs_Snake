@@ -86,9 +86,9 @@
 
 typedef enum { UP = 'W', DOWN = 'S', LEFT =  'A', RIGHT = 'D', PAUSE = 'P', QUIT = 'Q' } snake_dir_e;
 
-typedef enum { WAITING, PLACED, EATEN } foodstate_e;
+typedef enum { FOOD_WAITING, FOOD_PLACED, FOOD_EATEN } foodstate_e;
 
-typedef enum { PLAYING, CRASHED, WON } snake_state_e;
+typedef enum { GAME_ONGOING, GAME_OVER, GAME_WON } snake_state_e;
 
 typedef struct coord_tag
 {
@@ -113,6 +113,10 @@ typedef struct food_tag
 	uint16_t time_elapsed;
 	uint8_t rePrintFood;
 } food_t;
+
+/* pointer to function returning uint32_t with uint32_t parameter
+ * used for snake_delay as an function called during blocking delay */
+typedef uint32_t fn_t(uint32_t);
 
 void platform_drawCell(uint16_t x, uint16_t y);
 void platform_eraseCell(uint16_t x, uint16_t y);

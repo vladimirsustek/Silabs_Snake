@@ -3,7 +3,7 @@
  *
  * port.c
  *
- *  Created on: Feb 27, 2022
+ *  Created on: Oct 1, 2023
  *      Author: Vladimir Sustek
  *      https://github.com/vladimirsustek
  */
@@ -14,9 +14,16 @@
 #include "sl_status.h"
 #include "sl_board_control.h"
 #include "sl_assert.h"
-#include "math.h"
+#include "sl_sleeptimer.h"
 
 #define SNAKE_SERVER_PORT	(uint16_t)(8000u)
+#define UPPER_CASE_IDX (uint32_t)(6u)
+#define ALLOWED_LETTERS_LNG (uint32_t)(12u)
+
+#define TO_LOWERCASE(x) (x = (x >= 'a') ? (x-('a'-'A')):(x))
+#define IS_ALOWED_LETTER(x) ((x) == 'W'||(x) == 'A'||(x) == 'S'||(x) == 'D'||\
+    (x) == 'P'||(x) == 'Q'||(x) == 'w'||(x) == 'a'|| (x) == 's'||(x) == 'd'||\
+    (x) == 'p'||(x) == 'q')
 
 /* Randomizer seed */
 static uint16_t gRandSeed = 0xABCD;
@@ -29,8 +36,7 @@ static GLIB_Context_t glibContext;
 /* wrapper around actual control implementation - start */
 static void platform_control_init(void)
 {
-	  /* Start TCP server on the address 192.168.100.1:8000 */
-	  //tcp_server_init(SNAKE_SERVER_PORT);
+
 }
 
 
@@ -323,9 +329,13 @@ void platform_get_control(snake_t * snake)
 	static snake_dir_e prev_direction = RIGHT;
 
 	/* this value should be set by platform_snake_set_control */
-	direction = (snake_dir_e)gKeyBoardButton;
+	direction = (snake_dir_e)TO_LOWERCASE(gKeyBoardButton);
 
-	if (direction == 0)
+	if(direction == 0)
+	  {
+	    return;
+	  }
+	if (!IS_ALOWED_LETTER(direction))
 	{
 		return;
 	}
@@ -383,13 +393,7 @@ void platform_get_control(snake_t * snake)
   */
 void platform_display_border(void)
 {
-#if 0
-	for(int idx = 0; idx < 6; idx++)
-	{
-		/* Draw a white rectangle 'frame' around display of size 320x480 */
-		drawRect(idx, idx, 319 - 2*idx, 479 - 2*idx, WHITE);
-	}
-#endif
+  /* Small displays might not need*/
 }
 
 

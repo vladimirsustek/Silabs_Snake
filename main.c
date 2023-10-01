@@ -26,14 +26,9 @@
 #include "sl_system_process_action.h"
 #endif // SL_CATALOG_KERNEL_PRESENT
 
-#include <SnakeGame/snake_port.h>
-#include <SnakeGame/snake_function.h>
+#include <SnakeGame/snake_game.h>
 int main(void)
 {
-
-  snake_t snake = { 0 };
-  food_t food = { 0 };
-
   // Initialize Silicon Labs device, system, service(s) and protocol stack(s).
   // Note that if the kernel is present, processing task(s) will be created by
   // this call.
@@ -56,11 +51,9 @@ int main(void)
 
     // Application process.
     app_process_action();
-
-    snake_init(&snake);
-    memset(&food, 0u, sizeof(food_t));
-
-    while(1)
+    snake_game_t* game = snake_game_init();
+    bool game_played = true;
+    while(game_played)
       {
         // Do not remove this call: Silicon Labs components process action routine
         // must be called from the super loop.
@@ -69,17 +62,11 @@ int main(void)
         // Application process.
         app_process_action();
 
-        platform_get_control(&snake);
+        game_played = snake_game_cycle(game);
 
-        snake_move(&snake);
+        //snake_delay(150, NULL);
 
-        if (snake.state != PLAYING) break;
-
-        snake_haseaten(&snake, &food);
-        snake_display(&snake);
-        snake_place_food(&snake, &food);
-
-        sl_sleeptimer_delay_millisecond(250);
+        sl_sleeptimer_delay_millisecond(150);
       }
 
 
