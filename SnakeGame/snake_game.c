@@ -24,7 +24,10 @@ bool snake_game_cycle(snake_game_t* game)
   snake_move(&game->snake);
   snake_inform(&game->snake, &game->food);
 
-  if (game->snake.state != GAME_ONGOING) return false;
+  if (game->snake.state != GAME_ONGOING)
+  {
+      return false;
+  }
 
   snake_haseaten(&game->snake, &game->food);
   snake_display(&game->snake);

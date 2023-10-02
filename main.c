@@ -55,6 +55,9 @@ int main(void)
     snake_game_t* game = snake_game_init();
     bool game_played = true;
 
+    /* TODO: Add better game-over locking logic */
+    snake_delay(2000, NULL);
+
     while(game_played)
       {
         // Do not remove this call: Silicon Labs components process action routine

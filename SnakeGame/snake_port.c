@@ -120,6 +120,7 @@ void platform_init_randomizer(void)
 void platform_refresh_hw(void)
 {
   GLIB_clear(&glibContext);
+  DMD_updateDisplay();
 }
 
 
