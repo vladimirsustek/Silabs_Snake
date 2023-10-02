@@ -3,7 +3,7 @@
   <descriptors name="xg24_eusart_lcd_snake_game">
     <properties key="projectCommon.sdkId" value="com.silabs.sdk.stack.super:4.3.0._-51115880"/>
     <properties key="universalConfig.generationDirectory" value=""/>
-    <properties key="universalConfig.relativeWorkspacePath" value="..\iostream_eusart_baremetal.slcw"/>
+    <properties key="universalConfig.relativeWorkspacePath" value="..\xg24_eusart_lcd_snake_game.slcw"/>
     <properties key="universalConfig.toolchainCompatibility" value="iar gcc"/>
     <properties key="projectCommon.boardIds" value="brd4002a:0.0.0.A03 brd4187c:0.0.0.A01"/>
     <properties key="projectCommon.kitId" value=""/>

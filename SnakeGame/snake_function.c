@@ -159,6 +159,10 @@ void snake_display(snake_t*  snake)
 	/* In case of a brand new snake draw complete snake */
 	if(snake->printWholeSnake)
 	{
+	  char printStr[20] = {0};
+    sprintf(printStr, "                   ");
+
+    platform_print_text(printStr, strlen(printStr), 0);
 		snake ->printWholeSnake = 0;
 		for (int idx = 0; idx < snake->length; idx++)
 		{
@@ -458,32 +462,33 @@ void snake_haseaten(snake_t* snake, food_t* food)
   */
 void snake_inform(snake_t* snake, food_t* food)
 {
+  const uint32_t white = 0;
 	static uint16_t pauseStringAppeared = 0;
 	char printStr[20] = {0};
 
 	if(snake->direction == PAUSE && !pauseStringAppeared)
 	{
-		sprintf(printStr, " Paused:score:%05d", snake->length - SNAKE_INIT_LNG);
-		//platform_print_text(printStr, strlen(printStr), WHITE);
+		sprintf(printStr, "Paused, score %d", snake->length - SNAKE_INIT_LNG);
+		platform_print_text(printStr, strlen(printStr), white);
 		pauseStringAppeared = 1;
 	}
 	if(snake->direction != PAUSE && pauseStringAppeared)
 	{
-		sprintf(printStr, " Paused:score:%05d", snake->length - SNAKE_INIT_LNG);
+		sprintf(printStr, "Paused, score %d", snake->length - SNAKE_INIT_LNG);
 		pauseStringAppeared = 0;
-		//platform_print_text(printStr, strlen(printStr), BLACK);
+		platform_print_text(printStr, strlen(printStr), white);
 		snake->printWholeSnake = 1;
 		food->rePrintFood = 1;
 	}
 	if(snake->state == GAME_OVER)
 	{
-		sprintf(printStr, " Crash!:score:%05d", snake->length - SNAKE_INIT_LNG);
-		//platform_print_text(printStr, strlen(printStr), WHITE);
+		sprintf(printStr, "Crashed, score %d", snake->length - SNAKE_INIT_LNG);
+		platform_print_text(printStr, strlen(printStr), white);
 	}
 	if(snake->state == GAME_WON)
 	{
-		sprintf(printStr, " Win  !:score:%05d", snake->length - SNAKE_INIT_LNG);
-		//platform_print_text(printStr, strlen(printStr), WHITE);
+		sprintf(printStr, "Win, score %d", snake->length - SNAKE_INIT_LNG);
+		platform_print_text(printStr, strlen(printStr), white);
 	}
 }
 
@@ -506,18 +511,5 @@ void snake_inform(snake_t* snake, food_t* food)
   */
 void snake_delay(uint32_t Delay, fn_t func)
 {
-  uint32_t tickstart = platform_msTickGet();
-  uint32_t wait = Delay;
-  uint32_t dummyArgRet = 0;
-
-  while ((platform_msTickGet() - tickstart) < wait)
-  {
-    if (NULL != func)
-    {
-      /* Arguments are in original case unused,
-       * however may be useful ... once ?*/
-      dummyArgRet = func(dummyArgRet);
-    }
-
-  }
+  platform_delay(Delay, func);
 }

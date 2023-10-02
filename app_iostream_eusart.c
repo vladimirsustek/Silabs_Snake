@@ -25,6 +25,7 @@
 #include "dmd.h"
 #include "SnakeGame/snake_port.h"
 
+#ifdef ORIGINAL_DEMO_APPLICATION
 /*******************************************************************************
  *******************************   DEFINES   ***********************************
  ******************************************************************************/
@@ -59,7 +60,7 @@ static char buffer[BUFSIZE];
 #ifndef LCD_MAX_LINES
 #define LCD_MAX_LINES      11
 #endif
-
+#endif
 /*******************************************************************************
  ***************************  LOCAL VARIABLES   ********************************
  ******************************************************************************/
@@ -67,7 +68,7 @@ static char buffer[BUFSIZE];
 
 void memlcd_app_init(void)
 {
-#if 0
+#ifdef ORIGINAL_DEMO_APPLICATION
   uint32_t status;
 
   /* Enable the memory lcd */
@@ -145,7 +146,9 @@ void app_iostream_eusart_init(void)
 void app_iostream_eusart_process_action(void)
 {
   int8_t c = 0;
+#ifdef ORIGINAL_DEMO_APPLICATION
   static uint8_t index = 0;
+#endif
   static bool print_welcome = true;
 
   if (print_welcome) {
@@ -159,7 +162,7 @@ void app_iostream_eusart_process_action(void)
     {
       platform_snake_set_control(c);
     }
-#if 0
+#ifdef ORIGINAL_DEMO_APPLICATION
   if (c > 0) {
     if (c == '\r' || c == '\n') {
       buffer[index] = '\0';

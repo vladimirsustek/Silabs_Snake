@@ -15,6 +15,7 @@
 #include "sl_board_control.h"
 #include "sl_assert.h"
 #include "sl_sleeptimer.h"
+#include "sl_joystick.h"
 
 #define SNAKE_SERVER_PORT	(uint16_t)(8000u)
 #define UPPER_CASE_IDX (uint32_t)(6u)
@@ -32,11 +33,20 @@ static uint16_t gRandSeed = 0xABCD;
 static char gKeyBoardButton;
 
 static GLIB_Context_t glibContext;
+static int currentLine = 0;
+
+static  sl_joystick_t jHandle;
+static  sl_joystick_position_t jPosition = {0};
 
 /* wrapper around actual control implementation - start */
 static void platform_control_init(void)
 {
+  jHandle.pin = 2;
+  jHandle.port = gpioPortD;
+  jHandle.state = 0;
 
+  sl_joystick_init(&jHandle);
+  sl_joystick_start(&jHandle);
 }
 
 
@@ -60,6 +70,7 @@ void platform_display_init(void)
   glibContext.foregroundColor = Black;
 
   GLIB_clear(&glibContext);
+  GLIB_setFont(&glibContext, (GLIB_Font_t *) &GLIB_FontNarrow6x8);
 }
 
 
@@ -242,22 +253,6 @@ void platform_init(void)
 
 
 /**
-  * @brief  Optional print for an information
-  *
-  * @note   For an embedded implementation with a display randomizer,
-  *         control and display initialization is needed.
-  *
-  * @param str - string to be printed on the display
-  * @param length - length of the string
-  * @retval None
-  */
-void platform_showInformal(char* str, uint16_t length)
-{
-	/* Implementation to be done */
-}
-
-
-/**
   * @brief  Function to randomize a number - LFSR implemenation
   *
   * @note   This function is intended to be used in embedded MCU
@@ -309,7 +304,6 @@ uint16_t platform_msTickGet(void)
   */
 void platform_fatal(void)
 {
-	platform_showInformal("FatalError\n", strlen("FatalError\n"));
 	while (1);
 }
 
@@ -328,17 +322,34 @@ void platform_get_control(snake_t * snake)
 	snake_dir_e direction = 0;
 	static snake_dir_e prev_direction = RIGHT;
 
-	/* this value should be set by platform_snake_set_control */
-	direction = (snake_dir_e)TO_LOWERCASE(gKeyBoardButton);
+  sl_joystick_get_position(&jHandle, &jPosition);
 
-	if(direction == 0)
-	  {
-	    return;
-	  }
-	if (!IS_ALOWED_LETTER(direction))
-	{
-		return;
-	}
+  if(jPosition != JOYSTICK_NONE)
+  {
+      switch(jPosition)
+      {
+        case JOYSTICK_C: platform_snake_set_control('P'); break;
+        case JOYSTICK_N: platform_snake_set_control('W'); break;
+        case JOYSTICK_E: platform_snake_set_control('D'); break;
+        case JOYSTICK_S: platform_snake_set_control('S'); break;
+        case JOYSTICK_W: platform_snake_set_control('A'); break;
+      }
+      direction = (snake_dir_e)TO_LOWERCASE(gKeyBoardButton);
+  }
+  else
+    {
+      /* this value should be set by platform_snake_set_control */
+      direction = (snake_dir_e)TO_LOWERCASE(gKeyBoardButton);
+
+      if(direction == 0)
+        {
+          return;
+        }
+      if (!IS_ALOWED_LETTER(direction))
+      {
+        return;
+      }
+    }
 
 	/* reset the value as it has been already parsed */
 	platform_snake_set_control(0);
@@ -415,12 +426,19 @@ void platform_print_text(char *str, uint16_t length, uint16_t color)
   (void)(length);
   (void)(color);
 
-#if 0
-/*
-  * mono18x7bold maximally 13 on line without fix
-  * mono12x7bold maximally 19 on line without fix
-*/
-	fillRect(7, 135, 290, 20, BLACK);
-	printnewtstr(150, color, &mono12x7bold, 1, str);
-#endif
+  GLIB_drawStringOnLine(&glibContext,
+                        str,
+                        currentLine,
+                        GLIB_ALIGN_LEFT,
+                        5,
+                        5,
+                        true);
+  DMD_updateDisplay();
+}
+
+void platform_delay(uint32_t Delay, fn_t func)
+{
+  (void)(func);
+  sl_sleeptimer_delay_millisecond(Delay);
+
 }

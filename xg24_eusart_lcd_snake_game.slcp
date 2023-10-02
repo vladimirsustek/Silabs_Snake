@@ -30,11 +30,11 @@ include:
 sdk: {id: gecko_sdk, version: 4.3.0}
 toolchain_settings: []
 component:
-- {id: glib}
 - {id: iostream_retarget_stdio}
-- {id: sl_system}
 - {id: memlcd_eusart}
 - {id: iostream}
+- {id: joystick}
+- {id: bootloader_delay_driver_nonsecure}
 - {id: brd4187c}
 - {id: device_init}
 - {id: brd4002a}
@@ -42,6 +42,10 @@ component:
 - {id: dmd_memlcd}
 - instance: [vcom]
   id: iostream_eusart
+- {id: glib}
+- {id: sl_system}
+- {id: bootloader_crc_nonsecure}
+- {id: bootloader_debug_nonsecure}
 - {id: ls013b7dh03}
 define:
 - {name: DEBUG_EFM}

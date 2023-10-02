@@ -27,6 +27,7 @@
 #endif // SL_CATALOG_KERNEL_PRESENT
 
 #include <SnakeGame/snake_game.h>
+
 int main(void)
 {
   // Initialize Silicon Labs device, system, service(s) and protocol stack(s).
@@ -53,6 +54,7 @@ int main(void)
     app_process_action();
     snake_game_t* game = snake_game_init();
     bool game_played = true;
+
     while(game_played)
       {
         // Do not remove this call: Silicon Labs components process action routine
@@ -64,9 +66,7 @@ int main(void)
 
         game_played = snake_game_cycle(game);
 
-        //snake_delay(150, NULL);
-
-        sl_sleeptimer_delay_millisecond(150);
+        snake_delay(100, NULL);
       }
 
 

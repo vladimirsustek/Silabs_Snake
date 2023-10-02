@@ -128,12 +128,12 @@ void platform_init_randomizer(void);
 void platform_printXY(uint16_t x, uint16_t y, char symbol);
 uint16_t platform_randomize(void);
 uint16_t platform_msTickGet(void);
-void platform_showInformal(char* str, uint16_t length);
 void platform_fatal(void);
 void platform_get_control(snake_t* snake);
 void platform_refresh_hw(void);
 void platform_display_border(void);
 void platform_print_text(char *str, uint16_t length, uint16_t color);
 void platform_snake_set_control(char c);
+void platform_delay(uint32_t Delay, fn_t func);
 
 #endif /* SNAKE_PORT_H_ */

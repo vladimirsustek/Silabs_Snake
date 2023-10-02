@@ -100,6 +100,22 @@
 // [I2C1]$
 
 // $[EUSART1]
+// EUSART1 SCLK on PC03
+#ifndef EUSART1_SCLK_PORT                       
+#define EUSART1_SCLK_PORT                        gpioPortC
+#endif
+#ifndef EUSART1_SCLK_PIN                        
+#define EUSART1_SCLK_PIN                         3
+#endif
+
+// EUSART1 TX on PC01
+#ifndef EUSART1_TX_PORT                         
+#define EUSART1_TX_PORT                          gpioPortC
+#endif
+#ifndef EUSART1_TX_PIN                          
+#define EUSART1_TX_PIN                           1
+#endif
+
 // [EUSART1]$
 
 // $[KEYSCAN]
@@ -174,6 +190,13 @@
 // [MODEM]$
 
 // $[CUSTOM_PIN_NAME]
+#ifndef JOYSTICK_PORT                           
+#define JOYSTICK_PORT                            gpioPortD
+#endif
+#ifndef JOYSTICK_PIN                            
+#define JOYSTICK_PIN                             2
+#endif
+
 // [CUSTOM_PIN_NAME]$
 
 #endif // PIN_CONFIG_H
