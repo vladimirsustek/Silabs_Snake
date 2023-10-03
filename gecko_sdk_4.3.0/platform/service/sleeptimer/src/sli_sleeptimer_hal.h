@@ -67,28 +67,32 @@ extern "C" {
 /*******************************************************************************
  * Hardware Abstraction Layer of the sleep timer init.
  ******************************************************************************/
-void sleeptimer_hal_init_timer(void);
+void
+sleeptimer_hal_init_timer(void);
 
 /*******************************************************************************
  * Hardware Abstraction Layer to get the current timer count.
  *
  * @return Value in ticks of the timer counter.
  ******************************************************************************/
-uint32_t sleeptimer_hal_get_counter(void);
+uint32_t
+sleeptimer_hal_get_counter(void);
 
 /*******************************************************************************
  * Hardware Abstraction Layer to get a timer comparator value.
  *
  * @return Value in ticks of the timer comparator.
  ******************************************************************************/
-uint32_t sleeptimer_hal_get_compare(void);
+uint32_t
+sleeptimer_hal_get_compare(void);
 
 /*******************************************************************************
  * Hardware Abstraction Layer to set a timer comparator value.
  *
  * @param value Number of ticks to set.
  ******************************************************************************/
-void sleeptimer_hal_set_compare(uint32_t value);
+void
+sleeptimer_hal_set_compare(uint32_t value);
 
 /*******************************************************************************
  * Hardware Abstraction Layer to set a comparator value to trigger a
@@ -96,47 +100,54 @@ void sleeptimer_hal_set_compare(uint32_t value);
  *
  * @param value Number of ticks to set.
  ******************************************************************************/
-void sleeptimer_hal_set_compare_prs_hfxo_startup(int32_t value);
+void
+sleeptimer_hal_set_compare_prs_hfxo_startup(int32_t value);
 
 /*******************************************************************************
  * Hardware Abstraction Layer to get the timer frequency.
  ******************************************************************************/
-uint32_t sleeptimer_hal_get_timer_frequency(void);
+uint32_t
+sleeptimer_hal_get_timer_frequency(void);
 
 /*******************************************************************************
  * Hardware Abstraction Layer to enable timer interrupts.
  *
  * @param local_flag Internal interrupt flag.
  ******************************************************************************/
-void sleeptimer_hal_enable_int(uint8_t local_flag);
+void
+sleeptimer_hal_enable_int(uint8_t local_flag);
 
 /*******************************************************************************
  * Hardware Abstraction Layer to disable timer interrupts.
  *
  * @param local_flag Internal interrupt flag.
  ******************************************************************************/
-void sleeptimer_hal_disable_int(uint8_t local_flag);
+void
+sleeptimer_hal_disable_int(uint8_t local_flag);
 
 /*******************************************************************************
  * Hardware Abstraction Layer to set timer interrupts.
  *
  * @param local_flag Internal interrupt flag.
  ******************************************************************************/
-void sleeptimer_hal_set_int(uint8_t local_flag);
+void
+sleeptimer_hal_set_int(uint8_t local_flag);
 
 /*******************************************************************************
  * Hardware Abstraction Layer to get the sleeptimer's clock accuracy.
  *
  * @return Clock accuracy in PPM.
  ******************************************************************************/
-uint16_t sleeptimer_hal_get_clock_accuracy(void);
+uint16_t
+sleeptimer_hal_get_clock_accuracy(void);
 
 /*******************************************************************************
  * Process the timer interrupt.
  *
  * @param flags Internal interrupt flag.
  ******************************************************************************/
-void process_timer_irq(uint8_t local_flag);
+void
+process_timer_irq(uint8_t local_flag);
 
 #ifdef __cplusplus
 }

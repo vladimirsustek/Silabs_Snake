@@ -32,9 +32,9 @@
 #define CMU_HAS_SET_CLEAR
 
 /**************************************************************************//**
-* @addtogroup Parts
-* @{
-******************************************************************************/
+ * @addtogroup Parts
+ * @{
+ ******************************************************************************/
 /**************************************************************************//**
  * @defgroup EFR32MG24_CMU CMU
  * @{
@@ -42,214 +42,215 @@
  *****************************************************************************/
 
 /** CMU Register Declaration. */
-typedef struct {
-  __IM uint32_t  IPVERSION;                     /**< IP version ID                                      */
-  uint32_t       RESERVED0[1U];                 /**< Reserved for future use                            */
-  __IM uint32_t  STATUS;                        /**< Status Register                                    */
-  uint32_t       RESERVED1[1U];                 /**< Reserved for future use                            */
-  __IOM uint32_t LOCK;                          /**< Configuration Lock Register                        */
-  __IOM uint32_t WDOGLOCK;                      /**< WDOG Configuration Lock Register                   */
-  uint32_t       RESERVED2[2U];                 /**< Reserved for future use                            */
-  __IOM uint32_t IF;                            /**< Interrupt Flag Register                            */
-  __IOM uint32_t IEN;                           /**< Interrupt Enable Register                          */
-  uint32_t       RESERVED3[10U];                /**< Reserved for future use                            */
-  __IOM uint32_t CALCMD;                        /**< Calibration Command Register                       */
-  __IOM uint32_t CALCTRL;                       /**< Calibration Control Register                       */
-  __IM uint32_t  CALCNT;                        /**< Calibration Result Counter Register                */
-  uint32_t       RESERVED4[2U];                 /**< Reserved for future use                            */
-  __IOM uint32_t CLKEN0;                        /**< Clock Enable Register 0                            */
-  __IOM uint32_t CLKEN1;                        /**<  Clock Enable Register 1                           */
-  uint32_t       RESERVED5[1U];                 /**< Reserved for future use                            */
-  __IOM uint32_t SYSCLKCTRL;                    /**< System Clock Control                               */
-  uint32_t       RESERVED6[3U];                 /**< Reserved for future use                            */
-  __IOM uint32_t TRACECLKCTRL;                  /**< Debug Trace Clock Control                          */
-  uint32_t       RESERVED7[3U];                 /**< Reserved for future use                            */
-  __IOM uint32_t EXPORTCLKCTRL;                 /**< Export Clock Control                               */
-  uint32_t       RESERVED8[27U];                /**< Reserved for future use                            */
-  __IOM uint32_t DPLLREFCLKCTRL;                /**< Digital PLL Reference Clock Control                */
-  uint32_t       RESERVED9[7U];                 /**< Reserved for future use                            */
-  __IOM uint32_t EM01GRPACLKCTRL;               /**< EM01 Peripheral Group A Clock Control              */
-  uint32_t       RESERVED10[1U];                /**< Reserved for future use                            */
-  __IOM uint32_t EM01GRPCCLKCTRL;               /**< EM01 Peripheral Group C Clock Control              */
-  uint32_t       RESERVED11[5U];                /**< Reserved for future use                            */
-  __IOM uint32_t EM23GRPACLKCTRL;               /**< EM23 Peripheral Group A Clock Control              */
-  uint32_t       RESERVED12[7U];                /**< Reserved for future use                            */
-  __IOM uint32_t EM4GRPACLKCTRL;                /**< EM4 Peripheral Group A Clock Control               */
-  uint32_t       RESERVED13[7U];                /**< Reserved for future use                            */
-  __IOM uint32_t IADCCLKCTRL;                   /**< IADC Clock Control                                 */
-  uint32_t       RESERVED14[31U];               /**< Reserved for future use                            */
-  __IOM uint32_t WDOG0CLKCTRL;                  /**< Watchdog0 Clock Control                            */
-  uint32_t       RESERVED15[1U];                /**< Reserved for future use                            */
-  __IOM uint32_t WDOG1CLKCTRL;                  /**< Watchdog1 Clock Control                            */
-  uint32_t       RESERVED16[5U];                /**< Reserved for future use                            */
-  __IOM uint32_t EUSART0CLKCTRL;                /**< EUSART0 Clock Control                              */
-  uint32_t       RESERVED17[7U];                /**< Reserved for future use                            */
-  __IOM uint32_t SYSRTC0CLKCTRL;                /**< System RTC0 Clock Control                          */
-  uint32_t       RESERVED18[7U];                /**< Reserved for future use                            */
-  __IOM uint32_t VDAC0CLKCTRL;                  /**< VDAC0 Clock Control                                */
-  uint32_t       RESERVED19[3U];                /**< Reserved for future use                            */
-  __IOM uint32_t PCNT0CLKCTRL;                  /**< Pulse counter 0 Clock Control                      */
-  uint32_t       RESERVED20[3U];                /**< Reserved for future use                            */
-  __IOM uint32_t RADIOCLKCTRL;                  /**< Radio Clock Control                                */
-  uint32_t       RESERVED21[4U];                /**< Reserved for future use                            */
-  __IOM uint32_t VDAC1CLKCTRL;                  /**< VDAC1 Clock Control                                */
-  uint32_t       RESERVED22[1U];                /**< Reserved for future use                            */
-  uint32_t       RESERVED23[857U];              /**< Reserved for future use                            */
-  __IM uint32_t  IPVERSION_SET;                 /**< IP version ID                                      */
-  uint32_t       RESERVED24[1U];                /**< Reserved for future use                            */
-  __IM uint32_t  STATUS_SET;                    /**< Status Register                                    */
-  uint32_t       RESERVED25[1U];                /**< Reserved for future use                            */
-  __IOM uint32_t LOCK_SET;                      /**< Configuration Lock Register                        */
-  __IOM uint32_t WDOGLOCK_SET;                  /**< WDOG Configuration Lock Register                   */
-  uint32_t       RESERVED26[2U];                /**< Reserved for future use                            */
-  __IOM uint32_t IF_SET;                        /**< Interrupt Flag Register                            */
-  __IOM uint32_t IEN_SET;                       /**< Interrupt Enable Register                          */
-  uint32_t       RESERVED27[10U];               /**< Reserved for future use                            */
-  __IOM uint32_t CALCMD_SET;                    /**< Calibration Command Register                       */
-  __IOM uint32_t CALCTRL_SET;                   /**< Calibration Control Register                       */
-  __IM uint32_t  CALCNT_SET;                    /**< Calibration Result Counter Register                */
-  uint32_t       RESERVED28[2U];                /**< Reserved for future use                            */
-  __IOM uint32_t CLKEN0_SET;                    /**< Clock Enable Register 0                            */
-  __IOM uint32_t CLKEN1_SET;                    /**<  Clock Enable Register 1                           */
-  uint32_t       RESERVED29[1U];                /**< Reserved for future use                            */
-  __IOM uint32_t SYSCLKCTRL_SET;                /**< System Clock Control                               */
-  uint32_t       RESERVED30[3U];                /**< Reserved for future use                            */
-  __IOM uint32_t TRACECLKCTRL_SET;              /**< Debug Trace Clock Control                          */
-  uint32_t       RESERVED31[3U];                /**< Reserved for future use                            */
-  __IOM uint32_t EXPORTCLKCTRL_SET;             /**< Export Clock Control                               */
-  uint32_t       RESERVED32[27U];               /**< Reserved for future use                            */
-  __IOM uint32_t DPLLREFCLKCTRL_SET;            /**< Digital PLL Reference Clock Control                */
-  uint32_t       RESERVED33[7U];                /**< Reserved for future use                            */
-  __IOM uint32_t EM01GRPACLKCTRL_SET;           /**< EM01 Peripheral Group A Clock Control              */
-  uint32_t       RESERVED34[1U];                /**< Reserved for future use                            */
-  __IOM uint32_t EM01GRPCCLKCTRL_SET;           /**< EM01 Peripheral Group C Clock Control              */
-  uint32_t       RESERVED35[5U];                /**< Reserved for future use                            */
-  __IOM uint32_t EM23GRPACLKCTRL_SET;           /**< EM23 Peripheral Group A Clock Control              */
-  uint32_t       RESERVED36[7U];                /**< Reserved for future use                            */
-  __IOM uint32_t EM4GRPACLKCTRL_SET;            /**< EM4 Peripheral Group A Clock Control               */
-  uint32_t       RESERVED37[7U];                /**< Reserved for future use                            */
-  __IOM uint32_t IADCCLKCTRL_SET;               /**< IADC Clock Control                                 */
-  uint32_t       RESERVED38[31U];               /**< Reserved for future use                            */
-  __IOM uint32_t WDOG0CLKCTRL_SET;              /**< Watchdog0 Clock Control                            */
-  uint32_t       RESERVED39[1U];                /**< Reserved for future use                            */
-  __IOM uint32_t WDOG1CLKCTRL_SET;              /**< Watchdog1 Clock Control                            */
-  uint32_t       RESERVED40[5U];                /**< Reserved for future use                            */
-  __IOM uint32_t EUSART0CLKCTRL_SET;            /**< EUSART0 Clock Control                              */
-  uint32_t       RESERVED41[7U];                /**< Reserved for future use                            */
-  __IOM uint32_t SYSRTC0CLKCTRL_SET;            /**< System RTC0 Clock Control                          */
-  uint32_t       RESERVED42[7U];                /**< Reserved for future use                            */
-  __IOM uint32_t VDAC0CLKCTRL_SET;              /**< VDAC0 Clock Control                                */
-  uint32_t       RESERVED43[3U];                /**< Reserved for future use                            */
-  __IOM uint32_t PCNT0CLKCTRL_SET;              /**< Pulse counter 0 Clock Control                      */
-  uint32_t       RESERVED44[3U];                /**< Reserved for future use                            */
-  __IOM uint32_t RADIOCLKCTRL_SET;              /**< Radio Clock Control                                */
-  uint32_t       RESERVED45[4U];                /**< Reserved for future use                            */
-  __IOM uint32_t VDAC1CLKCTRL_SET;              /**< VDAC1 Clock Control                                */
-  uint32_t       RESERVED46[1U];                /**< Reserved for future use                            */
-  uint32_t       RESERVED47[857U];              /**< Reserved for future use                            */
-  __IM uint32_t  IPVERSION_CLR;                 /**< IP version ID                                      */
-  uint32_t       RESERVED48[1U];                /**< Reserved for future use                            */
-  __IM uint32_t  STATUS_CLR;                    /**< Status Register                                    */
-  uint32_t       RESERVED49[1U];                /**< Reserved for future use                            */
-  __IOM uint32_t LOCK_CLR;                      /**< Configuration Lock Register                        */
-  __IOM uint32_t WDOGLOCK_CLR;                  /**< WDOG Configuration Lock Register                   */
-  uint32_t       RESERVED50[2U];                /**< Reserved for future use                            */
-  __IOM uint32_t IF_CLR;                        /**< Interrupt Flag Register                            */
-  __IOM uint32_t IEN_CLR;                       /**< Interrupt Enable Register                          */
-  uint32_t       RESERVED51[10U];               /**< Reserved for future use                            */
-  __IOM uint32_t CALCMD_CLR;                    /**< Calibration Command Register                       */
-  __IOM uint32_t CALCTRL_CLR;                   /**< Calibration Control Register                       */
-  __IM uint32_t  CALCNT_CLR;                    /**< Calibration Result Counter Register                */
-  uint32_t       RESERVED52[2U];                /**< Reserved for future use                            */
-  __IOM uint32_t CLKEN0_CLR;                    /**< Clock Enable Register 0                            */
-  __IOM uint32_t CLKEN1_CLR;                    /**<  Clock Enable Register 1                           */
-  uint32_t       RESERVED53[1U];                /**< Reserved for future use                            */
-  __IOM uint32_t SYSCLKCTRL_CLR;                /**< System Clock Control                               */
-  uint32_t       RESERVED54[3U];                /**< Reserved for future use                            */
-  __IOM uint32_t TRACECLKCTRL_CLR;              /**< Debug Trace Clock Control                          */
-  uint32_t       RESERVED55[3U];                /**< Reserved for future use                            */
-  __IOM uint32_t EXPORTCLKCTRL_CLR;             /**< Export Clock Control                               */
-  uint32_t       RESERVED56[27U];               /**< Reserved for future use                            */
-  __IOM uint32_t DPLLREFCLKCTRL_CLR;            /**< Digital PLL Reference Clock Control                */
-  uint32_t       RESERVED57[7U];                /**< Reserved for future use                            */
-  __IOM uint32_t EM01GRPACLKCTRL_CLR;           /**< EM01 Peripheral Group A Clock Control              */
-  uint32_t       RESERVED58[1U];                /**< Reserved for future use                            */
-  __IOM uint32_t EM01GRPCCLKCTRL_CLR;           /**< EM01 Peripheral Group C Clock Control              */
-  uint32_t       RESERVED59[5U];                /**< Reserved for future use                            */
-  __IOM uint32_t EM23GRPACLKCTRL_CLR;           /**< EM23 Peripheral Group A Clock Control              */
-  uint32_t       RESERVED60[7U];                /**< Reserved for future use                            */
-  __IOM uint32_t EM4GRPACLKCTRL_CLR;            /**< EM4 Peripheral Group A Clock Control               */
-  uint32_t       RESERVED61[7U];                /**< Reserved for future use                            */
-  __IOM uint32_t IADCCLKCTRL_CLR;               /**< IADC Clock Control                                 */
-  uint32_t       RESERVED62[31U];               /**< Reserved for future use                            */
-  __IOM uint32_t WDOG0CLKCTRL_CLR;              /**< Watchdog0 Clock Control                            */
-  uint32_t       RESERVED63[1U];                /**< Reserved for future use                            */
-  __IOM uint32_t WDOG1CLKCTRL_CLR;              /**< Watchdog1 Clock Control                            */
-  uint32_t       RESERVED64[5U];                /**< Reserved for future use                            */
-  __IOM uint32_t EUSART0CLKCTRL_CLR;            /**< EUSART0 Clock Control                              */
-  uint32_t       RESERVED65[7U];                /**< Reserved for future use                            */
-  __IOM uint32_t SYSRTC0CLKCTRL_CLR;            /**< System RTC0 Clock Control                          */
-  uint32_t       RESERVED66[7U];                /**< Reserved for future use                            */
-  __IOM uint32_t VDAC0CLKCTRL_CLR;              /**< VDAC0 Clock Control                                */
-  uint32_t       RESERVED67[3U];                /**< Reserved for future use                            */
-  __IOM uint32_t PCNT0CLKCTRL_CLR;              /**< Pulse counter 0 Clock Control                      */
-  uint32_t       RESERVED68[3U];                /**< Reserved for future use                            */
-  __IOM uint32_t RADIOCLKCTRL_CLR;              /**< Radio Clock Control                                */
-  uint32_t       RESERVED69[4U];                /**< Reserved for future use                            */
-  __IOM uint32_t VDAC1CLKCTRL_CLR;              /**< VDAC1 Clock Control                                */
-  uint32_t       RESERVED70[1U];                /**< Reserved for future use                            */
-  uint32_t       RESERVED71[857U];              /**< Reserved for future use                            */
-  __IM uint32_t  IPVERSION_TGL;                 /**< IP version ID                                      */
-  uint32_t       RESERVED72[1U];                /**< Reserved for future use                            */
-  __IM uint32_t  STATUS_TGL;                    /**< Status Register                                    */
-  uint32_t       RESERVED73[1U];                /**< Reserved for future use                            */
-  __IOM uint32_t LOCK_TGL;                      /**< Configuration Lock Register                        */
-  __IOM uint32_t WDOGLOCK_TGL;                  /**< WDOG Configuration Lock Register                   */
-  uint32_t       RESERVED74[2U];                /**< Reserved for future use                            */
-  __IOM uint32_t IF_TGL;                        /**< Interrupt Flag Register                            */
-  __IOM uint32_t IEN_TGL;                       /**< Interrupt Enable Register                          */
-  uint32_t       RESERVED75[10U];               /**< Reserved for future use                            */
-  __IOM uint32_t CALCMD_TGL;                    /**< Calibration Command Register                       */
-  __IOM uint32_t CALCTRL_TGL;                   /**< Calibration Control Register                       */
-  __IM uint32_t  CALCNT_TGL;                    /**< Calibration Result Counter Register                */
-  uint32_t       RESERVED76[2U];                /**< Reserved for future use                            */
-  __IOM uint32_t CLKEN0_TGL;                    /**< Clock Enable Register 0                            */
-  __IOM uint32_t CLKEN1_TGL;                    /**<  Clock Enable Register 1                           */
-  uint32_t       RESERVED77[1U];                /**< Reserved for future use                            */
-  __IOM uint32_t SYSCLKCTRL_TGL;                /**< System Clock Control                               */
-  uint32_t       RESERVED78[3U];                /**< Reserved for future use                            */
-  __IOM uint32_t TRACECLKCTRL_TGL;              /**< Debug Trace Clock Control                          */
-  uint32_t       RESERVED79[3U];                /**< Reserved for future use                            */
-  __IOM uint32_t EXPORTCLKCTRL_TGL;             /**< Export Clock Control                               */
-  uint32_t       RESERVED80[27U];               /**< Reserved for future use                            */
-  __IOM uint32_t DPLLREFCLKCTRL_TGL;            /**< Digital PLL Reference Clock Control                */
-  uint32_t       RESERVED81[7U];                /**< Reserved for future use                            */
-  __IOM uint32_t EM01GRPACLKCTRL_TGL;           /**< EM01 Peripheral Group A Clock Control              */
-  uint32_t       RESERVED82[1U];                /**< Reserved for future use                            */
-  __IOM uint32_t EM01GRPCCLKCTRL_TGL;           /**< EM01 Peripheral Group C Clock Control              */
-  uint32_t       RESERVED83[5U];                /**< Reserved for future use                            */
-  __IOM uint32_t EM23GRPACLKCTRL_TGL;           /**< EM23 Peripheral Group A Clock Control              */
-  uint32_t       RESERVED84[7U];                /**< Reserved for future use                            */
-  __IOM uint32_t EM4GRPACLKCTRL_TGL;            /**< EM4 Peripheral Group A Clock Control               */
-  uint32_t       RESERVED85[7U];                /**< Reserved for future use                            */
-  __IOM uint32_t IADCCLKCTRL_TGL;               /**< IADC Clock Control                                 */
-  uint32_t       RESERVED86[31U];               /**< Reserved for future use                            */
-  __IOM uint32_t WDOG0CLKCTRL_TGL;              /**< Watchdog0 Clock Control                            */
-  uint32_t       RESERVED87[1U];                /**< Reserved for future use                            */
-  __IOM uint32_t WDOG1CLKCTRL_TGL;              /**< Watchdog1 Clock Control                            */
-  uint32_t       RESERVED88[5U];                /**< Reserved for future use                            */
-  __IOM uint32_t EUSART0CLKCTRL_TGL;            /**< EUSART0 Clock Control                              */
-  uint32_t       RESERVED89[7U];                /**< Reserved for future use                            */
-  __IOM uint32_t SYSRTC0CLKCTRL_TGL;            /**< System RTC0 Clock Control                          */
-  uint32_t       RESERVED90[7U];                /**< Reserved for future use                            */
-  __IOM uint32_t VDAC0CLKCTRL_TGL;              /**< VDAC0 Clock Control                                */
-  uint32_t       RESERVED91[3U];                /**< Reserved for future use                            */
-  __IOM uint32_t PCNT0CLKCTRL_TGL;              /**< Pulse counter 0 Clock Control                      */
-  uint32_t       RESERVED92[3U];                /**< Reserved for future use                            */
-  __IOM uint32_t RADIOCLKCTRL_TGL;              /**< Radio Clock Control                                */
-  uint32_t       RESERVED93[4U];                /**< Reserved for future use                            */
-  __IOM uint32_t VDAC1CLKCTRL_TGL;              /**< VDAC1 Clock Control                                */
-  uint32_t       RESERVED94[1U];                /**< Reserved for future use                            */
+typedef struct
+{
+	__IM uint32_t IPVERSION; /**< IP version ID                                      */
+	uint32_t RESERVED0[1U]; /**< Reserved for future use                            */
+	__IM uint32_t STATUS; /**< Status Register                                    */
+	uint32_t RESERVED1[1U]; /**< Reserved for future use                            */
+	__IOM uint32_t LOCK; /**< Configuration Lock Register                        */
+	__IOM uint32_t WDOGLOCK; /**< WDOG Configuration Lock Register                   */
+	uint32_t RESERVED2[2U]; /**< Reserved for future use                            */
+	__IOM uint32_t IF; /**< Interrupt Flag Register                            */
+	__IOM uint32_t IEN; /**< Interrupt Enable Register                          */
+	uint32_t RESERVED3[10U]; /**< Reserved for future use                            */
+	__IOM uint32_t CALCMD; /**< Calibration Command Register                       */
+	__IOM uint32_t CALCTRL; /**< Calibration Control Register                       */
+	__IM uint32_t CALCNT; /**< Calibration Result Counter Register                */
+	uint32_t RESERVED4[2U]; /**< Reserved for future use                            */
+	__IOM uint32_t CLKEN0; /**< Clock Enable Register 0                            */
+	__IOM uint32_t CLKEN1; /**<  Clock Enable Register 1                           */
+	uint32_t RESERVED5[1U]; /**< Reserved for future use                            */
+	__IOM uint32_t SYSCLKCTRL; /**< System Clock Control                               */
+	uint32_t RESERVED6[3U]; /**< Reserved for future use                            */
+	__IOM uint32_t TRACECLKCTRL; /**< Debug Trace Clock Control                          */
+	uint32_t RESERVED7[3U]; /**< Reserved for future use                            */
+	__IOM uint32_t EXPORTCLKCTRL; /**< Export Clock Control                               */
+	uint32_t RESERVED8[27U]; /**< Reserved for future use                            */
+	__IOM uint32_t DPLLREFCLKCTRL; /**< Digital PLL Reference Clock Control                */
+	uint32_t RESERVED9[7U]; /**< Reserved for future use                            */
+	__IOM uint32_t EM01GRPACLKCTRL; /**< EM01 Peripheral Group A Clock Control              */
+	uint32_t RESERVED10[1U]; /**< Reserved for future use                            */
+	__IOM uint32_t EM01GRPCCLKCTRL; /**< EM01 Peripheral Group C Clock Control              */
+	uint32_t RESERVED11[5U]; /**< Reserved for future use                            */
+	__IOM uint32_t EM23GRPACLKCTRL; /**< EM23 Peripheral Group A Clock Control              */
+	uint32_t RESERVED12[7U]; /**< Reserved for future use                            */
+	__IOM uint32_t EM4GRPACLKCTRL; /**< EM4 Peripheral Group A Clock Control               */
+	uint32_t RESERVED13[7U]; /**< Reserved for future use                            */
+	__IOM uint32_t IADCCLKCTRL; /**< IADC Clock Control                                 */
+	uint32_t RESERVED14[31U]; /**< Reserved for future use                            */
+	__IOM uint32_t WDOG0CLKCTRL; /**< Watchdog0 Clock Control                            */
+	uint32_t RESERVED15[1U]; /**< Reserved for future use                            */
+	__IOM uint32_t WDOG1CLKCTRL; /**< Watchdog1 Clock Control                            */
+	uint32_t RESERVED16[5U]; /**< Reserved for future use                            */
+	__IOM uint32_t EUSART0CLKCTRL; /**< EUSART0 Clock Control                              */
+	uint32_t RESERVED17[7U]; /**< Reserved for future use                            */
+	__IOM uint32_t SYSRTC0CLKCTRL; /**< System RTC0 Clock Control                          */
+	uint32_t RESERVED18[7U]; /**< Reserved for future use                            */
+	__IOM uint32_t VDAC0CLKCTRL; /**< VDAC0 Clock Control                                */
+	uint32_t RESERVED19[3U]; /**< Reserved for future use                            */
+	__IOM uint32_t PCNT0CLKCTRL; /**< Pulse counter 0 Clock Control                      */
+	uint32_t RESERVED20[3U]; /**< Reserved for future use                            */
+	__IOM uint32_t RADIOCLKCTRL; /**< Radio Clock Control                                */
+	uint32_t RESERVED21[4U]; /**< Reserved for future use                            */
+	__IOM uint32_t VDAC1CLKCTRL; /**< VDAC1 Clock Control                                */
+	uint32_t RESERVED22[1U]; /**< Reserved for future use                            */
+	uint32_t RESERVED23[857U]; /**< Reserved for future use                            */
+	__IM uint32_t IPVERSION_SET; /**< IP version ID                                      */
+	uint32_t RESERVED24[1U]; /**< Reserved for future use                            */
+	__IM uint32_t STATUS_SET; /**< Status Register                                    */
+	uint32_t RESERVED25[1U]; /**< Reserved for future use                            */
+	__IOM uint32_t LOCK_SET; /**< Configuration Lock Register                        */
+	__IOM uint32_t WDOGLOCK_SET; /**< WDOG Configuration Lock Register                   */
+	uint32_t RESERVED26[2U]; /**< Reserved for future use                            */
+	__IOM uint32_t IF_SET; /**< Interrupt Flag Register                            */
+	__IOM uint32_t IEN_SET; /**< Interrupt Enable Register                          */
+	uint32_t RESERVED27[10U]; /**< Reserved for future use                            */
+	__IOM uint32_t CALCMD_SET; /**< Calibration Command Register                       */
+	__IOM uint32_t CALCTRL_SET; /**< Calibration Control Register                       */
+	__IM uint32_t CALCNT_SET; /**< Calibration Result Counter Register                */
+	uint32_t RESERVED28[2U]; /**< Reserved for future use                            */
+	__IOM uint32_t CLKEN0_SET; /**< Clock Enable Register 0                            */
+	__IOM uint32_t CLKEN1_SET; /**<  Clock Enable Register 1                           */
+	uint32_t RESERVED29[1U]; /**< Reserved for future use                            */
+	__IOM uint32_t SYSCLKCTRL_SET; /**< System Clock Control                               */
+	uint32_t RESERVED30[3U]; /**< Reserved for future use                            */
+	__IOM uint32_t TRACECLKCTRL_SET; /**< Debug Trace Clock Control                          */
+	uint32_t RESERVED31[3U]; /**< Reserved for future use                            */
+	__IOM uint32_t EXPORTCLKCTRL_SET; /**< Export Clock Control                               */
+	uint32_t RESERVED32[27U]; /**< Reserved for future use                            */
+	__IOM uint32_t DPLLREFCLKCTRL_SET; /**< Digital PLL Reference Clock Control                */
+	uint32_t RESERVED33[7U]; /**< Reserved for future use                            */
+	__IOM uint32_t EM01GRPACLKCTRL_SET; /**< EM01 Peripheral Group A Clock Control              */
+	uint32_t RESERVED34[1U]; /**< Reserved for future use                            */
+	__IOM uint32_t EM01GRPCCLKCTRL_SET; /**< EM01 Peripheral Group C Clock Control              */
+	uint32_t RESERVED35[5U]; /**< Reserved for future use                            */
+	__IOM uint32_t EM23GRPACLKCTRL_SET; /**< EM23 Peripheral Group A Clock Control              */
+	uint32_t RESERVED36[7U]; /**< Reserved for future use                            */
+	__IOM uint32_t EM4GRPACLKCTRL_SET; /**< EM4 Peripheral Group A Clock Control               */
+	uint32_t RESERVED37[7U]; /**< Reserved for future use                            */
+	__IOM uint32_t IADCCLKCTRL_SET; /**< IADC Clock Control                                 */
+	uint32_t RESERVED38[31U]; /**< Reserved for future use                            */
+	__IOM uint32_t WDOG0CLKCTRL_SET; /**< Watchdog0 Clock Control                            */
+	uint32_t RESERVED39[1U]; /**< Reserved for future use                            */
+	__IOM uint32_t WDOG1CLKCTRL_SET; /**< Watchdog1 Clock Control                            */
+	uint32_t RESERVED40[5U]; /**< Reserved for future use                            */
+	__IOM uint32_t EUSART0CLKCTRL_SET; /**< EUSART0 Clock Control                              */
+	uint32_t RESERVED41[7U]; /**< Reserved for future use                            */
+	__IOM uint32_t SYSRTC0CLKCTRL_SET; /**< System RTC0 Clock Control                          */
+	uint32_t RESERVED42[7U]; /**< Reserved for future use                            */
+	__IOM uint32_t VDAC0CLKCTRL_SET; /**< VDAC0 Clock Control                                */
+	uint32_t RESERVED43[3U]; /**< Reserved for future use                            */
+	__IOM uint32_t PCNT0CLKCTRL_SET; /**< Pulse counter 0 Clock Control                      */
+	uint32_t RESERVED44[3U]; /**< Reserved for future use                            */
+	__IOM uint32_t RADIOCLKCTRL_SET; /**< Radio Clock Control                                */
+	uint32_t RESERVED45[4U]; /**< Reserved for future use                            */
+	__IOM uint32_t VDAC1CLKCTRL_SET; /**< VDAC1 Clock Control                                */
+	uint32_t RESERVED46[1U]; /**< Reserved for future use                            */
+	uint32_t RESERVED47[857U]; /**< Reserved for future use                            */
+	__IM uint32_t IPVERSION_CLR; /**< IP version ID                                      */
+	uint32_t RESERVED48[1U]; /**< Reserved for future use                            */
+	__IM uint32_t STATUS_CLR; /**< Status Register                                    */
+	uint32_t RESERVED49[1U]; /**< Reserved for future use                            */
+	__IOM uint32_t LOCK_CLR; /**< Configuration Lock Register                        */
+	__IOM uint32_t WDOGLOCK_CLR; /**< WDOG Configuration Lock Register                   */
+	uint32_t RESERVED50[2U]; /**< Reserved for future use                            */
+	__IOM uint32_t IF_CLR; /**< Interrupt Flag Register                            */
+	__IOM uint32_t IEN_CLR; /**< Interrupt Enable Register                          */
+	uint32_t RESERVED51[10U]; /**< Reserved for future use                            */
+	__IOM uint32_t CALCMD_CLR; /**< Calibration Command Register                       */
+	__IOM uint32_t CALCTRL_CLR; /**< Calibration Control Register                       */
+	__IM uint32_t CALCNT_CLR; /**< Calibration Result Counter Register                */
+	uint32_t RESERVED52[2U]; /**< Reserved for future use                            */
+	__IOM uint32_t CLKEN0_CLR; /**< Clock Enable Register 0                            */
+	__IOM uint32_t CLKEN1_CLR; /**<  Clock Enable Register 1                           */
+	uint32_t RESERVED53[1U]; /**< Reserved for future use                            */
+	__IOM uint32_t SYSCLKCTRL_CLR; /**< System Clock Control                               */
+	uint32_t RESERVED54[3U]; /**< Reserved for future use                            */
+	__IOM uint32_t TRACECLKCTRL_CLR; /**< Debug Trace Clock Control                          */
+	uint32_t RESERVED55[3U]; /**< Reserved for future use                            */
+	__IOM uint32_t EXPORTCLKCTRL_CLR; /**< Export Clock Control                               */
+	uint32_t RESERVED56[27U]; /**< Reserved for future use                            */
+	__IOM uint32_t DPLLREFCLKCTRL_CLR; /**< Digital PLL Reference Clock Control                */
+	uint32_t RESERVED57[7U]; /**< Reserved for future use                            */
+	__IOM uint32_t EM01GRPACLKCTRL_CLR; /**< EM01 Peripheral Group A Clock Control              */
+	uint32_t RESERVED58[1U]; /**< Reserved for future use                            */
+	__IOM uint32_t EM01GRPCCLKCTRL_CLR; /**< EM01 Peripheral Group C Clock Control              */
+	uint32_t RESERVED59[5U]; /**< Reserved for future use                            */
+	__IOM uint32_t EM23GRPACLKCTRL_CLR; /**< EM23 Peripheral Group A Clock Control              */
+	uint32_t RESERVED60[7U]; /**< Reserved for future use                            */
+	__IOM uint32_t EM4GRPACLKCTRL_CLR; /**< EM4 Peripheral Group A Clock Control               */
+	uint32_t RESERVED61[7U]; /**< Reserved for future use                            */
+	__IOM uint32_t IADCCLKCTRL_CLR; /**< IADC Clock Control                                 */
+	uint32_t RESERVED62[31U]; /**< Reserved for future use                            */
+	__IOM uint32_t WDOG0CLKCTRL_CLR; /**< Watchdog0 Clock Control                            */
+	uint32_t RESERVED63[1U]; /**< Reserved for future use                            */
+	__IOM uint32_t WDOG1CLKCTRL_CLR; /**< Watchdog1 Clock Control                            */
+	uint32_t RESERVED64[5U]; /**< Reserved for future use                            */
+	__IOM uint32_t EUSART0CLKCTRL_CLR; /**< EUSART0 Clock Control                              */
+	uint32_t RESERVED65[7U]; /**< Reserved for future use                            */
+	__IOM uint32_t SYSRTC0CLKCTRL_CLR; /**< System RTC0 Clock Control                          */
+	uint32_t RESERVED66[7U]; /**< Reserved for future use                            */
+	__IOM uint32_t VDAC0CLKCTRL_CLR; /**< VDAC0 Clock Control                                */
+	uint32_t RESERVED67[3U]; /**< Reserved for future use                            */
+	__IOM uint32_t PCNT0CLKCTRL_CLR; /**< Pulse counter 0 Clock Control                      */
+	uint32_t RESERVED68[3U]; /**< Reserved for future use                            */
+	__IOM uint32_t RADIOCLKCTRL_CLR; /**< Radio Clock Control                                */
+	uint32_t RESERVED69[4U]; /**< Reserved for future use                            */
+	__IOM uint32_t VDAC1CLKCTRL_CLR; /**< VDAC1 Clock Control                                */
+	uint32_t RESERVED70[1U]; /**< Reserved for future use                            */
+	uint32_t RESERVED71[857U]; /**< Reserved for future use                            */
+	__IM uint32_t IPVERSION_TGL; /**< IP version ID                                      */
+	uint32_t RESERVED72[1U]; /**< Reserved for future use                            */
+	__IM uint32_t STATUS_TGL; /**< Status Register                                    */
+	uint32_t RESERVED73[1U]; /**< Reserved for future use                            */
+	__IOM uint32_t LOCK_TGL; /**< Configuration Lock Register                        */
+	__IOM uint32_t WDOGLOCK_TGL; /**< WDOG Configuration Lock Register                   */
+	uint32_t RESERVED74[2U]; /**< Reserved for future use                            */
+	__IOM uint32_t IF_TGL; /**< Interrupt Flag Register                            */
+	__IOM uint32_t IEN_TGL; /**< Interrupt Enable Register                          */
+	uint32_t RESERVED75[10U]; /**< Reserved for future use                            */
+	__IOM uint32_t CALCMD_TGL; /**< Calibration Command Register                       */
+	__IOM uint32_t CALCTRL_TGL; /**< Calibration Control Register                       */
+	__IM uint32_t CALCNT_TGL; /**< Calibration Result Counter Register                */
+	uint32_t RESERVED76[2U]; /**< Reserved for future use                            */
+	__IOM uint32_t CLKEN0_TGL; /**< Clock Enable Register 0                            */
+	__IOM uint32_t CLKEN1_TGL; /**<  Clock Enable Register 1                           */
+	uint32_t RESERVED77[1U]; /**< Reserved for future use                            */
+	__IOM uint32_t SYSCLKCTRL_TGL; /**< System Clock Control                               */
+	uint32_t RESERVED78[3U]; /**< Reserved for future use                            */
+	__IOM uint32_t TRACECLKCTRL_TGL; /**< Debug Trace Clock Control                          */
+	uint32_t RESERVED79[3U]; /**< Reserved for future use                            */
+	__IOM uint32_t EXPORTCLKCTRL_TGL; /**< Export Clock Control                               */
+	uint32_t RESERVED80[27U]; /**< Reserved for future use                            */
+	__IOM uint32_t DPLLREFCLKCTRL_TGL; /**< Digital PLL Reference Clock Control                */
+	uint32_t RESERVED81[7U]; /**< Reserved for future use                            */
+	__IOM uint32_t EM01GRPACLKCTRL_TGL; /**< EM01 Peripheral Group A Clock Control              */
+	uint32_t RESERVED82[1U]; /**< Reserved for future use                            */
+	__IOM uint32_t EM01GRPCCLKCTRL_TGL; /**< EM01 Peripheral Group C Clock Control              */
+	uint32_t RESERVED83[5U]; /**< Reserved for future use                            */
+	__IOM uint32_t EM23GRPACLKCTRL_TGL; /**< EM23 Peripheral Group A Clock Control              */
+	uint32_t RESERVED84[7U]; /**< Reserved for future use                            */
+	__IOM uint32_t EM4GRPACLKCTRL_TGL; /**< EM4 Peripheral Group A Clock Control               */
+	uint32_t RESERVED85[7U]; /**< Reserved for future use                            */
+	__IOM uint32_t IADCCLKCTRL_TGL; /**< IADC Clock Control                                 */
+	uint32_t RESERVED86[31U]; /**< Reserved for future use                            */
+	__IOM uint32_t WDOG0CLKCTRL_TGL; /**< Watchdog0 Clock Control                            */
+	uint32_t RESERVED87[1U]; /**< Reserved for future use                            */
+	__IOM uint32_t WDOG1CLKCTRL_TGL; /**< Watchdog1 Clock Control                            */
+	uint32_t RESERVED88[5U]; /**< Reserved for future use                            */
+	__IOM uint32_t EUSART0CLKCTRL_TGL; /**< EUSART0 Clock Control                              */
+	uint32_t RESERVED89[7U]; /**< Reserved for future use                            */
+	__IOM uint32_t SYSRTC0CLKCTRL_TGL; /**< System RTC0 Clock Control                          */
+	uint32_t RESERVED90[7U]; /**< Reserved for future use                            */
+	__IOM uint32_t VDAC0CLKCTRL_TGL; /**< VDAC0 Clock Control                                */
+	uint32_t RESERVED91[3U]; /**< Reserved for future use                            */
+	__IOM uint32_t PCNT0CLKCTRL_TGL; /**< Pulse counter 0 Clock Control                      */
+	uint32_t RESERVED92[3U]; /**< Reserved for future use                            */
+	__IOM uint32_t RADIOCLKCTRL_TGL; /**< Radio Clock Control                                */
+	uint32_t RESERVED93[4U]; /**< Reserved for future use                            */
+	__IOM uint32_t VDAC1CLKCTRL_TGL; /**< VDAC1 Clock Control                                */
+	uint32_t RESERVED94[1U]; /**< Reserved for future use                            */
 } CMU_TypeDef;
 /** @} End of group EFR32MG24_CMU */
 

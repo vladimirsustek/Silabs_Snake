@@ -85,34 +85,39 @@ extern "C" {
 /// @{
 /// @enum sl_joystick_position_t
 /// @brief enum for finding the position of Joystick.
-SL_ENUM(sl_joystick_position_t) {
-  JOYSTICK_NONE = 0u,    ///< Not pressed
-  JOYSTICK_C,            ///< Center
-  JOYSTICK_N,            ///< North
-  JOYSTICK_E,            ///< East
-  JOYSTICK_S,            ///< South
-  JOYSTICK_W,            ///< West
+SL_ENUM(sl_joystick_position_t)
+{
+JOYSTICK_NONE = 0u,    ///< Not pressed
+JOYSTICK_C,///< Center
+JOYSTICK_N,///< North
+JOYSTICK_E,///< East
+JOYSTICK_S,///< South
+JOYSTICK_W,///< West
 #if (ENABLE_SECONDARY_DIRECTIONS == 1)
-  JOYSTICK_NE,           ///< Northeast
-  JOYSTICK_NW,           ///< Northwest
-  JOYSTICK_SE,           ///< Southeast
-  JOYSTICK_SW,           ///< Southwest
+JOYSTICK_NE,           ///< Northeast
+JOYSTICK_NW,///< Northwest
+JOYSTICK_SE,///< Southeast
+JOYSTICK_SW,///< Southwest
 #endif
-};
+}
+;
 
 /// @}
 
 /// Joystick state (ENABLE / DISABLE) enum.
-SL_ENUM(sl_joystick_state_t) {
-  SL_JOYSTICK_DISABLED = 0U,        ///< Analog Joystick data acquisition is disabled
-  SL_JOYSTICK_ENABLED  = 1U,        ///< Analog Joystick data acquisition is enabled
-};
+SL_ENUM(sl_joystick_state_t)
+{
+SL_JOYSTICK_DISABLED = 0U,     ///< Analog Joystick data acquisition is disabled
+SL_JOYSTICK_ENABLED = 1U,///< Analog Joystick data acquisition is enabled
+}
+;
 
 /// Joystick handle
-typedef struct {
-  GPIO_Port_TypeDef          port;           ///< Joystick port
-  uint8_t                    pin;            ///< Joystick pin
-  sl_joystick_state_t        state;          ///< State of joystick
+typedef struct
+{
+GPIO_Port_TypeDef port;           ///< Joystick port
+uint8_t pin;            ///< Joystick pin
+sl_joystick_state_t state;          ///< State of joystick
 } sl_joystick;
 
 /// sl_joystick_t is the alias name of sl_joystick.
@@ -132,7 +137,8 @@ typedef sl_joystick sl_joystick_t;
  *              - SL_STATUS_OK                      Success
  *              - SL_STATUS_ALLOCATION_FAILED       Bus Allocation error
  ******************************************************************************/
-sl_status_t sl_joystick_init(sl_joystick_t *joystick_handle);
+sl_status_t
+sl_joystick_init(sl_joystick_t *joystick_handle);
 
 /***************************************************************************//**
  * Get joystick position.
@@ -146,7 +152,9 @@ sl_status_t sl_joystick_init(sl_joystick_t *joystick_handle);
  *              - SL_STATUS_NOT_READY     Joystick acquition not started error
  *
  ******************************************************************************/
-sl_status_t sl_joystick_get_position(sl_joystick_t *joystick_handle, sl_joystick_position_t* pos);
+sl_status_t
+sl_joystick_get_position(sl_joystick_t *joystick_handle,
+sl_joystick_position_t *pos);
 
 /***************************************************************************//**
  * Start Analog Joystick data acquisition.
@@ -154,7 +162,8 @@ sl_status_t sl_joystick_get_position(sl_joystick_t *joystick_handle, sl_joystick
  * @param[in] joystick_handle            Pointer to joystick handle
  *
  ******************************************************************************/
-void sl_joystick_start(sl_joystick_t *joystick_handle);
+void
+sl_joystick_start(sl_joystick_t *joystick_handle);
 
 /***************************************************************************//**
  * Stop Analog Joystick data acquisition.
@@ -162,7 +171,8 @@ void sl_joystick_start(sl_joystick_t *joystick_handle);
  * @param[in] joystick_handle            Pointer to joystick handle
  *
  ******************************************************************************/
-void sl_joystick_stop(sl_joystick_t *joystick_handle);
+void
+sl_joystick_stop(sl_joystick_t *joystick_handle);
 
 /** @} (end addtogroup joystick) */
 
@@ -236,7 +246,6 @@ void sl_joystick_stop(sl_joystick_t *joystick_handle);
 ///   @endcode
 ///
 /// @} end group joystick ********************************************************/
-
 #ifdef __cplusplus
 }
 #endif

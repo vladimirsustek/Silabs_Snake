@@ -32,9 +32,9 @@
 #define LETIMER_HAS_SET_CLEAR
 
 /**************************************************************************//**
-* @addtogroup Parts
-* @{
-******************************************************************************/
+ * @addtogroup Parts
+ * @{
+ ******************************************************************************/
 /**************************************************************************//**
  * @defgroup EFR32MG24_LETIMER LETIMER
  * @{
@@ -42,86 +42,87 @@
  *****************************************************************************/
 
 /** LETIMER Register Declaration. */
-typedef struct {
-  __IM uint32_t  IPVERSION;                     /**< IP version                                         */
-  __IOM uint32_t EN;                            /**< module en                                          */
-  __IOM uint32_t SWRST;                         /**< Software Reset Register                            */
-  __IOM uint32_t CTRL;                          /**< Control Register                                   */
-  __IOM uint32_t CMD;                           /**< Command Register                                   */
-  __IM uint32_t  STATUS;                        /**< Status Register                                    */
-  __IOM uint32_t CNT;                           /**< Counter Value Register                             */
-  __IOM uint32_t COMP0;                         /**< Compare Value Register 0                           */
-  __IOM uint32_t COMP1;                         /**< Compare Value Register 1                           */
-  __IOM uint32_t TOP;                           /**< Counter TOP Value Register                         */
-  __IOM uint32_t TOPBUFF;                       /**< Buffered Counter TOP Value                         */
-  __IOM uint32_t REP0;                          /**< Repeat Counter Register 0                          */
-  __IOM uint32_t REP1;                          /**< Repeat Counter Register 1                          */
-  __IOM uint32_t IF;                            /**< Interrupt Flag Register                            */
-  __IOM uint32_t IEN;                           /**< Interrupt Enable Register                          */
-  __IOM uint32_t LOCK;                          /**< Configuration Lock Register                        */
-  __IM uint32_t  SYNCBUSY;                      /**< Synchronization Busy Register                      */
-  uint32_t       RESERVED0[3U];                 /**< Reserved for future use                            */
-  __IOM uint32_t PRSMODE;                       /**< PRS Input mode select Register                     */
-  uint32_t       RESERVED1[1003U];              /**< Reserved for future use                            */
-  __IM uint32_t  IPVERSION_SET;                 /**< IP version                                         */
-  __IOM uint32_t EN_SET;                        /**< module en                                          */
-  __IOM uint32_t SWRST_SET;                     /**< Software Reset Register                            */
-  __IOM uint32_t CTRL_SET;                      /**< Control Register                                   */
-  __IOM uint32_t CMD_SET;                       /**< Command Register                                   */
-  __IM uint32_t  STATUS_SET;                    /**< Status Register                                    */
-  __IOM uint32_t CNT_SET;                       /**< Counter Value Register                             */
-  __IOM uint32_t COMP0_SET;                     /**< Compare Value Register 0                           */
-  __IOM uint32_t COMP1_SET;                     /**< Compare Value Register 1                           */
-  __IOM uint32_t TOP_SET;                       /**< Counter TOP Value Register                         */
-  __IOM uint32_t TOPBUFF_SET;                   /**< Buffered Counter TOP Value                         */
-  __IOM uint32_t REP0_SET;                      /**< Repeat Counter Register 0                          */
-  __IOM uint32_t REP1_SET;                      /**< Repeat Counter Register 1                          */
-  __IOM uint32_t IF_SET;                        /**< Interrupt Flag Register                            */
-  __IOM uint32_t IEN_SET;                       /**< Interrupt Enable Register                          */
-  __IOM uint32_t LOCK_SET;                      /**< Configuration Lock Register                        */
-  __IM uint32_t  SYNCBUSY_SET;                  /**< Synchronization Busy Register                      */
-  uint32_t       RESERVED2[3U];                 /**< Reserved for future use                            */
-  __IOM uint32_t PRSMODE_SET;                   /**< PRS Input mode select Register                     */
-  uint32_t       RESERVED3[1003U];              /**< Reserved for future use                            */
-  __IM uint32_t  IPVERSION_CLR;                 /**< IP version                                         */
-  __IOM uint32_t EN_CLR;                        /**< module en                                          */
-  __IOM uint32_t SWRST_CLR;                     /**< Software Reset Register                            */
-  __IOM uint32_t CTRL_CLR;                      /**< Control Register                                   */
-  __IOM uint32_t CMD_CLR;                       /**< Command Register                                   */
-  __IM uint32_t  STATUS_CLR;                    /**< Status Register                                    */
-  __IOM uint32_t CNT_CLR;                       /**< Counter Value Register                             */
-  __IOM uint32_t COMP0_CLR;                     /**< Compare Value Register 0                           */
-  __IOM uint32_t COMP1_CLR;                     /**< Compare Value Register 1                           */
-  __IOM uint32_t TOP_CLR;                       /**< Counter TOP Value Register                         */
-  __IOM uint32_t TOPBUFF_CLR;                   /**< Buffered Counter TOP Value                         */
-  __IOM uint32_t REP0_CLR;                      /**< Repeat Counter Register 0                          */
-  __IOM uint32_t REP1_CLR;                      /**< Repeat Counter Register 1                          */
-  __IOM uint32_t IF_CLR;                        /**< Interrupt Flag Register                            */
-  __IOM uint32_t IEN_CLR;                       /**< Interrupt Enable Register                          */
-  __IOM uint32_t LOCK_CLR;                      /**< Configuration Lock Register                        */
-  __IM uint32_t  SYNCBUSY_CLR;                  /**< Synchronization Busy Register                      */
-  uint32_t       RESERVED4[3U];                 /**< Reserved for future use                            */
-  __IOM uint32_t PRSMODE_CLR;                   /**< PRS Input mode select Register                     */
-  uint32_t       RESERVED5[1003U];              /**< Reserved for future use                            */
-  __IM uint32_t  IPVERSION_TGL;                 /**< IP version                                         */
-  __IOM uint32_t EN_TGL;                        /**< module en                                          */
-  __IOM uint32_t SWRST_TGL;                     /**< Software Reset Register                            */
-  __IOM uint32_t CTRL_TGL;                      /**< Control Register                                   */
-  __IOM uint32_t CMD_TGL;                       /**< Command Register                                   */
-  __IM uint32_t  STATUS_TGL;                    /**< Status Register                                    */
-  __IOM uint32_t CNT_TGL;                       /**< Counter Value Register                             */
-  __IOM uint32_t COMP0_TGL;                     /**< Compare Value Register 0                           */
-  __IOM uint32_t COMP1_TGL;                     /**< Compare Value Register 1                           */
-  __IOM uint32_t TOP_TGL;                       /**< Counter TOP Value Register                         */
-  __IOM uint32_t TOPBUFF_TGL;                   /**< Buffered Counter TOP Value                         */
-  __IOM uint32_t REP0_TGL;                      /**< Repeat Counter Register 0                          */
-  __IOM uint32_t REP1_TGL;                      /**< Repeat Counter Register 1                          */
-  __IOM uint32_t IF_TGL;                        /**< Interrupt Flag Register                            */
-  __IOM uint32_t IEN_TGL;                       /**< Interrupt Enable Register                          */
-  __IOM uint32_t LOCK_TGL;                      /**< Configuration Lock Register                        */
-  __IM uint32_t  SYNCBUSY_TGL;                  /**< Synchronization Busy Register                      */
-  uint32_t       RESERVED6[3U];                 /**< Reserved for future use                            */
-  __IOM uint32_t PRSMODE_TGL;                   /**< PRS Input mode select Register                     */
+typedef struct
+{
+	__IM uint32_t IPVERSION; /**< IP version                                         */
+	__IOM uint32_t EN; /**< module en                                          */
+	__IOM uint32_t SWRST; /**< Software Reset Register                            */
+	__IOM uint32_t CTRL; /**< Control Register                                   */
+	__IOM uint32_t CMD; /**< Command Register                                   */
+	__IM uint32_t STATUS; /**< Status Register                                    */
+	__IOM uint32_t CNT; /**< Counter Value Register                             */
+	__IOM uint32_t COMP0; /**< Compare Value Register 0                           */
+	__IOM uint32_t COMP1; /**< Compare Value Register 1                           */
+	__IOM uint32_t TOP; /**< Counter TOP Value Register                         */
+	__IOM uint32_t TOPBUFF; /**< Buffered Counter TOP Value                         */
+	__IOM uint32_t REP0; /**< Repeat Counter Register 0                          */
+	__IOM uint32_t REP1; /**< Repeat Counter Register 1                          */
+	__IOM uint32_t IF; /**< Interrupt Flag Register                            */
+	__IOM uint32_t IEN; /**< Interrupt Enable Register                          */
+	__IOM uint32_t LOCK; /**< Configuration Lock Register                        */
+	__IM uint32_t SYNCBUSY; /**< Synchronization Busy Register                      */
+	uint32_t RESERVED0[3U]; /**< Reserved for future use                            */
+	__IOM uint32_t PRSMODE; /**< PRS Input mode select Register                     */
+	uint32_t RESERVED1[1003U]; /**< Reserved for future use                            */
+	__IM uint32_t IPVERSION_SET; /**< IP version                                         */
+	__IOM uint32_t EN_SET; /**< module en                                          */
+	__IOM uint32_t SWRST_SET; /**< Software Reset Register                            */
+	__IOM uint32_t CTRL_SET; /**< Control Register                                   */
+	__IOM uint32_t CMD_SET; /**< Command Register                                   */
+	__IM uint32_t STATUS_SET; /**< Status Register                                    */
+	__IOM uint32_t CNT_SET; /**< Counter Value Register                             */
+	__IOM uint32_t COMP0_SET; /**< Compare Value Register 0                           */
+	__IOM uint32_t COMP1_SET; /**< Compare Value Register 1                           */
+	__IOM uint32_t TOP_SET; /**< Counter TOP Value Register                         */
+	__IOM uint32_t TOPBUFF_SET; /**< Buffered Counter TOP Value                         */
+	__IOM uint32_t REP0_SET; /**< Repeat Counter Register 0                          */
+	__IOM uint32_t REP1_SET; /**< Repeat Counter Register 1                          */
+	__IOM uint32_t IF_SET; /**< Interrupt Flag Register                            */
+	__IOM uint32_t IEN_SET; /**< Interrupt Enable Register                          */
+	__IOM uint32_t LOCK_SET; /**< Configuration Lock Register                        */
+	__IM uint32_t SYNCBUSY_SET; /**< Synchronization Busy Register                      */
+	uint32_t RESERVED2[3U]; /**< Reserved for future use                            */
+	__IOM uint32_t PRSMODE_SET; /**< PRS Input mode select Register                     */
+	uint32_t RESERVED3[1003U]; /**< Reserved for future use                            */
+	__IM uint32_t IPVERSION_CLR; /**< IP version                                         */
+	__IOM uint32_t EN_CLR; /**< module en                                          */
+	__IOM uint32_t SWRST_CLR; /**< Software Reset Register                            */
+	__IOM uint32_t CTRL_CLR; /**< Control Register                                   */
+	__IOM uint32_t CMD_CLR; /**< Command Register                                   */
+	__IM uint32_t STATUS_CLR; /**< Status Register                                    */
+	__IOM uint32_t CNT_CLR; /**< Counter Value Register                             */
+	__IOM uint32_t COMP0_CLR; /**< Compare Value Register 0                           */
+	__IOM uint32_t COMP1_CLR; /**< Compare Value Register 1                           */
+	__IOM uint32_t TOP_CLR; /**< Counter TOP Value Register                         */
+	__IOM uint32_t TOPBUFF_CLR; /**< Buffered Counter TOP Value                         */
+	__IOM uint32_t REP0_CLR; /**< Repeat Counter Register 0                          */
+	__IOM uint32_t REP1_CLR; /**< Repeat Counter Register 1                          */
+	__IOM uint32_t IF_CLR; /**< Interrupt Flag Register                            */
+	__IOM uint32_t IEN_CLR; /**< Interrupt Enable Register                          */
+	__IOM uint32_t LOCK_CLR; /**< Configuration Lock Register                        */
+	__IM uint32_t SYNCBUSY_CLR; /**< Synchronization Busy Register                      */
+	uint32_t RESERVED4[3U]; /**< Reserved for future use                            */
+	__IOM uint32_t PRSMODE_CLR; /**< PRS Input mode select Register                     */
+	uint32_t RESERVED5[1003U]; /**< Reserved for future use                            */
+	__IM uint32_t IPVERSION_TGL; /**< IP version                                         */
+	__IOM uint32_t EN_TGL; /**< module en                                          */
+	__IOM uint32_t SWRST_TGL; /**< Software Reset Register                            */
+	__IOM uint32_t CTRL_TGL; /**< Control Register                                   */
+	__IOM uint32_t CMD_TGL; /**< Command Register                                   */
+	__IM uint32_t STATUS_TGL; /**< Status Register                                    */
+	__IOM uint32_t CNT_TGL; /**< Counter Value Register                             */
+	__IOM uint32_t COMP0_TGL; /**< Compare Value Register 0                           */
+	__IOM uint32_t COMP1_TGL; /**< Compare Value Register 1                           */
+	__IOM uint32_t TOP_TGL; /**< Counter TOP Value Register                         */
+	__IOM uint32_t TOPBUFF_TGL; /**< Buffered Counter TOP Value                         */
+	__IOM uint32_t REP0_TGL; /**< Repeat Counter Register 0                          */
+	__IOM uint32_t REP1_TGL; /**< Repeat Counter Register 1                          */
+	__IOM uint32_t IF_TGL; /**< Interrupt Flag Register                            */
+	__IOM uint32_t IEN_TGL; /**< Interrupt Enable Register                          */
+	__IOM uint32_t LOCK_TGL; /**< Configuration Lock Register                        */
+	__IM uint32_t SYNCBUSY_TGL; /**< Synchronization Busy Register                      */
+	uint32_t RESERVED6[3U]; /**< Reserved for future use                            */
+	__IOM uint32_t PRSMODE_TGL; /**< PRS Input mode select Register                     */
 } LETIMER_TypeDef;
 /** @} End of group EFR32MG24_LETIMER */
 

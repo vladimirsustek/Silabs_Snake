@@ -32,9 +32,9 @@
 #define MPAHBRAM_HAS_SET_CLEAR
 
 /**************************************************************************//**
-* @addtogroup Parts
-* @{
-******************************************************************************/
+ * @addtogroup Parts
+ * @{
+ ******************************************************************************/
 /**************************************************************************//**
  * @defgroup EFR32MG24_MPAHBRAM MPAHBRAM
  * @{
@@ -42,82 +42,83 @@
  *****************************************************************************/
 
 /** MPAHBRAM Register Declaration. */
-typedef struct {
-  __IM uint32_t  IPVERSION;                     /**< IP version ID                                      */
-  __IOM uint32_t CMD;                           /**< Command register                                   */
-  __IOM uint32_t CTRL;                          /**< Control register                                   */
-  __IM uint32_t  ECCERRADDR0;                   /**< ECC Error Address 0                                */
-  __IM uint32_t  ECCERRADDR1;                   /**< ECC Error Address 1                                */
-  __IM uint32_t  ECCERRADDR2;                   /**< ECC Error Address 2                                */
-  __IM uint32_t  ECCERRADDR3;                   /**< ECC Error Address 3                                */
-  __IM uint32_t  ECCMERRIND;                    /**< Multiple ECC error indication                      */
-  __IOM uint32_t IF;                            /**< Interrupt Flags                                    */
-  __IOM uint32_t IEN;                           /**< Interrupt Enable                                   */
-  __IOM uint32_t RAMBANKSVALID;                 /**< New Register                                       */
-  __IOM uint32_t CFGSRTOP;                      /**< Sequential Region on Top                           */
-  __IOM uint32_t CFGSRMAP;                      /**< Sequential Region Map                              */
-  __IOM uint32_t CFGIU0MAP;                     /**< Interleaving Unit 0 Map                            */
-  __IOM uint32_t CFGIU1MAP;                     /**< Interleaving Unit 1 Map                            */
-  __IOM uint32_t CFGIU2MAP;                     /**< Interleaving Unit 2 Map                            */
-  __IOM uint32_t CFGIU3MAP;                     /**< Interleaving Unit 3 Map                            */
-  uint32_t       RESERVED0[1U];                 /**< Reserved for future use                            */
-  uint32_t       RESERVED1[1006U];              /**< Reserved for future use                            */
-  __IM uint32_t  IPVERSION_SET;                 /**< IP version ID                                      */
-  __IOM uint32_t CMD_SET;                       /**< Command register                                   */
-  __IOM uint32_t CTRL_SET;                      /**< Control register                                   */
-  __IM uint32_t  ECCERRADDR0_SET;               /**< ECC Error Address 0                                */
-  __IM uint32_t  ECCERRADDR1_SET;               /**< ECC Error Address 1                                */
-  __IM uint32_t  ECCERRADDR2_SET;               /**< ECC Error Address 2                                */
-  __IM uint32_t  ECCERRADDR3_SET;               /**< ECC Error Address 3                                */
-  __IM uint32_t  ECCMERRIND_SET;                /**< Multiple ECC error indication                      */
-  __IOM uint32_t IF_SET;                        /**< Interrupt Flags                                    */
-  __IOM uint32_t IEN_SET;                       /**< Interrupt Enable                                   */
-  __IOM uint32_t RAMBANKSVALID_SET;             /**< New Register                                       */
-  __IOM uint32_t CFGSRTOP_SET;                  /**< Sequential Region on Top                           */
-  __IOM uint32_t CFGSRMAP_SET;                  /**< Sequential Region Map                              */
-  __IOM uint32_t CFGIU0MAP_SET;                 /**< Interleaving Unit 0 Map                            */
-  __IOM uint32_t CFGIU1MAP_SET;                 /**< Interleaving Unit 1 Map                            */
-  __IOM uint32_t CFGIU2MAP_SET;                 /**< Interleaving Unit 2 Map                            */
-  __IOM uint32_t CFGIU3MAP_SET;                 /**< Interleaving Unit 3 Map                            */
-  uint32_t       RESERVED2[1U];                 /**< Reserved for future use                            */
-  uint32_t       RESERVED3[1006U];              /**< Reserved for future use                            */
-  __IM uint32_t  IPVERSION_CLR;                 /**< IP version ID                                      */
-  __IOM uint32_t CMD_CLR;                       /**< Command register                                   */
-  __IOM uint32_t CTRL_CLR;                      /**< Control register                                   */
-  __IM uint32_t  ECCERRADDR0_CLR;               /**< ECC Error Address 0                                */
-  __IM uint32_t  ECCERRADDR1_CLR;               /**< ECC Error Address 1                                */
-  __IM uint32_t  ECCERRADDR2_CLR;               /**< ECC Error Address 2                                */
-  __IM uint32_t  ECCERRADDR3_CLR;               /**< ECC Error Address 3                                */
-  __IM uint32_t  ECCMERRIND_CLR;                /**< Multiple ECC error indication                      */
-  __IOM uint32_t IF_CLR;                        /**< Interrupt Flags                                    */
-  __IOM uint32_t IEN_CLR;                       /**< Interrupt Enable                                   */
-  __IOM uint32_t RAMBANKSVALID_CLR;             /**< New Register                                       */
-  __IOM uint32_t CFGSRTOP_CLR;                  /**< Sequential Region on Top                           */
-  __IOM uint32_t CFGSRMAP_CLR;                  /**< Sequential Region Map                              */
-  __IOM uint32_t CFGIU0MAP_CLR;                 /**< Interleaving Unit 0 Map                            */
-  __IOM uint32_t CFGIU1MAP_CLR;                 /**< Interleaving Unit 1 Map                            */
-  __IOM uint32_t CFGIU2MAP_CLR;                 /**< Interleaving Unit 2 Map                            */
-  __IOM uint32_t CFGIU3MAP_CLR;                 /**< Interleaving Unit 3 Map                            */
-  uint32_t       RESERVED4[1U];                 /**< Reserved for future use                            */
-  uint32_t       RESERVED5[1006U];              /**< Reserved for future use                            */
-  __IM uint32_t  IPVERSION_TGL;                 /**< IP version ID                                      */
-  __IOM uint32_t CMD_TGL;                       /**< Command register                                   */
-  __IOM uint32_t CTRL_TGL;                      /**< Control register                                   */
-  __IM uint32_t  ECCERRADDR0_TGL;               /**< ECC Error Address 0                                */
-  __IM uint32_t  ECCERRADDR1_TGL;               /**< ECC Error Address 1                                */
-  __IM uint32_t  ECCERRADDR2_TGL;               /**< ECC Error Address 2                                */
-  __IM uint32_t  ECCERRADDR3_TGL;               /**< ECC Error Address 3                                */
-  __IM uint32_t  ECCMERRIND_TGL;                /**< Multiple ECC error indication                      */
-  __IOM uint32_t IF_TGL;                        /**< Interrupt Flags                                    */
-  __IOM uint32_t IEN_TGL;                       /**< Interrupt Enable                                   */
-  __IOM uint32_t RAMBANKSVALID_TGL;             /**< New Register                                       */
-  __IOM uint32_t CFGSRTOP_TGL;                  /**< Sequential Region on Top                           */
-  __IOM uint32_t CFGSRMAP_TGL;                  /**< Sequential Region Map                              */
-  __IOM uint32_t CFGIU0MAP_TGL;                 /**< Interleaving Unit 0 Map                            */
-  __IOM uint32_t CFGIU1MAP_TGL;                 /**< Interleaving Unit 1 Map                            */
-  __IOM uint32_t CFGIU2MAP_TGL;                 /**< Interleaving Unit 2 Map                            */
-  __IOM uint32_t CFGIU3MAP_TGL;                 /**< Interleaving Unit 3 Map                            */
-  uint32_t       RESERVED6[1U];                 /**< Reserved for future use                            */
+typedef struct
+{
+	__IM uint32_t IPVERSION; /**< IP version ID                                      */
+	__IOM uint32_t CMD; /**< Command register                                   */
+	__IOM uint32_t CTRL; /**< Control register                                   */
+	__IM uint32_t ECCERRADDR0; /**< ECC Error Address 0                                */
+	__IM uint32_t ECCERRADDR1; /**< ECC Error Address 1                                */
+	__IM uint32_t ECCERRADDR2; /**< ECC Error Address 2                                */
+	__IM uint32_t ECCERRADDR3; /**< ECC Error Address 3                                */
+	__IM uint32_t ECCMERRIND; /**< Multiple ECC error indication                      */
+	__IOM uint32_t IF; /**< Interrupt Flags                                    */
+	__IOM uint32_t IEN; /**< Interrupt Enable                                   */
+	__IOM uint32_t RAMBANKSVALID; /**< New Register                                       */
+	__IOM uint32_t CFGSRTOP; /**< Sequential Region on Top                           */
+	__IOM uint32_t CFGSRMAP; /**< Sequential Region Map                              */
+	__IOM uint32_t CFGIU0MAP; /**< Interleaving Unit 0 Map                            */
+	__IOM uint32_t CFGIU1MAP; /**< Interleaving Unit 1 Map                            */
+	__IOM uint32_t CFGIU2MAP; /**< Interleaving Unit 2 Map                            */
+	__IOM uint32_t CFGIU3MAP; /**< Interleaving Unit 3 Map                            */
+	uint32_t RESERVED0[1U]; /**< Reserved for future use                            */
+	uint32_t RESERVED1[1006U]; /**< Reserved for future use                            */
+	__IM uint32_t IPVERSION_SET; /**< IP version ID                                      */
+	__IOM uint32_t CMD_SET; /**< Command register                                   */
+	__IOM uint32_t CTRL_SET; /**< Control register                                   */
+	__IM uint32_t ECCERRADDR0_SET; /**< ECC Error Address 0                                */
+	__IM uint32_t ECCERRADDR1_SET; /**< ECC Error Address 1                                */
+	__IM uint32_t ECCERRADDR2_SET; /**< ECC Error Address 2                                */
+	__IM uint32_t ECCERRADDR3_SET; /**< ECC Error Address 3                                */
+	__IM uint32_t ECCMERRIND_SET; /**< Multiple ECC error indication                      */
+	__IOM uint32_t IF_SET; /**< Interrupt Flags                                    */
+	__IOM uint32_t IEN_SET; /**< Interrupt Enable                                   */
+	__IOM uint32_t RAMBANKSVALID_SET; /**< New Register                                       */
+	__IOM uint32_t CFGSRTOP_SET; /**< Sequential Region on Top                           */
+	__IOM uint32_t CFGSRMAP_SET; /**< Sequential Region Map                              */
+	__IOM uint32_t CFGIU0MAP_SET; /**< Interleaving Unit 0 Map                            */
+	__IOM uint32_t CFGIU1MAP_SET; /**< Interleaving Unit 1 Map                            */
+	__IOM uint32_t CFGIU2MAP_SET; /**< Interleaving Unit 2 Map                            */
+	__IOM uint32_t CFGIU3MAP_SET; /**< Interleaving Unit 3 Map                            */
+	uint32_t RESERVED2[1U]; /**< Reserved for future use                            */
+	uint32_t RESERVED3[1006U]; /**< Reserved for future use                            */
+	__IM uint32_t IPVERSION_CLR; /**< IP version ID                                      */
+	__IOM uint32_t CMD_CLR; /**< Command register                                   */
+	__IOM uint32_t CTRL_CLR; /**< Control register                                   */
+	__IM uint32_t ECCERRADDR0_CLR; /**< ECC Error Address 0                                */
+	__IM uint32_t ECCERRADDR1_CLR; /**< ECC Error Address 1                                */
+	__IM uint32_t ECCERRADDR2_CLR; /**< ECC Error Address 2                                */
+	__IM uint32_t ECCERRADDR3_CLR; /**< ECC Error Address 3                                */
+	__IM uint32_t ECCMERRIND_CLR; /**< Multiple ECC error indication                      */
+	__IOM uint32_t IF_CLR; /**< Interrupt Flags                                    */
+	__IOM uint32_t IEN_CLR; /**< Interrupt Enable                                   */
+	__IOM uint32_t RAMBANKSVALID_CLR; /**< New Register                                       */
+	__IOM uint32_t CFGSRTOP_CLR; /**< Sequential Region on Top                           */
+	__IOM uint32_t CFGSRMAP_CLR; /**< Sequential Region Map                              */
+	__IOM uint32_t CFGIU0MAP_CLR; /**< Interleaving Unit 0 Map                            */
+	__IOM uint32_t CFGIU1MAP_CLR; /**< Interleaving Unit 1 Map                            */
+	__IOM uint32_t CFGIU2MAP_CLR; /**< Interleaving Unit 2 Map                            */
+	__IOM uint32_t CFGIU3MAP_CLR; /**< Interleaving Unit 3 Map                            */
+	uint32_t RESERVED4[1U]; /**< Reserved for future use                            */
+	uint32_t RESERVED5[1006U]; /**< Reserved for future use                            */
+	__IM uint32_t IPVERSION_TGL; /**< IP version ID                                      */
+	__IOM uint32_t CMD_TGL; /**< Command register                                   */
+	__IOM uint32_t CTRL_TGL; /**< Control register                                   */
+	__IM uint32_t ECCERRADDR0_TGL; /**< ECC Error Address 0                                */
+	__IM uint32_t ECCERRADDR1_TGL; /**< ECC Error Address 1                                */
+	__IM uint32_t ECCERRADDR2_TGL; /**< ECC Error Address 2                                */
+	__IM uint32_t ECCERRADDR3_TGL; /**< ECC Error Address 3                                */
+	__IM uint32_t ECCMERRIND_TGL; /**< Multiple ECC error indication                      */
+	__IOM uint32_t IF_TGL; /**< Interrupt Flags                                    */
+	__IOM uint32_t IEN_TGL; /**< Interrupt Enable                                   */
+	__IOM uint32_t RAMBANKSVALID_TGL; /**< New Register                                       */
+	__IOM uint32_t CFGSRTOP_TGL; /**< Sequential Region on Top                           */
+	__IOM uint32_t CFGSRMAP_TGL; /**< Sequential Region Map                              */
+	__IOM uint32_t CFGIU0MAP_TGL; /**< Interleaving Unit 0 Map                            */
+	__IOM uint32_t CFGIU1MAP_TGL; /**< Interleaving Unit 1 Map                            */
+	__IOM uint32_t CFGIU2MAP_TGL; /**< Interleaving Unit 2 Map                            */
+	__IOM uint32_t CFGIU3MAP_TGL; /**< Interleaving Unit 3 Map                            */
+	uint32_t RESERVED6[1U]; /**< Reserved for future use                            */
 } MPAHBRAM_TypeDef;
 /** @} End of group EFR32MG24_MPAHBRAM */
 

@@ -94,9 +94,9 @@ extern "C" {
  *   When doing ping-pong transfers, return true to continue or false to
  *   stop transfers.
  ******************************************************************************/
-typedef bool (*DMADRV_Callback_t)(unsigned int channel,
-                                  unsigned int sequenceNo,
-                                  void *userParam);
+typedef bool
+(*DMADRV_Callback_t)(unsigned int channel, unsigned int sequenceNo,
+		void *userParam);
 
 #if defined(DMA_PRESENT) && (DMA_COUNT == 1)
 
@@ -959,49 +959,35 @@ SL_ENUM(DMADRV_DataSize_t) {
 
 #endif /* defined( LDMA_PRESENT ) && ( LDMA_COUNT == 1 ) */
 
-Ecode_t DMADRV_AllocateChannel(unsigned int *channelId, void *capabilities);
-Ecode_t DMADRV_DeInit(void);
-Ecode_t DMADRV_FreeChannel(unsigned int channelId);
-Ecode_t DMADRV_Init(void);
+Ecode_t
+DMADRV_AllocateChannel(unsigned int *channelId, void *capabilities);
+Ecode_t
+DMADRV_DeInit(void);
+Ecode_t
+DMADRV_FreeChannel(unsigned int channelId);
+Ecode_t
+DMADRV_Init(void);
 
-Ecode_t DMADRV_MemoryPeripheral(unsigned int          channelId,
-                                DMADRV_PeripheralSignal_t peripheralSignal,
-                                void                  *dst,
-                                void                  *src,
-                                bool                  srcInc,
-                                int                   len,
-                                DMADRV_DataSize_t     size,
-                                DMADRV_Callback_t     callback,
-                                void                  *cbUserParam);
-Ecode_t DMADRV_PeripheralMemory(unsigned int          channelId,
-                                DMADRV_PeripheralSignal_t peripheralSignal,
-                                void                  *dst,
-                                void                  *src,
-                                bool                  dstInc,
-                                int                   len,
-                                DMADRV_DataSize_t     size,
-                                DMADRV_Callback_t     callback,
-                                void                  *cbUserParam);
-Ecode_t DMADRV_MemoryPeripheralPingPong(unsigned int          channelId,
-                                        DMADRV_PeripheralSignal_t peripheralSignal,
-                                        void                  *dst,
-                                        void                  *src0,
-                                        void                  *src1,
-                                        bool                  srcInc,
-                                        int                   len,
-                                        DMADRV_DataSize_t     size,
-                                        DMADRV_Callback_t     callback,
-                                        void                  *cbUserParam);
-Ecode_t DMADRV_PeripheralMemoryPingPong(unsigned int          channelId,
-                                        DMADRV_PeripheralSignal_t peripheralSignal,
-                                        void                  *dst0,
-                                        void                  *dst1,
-                                        void                  *src,
-                                        bool                  dstInc,
-                                        int                   len,
-                                        DMADRV_DataSize_t     size,
-                                        DMADRV_Callback_t     callback,
-                                        void                  *cbUserParam);
+Ecode_t
+DMADRV_MemoryPeripheral(unsigned int channelId,
+		DMADRV_PeripheralSignal_t peripheralSignal, void *dst, void *src,
+		bool srcInc, int len, DMADRV_DataSize_t size,
+		DMADRV_Callback_t callback, void *cbUserParam);
+Ecode_t
+DMADRV_PeripheralMemory(unsigned int channelId,
+		DMADRV_PeripheralSignal_t peripheralSignal, void *dst, void *src,
+		bool dstInc, int len, DMADRV_DataSize_t size,
+		DMADRV_Callback_t callback, void *cbUserParam);
+Ecode_t
+DMADRV_MemoryPeripheralPingPong(unsigned int channelId,
+		DMADRV_PeripheralSignal_t peripheralSignal, void *dst, void *src0,
+		void *src1, bool srcInc, int len, DMADRV_DataSize_t size,
+		DMADRV_Callback_t callback, void *cbUserParam);
+Ecode_t
+DMADRV_PeripheralMemoryPingPong(unsigned int channelId,
+		DMADRV_PeripheralSignal_t peripheralSignal, void *dst0, void *dst1,
+		void *src, bool dstInc, int len, DMADRV_DataSize_t size,
+		DMADRV_Callback_t callback, void *cbUserParam);
 
 #if defined(EMDRV_DMADRV_LDMA)
 Ecode_t DMADRV_LdmaStartTransfer(
@@ -1012,14 +998,20 @@ Ecode_t DMADRV_LdmaStartTransfer(
   void               *cbUserParam);
 #endif
 
-Ecode_t DMADRV_PauseTransfer(unsigned int channelId);
-Ecode_t DMADRV_ResumeTransfer(unsigned int channelId);
-Ecode_t DMADRV_StopTransfer(unsigned int channelId);
-Ecode_t DMADRV_TransferActive(unsigned int channelId, bool *active);
-Ecode_t DMADRV_TransferCompletePending(unsigned int channelId, bool *pending);
-Ecode_t DMADRV_TransferDone(unsigned int channelId, bool *done);
-Ecode_t DMADRV_TransferRemainingCount(unsigned int channelId,
-                                      int *remaining);
+Ecode_t
+DMADRV_PauseTransfer(unsigned int channelId);
+Ecode_t
+DMADRV_ResumeTransfer(unsigned int channelId);
+Ecode_t
+DMADRV_StopTransfer(unsigned int channelId);
+Ecode_t
+DMADRV_TransferActive(unsigned int channelId, bool *active);
+Ecode_t
+DMADRV_TransferCompletePending(unsigned int channelId, bool *pending);
+Ecode_t
+DMADRV_TransferDone(unsigned int channelId, bool *done);
+Ecode_t
+DMADRV_TransferRemainingCount(unsigned int channelId, int *remaining);
 
 /** @} (end addtogroup dmadrv) */
 

@@ -65,11 +65,12 @@
  ******************************************************************************/
 void assertEFM(const char *file, int line)
 {
-  (void)file;  /* Unused parameter */
-  (void)line;  /* Unused parameter */
+	(void) file; /* Unused parameter */
+	(void) line; /* Unused parameter */
 
-  while (true) {
-  }
+	while (true)
+	{
+	}
 }
 #endif /* DEBUG_EFM */
 

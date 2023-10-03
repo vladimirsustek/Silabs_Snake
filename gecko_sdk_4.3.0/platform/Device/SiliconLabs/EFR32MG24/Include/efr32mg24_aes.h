@@ -31,9 +31,9 @@
 #define EFR32MG24_AES_H
 
 /**************************************************************************//**
-* @addtogroup Parts
-* @{
-******************************************************************************/
+ * @addtogroup Parts
+ * @{
+ ******************************************************************************/
 /**************************************************************************//**
  * @defgroup EFR32MG24_AES AES
  * @{
@@ -41,29 +41,30 @@
  *****************************************************************************/
 
 /** AES Register Declaration. */
-typedef struct {
-  __IOM uint32_t FETCHADDR;                     /**< Fetcher Address                                    */
-  uint32_t       RESERVED0[1U];                 /**< Reserved for future use                            */
-  __IOM uint32_t FETCHLEN;                      /**< Fetcher Length                                     */
-  __IOM uint32_t FETCHTAG;                      /**< Fetcher Tag                                        */
-  __IOM uint32_t PUSHADDR;                      /**< Pusher Address                                     */
-  uint32_t       RESERVED1[1U];                 /**< Reserved for future use                            */
-  __IOM uint32_t PUSHLEN;                       /**< Pusher Length                                      */
-  __IOM uint32_t IEN;                           /**< Interrupt Enable                                   */
-  uint32_t       RESERVED2[2U];                 /**< Reserved for future use                            */
-  __IM uint32_t  IF;                            /**< Interrupt Flags                                    */
-  uint32_t       RESERVED3[1U];                 /**< Reserved for future use                            */
-  __IOM uint32_t IF_CLR;                        /**< Interrupt status clear                             */
-  __IOM uint32_t CTRL;                          /**< Control register                                   */
-  __IOM uint32_t CMD;                           /**< Command register                                   */
-  __IM uint32_t  STATUS;                        /**< Status register                                    */
-  uint32_t       RESERVED4[240U];               /**< Reserved for future use                            */
-  __IM uint32_t  INCL_IPS_HW_CFG;               /**< INCL_IPS_HW_CFG                                    */
-  __IM uint32_t  BA411E_HW_CFG_1;               /**< BA411E_HW_CFG_1                                    */
-  __IM uint32_t  BA411E_HW_CFG_2;               /**< BA411E_HW_CFG_2                                    */
-  __IM uint32_t  BA413_HW_CFG;                  /**< BA413_HW_CFG                                       */
-  __IM uint32_t  BA418_HW_CFG;                  /**< BA418_HW_CFG                                       */
-  __IM uint32_t  BA419_HW_CFG;                  /**< BA419_HW_CFG                                       */
+typedef struct
+{
+	__IOM uint32_t FETCHADDR; /**< Fetcher Address                                    */
+	uint32_t RESERVED0[1U]; /**< Reserved for future use                            */
+	__IOM uint32_t FETCHLEN; /**< Fetcher Length                                     */
+	__IOM uint32_t FETCHTAG; /**< Fetcher Tag                                        */
+	__IOM uint32_t PUSHADDR; /**< Pusher Address                                     */
+	uint32_t RESERVED1[1U]; /**< Reserved for future use                            */
+	__IOM uint32_t PUSHLEN; /**< Pusher Length                                      */
+	__IOM uint32_t IEN; /**< Interrupt Enable                                   */
+	uint32_t RESERVED2[2U]; /**< Reserved for future use                            */
+	__IM uint32_t IF; /**< Interrupt Flags                                    */
+	uint32_t RESERVED3[1U]; /**< Reserved for future use                            */
+	__IOM uint32_t IF_CLR; /**< Interrupt status clear                             */
+	__IOM uint32_t CTRL; /**< Control register                                   */
+	__IOM uint32_t CMD; /**< Command register                                   */
+	__IM uint32_t STATUS; /**< Status register                                    */
+	uint32_t RESERVED4[240U]; /**< Reserved for future use                            */
+	__IM uint32_t INCL_IPS_HW_CFG; /**< INCL_IPS_HW_CFG                                    */
+	__IM uint32_t BA411E_HW_CFG_1; /**< BA411E_HW_CFG_1                                    */
+	__IM uint32_t BA411E_HW_CFG_2; /**< BA411E_HW_CFG_2                                    */
+	__IM uint32_t BA413_HW_CFG; /**< BA413_HW_CFG                                       */
+	__IM uint32_t BA418_HW_CFG; /**< BA418_HW_CFG                                       */
+	__IM uint32_t BA419_HW_CFG; /**< BA419_HW_CFG                                       */
 } AES_TypeDef;
 /** @} End of group EFR32MG24_AES */
 

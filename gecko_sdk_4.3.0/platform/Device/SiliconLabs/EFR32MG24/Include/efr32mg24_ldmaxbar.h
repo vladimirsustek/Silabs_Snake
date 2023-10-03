@@ -32,9 +32,9 @@
 #define LDMAXBAR_HAS_SET_CLEAR
 
 /**************************************************************************//**
-* @addtogroup Parts
-* @{
-******************************************************************************/
+ * @addtogroup Parts
+ * @{
+ ******************************************************************************/
 /**************************************************************************//**
  * @defgroup EFR32MG24_LDMAXBAR LDMAXBAR
  * @{
@@ -42,23 +42,25 @@
  *****************************************************************************/
 
 /** LDMAXBAR CH Register Group Declaration. */
-typedef struct {
-  __IOM uint32_t REQSEL;                             /**< Channel Peripheral Request Select Reg...           */
+typedef struct
+{
+	__IOM uint32_t REQSEL; /**< Channel Peripheral Request Select Reg...           */
 } LDMAXBAR_CH_TypeDef;
 
 /** LDMAXBAR Register Declaration. */
-typedef struct {
-  __IM uint32_t       IPVERSION;                /**< IP veersion ID                                     */
-  LDMAXBAR_CH_TypeDef CH[8U];                   /**< DMA Channel Registers                              */
-  uint32_t            RESERVED0[1015U];         /**< Reserved for future use                            */
-  __IM uint32_t       IPVERSION_SET;            /**< IP veersion ID                                     */
-  LDMAXBAR_CH_TypeDef CH_SET[8U];               /**< DMA Channel Registers                              */
-  uint32_t            RESERVED1[1015U];         /**< Reserved for future use                            */
-  __IM uint32_t       IPVERSION_CLR;            /**< IP veersion ID                                     */
-  LDMAXBAR_CH_TypeDef CH_CLR[8U];               /**< DMA Channel Registers                              */
-  uint32_t            RESERVED2[1015U];         /**< Reserved for future use                            */
-  __IM uint32_t       IPVERSION_TGL;            /**< IP veersion ID                                     */
-  LDMAXBAR_CH_TypeDef CH_TGL[8U];               /**< DMA Channel Registers                              */
+typedef struct
+{
+	__IM uint32_t IPVERSION; /**< IP veersion ID                                     */
+	LDMAXBAR_CH_TypeDef CH[8U]; /**< DMA Channel Registers                              */
+	uint32_t RESERVED0[1015U]; /**< Reserved for future use                            */
+	__IM uint32_t IPVERSION_SET; /**< IP veersion ID                                     */
+	LDMAXBAR_CH_TypeDef CH_SET[8U]; /**< DMA Channel Registers                              */
+	uint32_t RESERVED1[1015U]; /**< Reserved for future use                            */
+	__IM uint32_t IPVERSION_CLR; /**< IP veersion ID                                     */
+	LDMAXBAR_CH_TypeDef CH_CLR[8U]; /**< DMA Channel Registers                              */
+	uint32_t RESERVED2[1015U]; /**< Reserved for future use                            */
+	__IM uint32_t IPVERSION_TGL; /**< IP veersion ID                                     */
+	LDMAXBAR_CH_TypeDef CH_TGL[8U]; /**< DMA Channel Registers                              */
 } LDMAXBAR_TypeDef;
 /** @} End of group EFR32MG24_LDMAXBAR */
 

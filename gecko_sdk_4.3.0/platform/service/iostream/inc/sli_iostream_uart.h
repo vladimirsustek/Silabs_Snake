@@ -53,15 +53,14 @@ extern "C" {
  *****************************   PROTOTYPES   **********************************
  ******************************************************************************/
 
-sl_status_t sli_iostream_uart_context_init(sl_iostream_uart_t *uart,
-                                           sl_iostream_uart_context_t *context,
-                                           sl_iostream_uart_config_t *config,
-                                           sl_status_t (*tx)(void *context, char c),
-                                           void (*tx_completed)(void *context, bool enable),
-                                           void (*set_next_byte_detect)(void *context),
-                                           sl_status_t (*deinit)(void *context),
-                                           uint8_t rx_em_req,
-                                           uint8_t tx_em_req);
+sl_status_t
+sli_iostream_uart_context_init(sl_iostream_uart_t *uart,
+		sl_iostream_uart_context_t *context, sl_iostream_uart_config_t *config,
+		sl_status_t (*tx)(void *context, char c),
+		void (*tx_completed)(void *context, bool enable),
+		void (*set_next_byte_detect)(void *context),
+		sl_status_t (*deinit)(void *context), uint8_t rx_em_req,
+		uint8_t tx_em_req);
 
 #if defined(SL_CATALOG_POWER_MANAGER_PRESENT) && !defined(SL_IOSTREAM_UART_FLUSH_TX_BUFFER)
 void sli_uart_txc(void *context);

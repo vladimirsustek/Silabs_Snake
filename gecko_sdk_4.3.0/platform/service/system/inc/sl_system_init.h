@@ -142,7 +142,8 @@ extern "C" {
 /**
  * Initialize Silicon Labs products
  */
-void sl_system_init(void);
+void
+sl_system_init(void);
 
 #ifdef __cplusplus
 }

@@ -32,9 +32,9 @@
 #define SYSCFG_HAS_SET_CLEAR
 
 /**************************************************************************//**
-* @addtogroup Parts
-* @{
-******************************************************************************/
+ * @addtogroup Parts
+ * @{
+ ******************************************************************************/
 /**************************************************************************//**
  * @defgroup EFR32MG24_SYSCFG SYSCFG
  * @{
@@ -42,138 +42,139 @@
  *****************************************************************************/
 
 /** SYSCFG Register Declaration. */
-typedef struct {
-  uint32_t       RESERVED0[1U];                 /**< Reserved for future use                            */
-  __IM uint32_t  IPVERSION;                     /**< IP version ID                                      */
-  __IOM uint32_t IF;                            /**< Interrupt Flag                                     */
-  __IOM uint32_t IEN;                           /**< Interrupt Enable                                   */
-  uint32_t       RESERVED1[1U];                 /**< Reserved for future use                            */
-  __IOM uint32_t CHIPREVHW;                     /**< Chip Revision, Hard-wired                          */
-  __IOM uint32_t CHIPREV;                       /**< Part Family and Revision Values                    */
-  uint32_t       RESERVED2[2U];                 /**< Reserved for future use                            */
-  __IOM uint32_t CFGSYSTIC;                     /**< SysTick clock source                               */
-  uint32_t       RESERVED3[54U];                /**< Reserved for future use                            */
-  uint32_t       RESERVED4[1U];                 /**< Reserved for future use                            */
-  uint32_t       RESERVED5[63U];                /**< Reserved for future use                            */
-  __IOM uint32_t CTRL;                          /**< Control                                            */
-  uint32_t       RESERVED6[1U];                 /**< Reserved for future use                            */
-  __IOM uint32_t DMEM0RETNCTRL;                 /**< DMEM0 Retention Control                            */
-  uint32_t       RESERVED7[64U];                /**< Reserved for future use                            */
-  __IOM uint32_t RAMBIASCONF;                   /**< RAM Bias Configuration                             */
-  uint32_t       RESERVED8[60U];                /**< Reserved for future use                            */
-  __IOM uint32_t RADIORAMRETNCTRL;              /**< RADIO RAM Retention Control                        */
-  uint32_t       RESERVED9[1U];                 /**< Reserved for future use                            */
-  __IOM uint32_t RADIOECCCTRL;                  /**< RADIO RAM ECC Control Register                     */
-  uint32_t       RESERVED10[1U];                /**< Reserved for future use                            */
-  __IM uint32_t  SEQRAMECCADDR;                 /**< SEQRAM ECC Address                                 */
-  __IM uint32_t  FRCRAMECCADDR;                 /**< FRCRAM ECC Address                                 */
-  __IOM uint32_t ICACHERAMRETNCTRL;             /**< HOST ICACHERAM Retention Control                   */
-  __IOM uint32_t DMEM0PORTMAPSEL;               /**< DMEM0 port remap selection                         */
-  uint32_t       RESERVED11[120U];              /**< Reserved for future use                            */
-  __IOM uint32_t ROOTDATA0;                     /**< Data Register 0                                    */
-  __IOM uint32_t ROOTDATA1;                     /**< Data Register 1                                    */
-  __IM uint32_t  ROOTLOCKSTATUS;                /**< Lock Status                                        */
-  __IOM uint32_t ROOTSESWVERSION;               /**< SE SW Version                                      */
-  uint32_t       RESERVED12[1U];                /**< Reserved for future use                            */
-  uint32_t       RESERVED13[635U];              /**< Reserved for future use                            */
-  uint32_t       RESERVED14[1U];                /**< Reserved for future use                            */
-  __IM uint32_t  IPVERSION_SET;                 /**< IP version ID                                      */
-  __IOM uint32_t IF_SET;                        /**< Interrupt Flag                                     */
-  __IOM uint32_t IEN_SET;                       /**< Interrupt Enable                                   */
-  uint32_t       RESERVED15[1U];                /**< Reserved for future use                            */
-  __IOM uint32_t CHIPREVHW_SET;                 /**< Chip Revision, Hard-wired                          */
-  __IOM uint32_t CHIPREV_SET;                   /**< Part Family and Revision Values                    */
-  uint32_t       RESERVED16[2U];                /**< Reserved for future use                            */
-  __IOM uint32_t CFGSYSTIC_SET;                 /**< SysTick clock source                               */
-  uint32_t       RESERVED17[54U];               /**< Reserved for future use                            */
-  uint32_t       RESERVED18[1U];                /**< Reserved for future use                            */
-  uint32_t       RESERVED19[63U];               /**< Reserved for future use                            */
-  __IOM uint32_t CTRL_SET;                      /**< Control                                            */
-  uint32_t       RESERVED20[1U];                /**< Reserved for future use                            */
-  __IOM uint32_t DMEM0RETNCTRL_SET;             /**< DMEM0 Retention Control                            */
-  uint32_t       RESERVED21[64U];               /**< Reserved for future use                            */
-  __IOM uint32_t RAMBIASCONF_SET;               /**< RAM Bias Configuration                             */
-  uint32_t       RESERVED22[60U];               /**< Reserved for future use                            */
-  __IOM uint32_t RADIORAMRETNCTRL_SET;          /**< RADIO RAM Retention Control                        */
-  uint32_t       RESERVED23[1U];                /**< Reserved for future use                            */
-  __IOM uint32_t RADIOECCCTRL_SET;              /**< RADIO RAM ECC Control Register                     */
-  uint32_t       RESERVED24[1U];                /**< Reserved for future use                            */
-  __IM uint32_t  SEQRAMECCADDR_SET;             /**< SEQRAM ECC Address                                 */
-  __IM uint32_t  FRCRAMECCADDR_SET;             /**< FRCRAM ECC Address                                 */
-  __IOM uint32_t ICACHERAMRETNCTRL_SET;         /**< HOST ICACHERAM Retention Control                   */
-  __IOM uint32_t DMEM0PORTMAPSEL_SET;           /**< DMEM0 port remap selection                         */
-  uint32_t       RESERVED25[120U];              /**< Reserved for future use                            */
-  __IOM uint32_t ROOTDATA0_SET;                 /**< Data Register 0                                    */
-  __IOM uint32_t ROOTDATA1_SET;                 /**< Data Register 1                                    */
-  __IM uint32_t  ROOTLOCKSTATUS_SET;            /**< Lock Status                                        */
-  __IOM uint32_t ROOTSESWVERSION_SET;           /**< SE SW Version                                      */
-  uint32_t       RESERVED26[1U];                /**< Reserved for future use                            */
-  uint32_t       RESERVED27[635U];              /**< Reserved for future use                            */
-  uint32_t       RESERVED28[1U];                /**< Reserved for future use                            */
-  __IM uint32_t  IPVERSION_CLR;                 /**< IP version ID                                      */
-  __IOM uint32_t IF_CLR;                        /**< Interrupt Flag                                     */
-  __IOM uint32_t IEN_CLR;                       /**< Interrupt Enable                                   */
-  uint32_t       RESERVED29[1U];                /**< Reserved for future use                            */
-  __IOM uint32_t CHIPREVHW_CLR;                 /**< Chip Revision, Hard-wired                          */
-  __IOM uint32_t CHIPREV_CLR;                   /**< Part Family and Revision Values                    */
-  uint32_t       RESERVED30[2U];                /**< Reserved for future use                            */
-  __IOM uint32_t CFGSYSTIC_CLR;                 /**< SysTick clock source                               */
-  uint32_t       RESERVED31[54U];               /**< Reserved for future use                            */
-  uint32_t       RESERVED32[1U];                /**< Reserved for future use                            */
-  uint32_t       RESERVED33[63U];               /**< Reserved for future use                            */
-  __IOM uint32_t CTRL_CLR;                      /**< Control                                            */
-  uint32_t       RESERVED34[1U];                /**< Reserved for future use                            */
-  __IOM uint32_t DMEM0RETNCTRL_CLR;             /**< DMEM0 Retention Control                            */
-  uint32_t       RESERVED35[64U];               /**< Reserved for future use                            */
-  __IOM uint32_t RAMBIASCONF_CLR;               /**< RAM Bias Configuration                             */
-  uint32_t       RESERVED36[60U];               /**< Reserved for future use                            */
-  __IOM uint32_t RADIORAMRETNCTRL_CLR;          /**< RADIO RAM Retention Control                        */
-  uint32_t       RESERVED37[1U];                /**< Reserved for future use                            */
-  __IOM uint32_t RADIOECCCTRL_CLR;              /**< RADIO RAM ECC Control Register                     */
-  uint32_t       RESERVED38[1U];                /**< Reserved for future use                            */
-  __IM uint32_t  SEQRAMECCADDR_CLR;             /**< SEQRAM ECC Address                                 */
-  __IM uint32_t  FRCRAMECCADDR_CLR;             /**< FRCRAM ECC Address                                 */
-  __IOM uint32_t ICACHERAMRETNCTRL_CLR;         /**< HOST ICACHERAM Retention Control                   */
-  __IOM uint32_t DMEM0PORTMAPSEL_CLR;           /**< DMEM0 port remap selection                         */
-  uint32_t       RESERVED39[120U];              /**< Reserved for future use                            */
-  __IOM uint32_t ROOTDATA0_CLR;                 /**< Data Register 0                                    */
-  __IOM uint32_t ROOTDATA1_CLR;                 /**< Data Register 1                                    */
-  __IM uint32_t  ROOTLOCKSTATUS_CLR;            /**< Lock Status                                        */
-  __IOM uint32_t ROOTSESWVERSION_CLR;           /**< SE SW Version                                      */
-  uint32_t       RESERVED40[1U];                /**< Reserved for future use                            */
-  uint32_t       RESERVED41[635U];              /**< Reserved for future use                            */
-  uint32_t       RESERVED42[1U];                /**< Reserved for future use                            */
-  __IM uint32_t  IPVERSION_TGL;                 /**< IP version ID                                      */
-  __IOM uint32_t IF_TGL;                        /**< Interrupt Flag                                     */
-  __IOM uint32_t IEN_TGL;                       /**< Interrupt Enable                                   */
-  uint32_t       RESERVED43[1U];                /**< Reserved for future use                            */
-  __IOM uint32_t CHIPREVHW_TGL;                 /**< Chip Revision, Hard-wired                          */
-  __IOM uint32_t CHIPREV_TGL;                   /**< Part Family and Revision Values                    */
-  uint32_t       RESERVED44[2U];                /**< Reserved for future use                            */
-  __IOM uint32_t CFGSYSTIC_TGL;                 /**< SysTick clock source                               */
-  uint32_t       RESERVED45[54U];               /**< Reserved for future use                            */
-  uint32_t       RESERVED46[1U];                /**< Reserved for future use                            */
-  uint32_t       RESERVED47[63U];               /**< Reserved for future use                            */
-  __IOM uint32_t CTRL_TGL;                      /**< Control                                            */
-  uint32_t       RESERVED48[1U];                /**< Reserved for future use                            */
-  __IOM uint32_t DMEM0RETNCTRL_TGL;             /**< DMEM0 Retention Control                            */
-  uint32_t       RESERVED49[64U];               /**< Reserved for future use                            */
-  __IOM uint32_t RAMBIASCONF_TGL;               /**< RAM Bias Configuration                             */
-  uint32_t       RESERVED50[60U];               /**< Reserved for future use                            */
-  __IOM uint32_t RADIORAMRETNCTRL_TGL;          /**< RADIO RAM Retention Control                        */
-  uint32_t       RESERVED51[1U];                /**< Reserved for future use                            */
-  __IOM uint32_t RADIOECCCTRL_TGL;              /**< RADIO RAM ECC Control Register                     */
-  uint32_t       RESERVED52[1U];                /**< Reserved for future use                            */
-  __IM uint32_t  SEQRAMECCADDR_TGL;             /**< SEQRAM ECC Address                                 */
-  __IM uint32_t  FRCRAMECCADDR_TGL;             /**< FRCRAM ECC Address                                 */
-  __IOM uint32_t ICACHERAMRETNCTRL_TGL;         /**< HOST ICACHERAM Retention Control                   */
-  __IOM uint32_t DMEM0PORTMAPSEL_TGL;           /**< DMEM0 port remap selection                         */
-  uint32_t       RESERVED53[120U];              /**< Reserved for future use                            */
-  __IOM uint32_t ROOTDATA0_TGL;                 /**< Data Register 0                                    */
-  __IOM uint32_t ROOTDATA1_TGL;                 /**< Data Register 1                                    */
-  __IM uint32_t  ROOTLOCKSTATUS_TGL;            /**< Lock Status                                        */
-  __IOM uint32_t ROOTSESWVERSION_TGL;           /**< SE SW Version                                      */
-  uint32_t       RESERVED54[1U];                /**< Reserved for future use                            */
+typedef struct
+{
+	uint32_t RESERVED0[1U]; /**< Reserved for future use                            */
+	__IM uint32_t IPVERSION; /**< IP version ID                                      */
+	__IOM uint32_t IF; /**< Interrupt Flag                                     */
+	__IOM uint32_t IEN; /**< Interrupt Enable                                   */
+	uint32_t RESERVED1[1U]; /**< Reserved for future use                            */
+	__IOM uint32_t CHIPREVHW; /**< Chip Revision, Hard-wired                          */
+	__IOM uint32_t CHIPREV; /**< Part Family and Revision Values                    */
+	uint32_t RESERVED2[2U]; /**< Reserved for future use                            */
+	__IOM uint32_t CFGSYSTIC; /**< SysTick clock source                               */
+	uint32_t RESERVED3[54U]; /**< Reserved for future use                            */
+	uint32_t RESERVED4[1U]; /**< Reserved for future use                            */
+	uint32_t RESERVED5[63U]; /**< Reserved for future use                            */
+	__IOM uint32_t CTRL; /**< Control                                            */
+	uint32_t RESERVED6[1U]; /**< Reserved for future use                            */
+	__IOM uint32_t DMEM0RETNCTRL; /**< DMEM0 Retention Control                            */
+	uint32_t RESERVED7[64U]; /**< Reserved for future use                            */
+	__IOM uint32_t RAMBIASCONF; /**< RAM Bias Configuration                             */
+	uint32_t RESERVED8[60U]; /**< Reserved for future use                            */
+	__IOM uint32_t RADIORAMRETNCTRL; /**< RADIO RAM Retention Control                        */
+	uint32_t RESERVED9[1U]; /**< Reserved for future use                            */
+	__IOM uint32_t RADIOECCCTRL; /**< RADIO RAM ECC Control Register                     */
+	uint32_t RESERVED10[1U]; /**< Reserved for future use                            */
+	__IM uint32_t SEQRAMECCADDR; /**< SEQRAM ECC Address                                 */
+	__IM uint32_t FRCRAMECCADDR; /**< FRCRAM ECC Address                                 */
+	__IOM uint32_t ICACHERAMRETNCTRL; /**< HOST ICACHERAM Retention Control                   */
+	__IOM uint32_t DMEM0PORTMAPSEL; /**< DMEM0 port remap selection                         */
+	uint32_t RESERVED11[120U]; /**< Reserved for future use                            */
+	__IOM uint32_t ROOTDATA0; /**< Data Register 0                                    */
+	__IOM uint32_t ROOTDATA1; /**< Data Register 1                                    */
+	__IM uint32_t ROOTLOCKSTATUS; /**< Lock Status                                        */
+	__IOM uint32_t ROOTSESWVERSION; /**< SE SW Version                                      */
+	uint32_t RESERVED12[1U]; /**< Reserved for future use                            */
+	uint32_t RESERVED13[635U]; /**< Reserved for future use                            */
+	uint32_t RESERVED14[1U]; /**< Reserved for future use                            */
+	__IM uint32_t IPVERSION_SET; /**< IP version ID                                      */
+	__IOM uint32_t IF_SET; /**< Interrupt Flag                                     */
+	__IOM uint32_t IEN_SET; /**< Interrupt Enable                                   */
+	uint32_t RESERVED15[1U]; /**< Reserved for future use                            */
+	__IOM uint32_t CHIPREVHW_SET; /**< Chip Revision, Hard-wired                          */
+	__IOM uint32_t CHIPREV_SET; /**< Part Family and Revision Values                    */
+	uint32_t RESERVED16[2U]; /**< Reserved for future use                            */
+	__IOM uint32_t CFGSYSTIC_SET; /**< SysTick clock source                               */
+	uint32_t RESERVED17[54U]; /**< Reserved for future use                            */
+	uint32_t RESERVED18[1U]; /**< Reserved for future use                            */
+	uint32_t RESERVED19[63U]; /**< Reserved for future use                            */
+	__IOM uint32_t CTRL_SET; /**< Control                                            */
+	uint32_t RESERVED20[1U]; /**< Reserved for future use                            */
+	__IOM uint32_t DMEM0RETNCTRL_SET; /**< DMEM0 Retention Control                            */
+	uint32_t RESERVED21[64U]; /**< Reserved for future use                            */
+	__IOM uint32_t RAMBIASCONF_SET; /**< RAM Bias Configuration                             */
+	uint32_t RESERVED22[60U]; /**< Reserved for future use                            */
+	__IOM uint32_t RADIORAMRETNCTRL_SET; /**< RADIO RAM Retention Control                        */
+	uint32_t RESERVED23[1U]; /**< Reserved for future use                            */
+	__IOM uint32_t RADIOECCCTRL_SET; /**< RADIO RAM ECC Control Register                     */
+	uint32_t RESERVED24[1U]; /**< Reserved for future use                            */
+	__IM uint32_t SEQRAMECCADDR_SET; /**< SEQRAM ECC Address                                 */
+	__IM uint32_t FRCRAMECCADDR_SET; /**< FRCRAM ECC Address                                 */
+	__IOM uint32_t ICACHERAMRETNCTRL_SET; /**< HOST ICACHERAM Retention Control                   */
+	__IOM uint32_t DMEM0PORTMAPSEL_SET; /**< DMEM0 port remap selection                         */
+	uint32_t RESERVED25[120U]; /**< Reserved for future use                            */
+	__IOM uint32_t ROOTDATA0_SET; /**< Data Register 0                                    */
+	__IOM uint32_t ROOTDATA1_SET; /**< Data Register 1                                    */
+	__IM uint32_t ROOTLOCKSTATUS_SET; /**< Lock Status                                        */
+	__IOM uint32_t ROOTSESWVERSION_SET; /**< SE SW Version                                      */
+	uint32_t RESERVED26[1U]; /**< Reserved for future use                            */
+	uint32_t RESERVED27[635U]; /**< Reserved for future use                            */
+	uint32_t RESERVED28[1U]; /**< Reserved for future use                            */
+	__IM uint32_t IPVERSION_CLR; /**< IP version ID                                      */
+	__IOM uint32_t IF_CLR; /**< Interrupt Flag                                     */
+	__IOM uint32_t IEN_CLR; /**< Interrupt Enable                                   */
+	uint32_t RESERVED29[1U]; /**< Reserved for future use                            */
+	__IOM uint32_t CHIPREVHW_CLR; /**< Chip Revision, Hard-wired                          */
+	__IOM uint32_t CHIPREV_CLR; /**< Part Family and Revision Values                    */
+	uint32_t RESERVED30[2U]; /**< Reserved for future use                            */
+	__IOM uint32_t CFGSYSTIC_CLR; /**< SysTick clock source                               */
+	uint32_t RESERVED31[54U]; /**< Reserved for future use                            */
+	uint32_t RESERVED32[1U]; /**< Reserved for future use                            */
+	uint32_t RESERVED33[63U]; /**< Reserved for future use                            */
+	__IOM uint32_t CTRL_CLR; /**< Control                                            */
+	uint32_t RESERVED34[1U]; /**< Reserved for future use                            */
+	__IOM uint32_t DMEM0RETNCTRL_CLR; /**< DMEM0 Retention Control                            */
+	uint32_t RESERVED35[64U]; /**< Reserved for future use                            */
+	__IOM uint32_t RAMBIASCONF_CLR; /**< RAM Bias Configuration                             */
+	uint32_t RESERVED36[60U]; /**< Reserved for future use                            */
+	__IOM uint32_t RADIORAMRETNCTRL_CLR; /**< RADIO RAM Retention Control                        */
+	uint32_t RESERVED37[1U]; /**< Reserved for future use                            */
+	__IOM uint32_t RADIOECCCTRL_CLR; /**< RADIO RAM ECC Control Register                     */
+	uint32_t RESERVED38[1U]; /**< Reserved for future use                            */
+	__IM uint32_t SEQRAMECCADDR_CLR; /**< SEQRAM ECC Address                                 */
+	__IM uint32_t FRCRAMECCADDR_CLR; /**< FRCRAM ECC Address                                 */
+	__IOM uint32_t ICACHERAMRETNCTRL_CLR; /**< HOST ICACHERAM Retention Control                   */
+	__IOM uint32_t DMEM0PORTMAPSEL_CLR; /**< DMEM0 port remap selection                         */
+	uint32_t RESERVED39[120U]; /**< Reserved for future use                            */
+	__IOM uint32_t ROOTDATA0_CLR; /**< Data Register 0                                    */
+	__IOM uint32_t ROOTDATA1_CLR; /**< Data Register 1                                    */
+	__IM uint32_t ROOTLOCKSTATUS_CLR; /**< Lock Status                                        */
+	__IOM uint32_t ROOTSESWVERSION_CLR; /**< SE SW Version                                      */
+	uint32_t RESERVED40[1U]; /**< Reserved for future use                            */
+	uint32_t RESERVED41[635U]; /**< Reserved for future use                            */
+	uint32_t RESERVED42[1U]; /**< Reserved for future use                            */
+	__IM uint32_t IPVERSION_TGL; /**< IP version ID                                      */
+	__IOM uint32_t IF_TGL; /**< Interrupt Flag                                     */
+	__IOM uint32_t IEN_TGL; /**< Interrupt Enable                                   */
+	uint32_t RESERVED43[1U]; /**< Reserved for future use                            */
+	__IOM uint32_t CHIPREVHW_TGL; /**< Chip Revision, Hard-wired                          */
+	__IOM uint32_t CHIPREV_TGL; /**< Part Family and Revision Values                    */
+	uint32_t RESERVED44[2U]; /**< Reserved for future use                            */
+	__IOM uint32_t CFGSYSTIC_TGL; /**< SysTick clock source                               */
+	uint32_t RESERVED45[54U]; /**< Reserved for future use                            */
+	uint32_t RESERVED46[1U]; /**< Reserved for future use                            */
+	uint32_t RESERVED47[63U]; /**< Reserved for future use                            */
+	__IOM uint32_t CTRL_TGL; /**< Control                                            */
+	uint32_t RESERVED48[1U]; /**< Reserved for future use                            */
+	__IOM uint32_t DMEM0RETNCTRL_TGL; /**< DMEM0 Retention Control                            */
+	uint32_t RESERVED49[64U]; /**< Reserved for future use                            */
+	__IOM uint32_t RAMBIASCONF_TGL; /**< RAM Bias Configuration                             */
+	uint32_t RESERVED50[60U]; /**< Reserved for future use                            */
+	__IOM uint32_t RADIORAMRETNCTRL_TGL; /**< RADIO RAM Retention Control                        */
+	uint32_t RESERVED51[1U]; /**< Reserved for future use                            */
+	__IOM uint32_t RADIOECCCTRL_TGL; /**< RADIO RAM ECC Control Register                     */
+	uint32_t RESERVED52[1U]; /**< Reserved for future use                            */
+	__IM uint32_t SEQRAMECCADDR_TGL; /**< SEQRAM ECC Address                                 */
+	__IM uint32_t FRCRAMECCADDR_TGL; /**< FRCRAM ECC Address                                 */
+	__IOM uint32_t ICACHERAMRETNCTRL_TGL; /**< HOST ICACHERAM Retention Control                   */
+	__IOM uint32_t DMEM0PORTMAPSEL_TGL; /**< DMEM0 port remap selection                         */
+	uint32_t RESERVED53[120U]; /**< Reserved for future use                            */
+	__IOM uint32_t ROOTDATA0_TGL; /**< Data Register 0                                    */
+	__IOM uint32_t ROOTDATA1_TGL; /**< Data Register 1                                    */
+	__IM uint32_t ROOTLOCKSTATUS_TGL; /**< Lock Status                                        */
+	__IOM uint32_t ROOTSESWVERSION_TGL; /**< SE SW Version                                      */
+	uint32_t RESERVED54[1U]; /**< Reserved for future use                            */
 } SYSCFG_TypeDef;
 /** @} End of group EFR32MG24_SYSCFG */
 
@@ -689,34 +690,35 @@ typedef struct {
  *****************************************************************************/
 
 /** SYSCFG_CFGNS Register Declaration. */
-typedef struct {
-  uint32_t       RESERVED0[7U];                 /**< Reserved for future use                            */
-  __IOM uint32_t CFGNSTCALIB;                   /**< Configure Non-Secure Sys-Tick cal.                 */
-  uint32_t       RESERVED1[376U];               /**< Reserved for future use                            */
-  __IOM uint32_t ROOTNSDATA0;                   /**< Data Register 0                                    */
-  __IOM uint32_t ROOTNSDATA1;                   /**< Data Register 1                                    */
-  uint32_t       RESERVED2[1U];                 /**< Reserved for future use                            */
-  uint32_t       RESERVED3[637U];               /**< Reserved for future use                            */
-  uint32_t       RESERVED4[7U];                 /**< Reserved for future use                            */
-  __IOM uint32_t CFGNSTCALIB_SET;               /**< Configure Non-Secure Sys-Tick cal.                 */
-  uint32_t       RESERVED5[376U];               /**< Reserved for future use                            */
-  __IOM uint32_t ROOTNSDATA0_SET;               /**< Data Register 0                                    */
-  __IOM uint32_t ROOTNSDATA1_SET;               /**< Data Register 1                                    */
-  uint32_t       RESERVED6[1U];                 /**< Reserved for future use                            */
-  uint32_t       RESERVED7[637U];               /**< Reserved for future use                            */
-  uint32_t       RESERVED8[7U];                 /**< Reserved for future use                            */
-  __IOM uint32_t CFGNSTCALIB_CLR;               /**< Configure Non-Secure Sys-Tick cal.                 */
-  uint32_t       RESERVED9[376U];               /**< Reserved for future use                            */
-  __IOM uint32_t ROOTNSDATA0_CLR;               /**< Data Register 0                                    */
-  __IOM uint32_t ROOTNSDATA1_CLR;               /**< Data Register 1                                    */
-  uint32_t       RESERVED10[1U];                /**< Reserved for future use                            */
-  uint32_t       RESERVED11[637U];              /**< Reserved for future use                            */
-  uint32_t       RESERVED12[7U];                /**< Reserved for future use                            */
-  __IOM uint32_t CFGNSTCALIB_TGL;               /**< Configure Non-Secure Sys-Tick cal.                 */
-  uint32_t       RESERVED13[376U];              /**< Reserved for future use                            */
-  __IOM uint32_t ROOTNSDATA0_TGL;               /**< Data Register 0                                    */
-  __IOM uint32_t ROOTNSDATA1_TGL;               /**< Data Register 1                                    */
-  uint32_t       RESERVED14[1U];                /**< Reserved for future use                            */
+typedef struct
+{
+	uint32_t RESERVED0[7U]; /**< Reserved for future use                            */
+	__IOM uint32_t CFGNSTCALIB; /**< Configure Non-Secure Sys-Tick cal.                 */
+	uint32_t RESERVED1[376U]; /**< Reserved for future use                            */
+	__IOM uint32_t ROOTNSDATA0; /**< Data Register 0                                    */
+	__IOM uint32_t ROOTNSDATA1; /**< Data Register 1                                    */
+	uint32_t RESERVED2[1U]; /**< Reserved for future use                            */
+	uint32_t RESERVED3[637U]; /**< Reserved for future use                            */
+	uint32_t RESERVED4[7U]; /**< Reserved for future use                            */
+	__IOM uint32_t CFGNSTCALIB_SET; /**< Configure Non-Secure Sys-Tick cal.                 */
+	uint32_t RESERVED5[376U]; /**< Reserved for future use                            */
+	__IOM uint32_t ROOTNSDATA0_SET; /**< Data Register 0                                    */
+	__IOM uint32_t ROOTNSDATA1_SET; /**< Data Register 1                                    */
+	uint32_t RESERVED6[1U]; /**< Reserved for future use                            */
+	uint32_t RESERVED7[637U]; /**< Reserved for future use                            */
+	uint32_t RESERVED8[7U]; /**< Reserved for future use                            */
+	__IOM uint32_t CFGNSTCALIB_CLR; /**< Configure Non-Secure Sys-Tick cal.                 */
+	uint32_t RESERVED9[376U]; /**< Reserved for future use                            */
+	__IOM uint32_t ROOTNSDATA0_CLR; /**< Data Register 0                                    */
+	__IOM uint32_t ROOTNSDATA1_CLR; /**< Data Register 1                                    */
+	uint32_t RESERVED10[1U]; /**< Reserved for future use                            */
+	uint32_t RESERVED11[637U]; /**< Reserved for future use                            */
+	uint32_t RESERVED12[7U]; /**< Reserved for future use                            */
+	__IOM uint32_t CFGNSTCALIB_TGL; /**< Configure Non-Secure Sys-Tick cal.                 */
+	uint32_t RESERVED13[376U]; /**< Reserved for future use                            */
+	__IOM uint32_t ROOTNSDATA0_TGL; /**< Data Register 0                                    */
+	__IOM uint32_t ROOTNSDATA1_TGL; /**< Data Register 1                                    */
+	uint32_t RESERVED14[1U]; /**< Reserved for future use                            */
 } SYSCFG_CFGNS_TypeDef;
 /** @} End of group EFR32MG24_SYSCFG_CFGNS */
 

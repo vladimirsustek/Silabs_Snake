@@ -32,9 +32,9 @@
 #define VDAC_HAS_SET_CLEAR
 
 /**************************************************************************//**
-* @addtogroup Parts
-* @{
-******************************************************************************/
+ * @addtogroup Parts
+ * @{
+ ******************************************************************************/
 /**************************************************************************//**
  * @defgroup EFR32MG24_VDAC VDAC
  * @{
@@ -42,82 +42,83 @@
  *****************************************************************************/
 
 /** VDAC Register Declaration. */
-typedef struct {
-  __IM uint32_t  IPVERSION;                     /**< IPVERSION                                          */
-  __IOM uint32_t EN;                            /**< Module Enable                                      */
-  __IOM uint32_t SWRST;                         /**< Software Reset Register                            */
-  __IOM uint32_t CFG;                           /**< Config Register                                    */
-  __IM uint32_t  STATUS;                        /**< Status Register                                    */
-  __IOM uint32_t CH0CFG;                        /**< Channel 0 Config Register                          */
-  __IOM uint32_t CH1CFG;                        /**< Channel 1 Config Register                          */
-  __IOM uint32_t CMD;                           /**< Command Register                                   */
-  __IOM uint32_t IF;                            /**< Interrupt Flag Register                            */
-  __IOM uint32_t IEN;                           /**< Interrupt Enable Register                          */
-  __IOM uint32_t CH0F;                          /**< Channel 0 Data Write Fifo                          */
-  __IOM uint32_t CH1F;                          /**< Channel 1 Data Write Fifo                          */
-  __IOM uint32_t OUTCTRL;                       /**< DAC Output Control                                 */
-  __IOM uint32_t OUTTIMERCFG;                   /**< DAC Out Timer Config Register                      */
-  uint32_t       RESERVED0[50U];                /**< Reserved for future use                            */
-  uint32_t       RESERVED1[1U];                 /**< Reserved for future use                            */
-  uint32_t       RESERVED2[63U];                /**< Reserved for future use                            */
-  uint32_t       RESERVED3[1U];                 /**< Reserved for future use                            */
-  uint32_t       RESERVED4[895U];               /**< Reserved for future use                            */
-  __IM uint32_t  IPVERSION_SET;                 /**< IPVERSION                                          */
-  __IOM uint32_t EN_SET;                        /**< Module Enable                                      */
-  __IOM uint32_t SWRST_SET;                     /**< Software Reset Register                            */
-  __IOM uint32_t CFG_SET;                       /**< Config Register                                    */
-  __IM uint32_t  STATUS_SET;                    /**< Status Register                                    */
-  __IOM uint32_t CH0CFG_SET;                    /**< Channel 0 Config Register                          */
-  __IOM uint32_t CH1CFG_SET;                    /**< Channel 1 Config Register                          */
-  __IOM uint32_t CMD_SET;                       /**< Command Register                                   */
-  __IOM uint32_t IF_SET;                        /**< Interrupt Flag Register                            */
-  __IOM uint32_t IEN_SET;                       /**< Interrupt Enable Register                          */
-  __IOM uint32_t CH0F_SET;                      /**< Channel 0 Data Write Fifo                          */
-  __IOM uint32_t CH1F_SET;                      /**< Channel 1 Data Write Fifo                          */
-  __IOM uint32_t OUTCTRL_SET;                   /**< DAC Output Control                                 */
-  __IOM uint32_t OUTTIMERCFG_SET;               /**< DAC Out Timer Config Register                      */
-  uint32_t       RESERVED5[50U];                /**< Reserved for future use                            */
-  uint32_t       RESERVED6[1U];                 /**< Reserved for future use                            */
-  uint32_t       RESERVED7[63U];                /**< Reserved for future use                            */
-  uint32_t       RESERVED8[1U];                 /**< Reserved for future use                            */
-  uint32_t       RESERVED9[895U];               /**< Reserved for future use                            */
-  __IM uint32_t  IPVERSION_CLR;                 /**< IPVERSION                                          */
-  __IOM uint32_t EN_CLR;                        /**< Module Enable                                      */
-  __IOM uint32_t SWRST_CLR;                     /**< Software Reset Register                            */
-  __IOM uint32_t CFG_CLR;                       /**< Config Register                                    */
-  __IM uint32_t  STATUS_CLR;                    /**< Status Register                                    */
-  __IOM uint32_t CH0CFG_CLR;                    /**< Channel 0 Config Register                          */
-  __IOM uint32_t CH1CFG_CLR;                    /**< Channel 1 Config Register                          */
-  __IOM uint32_t CMD_CLR;                       /**< Command Register                                   */
-  __IOM uint32_t IF_CLR;                        /**< Interrupt Flag Register                            */
-  __IOM uint32_t IEN_CLR;                       /**< Interrupt Enable Register                          */
-  __IOM uint32_t CH0F_CLR;                      /**< Channel 0 Data Write Fifo                          */
-  __IOM uint32_t CH1F_CLR;                      /**< Channel 1 Data Write Fifo                          */
-  __IOM uint32_t OUTCTRL_CLR;                   /**< DAC Output Control                                 */
-  __IOM uint32_t OUTTIMERCFG_CLR;               /**< DAC Out Timer Config Register                      */
-  uint32_t       RESERVED10[50U];               /**< Reserved for future use                            */
-  uint32_t       RESERVED11[1U];                /**< Reserved for future use                            */
-  uint32_t       RESERVED12[63U];               /**< Reserved for future use                            */
-  uint32_t       RESERVED13[1U];                /**< Reserved for future use                            */
-  uint32_t       RESERVED14[895U];              /**< Reserved for future use                            */
-  __IM uint32_t  IPVERSION_TGL;                 /**< IPVERSION                                          */
-  __IOM uint32_t EN_TGL;                        /**< Module Enable                                      */
-  __IOM uint32_t SWRST_TGL;                     /**< Software Reset Register                            */
-  __IOM uint32_t CFG_TGL;                       /**< Config Register                                    */
-  __IM uint32_t  STATUS_TGL;                    /**< Status Register                                    */
-  __IOM uint32_t CH0CFG_TGL;                    /**< Channel 0 Config Register                          */
-  __IOM uint32_t CH1CFG_TGL;                    /**< Channel 1 Config Register                          */
-  __IOM uint32_t CMD_TGL;                       /**< Command Register                                   */
-  __IOM uint32_t IF_TGL;                        /**< Interrupt Flag Register                            */
-  __IOM uint32_t IEN_TGL;                       /**< Interrupt Enable Register                          */
-  __IOM uint32_t CH0F_TGL;                      /**< Channel 0 Data Write Fifo                          */
-  __IOM uint32_t CH1F_TGL;                      /**< Channel 1 Data Write Fifo                          */
-  __IOM uint32_t OUTCTRL_TGL;                   /**< DAC Output Control                                 */
-  __IOM uint32_t OUTTIMERCFG_TGL;               /**< DAC Out Timer Config Register                      */
-  uint32_t       RESERVED15[50U];               /**< Reserved for future use                            */
-  uint32_t       RESERVED16[1U];                /**< Reserved for future use                            */
-  uint32_t       RESERVED17[63U];               /**< Reserved for future use                            */
-  uint32_t       RESERVED18[1U];                /**< Reserved for future use                            */
+typedef struct
+{
+	__IM uint32_t IPVERSION; /**< IPVERSION                                          */
+	__IOM uint32_t EN; /**< Module Enable                                      */
+	__IOM uint32_t SWRST; /**< Software Reset Register                            */
+	__IOM uint32_t CFG; /**< Config Register                                    */
+	__IM uint32_t STATUS; /**< Status Register                                    */
+	__IOM uint32_t CH0CFG; /**< Channel 0 Config Register                          */
+	__IOM uint32_t CH1CFG; /**< Channel 1 Config Register                          */
+	__IOM uint32_t CMD; /**< Command Register                                   */
+	__IOM uint32_t IF; /**< Interrupt Flag Register                            */
+	__IOM uint32_t IEN; /**< Interrupt Enable Register                          */
+	__IOM uint32_t CH0F; /**< Channel 0 Data Write Fifo                          */
+	__IOM uint32_t CH1F; /**< Channel 1 Data Write Fifo                          */
+	__IOM uint32_t OUTCTRL; /**< DAC Output Control                                 */
+	__IOM uint32_t OUTTIMERCFG; /**< DAC Out Timer Config Register                      */
+	uint32_t RESERVED0[50U]; /**< Reserved for future use                            */
+	uint32_t RESERVED1[1U]; /**< Reserved for future use                            */
+	uint32_t RESERVED2[63U]; /**< Reserved for future use                            */
+	uint32_t RESERVED3[1U]; /**< Reserved for future use                            */
+	uint32_t RESERVED4[895U]; /**< Reserved for future use                            */
+	__IM uint32_t IPVERSION_SET; /**< IPVERSION                                          */
+	__IOM uint32_t EN_SET; /**< Module Enable                                      */
+	__IOM uint32_t SWRST_SET; /**< Software Reset Register                            */
+	__IOM uint32_t CFG_SET; /**< Config Register                                    */
+	__IM uint32_t STATUS_SET; /**< Status Register                                    */
+	__IOM uint32_t CH0CFG_SET; /**< Channel 0 Config Register                          */
+	__IOM uint32_t CH1CFG_SET; /**< Channel 1 Config Register                          */
+	__IOM uint32_t CMD_SET; /**< Command Register                                   */
+	__IOM uint32_t IF_SET; /**< Interrupt Flag Register                            */
+	__IOM uint32_t IEN_SET; /**< Interrupt Enable Register                          */
+	__IOM uint32_t CH0F_SET; /**< Channel 0 Data Write Fifo                          */
+	__IOM uint32_t CH1F_SET; /**< Channel 1 Data Write Fifo                          */
+	__IOM uint32_t OUTCTRL_SET; /**< DAC Output Control                                 */
+	__IOM uint32_t OUTTIMERCFG_SET; /**< DAC Out Timer Config Register                      */
+	uint32_t RESERVED5[50U]; /**< Reserved for future use                            */
+	uint32_t RESERVED6[1U]; /**< Reserved for future use                            */
+	uint32_t RESERVED7[63U]; /**< Reserved for future use                            */
+	uint32_t RESERVED8[1U]; /**< Reserved for future use                            */
+	uint32_t RESERVED9[895U]; /**< Reserved for future use                            */
+	__IM uint32_t IPVERSION_CLR; /**< IPVERSION                                          */
+	__IOM uint32_t EN_CLR; /**< Module Enable                                      */
+	__IOM uint32_t SWRST_CLR; /**< Software Reset Register                            */
+	__IOM uint32_t CFG_CLR; /**< Config Register                                    */
+	__IM uint32_t STATUS_CLR; /**< Status Register                                    */
+	__IOM uint32_t CH0CFG_CLR; /**< Channel 0 Config Register                          */
+	__IOM uint32_t CH1CFG_CLR; /**< Channel 1 Config Register                          */
+	__IOM uint32_t CMD_CLR; /**< Command Register                                   */
+	__IOM uint32_t IF_CLR; /**< Interrupt Flag Register                            */
+	__IOM uint32_t IEN_CLR; /**< Interrupt Enable Register                          */
+	__IOM uint32_t CH0F_CLR; /**< Channel 0 Data Write Fifo                          */
+	__IOM uint32_t CH1F_CLR; /**< Channel 1 Data Write Fifo                          */
+	__IOM uint32_t OUTCTRL_CLR; /**< DAC Output Control                                 */
+	__IOM uint32_t OUTTIMERCFG_CLR; /**< DAC Out Timer Config Register                      */
+	uint32_t RESERVED10[50U]; /**< Reserved for future use                            */
+	uint32_t RESERVED11[1U]; /**< Reserved for future use                            */
+	uint32_t RESERVED12[63U]; /**< Reserved for future use                            */
+	uint32_t RESERVED13[1U]; /**< Reserved for future use                            */
+	uint32_t RESERVED14[895U]; /**< Reserved for future use                            */
+	__IM uint32_t IPVERSION_TGL; /**< IPVERSION                                          */
+	__IOM uint32_t EN_TGL; /**< Module Enable                                      */
+	__IOM uint32_t SWRST_TGL; /**< Software Reset Register                            */
+	__IOM uint32_t CFG_TGL; /**< Config Register                                    */
+	__IM uint32_t STATUS_TGL; /**< Status Register                                    */
+	__IOM uint32_t CH0CFG_TGL; /**< Channel 0 Config Register                          */
+	__IOM uint32_t CH1CFG_TGL; /**< Channel 1 Config Register                          */
+	__IOM uint32_t CMD_TGL; /**< Command Register                                   */
+	__IOM uint32_t IF_TGL; /**< Interrupt Flag Register                            */
+	__IOM uint32_t IEN_TGL; /**< Interrupt Enable Register                          */
+	__IOM uint32_t CH0F_TGL; /**< Channel 0 Data Write Fifo                          */
+	__IOM uint32_t CH1F_TGL; /**< Channel 1 Data Write Fifo                          */
+	__IOM uint32_t OUTCTRL_TGL; /**< DAC Output Control                                 */
+	__IOM uint32_t OUTTIMERCFG_TGL; /**< DAC Out Timer Config Register                      */
+	uint32_t RESERVED15[50U]; /**< Reserved for future use                            */
+	uint32_t RESERVED16[1U]; /**< Reserved for future use                            */
+	uint32_t RESERVED17[63U]; /**< Reserved for future use                            */
+	uint32_t RESERVED18[1U]; /**< Reserved for future use                            */
 } VDAC_TypeDef;
 /** @} End of group EFR32MG24_VDAC */
 

@@ -19,10 +19,10 @@
 
 void app_init(void)
 {
-  app_iostream_eusart_init();
+	app_iostream_eusart_init();
 }
 
 void app_process_action(void)
 {
-  app_iostream_eusart_process_action();
+	app_iostream_eusart_process_action();
 }

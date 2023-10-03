@@ -32,9 +32,9 @@
 #define MVP_HAS_SET_CLEAR
 
 /**************************************************************************//**
-* @addtogroup Parts
-* @{
-******************************************************************************/
+ * @addtogroup Parts
+ * @{
+ ******************************************************************************/
 /**************************************************************************//**
  * @defgroup EFR32MG24_MVP MVP
  * @{
@@ -42,135 +42,143 @@
  *****************************************************************************/
 
 /** MVP PERF Register Group Declaration. */
-typedef struct {
-  __IM uint32_t CNT;                                 /**< Run Counter                                        */
+typedef struct
+{
+	__IM uint32_t CNT; /**< Run Counter                                        */
 } MVP_PERF_TypeDef;
 
 /** MVP ARRAYST Register Group Declaration. */
-typedef struct {
-  __IOM uint32_t INDEXSTATE;                         /**< Index State                                        */
+typedef struct
+{
+	__IOM uint32_t INDEXSTATE; /**< Index State                                        */
 } MVP_ARRAYST_TypeDef;
 
 /** MVP LOOPST Register Group Declaration. */
-typedef struct {
-  __IOM uint32_t STATE;                              /**< Loop State                                         */
+typedef struct
+{
+	__IOM uint32_t STATE; /**< Loop State                                         */
 } MVP_LOOPST_TypeDef;
 
 /** MVP ALU Register Group Declaration. */
-typedef struct {
-  __IOM uint32_t REGSTATE;                           /**< ALU Rn Register                                    */
+typedef struct
+{
+	__IOM uint32_t REGSTATE; /**< ALU Rn Register                                    */
 } MVP_ALU_TypeDef;
 
 /** MVP ARRAY Register Group Declaration. */
-typedef struct {
-  __IOM uint32_t ADDRCFG;                            /**< Array Base Address                                 */
-  __IOM uint32_t DIM0CFG;                            /**< Dimension 0 Configuration                          */
-  __IOM uint32_t DIM1CFG;                            /**< Dimension 1 Configuration                          */
-  __IOM uint32_t DIM2CFG;                            /**< Dimension 2 Configuration                          */
+typedef struct
+{
+	__IOM uint32_t ADDRCFG; /**< Array Base Address                                 */
+	__IOM uint32_t DIM0CFG; /**< Dimension 0 Configuration                          */
+	__IOM uint32_t DIM1CFG; /**< Dimension 1 Configuration                          */
+	__IOM uint32_t DIM2CFG; /**< Dimension 2 Configuration                          */
 } MVP_ARRAY_TypeDef;
 
 /** MVP LOOP Register Group Declaration. */
-typedef struct {
-  __IOM uint32_t CFG;                                /**< Loop Configuration                                 */
-  __IOM uint32_t RST;                                /**< Loop Reset                                         */
+typedef struct
+{
+	__IOM uint32_t CFG; /**< Loop Configuration                                 */
+	__IOM uint32_t RST; /**< Loop Reset                                         */
 } MVP_LOOP_TypeDef;
 
 /** MVP INSTR Register Group Declaration. */
-typedef struct {
-  __IOM uint32_t CFG0;                               /**< Instruction Configuration Word 0                   */
-  __IOM uint32_t CFG1;                               /**< Instruction Configuration Word 1                   */
-  __IOM uint32_t CFG2;                               /**< Instruction Configuration Word 2                   */
+typedef struct
+{
+	__IOM uint32_t CFG0; /**< Instruction Configuration Word 0                   */
+	__IOM uint32_t CFG1; /**< Instruction Configuration Word 1                   */
+	__IOM uint32_t CFG2; /**< Instruction Configuration Word 2                   */
 } MVP_INSTR_TypeDef;
 
 /** MVP Register Declaration. */
-typedef struct {
-  __IM uint32_t       IPVERSION;                /**< IP Version                                         */
-  __IOM uint32_t      EN;                       /**< Enable                                             */
-  __IOM uint32_t      SWRST;                    /**< Software Reset                                     */
-  __IOM uint32_t      CFG;                      /**< Configuration                                      */
-  __IM uint32_t       STATUS;                   /**< Status                                             */
-  MVP_PERF_TypeDef    PERF[2U];                 /**<                                                    */
-  __IOM uint32_t      IF;                       /**< Interrupt Flags                                    */
-  __IOM uint32_t      IEN;                      /**< Interrupt Enables                                  */
-  __IM uint32_t       FAULTSTATUS;              /**< Fault Status                                       */
-  __IM uint32_t       FAULTADDR;                /**< Fault Address                                      */
-  __IOM uint32_t      PROGRAMSTATE;             /**< Program State                                      */
-  MVP_ARRAYST_TypeDef ARRAYST[5U];              /**<                                                    */
-  MVP_LOOPST_TypeDef  LOOPST[8U];               /**<                                                    */
-  MVP_ALU_TypeDef     ALU[8U];                  /**<                                                    */
-  MVP_ARRAY_TypeDef   ARRAY[5U];                /**<                                                    */
-  MVP_LOOP_TypeDef    LOOP[8U];                 /**<                                                    */
-  MVP_INSTR_TypeDef   INSTR[8U];                /**<                                                    */
-  __IOM uint32_t      CMD;                      /**< Command Register                                   */
-  uint32_t            RESERVED0[34U];           /**< Reserved for future use                            */
-  __IOM uint32_t      DEBUGEN;                  /**< Debug Enable Register                              */
-  __IOM uint32_t      DEBUGSTEPCNT;             /**< Debug Step Register                                */
-  uint32_t            RESERVED1[894U];          /**< Reserved for future use                            */
-  __IM uint32_t       IPVERSION_SET;            /**< IP Version                                         */
-  __IOM uint32_t      EN_SET;                   /**< Enable                                             */
-  __IOM uint32_t      SWRST_SET;                /**< Software Reset                                     */
-  __IOM uint32_t      CFG_SET;                  /**< Configuration                                      */
-  __IM uint32_t       STATUS_SET;               /**< Status                                             */
-  MVP_PERF_TypeDef    PERF_SET[2U];             /**<                                                    */
-  __IOM uint32_t      IF_SET;                   /**< Interrupt Flags                                    */
-  __IOM uint32_t      IEN_SET;                  /**< Interrupt Enables                                  */
-  __IM uint32_t       FAULTSTATUS_SET;          /**< Fault Status                                       */
-  __IM uint32_t       FAULTADDR_SET;            /**< Fault Address                                      */
-  __IOM uint32_t      PROGRAMSTATE_SET;         /**< Program State                                      */
-  MVP_ARRAYST_TypeDef ARRAYST_SET[5U];          /**<                                                    */
-  MVP_LOOPST_TypeDef  LOOPST_SET[8U];           /**<                                                    */
-  MVP_ALU_TypeDef     ALU_SET[8U];              /**<                                                    */
-  MVP_ARRAY_TypeDef   ARRAY_SET[5U];            /**<                                                    */
-  MVP_LOOP_TypeDef    LOOP_SET[8U];             /**<                                                    */
-  MVP_INSTR_TypeDef   INSTR_SET[8U];            /**<                                                    */
-  __IOM uint32_t      CMD_SET;                  /**< Command Register                                   */
-  uint32_t            RESERVED2[34U];           /**< Reserved for future use                            */
-  __IOM uint32_t      DEBUGEN_SET;              /**< Debug Enable Register                              */
-  __IOM uint32_t      DEBUGSTEPCNT_SET;         /**< Debug Step Register                                */
-  uint32_t            RESERVED3[894U];          /**< Reserved for future use                            */
-  __IM uint32_t       IPVERSION_CLR;            /**< IP Version                                         */
-  __IOM uint32_t      EN_CLR;                   /**< Enable                                             */
-  __IOM uint32_t      SWRST_CLR;                /**< Software Reset                                     */
-  __IOM uint32_t      CFG_CLR;                  /**< Configuration                                      */
-  __IM uint32_t       STATUS_CLR;               /**< Status                                             */
-  MVP_PERF_TypeDef    PERF_CLR[2U];             /**<                                                    */
-  __IOM uint32_t      IF_CLR;                   /**< Interrupt Flags                                    */
-  __IOM uint32_t      IEN_CLR;                  /**< Interrupt Enables                                  */
-  __IM uint32_t       FAULTSTATUS_CLR;          /**< Fault Status                                       */
-  __IM uint32_t       FAULTADDR_CLR;            /**< Fault Address                                      */
-  __IOM uint32_t      PROGRAMSTATE_CLR;         /**< Program State                                      */
-  MVP_ARRAYST_TypeDef ARRAYST_CLR[5U];          /**<                                                    */
-  MVP_LOOPST_TypeDef  LOOPST_CLR[8U];           /**<                                                    */
-  MVP_ALU_TypeDef     ALU_CLR[8U];              /**<                                                    */
-  MVP_ARRAY_TypeDef   ARRAY_CLR[5U];            /**<                                                    */
-  MVP_LOOP_TypeDef    LOOP_CLR[8U];             /**<                                                    */
-  MVP_INSTR_TypeDef   INSTR_CLR[8U];            /**<                                                    */
-  __IOM uint32_t      CMD_CLR;                  /**< Command Register                                   */
-  uint32_t            RESERVED4[34U];           /**< Reserved for future use                            */
-  __IOM uint32_t      DEBUGEN_CLR;              /**< Debug Enable Register                              */
-  __IOM uint32_t      DEBUGSTEPCNT_CLR;         /**< Debug Step Register                                */
-  uint32_t            RESERVED5[894U];          /**< Reserved for future use                            */
-  __IM uint32_t       IPVERSION_TGL;            /**< IP Version                                         */
-  __IOM uint32_t      EN_TGL;                   /**< Enable                                             */
-  __IOM uint32_t      SWRST_TGL;                /**< Software Reset                                     */
-  __IOM uint32_t      CFG_TGL;                  /**< Configuration                                      */
-  __IM uint32_t       STATUS_TGL;               /**< Status                                             */
-  MVP_PERF_TypeDef    PERF_TGL[2U];             /**<                                                    */
-  __IOM uint32_t      IF_TGL;                   /**< Interrupt Flags                                    */
-  __IOM uint32_t      IEN_TGL;                  /**< Interrupt Enables                                  */
-  __IM uint32_t       FAULTSTATUS_TGL;          /**< Fault Status                                       */
-  __IM uint32_t       FAULTADDR_TGL;            /**< Fault Address                                      */
-  __IOM uint32_t      PROGRAMSTATE_TGL;         /**< Program State                                      */
-  MVP_ARRAYST_TypeDef ARRAYST_TGL[5U];          /**<                                                    */
-  MVP_LOOPST_TypeDef  LOOPST_TGL[8U];           /**<                                                    */
-  MVP_ALU_TypeDef     ALU_TGL[8U];              /**<                                                    */
-  MVP_ARRAY_TypeDef   ARRAY_TGL[5U];            /**<                                                    */
-  MVP_LOOP_TypeDef    LOOP_TGL[8U];             /**<                                                    */
-  MVP_INSTR_TypeDef   INSTR_TGL[8U];            /**<                                                    */
-  __IOM uint32_t      CMD_TGL;                  /**< Command Register                                   */
-  uint32_t            RESERVED6[34U];           /**< Reserved for future use                            */
-  __IOM uint32_t      DEBUGEN_TGL;              /**< Debug Enable Register                              */
-  __IOM uint32_t      DEBUGSTEPCNT_TGL;         /**< Debug Step Register                                */
+typedef struct
+{
+	__IM uint32_t IPVERSION; /**< IP Version                                         */
+	__IOM uint32_t EN; /**< Enable                                             */
+	__IOM uint32_t SWRST; /**< Software Reset                                     */
+	__IOM uint32_t CFG; /**< Configuration                                      */
+	__IM uint32_t STATUS; /**< Status                                             */
+	MVP_PERF_TypeDef PERF[2U]; /**<                                                    */
+	__IOM uint32_t IF; /**< Interrupt Flags                                    */
+	__IOM uint32_t IEN; /**< Interrupt Enables                                  */
+	__IM uint32_t FAULTSTATUS; /**< Fault Status                                       */
+	__IM uint32_t FAULTADDR; /**< Fault Address                                      */
+	__IOM uint32_t PROGRAMSTATE; /**< Program State                                      */
+	MVP_ARRAYST_TypeDef ARRAYST[5U]; /**<                                                    */
+	MVP_LOOPST_TypeDef LOOPST[8U]; /**<                                                    */
+	MVP_ALU_TypeDef ALU[8U]; /**<                                                    */
+	MVP_ARRAY_TypeDef ARRAY[5U]; /**<                                                    */
+	MVP_LOOP_TypeDef LOOP[8U]; /**<                                                    */
+	MVP_INSTR_TypeDef INSTR[8U]; /**<                                                    */
+	__IOM uint32_t CMD; /**< Command Register                                   */
+	uint32_t RESERVED0[34U]; /**< Reserved for future use                            */
+	__IOM uint32_t DEBUGEN; /**< Debug Enable Register                              */
+	__IOM uint32_t DEBUGSTEPCNT; /**< Debug Step Register                                */
+	uint32_t RESERVED1[894U]; /**< Reserved for future use                            */
+	__IM uint32_t IPVERSION_SET; /**< IP Version                                         */
+	__IOM uint32_t EN_SET; /**< Enable                                             */
+	__IOM uint32_t SWRST_SET; /**< Software Reset                                     */
+	__IOM uint32_t CFG_SET; /**< Configuration                                      */
+	__IM uint32_t STATUS_SET; /**< Status                                             */
+	MVP_PERF_TypeDef PERF_SET[2U]; /**<                                                    */
+	__IOM uint32_t IF_SET; /**< Interrupt Flags                                    */
+	__IOM uint32_t IEN_SET; /**< Interrupt Enables                                  */
+	__IM uint32_t FAULTSTATUS_SET; /**< Fault Status                                       */
+	__IM uint32_t FAULTADDR_SET; /**< Fault Address                                      */
+	__IOM uint32_t PROGRAMSTATE_SET; /**< Program State                                      */
+	MVP_ARRAYST_TypeDef ARRAYST_SET[5U]; /**<                                                    */
+	MVP_LOOPST_TypeDef LOOPST_SET[8U]; /**<                                                    */
+	MVP_ALU_TypeDef ALU_SET[8U]; /**<                                                    */
+	MVP_ARRAY_TypeDef ARRAY_SET[5U]; /**<                                                    */
+	MVP_LOOP_TypeDef LOOP_SET[8U]; /**<                                                    */
+	MVP_INSTR_TypeDef INSTR_SET[8U]; /**<                                                    */
+	__IOM uint32_t CMD_SET; /**< Command Register                                   */
+	uint32_t RESERVED2[34U]; /**< Reserved for future use                            */
+	__IOM uint32_t DEBUGEN_SET; /**< Debug Enable Register                              */
+	__IOM uint32_t DEBUGSTEPCNT_SET; /**< Debug Step Register                                */
+	uint32_t RESERVED3[894U]; /**< Reserved for future use                            */
+	__IM uint32_t IPVERSION_CLR; /**< IP Version                                         */
+	__IOM uint32_t EN_CLR; /**< Enable                                             */
+	__IOM uint32_t SWRST_CLR; /**< Software Reset                                     */
+	__IOM uint32_t CFG_CLR; /**< Configuration                                      */
+	__IM uint32_t STATUS_CLR; /**< Status                                             */
+	MVP_PERF_TypeDef PERF_CLR[2U]; /**<                                                    */
+	__IOM uint32_t IF_CLR; /**< Interrupt Flags                                    */
+	__IOM uint32_t IEN_CLR; /**< Interrupt Enables                                  */
+	__IM uint32_t FAULTSTATUS_CLR; /**< Fault Status                                       */
+	__IM uint32_t FAULTADDR_CLR; /**< Fault Address                                      */
+	__IOM uint32_t PROGRAMSTATE_CLR; /**< Program State                                      */
+	MVP_ARRAYST_TypeDef ARRAYST_CLR[5U]; /**<                                                    */
+	MVP_LOOPST_TypeDef LOOPST_CLR[8U]; /**<                                                    */
+	MVP_ALU_TypeDef ALU_CLR[8U]; /**<                                                    */
+	MVP_ARRAY_TypeDef ARRAY_CLR[5U]; /**<                                                    */
+	MVP_LOOP_TypeDef LOOP_CLR[8U]; /**<                                                    */
+	MVP_INSTR_TypeDef INSTR_CLR[8U]; /**<                                                    */
+	__IOM uint32_t CMD_CLR; /**< Command Register                                   */
+	uint32_t RESERVED4[34U]; /**< Reserved for future use                            */
+	__IOM uint32_t DEBUGEN_CLR; /**< Debug Enable Register                              */
+	__IOM uint32_t DEBUGSTEPCNT_CLR; /**< Debug Step Register                                */
+	uint32_t RESERVED5[894U]; /**< Reserved for future use                            */
+	__IM uint32_t IPVERSION_TGL; /**< IP Version                                         */
+	__IOM uint32_t EN_TGL; /**< Enable                                             */
+	__IOM uint32_t SWRST_TGL; /**< Software Reset                                     */
+	__IOM uint32_t CFG_TGL; /**< Configuration                                      */
+	__IM uint32_t STATUS_TGL; /**< Status                                             */
+	MVP_PERF_TypeDef PERF_TGL[2U]; /**<                                                    */
+	__IOM uint32_t IF_TGL; /**< Interrupt Flags                                    */
+	__IOM uint32_t IEN_TGL; /**< Interrupt Enables                                  */
+	__IM uint32_t FAULTSTATUS_TGL; /**< Fault Status                                       */
+	__IM uint32_t FAULTADDR_TGL; /**< Fault Address                                      */
+	__IOM uint32_t PROGRAMSTATE_TGL; /**< Program State                                      */
+	MVP_ARRAYST_TypeDef ARRAYST_TGL[5U]; /**<                                                    */
+	MVP_LOOPST_TypeDef LOOPST_TGL[8U]; /**<                                                    */
+	MVP_ALU_TypeDef ALU_TGL[8U]; /**<                                                    */
+	MVP_ARRAY_TypeDef ARRAY_TGL[5U]; /**<                                                    */
+	MVP_LOOP_TypeDef LOOP_TGL[8U]; /**<                                                    */
+	MVP_INSTR_TypeDef INSTR_TGL[8U]; /**<                                                    */
+	__IOM uint32_t CMD_TGL; /**< Command Register                                   */
+	uint32_t RESERVED6[34U]; /**< Reserved for future use                            */
+	__IOM uint32_t DEBUGEN_TGL; /**< Debug Enable Register                              */
+	__IOM uint32_t DEBUGSTEPCNT_TGL; /**< Debug Step Register                                */
 } MVP_TypeDef;
 /** @} End of group EFR32MG24_MVP */
 

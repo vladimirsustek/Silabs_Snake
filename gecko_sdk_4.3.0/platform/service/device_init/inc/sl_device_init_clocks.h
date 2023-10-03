@@ -103,7 +103,8 @@
  * @return Status code
  * @retval SL_STATUS_OK Clock tree configured successfully
  */
-sl_status_t sl_device_init_clocks(void);
+sl_status_t
+sl_device_init_clocks(void);
 
 /**
  * @} device_init_clocks

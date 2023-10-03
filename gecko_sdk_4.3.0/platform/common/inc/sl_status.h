@@ -43,7 +43,6 @@
 
 // -----------------------------------------------------------------------------
 // Space Defines
-
 #define SL_STATUS_SPACE_MASK              ((sl_status_t)0xFF00)
 
 #define SL_STATUS_GENERIC_SPACE           ((sl_status_t)0x0000)
@@ -427,7 +426,8 @@ extern "C" {
  *                          Notice that only when this returned value is strictly positive and less than
  *                          buffer_length, the status string has been completely written in the buffer.
  *******************************************************************************************************/
-int32_t sl_status_get_string_n(sl_status_t status, char *buffer, uint32_t buffer_length);
+int32_t
+sl_status_get_string_n(sl_status_t status, char *buffer, uint32_t buffer_length);
 
 /********************************************************************************************************
  *                                         sl_status_print()
@@ -440,7 +440,8 @@ int32_t sl_status_get_string_n(sl_status_t status, char *buffer, uint32_t buffer
  *
  * @param    status         The status code of which to print the status string.
  *******************************************************************************************************/
-void sl_status_print(sl_status_t status);
+void
+sl_status_print(sl_status_t status);
 
 #ifdef __cplusplus
 }

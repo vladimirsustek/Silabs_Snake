@@ -43,43 +43,48 @@
 #define SLI_SLEEPTIMER_POWER_MANAGER_HF_ACCURACY_CLK_FLAG 0x04
 
 #ifdef __cplusplus
-extern "C" {
+extern "C"
+{
 #endif
 
-/*******************************************************************************
- * Hardware Abstraction Layer to get interrupt status.
- *
- * @param local_flag Internal interrupt flag.
- *
- * @return Boolean indicating if specified interrupt is set.
- ******************************************************************************/
-bool sli_sleeptimer_hal_is_int_status_set(uint8_t local_flag);
+	/*******************************************************************************
+	 * Hardware Abstraction Layer to get interrupt status.
+	 *
+	 * @param local_flag Internal interrupt flag.
+	 *
+	 * @return Boolean indicating if specified interrupt is set.
+	 ******************************************************************************/
+	bool
+	sli_sleeptimer_hal_is_int_status_set(uint8_t local_flag);
 
-/**************************************************************************//**
- * Determines if next timer to expire has the option flag
- * "SLI_SLEEPTIMER_POWER_MANAGER_EARLY_WAKEUP_TIMER_FLAG".
- *
- * @return true if power manager will expire at next compare match,
- *         false otherwise.
- *****************************************************************************/
-bool sli_sleeptimer_is_power_manager_timer_next_to_expire(void);
+	/**************************************************************************//**
+	 * Determines if next timer to expire has the option flag
+	 * "SLI_SLEEPTIMER_POWER_MANAGER_EARLY_WAKEUP_TIMER_FLAG".
+	 *
+	 * @return true if power manager will expire at next compare match,
+	 *         false otherwise.
+	 *****************************************************************************/
+	bool
+	sli_sleeptimer_is_power_manager_timer_next_to_expire(void);
 
-/***************************************************************************//**
- * Set lowest energy mode based on a project's configurations and clock source
- *
- * @note If power_manager_no_deepsleep component is included in a project, the
- *       lowest possible energy mode is EM1, else lowest energy mode is
- *       determined by clock source.
- ******************************************************************************/
-__WEAK void sli_sleeptimer_set_pm_em_requirement(void);
+	/***************************************************************************//**
+	 * Set lowest energy mode based on a project's configurations and clock source
+	 *
+	 * @note If power_manager_no_deepsleep component is included in a project, the
+	 *       lowest possible energy mode is EM1, else lowest energy mode is
+	 *       determined by clock source.
+	 ******************************************************************************/
+	__WEAK void
+	sli_sleeptimer_set_pm_em_requirement(void);
 
-/***************************************************************************//**
- * @brief
- *   Update sleep_on_isr_exit flag.
- *
- * @param flag Boolean value update_sleep_on_isr_exit will be set to.
- ******************************************************************************/
-void sli_sleeptimer_update_sleep_on_isr_exit(bool flag);
+	/***************************************************************************//**
+	 * @brief
+	 *   Update sleep_on_isr_exit flag.
+	 *
+	 * @param flag Boolean value update_sleep_on_isr_exit will be set to.
+	 ******************************************************************************/
+	void
+	sli_sleeptimer_update_sleep_on_isr_exit(bool flag);
 
 #ifdef __cplusplus
 }

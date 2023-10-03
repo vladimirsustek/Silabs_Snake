@@ -124,12 +124,13 @@ static UARTDRV_Handle_t uartdrv_handle = NULL;
 /***************************************************************************//**
  * Structure to store the COS Config Options
  ******************************************************************************/
-typedef DCH_PACKED_STRUCT __COS_ConfigOption {
-  uint8_t  optionType;     ///< option type
-  uint8_t  reserved1;      ///< reserved one
-  uint16_t reserved2;      ///< reserved two
-  uint32_t optionValue;    ///< option value
-} COS_ConfigOption_t;
+typedef DCH_PACKED_STRUCT __COS_ConfigOption
+{
+	uint8_t optionType;     ///< option type
+	uint8_t reserved1;///< reserved one
+	uint16_t reserved2;///< reserved two
+	uint32_t optionValue;///< option value
+}COS_ConfigOption_t;
 
 /*******************************************************************************
  *********************   LOCAL FUNCTION PROTOTYPES   ***************************
@@ -145,8 +146,8 @@ static uint32_t sli_cos_pti_config(uint32_t baudrate, RAIL_PtiMode_t mode, uint8
 static void sli_cos_pti_write(void);
 #endif // SL_CATALOG_RAIL_UTIL_PTI_PRESENT
 
-static sl_status_t sli_cos_swo_itm_8_write(const void *buffer,
-                                           size_t buffer_length);
+static sl_status_t
+sli_cos_swo_itm_8_write(const void *buffer, size_t buffer_length);
 
 /*******************************************************************************
  **************************   GLOBAL FUNCTIONS   *******************************
@@ -157,8 +158,8 @@ static sl_status_t sli_cos_swo_itm_8_write(const void *buffer,
  ******************************************************************************/
 void sl_cos_send_config(void)
 {
-  // Configure SWO stimulus 8
-  sl_debug_swo_enable_itm(SWO_VCOM_PTI_DATA_STRUCTURED_CHANNEL);
+	// Configure SWO stimulus 8
+	sl_debug_swo_enable_itm(SWO_VCOM_PTI_DATA_STRUCTURED_CHANNEL);
 
 #if defined (SLI_COS_UARTDRV_VCOM_PRESENT)
   sli_cos_vcom_write();
@@ -170,11 +171,11 @@ void sl_cos_send_config(void)
     sli_cos_pti_write();
   }
 #endif // SL_CATALOG_RAIL_UTIL_PTI_PRESENT
-  
-  // Disable SWO stimulus 8
-  sl_debug_swo_disable_itm(SWO_VCOM_PTI_DATA_STRUCTURED_CHANNEL);
-  
-  return;
+
+	// Disable SWO stimulus 8
+	sl_debug_swo_disable_itm(SWO_VCOM_PTI_DATA_STRUCTURED_CHANNEL);
+
+	return;
 }
 
 /***************************************************************************//**
@@ -183,16 +184,17 @@ void sl_cos_send_config(void)
  * @param[in] flow_control   Flow control that has to be set over bit_30 and bit_31.
  * return uint32_t result
  ******************************************************************************/
-static uint32_t sli_cos_vcom_config(uint32_t baudrate,
-                                    uint8_t flow_control)
+static uint32_t sli_cos_vcom_config(uint32_t baudrate, uint8_t flow_control)
 {
-  uint32_t config = 0;
+	uint32_t config = 0;
 
-  // Packing baudrate, and flow control info to config.
-  config |= (((baudrate) & (COS_CONFIG_BAUDRATE_MASK)) << COS_CONFIG_BAUDRATE_POS);
-  config |= (((flow_control) & (COS_CONFIG_UART_FC_MASK)) << COS_CONFIG_UART_FC_POS);
+	// Packing baudrate, and flow control info to config.
+	config |= (((baudrate) & (COS_CONFIG_BAUDRATE_MASK))
+			<< COS_CONFIG_BAUDRATE_POS);
+	config |= (((flow_control) & (COS_CONFIG_UART_FC_MASK))
+			<< COS_CONFIG_UART_FC_POS);
 
-  return config;
+	return config;
 }
 
 #if defined (SL_CATALOG_RAIL_UTIL_PTI_PRESENT)
@@ -277,94 +279,115 @@ static void sli_cos_pti_write(void)
  * Custom API which can be used by other software component, to write the
  * structured PTI data on SWO ITM channel 8.
  ******************************************************************************/
-void sl_cos_config_pti(uint32_t baudrate,
-                       COS_PtiMode_t mode,
-                       COS_PtiInterface_t interface)
+void sl_cos_config_pti(uint32_t baudrate, COS_PtiMode_t mode,
+		COS_PtiInterface_t interface)
 {
-  COS_ConfigOption_t Cos_Pti_Config;
-  uint32_t config = 0;
+	COS_ConfigOption_t Cos_Pti_Config;
+	uint32_t config = 0;
 
-  Cos_Pti_Config.optionType = COS_CONFIG_OPTION_TYPE_PTI;
+	Cos_Pti_Config.optionType = COS_CONFIG_OPTION_TYPE_PTI;
 
-  // Packing baudrate, mode and interface info to config
-  config |= (((baudrate) & (COS_CONFIG_BAUDRATE_MASK)) << COS_CONFIG_BAUDRATE_POS);
-  config |= (((mode) & (COS_CONFIG_PTI_MODE_MASK)) << COS_CONFIG_PTI_MODE_POS);
-  config |= (((interface) & (COS_CONFIG_PTI_INTERFACE_MASK)) << COS_CONFIG_PTI_INTERFACE_POS);
+	// Packing baudrate, mode and interface info to config
+	config |= (((baudrate) & (COS_CONFIG_BAUDRATE_MASK))
+			<< COS_CONFIG_BAUDRATE_POS);
+	config |=
+			(((mode) & (COS_CONFIG_PTI_MODE_MASK)) << COS_CONFIG_PTI_MODE_POS);
+	config |= (((interface) & (COS_CONFIG_PTI_INTERFACE_MASK))
+			<< COS_CONFIG_PTI_INTERFACE_POS);
 
-  Cos_Pti_Config.optionValue = config;
+	Cos_Pti_Config.optionValue = config;
 
-  sli_cos_swo_itm_8_write(&Cos_Pti_Config, sizeof(Cos_Pti_Config));
+	sli_cos_swo_itm_8_write(&Cos_Pti_Config, sizeof(Cos_Pti_Config));
 }
 
 /***************************************************************************//**
  * Custom API which can be used by other software component, to write the
  * structured VCOM data on SWO ITM channel 8.
  ******************************************************************************/
-void sl_cos_config_vcom(uint32_t baudrate,
-                        uint8_t flow_control)
+void sl_cos_config_vcom(uint32_t baudrate, uint8_t flow_control)
 {
-  COS_ConfigOption_t Cos_Uart_Config;
+	COS_ConfigOption_t Cos_Uart_Config;
 
-  Cos_Uart_Config.optionType = COS_CONFIG_OPTION_TYPE_UART;
-  Cos_Uart_Config.optionValue = sli_cos_vcom_config(baudrate, flow_control);
+	Cos_Uart_Config.optionType = COS_CONFIG_OPTION_TYPE_UART;
+	Cos_Uart_Config.optionValue = sli_cos_vcom_config(baudrate, flow_control);
 
-  sli_cos_swo_itm_8_write(&Cos_Uart_Config, sizeof(Cos_Uart_Config));
+	sli_cos_swo_itm_8_write(&Cos_Uart_Config, sizeof(Cos_Uart_Config));
 }
 
 /***************************************************************************//**
  * Write data on SWO interface (WSTK-port 4900)
  ******************************************************************************/
 static sl_status_t sli_cos_swo_itm_8_write(const void *buffer,
-                                           size_t buffer_length)
+		size_t buffer_length)
 {
-  uint8_t *buf = (uint8_t *)buffer;
-  uint32_t packet_length;
-  uint32_t i;
-  uint8_t  output_byte;
-  uint8_t  seq_nbr = 0;
+	uint8_t *buf = (uint8_t*) buffer;
+	uint32_t packet_length;
+	uint32_t i;
+	uint8_t output_byte;
+	uint8_t seq_nbr = 0;
 
-  // Full length is 2 square braces, 1 byte length and 2 byte CRC
-  packet_length = ( (uint32_t)buffer_length) + 9;
+	// Full length is 2 square braces, 1 byte length and 2 byte CRC
+	packet_length = ((uint32_t) buffer_length) + 9;
 
-  // The write feature is built upon the existing Ember Debug Message (EDM) protocol, which today is transmitted over SWO UART on ITM Channel 8.
-  // The Protocol have the Start-byte, Length, Version, Message type, Sequence number, Message, CRC CCITT-16, and End-byte for correct communication.
-  for ( i = 0; i < packet_length; ++i ) {
-    if ( i == 0 ) {
-      // Frame start
-      output_byte = '[';
-    } else if ( i == 1 ) {
-      // Including special byte, type and sequence number
-      output_byte = buffer_length + 4;
-    } else if ( i == 2 ) {
-      // Special EDM byte
-      output_byte = 0xD1;
-    } else if ( i == 3 ) {
-      // COS Type byte 1
-      output_byte = LOW_BYTE((uint16_t)(EM_COS_PACKET));
-    } else if ( i == 4 ) {
-      // COS Type byte 2
-      output_byte = HIGH_BYTE((uint16_t)(EM_COS_PACKET));
-    } else if ( i == 5 ) {
-      // Sequence number
-      output_byte = seq_nbr++;
-    } else if ( i == (packet_length - 3) ) {
-      // CRC first byte
-      // Ignored by FW - so we also skip it
-      output_byte = 0x5A;
-    } else if ( i == (packet_length - 2) ) {
-      // CRC second byte
-      // Ignored by FW - so we also skip it
-      output_byte = 0x5A;
-    } else if ( i == (packet_length - 1) ) {
-      // Frame end
-      output_byte = ']';
-    } else {
-      // Data
-      output_byte = buf[i - 6];
-    }
+	// The write feature is built upon the existing Ember Debug Message (EDM) protocol, which today is transmitted over SWO UART on ITM Channel 8.
+	// The Protocol have the Start-byte, Length, Version, Message type, Sequence number, Message, CRC CCITT-16, and End-byte for correct communication.
+	for (i = 0; i < packet_length; ++i)
+	{
+		if (i == 0)
+		{
+			// Frame start
+			output_byte = '[';
+		}
+		else if (i == 1)
+		{
+			// Including special byte, type and sequence number
+			output_byte = buffer_length + 4;
+		}
+		else if (i == 2)
+		{
+			// Special EDM byte
+			output_byte = 0xD1;
+		}
+		else if (i == 3)
+		{
+			// COS Type byte 1
+			output_byte = LOW_BYTE((uint16_t)(EM_COS_PACKET));
+		}
+		else if (i == 4)
+		{
+			// COS Type byte 2
+			output_byte = HIGH_BYTE((uint16_t)(EM_COS_PACKET));
+		}
+		else if (i == 5)
+		{
+			// Sequence number
+			output_byte = seq_nbr++;
+		}
+		else if (i == (packet_length - 3))
+		{
+			// CRC first byte
+			// Ignored by FW - so we also skip it
+			output_byte = 0x5A;
+		}
+		else if (i == (packet_length - 2))
+		{
+			// CRC second byte
+			// Ignored by FW - so we also skip it
+			output_byte = 0x5A;
+		}
+		else if (i == (packet_length - 1))
+		{
+			// Frame end
+			output_byte = ']';
+		}
+		else
+		{
+			// Data
+			output_byte = buf[i - 6];
+		}
 
-    sl_debug_swo_write(SWO_VCOM_PTI_DATA_STRUCTURED_CHANNEL, output_byte);
-  }
+		sl_debug_swo_write(SWO_VCOM_PTI_DATA_STRUCTURED_CHANNEL, output_byte);
+	}
 
-  return SL_STATUS_OK;
+	return SL_STATUS_OK;
 }

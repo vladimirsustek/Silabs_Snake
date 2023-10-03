@@ -53,8 +53,9 @@ extern "C" {
 typedef struct sl_slist_node sl_slist_node_t;
 
 /// List node
-struct sl_slist_node {
-  sl_slist_node_t *node; ///< List node
+struct sl_slist_node
+{
+	sl_slist_node_t *node; ///< List node
 };
 
 #ifndef DOXYGEN
@@ -77,7 +78,8 @@ struct sl_slist_node {
  *
  * @param    head  Pointer to pointer of head element of list.
  ******************************************************************************/
-void sl_slist_init(sl_slist_node_t **head);
+void
+sl_slist_init(sl_slist_node_t **head);
 
 /*******************************************************************************
  * Add given item at beginning of the list.
@@ -86,8 +88,8 @@ void sl_slist_init(sl_slist_node_t **head);
  *
  * @param    item  Pointer to an item to add.
  ******************************************************************************/
-void sl_slist_push(sl_slist_node_t **head,
-                   sl_slist_node_t *item);
+void
+sl_slist_push(sl_slist_node_t **head, sl_slist_node_t *item);
 
 /*******************************************************************************
  * Add item at the end of the list.
@@ -96,8 +98,8 @@ void sl_slist_push(sl_slist_node_t **head,
  *
  * @param    item  Pointer to the item to add.
  ******************************************************************************/
-void sl_slist_push_back(sl_slist_node_t **head,
-                        sl_slist_node_t *item);
+void
+sl_slist_push_back(sl_slist_node_t **head, sl_slist_node_t *item);
 
 /*******************************************************************************
  * Remove and return the first element of the list.
@@ -106,7 +108,8 @@ void sl_slist_push_back(sl_slist_node_t **head,
  *
  * @return   Pointer to item that was at top of the list.
  ******************************************************************************/
-sl_slist_node_t *sl_slist_pop(sl_slist_node_t **head);
+sl_slist_node_t*
+sl_slist_pop(sl_slist_node_t **head);
 
 /*******************************************************************************
  * Insert an item after the given item.
@@ -115,8 +118,8 @@ sl_slist_node_t *sl_slist_pop(sl_slist_node_t **head);
  *
  * @param    pos   Pointer to an item after which the item to add will be inserted.
  ******************************************************************************/
-void sl_slist_insert(sl_slist_node_t *item,
-                     sl_slist_node_t *pos);
+void
+sl_slist_insert(sl_slist_node_t *item, sl_slist_node_t *pos);
 
 /*******************************************************************************
  * Remove an item from the list.
@@ -127,8 +130,8 @@ void sl_slist_insert(sl_slist_node_t *item,
  *
  * @note     (1) An EFM_ASSERT is thrown if the item is not found within the list.
  ******************************************************************************/
-void sl_slist_remove(sl_slist_node_t **head,
-                     sl_slist_node_t *item);
+void
+sl_slist_remove(sl_slist_node_t **head, sl_slist_node_t *item);
 
 /*******************************************************************************
  * Sort list items.
@@ -140,9 +143,10 @@ void sl_slist_remove(sl_slist_node_t **head,
  *                     item_r    Pointer to right item.
  *                     Returns whether the two items are ordered (true) or not (false).
  ******************************************************************************/
-void sl_slist_sort(sl_slist_node_t **head,
-                   bool (*cmp_fnct)(sl_slist_node_t *item_l,
-                                    sl_slist_node_t *item_r));
+void
+sl_slist_sort(sl_slist_node_t **head,
+bool (*cmp_fnct)
+(sl_slist_node_t *item_l, sl_slist_node_t *item_r));
 
 /** @} (end addtogroup slist) */
 

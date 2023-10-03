@@ -195,17 +195,17 @@ extern "C" {
 /** @brief A macro for notifying the compiler of an intended
  *  switch case fallthrough. */
 #if __GNUC__ >= 7
-  #define SL_FALLTHROUGH __attribute__ ((fallthrough));
+#define SL_FALLTHROUGH __attribute__ ((fallthrough));
 #else
   #define SL_FALLTHROUGH
 #endif
 
 /** @brief A macro for notifying the compiler to ignore type limit check. */
 #if __GNUC__ > 4 || (__GNUC__ == 4 && __GNUC_MINOR__ >= 6)
-  #define SL_IGNORE_TYPE_LIMIT_BEGIN \
+#define SL_IGNORE_TYPE_LIMIT_BEGIN \
   _Pragma("GCC diagnostic push")     \
   _Pragma("GCC diagnostic ignored \"-Wtype-limits\"")
-  #define SL_IGNORE_TYPE_LIMIT_END \
+#define SL_IGNORE_TYPE_LIMIT_END \
   _Pragma("GCC diagnostic pop")
 #else
   #define SL_IGNORE_TYPE_LIMIT_BEGIN
@@ -267,25 +267,28 @@ extern "C" {
  * @return
  *   A number of trailing zeros in value.
  ******************************************************************************/
-__STATIC_INLINE uint32_t SL_CTZ(uint32_t value)
+__STATIC_INLINE uint32_t
+SL_CTZ(uint32_t value)
 {
 #if defined(__CORTEX_M) && (__CORTEX_M >= 3U)
   return __CLZ(__RBIT(value));
 
 #else
-  uint32_t zeros;
-  for (zeros = 0; (zeros < 32) && ((value & 0x1) == 0); zeros++, value >>= 1) {
-    ;
-  }
-  return zeros;
+	uint32_t zeros;
+	for (zeros = 0; (zeros < 32) && ((value & 0x1) == 0); zeros++, value >>= 1)
+	{
+		;
+	}
+	return zeros;
 #endif
 }
 
 /** @cond DO_NOT_INCLUDE_WITH_DOXYGEN */
 /* Deprecated function. New code should use @ref SL_CTZ. */
-__STATIC_INLINE uint32_t EFM32_CTZ(uint32_t value)
+__STATIC_INLINE uint32_t
+EFM32_CTZ(uint32_t value)
 {
-  return SL_CTZ(value);
+	return SL_CTZ(value);
 }
 /** @endcond */
 
@@ -299,24 +302,26 @@ __STATIC_INLINE uint32_t EFM32_CTZ(uint32_t value)
  * @return
  *   A reversed value.
  ******************************************************************************/
-__STATIC_INLINE uint32_t SL_RBIT(uint32_t value)
+__STATIC_INLINE uint32_t
+SL_RBIT(uint32_t value)
 {
-  uint32_t result;
+	uint32_t result;
 
 #if defined(__CORTEX_M) && (__CORTEX_M >= 0x03U)
   result = __RBIT(value);
 #else
-  int32_t s = 4 * 8 - 1;
+	int32_t s = 4 * 8 - 1;
 
-  result = value;
-  for (value >>= 1U; value != 0U; value >>= 1U) {
-    result <<= 1U;
-    result |= value & 1U;
-    s--;
-  }
-  result <<= s;
+	result = value;
+	for (value >>= 1U; value != 0U; value >>= 1U)
+	{
+		result <<= 1U;
+		result |= value & 1U;
+		s--;
+	}
+	result <<= s;
 #endif
-  return result;
+	return result;
 }
 
 /***************************************************************************//**
@@ -329,9 +334,10 @@ __STATIC_INLINE uint32_t SL_RBIT(uint32_t value)
  * @return
  *   A 16-bit reversed value.
  ******************************************************************************/
-__STATIC_INLINE uint16_t SL_RBIT16(uint16_t value)
+__STATIC_INLINE uint16_t
+SL_RBIT16(uint16_t value)
 {
-  return (uint16_t)(SL_RBIT(value) >> 16);
+	return (uint16_t)(SL_RBIT(value) >> 16);
 }
 
 /***************************************************************************//**
@@ -344,9 +350,10 @@ __STATIC_INLINE uint16_t SL_RBIT16(uint16_t value)
  * @return
  *   A 8-bit reversed value.
  ******************************************************************************/
-__STATIC_INLINE uint8_t SL_RBIT8(uint8_t value)
+__STATIC_INLINE uint8_t
+SL_RBIT8(uint8_t value)
 {
-  return (uint8_t)(SL_RBIT(value) >> 24);
+	return (uint8_t)(SL_RBIT(value) >> 24);
 }
 
 /***************************************************************************//**
@@ -359,10 +366,11 @@ __STATIC_INLINE uint8_t SL_RBIT8(uint8_t value)
  * @return
  *   Dividend.
  ******************************************************************************/
-__STATIC_INLINE uint32_t SL_Log2ToDiv(uint32_t log2)
+__STATIC_INLINE uint32_t
+SL_Log2ToDiv(uint32_t log2)
 {
-  EFM_ASSERT(log2 < 32U);
-  return 1UL << log2;
+	EFM_ASSERT(log2 < 32U);
+	return 1UL << log2;
 }
 
 /** @} (end addtogroup common) */

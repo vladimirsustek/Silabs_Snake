@@ -32,9 +32,9 @@
 #define SMU_HAS_SET_CLEAR
 
 /**************************************************************************//**
-* @addtogroup Parts
-* @{
-******************************************************************************/
+ * @addtogroup Parts
+ * @{
+ ******************************************************************************/
 /**************************************************************************//**
  * @defgroup EFR32MG24_SMU SMU
  * @{
@@ -42,134 +42,135 @@
  *****************************************************************************/
 
 /** SMU Register Declaration. */
-typedef struct {
-  __IM uint32_t  IPVERSION;                     /**< IP Version                                         */
-  __IM uint32_t  STATUS;                        /**< Status Register                                    */
-  __IOM uint32_t LOCK;                          /**< Lock Register                                      */
-  __IOM uint32_t IF;                            /**< Interrupt Flag Register                            */
-  __IOM uint32_t IEN;                           /**< Interrupt Enable Register                          */
-  uint32_t       RESERVED0[3U];                 /**< Reserved for future use                            */
-  __IOM uint32_t M33CTRL;                       /**< M33 Control Settings                               */
-  uint32_t       RESERVED1[7U];                 /**< Reserved for future use                            */
-  __IOM uint32_t PPUPATD0;                      /**< Privileged Access                                  */
-  __IOM uint32_t PPUPATD1;                      /**< Privileged Access                                  */
-  uint32_t       RESERVED2[6U];                 /**< Reserved for future use                            */
-  __IOM uint32_t PPUSATD0;                      /**< Secure Access                                      */
-  __IOM uint32_t PPUSATD1;                      /**< Secure Access                                      */
-  uint32_t       RESERVED3[54U];                /**< Reserved for future use                            */
-  __IM uint32_t  PPUFS;                         /**< Fault Status                                       */
-  uint32_t       RESERVED4[3U];                 /**< Reserved for future use                            */
-  __IOM uint32_t BMPUPATD0;                     /**< Privileged Attribute                               */
-  uint32_t       RESERVED5[7U];                 /**< Reserved for future use                            */
-  __IOM uint32_t BMPUSATD0;                     /**< Secure Attribute                                   */
-  uint32_t       RESERVED6[55U];                /**< Reserved for future use                            */
-  __IM uint32_t  BMPUFS;                        /**< Fault Status                                       */
-  __IM uint32_t  BMPUFSADDR;                    /**< Fault Status Address                               */
-  uint32_t       RESERVED7[2U];                 /**< Reserved for future use                            */
-  __IOM uint32_t ESAURTYPES0;                   /**< Region Types 0                                     */
-  __IOM uint32_t ESAURTYPES1;                   /**< Region Types 1                                     */
-  uint32_t       RESERVED8[2U];                 /**< Reserved for future use                            */
-  __IOM uint32_t ESAUMRB01;                     /**< Movable Region Boundary                            */
-  __IOM uint32_t ESAUMRB12;                     /**< Movable Region Boundary                            */
-  uint32_t       RESERVED9[2U];                 /**< Reserved for future use                            */
-  __IOM uint32_t ESAUMRB45;                     /**< Movable Region Boundary                            */
-  __IOM uint32_t ESAUMRB56;                     /**< Movable Region Boundary                            */
-  uint32_t       RESERVED10[862U];              /**< Reserved for future use                            */
-  __IM uint32_t  IPVERSION_SET;                 /**< IP Version                                         */
-  __IM uint32_t  STATUS_SET;                    /**< Status Register                                    */
-  __IOM uint32_t LOCK_SET;                      /**< Lock Register                                      */
-  __IOM uint32_t IF_SET;                        /**< Interrupt Flag Register                            */
-  __IOM uint32_t IEN_SET;                       /**< Interrupt Enable Register                          */
-  uint32_t       RESERVED11[3U];                /**< Reserved for future use                            */
-  __IOM uint32_t M33CTRL_SET;                   /**< M33 Control Settings                               */
-  uint32_t       RESERVED12[7U];                /**< Reserved for future use                            */
-  __IOM uint32_t PPUPATD0_SET;                  /**< Privileged Access                                  */
-  __IOM uint32_t PPUPATD1_SET;                  /**< Privileged Access                                  */
-  uint32_t       RESERVED13[6U];                /**< Reserved for future use                            */
-  __IOM uint32_t PPUSATD0_SET;                  /**< Secure Access                                      */
-  __IOM uint32_t PPUSATD1_SET;                  /**< Secure Access                                      */
-  uint32_t       RESERVED14[54U];               /**< Reserved for future use                            */
-  __IM uint32_t  PPUFS_SET;                     /**< Fault Status                                       */
-  uint32_t       RESERVED15[3U];                /**< Reserved for future use                            */
-  __IOM uint32_t BMPUPATD0_SET;                 /**< Privileged Attribute                               */
-  uint32_t       RESERVED16[7U];                /**< Reserved for future use                            */
-  __IOM uint32_t BMPUSATD0_SET;                 /**< Secure Attribute                                   */
-  uint32_t       RESERVED17[55U];               /**< Reserved for future use                            */
-  __IM uint32_t  BMPUFS_SET;                    /**< Fault Status                                       */
-  __IM uint32_t  BMPUFSADDR_SET;                /**< Fault Status Address                               */
-  uint32_t       RESERVED18[2U];                /**< Reserved for future use                            */
-  __IOM uint32_t ESAURTYPES0_SET;               /**< Region Types 0                                     */
-  __IOM uint32_t ESAURTYPES1_SET;               /**< Region Types 1                                     */
-  uint32_t       RESERVED19[2U];                /**< Reserved for future use                            */
-  __IOM uint32_t ESAUMRB01_SET;                 /**< Movable Region Boundary                            */
-  __IOM uint32_t ESAUMRB12_SET;                 /**< Movable Region Boundary                            */
-  uint32_t       RESERVED20[2U];                /**< Reserved for future use                            */
-  __IOM uint32_t ESAUMRB45_SET;                 /**< Movable Region Boundary                            */
-  __IOM uint32_t ESAUMRB56_SET;                 /**< Movable Region Boundary                            */
-  uint32_t       RESERVED21[862U];              /**< Reserved for future use                            */
-  __IM uint32_t  IPVERSION_CLR;                 /**< IP Version                                         */
-  __IM uint32_t  STATUS_CLR;                    /**< Status Register                                    */
-  __IOM uint32_t LOCK_CLR;                      /**< Lock Register                                      */
-  __IOM uint32_t IF_CLR;                        /**< Interrupt Flag Register                            */
-  __IOM uint32_t IEN_CLR;                       /**< Interrupt Enable Register                          */
-  uint32_t       RESERVED22[3U];                /**< Reserved for future use                            */
-  __IOM uint32_t M33CTRL_CLR;                   /**< M33 Control Settings                               */
-  uint32_t       RESERVED23[7U];                /**< Reserved for future use                            */
-  __IOM uint32_t PPUPATD0_CLR;                  /**< Privileged Access                                  */
-  __IOM uint32_t PPUPATD1_CLR;                  /**< Privileged Access                                  */
-  uint32_t       RESERVED24[6U];                /**< Reserved for future use                            */
-  __IOM uint32_t PPUSATD0_CLR;                  /**< Secure Access                                      */
-  __IOM uint32_t PPUSATD1_CLR;                  /**< Secure Access                                      */
-  uint32_t       RESERVED25[54U];               /**< Reserved for future use                            */
-  __IM uint32_t  PPUFS_CLR;                     /**< Fault Status                                       */
-  uint32_t       RESERVED26[3U];                /**< Reserved for future use                            */
-  __IOM uint32_t BMPUPATD0_CLR;                 /**< Privileged Attribute                               */
-  uint32_t       RESERVED27[7U];                /**< Reserved for future use                            */
-  __IOM uint32_t BMPUSATD0_CLR;                 /**< Secure Attribute                                   */
-  uint32_t       RESERVED28[55U];               /**< Reserved for future use                            */
-  __IM uint32_t  BMPUFS_CLR;                    /**< Fault Status                                       */
-  __IM uint32_t  BMPUFSADDR_CLR;                /**< Fault Status Address                               */
-  uint32_t       RESERVED29[2U];                /**< Reserved for future use                            */
-  __IOM uint32_t ESAURTYPES0_CLR;               /**< Region Types 0                                     */
-  __IOM uint32_t ESAURTYPES1_CLR;               /**< Region Types 1                                     */
-  uint32_t       RESERVED30[2U];                /**< Reserved for future use                            */
-  __IOM uint32_t ESAUMRB01_CLR;                 /**< Movable Region Boundary                            */
-  __IOM uint32_t ESAUMRB12_CLR;                 /**< Movable Region Boundary                            */
-  uint32_t       RESERVED31[2U];                /**< Reserved for future use                            */
-  __IOM uint32_t ESAUMRB45_CLR;                 /**< Movable Region Boundary                            */
-  __IOM uint32_t ESAUMRB56_CLR;                 /**< Movable Region Boundary                            */
-  uint32_t       RESERVED32[862U];              /**< Reserved for future use                            */
-  __IM uint32_t  IPVERSION_TGL;                 /**< IP Version                                         */
-  __IM uint32_t  STATUS_TGL;                    /**< Status Register                                    */
-  __IOM uint32_t LOCK_TGL;                      /**< Lock Register                                      */
-  __IOM uint32_t IF_TGL;                        /**< Interrupt Flag Register                            */
-  __IOM uint32_t IEN_TGL;                       /**< Interrupt Enable Register                          */
-  uint32_t       RESERVED33[3U];                /**< Reserved for future use                            */
-  __IOM uint32_t M33CTRL_TGL;                   /**< M33 Control Settings                               */
-  uint32_t       RESERVED34[7U];                /**< Reserved for future use                            */
-  __IOM uint32_t PPUPATD0_TGL;                  /**< Privileged Access                                  */
-  __IOM uint32_t PPUPATD1_TGL;                  /**< Privileged Access                                  */
-  uint32_t       RESERVED35[6U];                /**< Reserved for future use                            */
-  __IOM uint32_t PPUSATD0_TGL;                  /**< Secure Access                                      */
-  __IOM uint32_t PPUSATD1_TGL;                  /**< Secure Access                                      */
-  uint32_t       RESERVED36[54U];               /**< Reserved for future use                            */
-  __IM uint32_t  PPUFS_TGL;                     /**< Fault Status                                       */
-  uint32_t       RESERVED37[3U];                /**< Reserved for future use                            */
-  __IOM uint32_t BMPUPATD0_TGL;                 /**< Privileged Attribute                               */
-  uint32_t       RESERVED38[7U];                /**< Reserved for future use                            */
-  __IOM uint32_t BMPUSATD0_TGL;                 /**< Secure Attribute                                   */
-  uint32_t       RESERVED39[55U];               /**< Reserved for future use                            */
-  __IM uint32_t  BMPUFS_TGL;                    /**< Fault Status                                       */
-  __IM uint32_t  BMPUFSADDR_TGL;                /**< Fault Status Address                               */
-  uint32_t       RESERVED40[2U];                /**< Reserved for future use                            */
-  __IOM uint32_t ESAURTYPES0_TGL;               /**< Region Types 0                                     */
-  __IOM uint32_t ESAURTYPES1_TGL;               /**< Region Types 1                                     */
-  uint32_t       RESERVED41[2U];                /**< Reserved for future use                            */
-  __IOM uint32_t ESAUMRB01_TGL;                 /**< Movable Region Boundary                            */
-  __IOM uint32_t ESAUMRB12_TGL;                 /**< Movable Region Boundary                            */
-  uint32_t       RESERVED42[2U];                /**< Reserved for future use                            */
-  __IOM uint32_t ESAUMRB45_TGL;                 /**< Movable Region Boundary                            */
-  __IOM uint32_t ESAUMRB56_TGL;                 /**< Movable Region Boundary                            */
+typedef struct
+{
+	__IM uint32_t IPVERSION; /**< IP Version                                         */
+	__IM uint32_t STATUS; /**< Status Register                                    */
+	__IOM uint32_t LOCK; /**< Lock Register                                      */
+	__IOM uint32_t IF; /**< Interrupt Flag Register                            */
+	__IOM uint32_t IEN; /**< Interrupt Enable Register                          */
+	uint32_t RESERVED0[3U]; /**< Reserved for future use                            */
+	__IOM uint32_t M33CTRL; /**< M33 Control Settings                               */
+	uint32_t RESERVED1[7U]; /**< Reserved for future use                            */
+	__IOM uint32_t PPUPATD0; /**< Privileged Access                                  */
+	__IOM uint32_t PPUPATD1; /**< Privileged Access                                  */
+	uint32_t RESERVED2[6U]; /**< Reserved for future use                            */
+	__IOM uint32_t PPUSATD0; /**< Secure Access                                      */
+	__IOM uint32_t PPUSATD1; /**< Secure Access                                      */
+	uint32_t RESERVED3[54U]; /**< Reserved for future use                            */
+	__IM uint32_t PPUFS; /**< Fault Status                                       */
+	uint32_t RESERVED4[3U]; /**< Reserved for future use                            */
+	__IOM uint32_t BMPUPATD0; /**< Privileged Attribute                               */
+	uint32_t RESERVED5[7U]; /**< Reserved for future use                            */
+	__IOM uint32_t BMPUSATD0; /**< Secure Attribute                                   */
+	uint32_t RESERVED6[55U]; /**< Reserved for future use                            */
+	__IM uint32_t BMPUFS; /**< Fault Status                                       */
+	__IM uint32_t BMPUFSADDR; /**< Fault Status Address                               */
+	uint32_t RESERVED7[2U]; /**< Reserved for future use                            */
+	__IOM uint32_t ESAURTYPES0; /**< Region Types 0                                     */
+	__IOM uint32_t ESAURTYPES1; /**< Region Types 1                                     */
+	uint32_t RESERVED8[2U]; /**< Reserved for future use                            */
+	__IOM uint32_t ESAUMRB01; /**< Movable Region Boundary                            */
+	__IOM uint32_t ESAUMRB12; /**< Movable Region Boundary                            */
+	uint32_t RESERVED9[2U]; /**< Reserved for future use                            */
+	__IOM uint32_t ESAUMRB45; /**< Movable Region Boundary                            */
+	__IOM uint32_t ESAUMRB56; /**< Movable Region Boundary                            */
+	uint32_t RESERVED10[862U]; /**< Reserved for future use                            */
+	__IM uint32_t IPVERSION_SET; /**< IP Version                                         */
+	__IM uint32_t STATUS_SET; /**< Status Register                                    */
+	__IOM uint32_t LOCK_SET; /**< Lock Register                                      */
+	__IOM uint32_t IF_SET; /**< Interrupt Flag Register                            */
+	__IOM uint32_t IEN_SET; /**< Interrupt Enable Register                          */
+	uint32_t RESERVED11[3U]; /**< Reserved for future use                            */
+	__IOM uint32_t M33CTRL_SET; /**< M33 Control Settings                               */
+	uint32_t RESERVED12[7U]; /**< Reserved for future use                            */
+	__IOM uint32_t PPUPATD0_SET; /**< Privileged Access                                  */
+	__IOM uint32_t PPUPATD1_SET; /**< Privileged Access                                  */
+	uint32_t RESERVED13[6U]; /**< Reserved for future use                            */
+	__IOM uint32_t PPUSATD0_SET; /**< Secure Access                                      */
+	__IOM uint32_t PPUSATD1_SET; /**< Secure Access                                      */
+	uint32_t RESERVED14[54U]; /**< Reserved for future use                            */
+	__IM uint32_t PPUFS_SET; /**< Fault Status                                       */
+	uint32_t RESERVED15[3U]; /**< Reserved for future use                            */
+	__IOM uint32_t BMPUPATD0_SET; /**< Privileged Attribute                               */
+	uint32_t RESERVED16[7U]; /**< Reserved for future use                            */
+	__IOM uint32_t BMPUSATD0_SET; /**< Secure Attribute                                   */
+	uint32_t RESERVED17[55U]; /**< Reserved for future use                            */
+	__IM uint32_t BMPUFS_SET; /**< Fault Status                                       */
+	__IM uint32_t BMPUFSADDR_SET; /**< Fault Status Address                               */
+	uint32_t RESERVED18[2U]; /**< Reserved for future use                            */
+	__IOM uint32_t ESAURTYPES0_SET; /**< Region Types 0                                     */
+	__IOM uint32_t ESAURTYPES1_SET; /**< Region Types 1                                     */
+	uint32_t RESERVED19[2U]; /**< Reserved for future use                            */
+	__IOM uint32_t ESAUMRB01_SET; /**< Movable Region Boundary                            */
+	__IOM uint32_t ESAUMRB12_SET; /**< Movable Region Boundary                            */
+	uint32_t RESERVED20[2U]; /**< Reserved for future use                            */
+	__IOM uint32_t ESAUMRB45_SET; /**< Movable Region Boundary                            */
+	__IOM uint32_t ESAUMRB56_SET; /**< Movable Region Boundary                            */
+	uint32_t RESERVED21[862U]; /**< Reserved for future use                            */
+	__IM uint32_t IPVERSION_CLR; /**< IP Version                                         */
+	__IM uint32_t STATUS_CLR; /**< Status Register                                    */
+	__IOM uint32_t LOCK_CLR; /**< Lock Register                                      */
+	__IOM uint32_t IF_CLR; /**< Interrupt Flag Register                            */
+	__IOM uint32_t IEN_CLR; /**< Interrupt Enable Register                          */
+	uint32_t RESERVED22[3U]; /**< Reserved for future use                            */
+	__IOM uint32_t M33CTRL_CLR; /**< M33 Control Settings                               */
+	uint32_t RESERVED23[7U]; /**< Reserved for future use                            */
+	__IOM uint32_t PPUPATD0_CLR; /**< Privileged Access                                  */
+	__IOM uint32_t PPUPATD1_CLR; /**< Privileged Access                                  */
+	uint32_t RESERVED24[6U]; /**< Reserved for future use                            */
+	__IOM uint32_t PPUSATD0_CLR; /**< Secure Access                                      */
+	__IOM uint32_t PPUSATD1_CLR; /**< Secure Access                                      */
+	uint32_t RESERVED25[54U]; /**< Reserved for future use                            */
+	__IM uint32_t PPUFS_CLR; /**< Fault Status                                       */
+	uint32_t RESERVED26[3U]; /**< Reserved for future use                            */
+	__IOM uint32_t BMPUPATD0_CLR; /**< Privileged Attribute                               */
+	uint32_t RESERVED27[7U]; /**< Reserved for future use                            */
+	__IOM uint32_t BMPUSATD0_CLR; /**< Secure Attribute                                   */
+	uint32_t RESERVED28[55U]; /**< Reserved for future use                            */
+	__IM uint32_t BMPUFS_CLR; /**< Fault Status                                       */
+	__IM uint32_t BMPUFSADDR_CLR; /**< Fault Status Address                               */
+	uint32_t RESERVED29[2U]; /**< Reserved for future use                            */
+	__IOM uint32_t ESAURTYPES0_CLR; /**< Region Types 0                                     */
+	__IOM uint32_t ESAURTYPES1_CLR; /**< Region Types 1                                     */
+	uint32_t RESERVED30[2U]; /**< Reserved for future use                            */
+	__IOM uint32_t ESAUMRB01_CLR; /**< Movable Region Boundary                            */
+	__IOM uint32_t ESAUMRB12_CLR; /**< Movable Region Boundary                            */
+	uint32_t RESERVED31[2U]; /**< Reserved for future use                            */
+	__IOM uint32_t ESAUMRB45_CLR; /**< Movable Region Boundary                            */
+	__IOM uint32_t ESAUMRB56_CLR; /**< Movable Region Boundary                            */
+	uint32_t RESERVED32[862U]; /**< Reserved for future use                            */
+	__IM uint32_t IPVERSION_TGL; /**< IP Version                                         */
+	__IM uint32_t STATUS_TGL; /**< Status Register                                    */
+	__IOM uint32_t LOCK_TGL; /**< Lock Register                                      */
+	__IOM uint32_t IF_TGL; /**< Interrupt Flag Register                            */
+	__IOM uint32_t IEN_TGL; /**< Interrupt Enable Register                          */
+	uint32_t RESERVED33[3U]; /**< Reserved for future use                            */
+	__IOM uint32_t M33CTRL_TGL; /**< M33 Control Settings                               */
+	uint32_t RESERVED34[7U]; /**< Reserved for future use                            */
+	__IOM uint32_t PPUPATD0_TGL; /**< Privileged Access                                  */
+	__IOM uint32_t PPUPATD1_TGL; /**< Privileged Access                                  */
+	uint32_t RESERVED35[6U]; /**< Reserved for future use                            */
+	__IOM uint32_t PPUSATD0_TGL; /**< Secure Access                                      */
+	__IOM uint32_t PPUSATD1_TGL; /**< Secure Access                                      */
+	uint32_t RESERVED36[54U]; /**< Reserved for future use                            */
+	__IM uint32_t PPUFS_TGL; /**< Fault Status                                       */
+	uint32_t RESERVED37[3U]; /**< Reserved for future use                            */
+	__IOM uint32_t BMPUPATD0_TGL; /**< Privileged Attribute                               */
+	uint32_t RESERVED38[7U]; /**< Reserved for future use                            */
+	__IOM uint32_t BMPUSATD0_TGL; /**< Secure Attribute                                   */
+	uint32_t RESERVED39[55U]; /**< Reserved for future use                            */
+	__IM uint32_t BMPUFS_TGL; /**< Fault Status                                       */
+	__IM uint32_t BMPUFSADDR_TGL; /**< Fault Status Address                               */
+	uint32_t RESERVED40[2U]; /**< Reserved for future use                            */
+	__IOM uint32_t ESAURTYPES0_TGL; /**< Region Types 0                                     */
+	__IOM uint32_t ESAURTYPES1_TGL; /**< Region Types 1                                     */
+	uint32_t RESERVED41[2U]; /**< Reserved for future use                            */
+	__IOM uint32_t ESAUMRB01_TGL; /**< Movable Region Boundary                            */
+	__IOM uint32_t ESAUMRB12_TGL; /**< Movable Region Boundary                            */
+	uint32_t RESERVED42[2U]; /**< Reserved for future use                            */
+	__IOM uint32_t ESAUMRB45_TGL; /**< Movable Region Boundary                            */
+	__IOM uint32_t ESAUMRB56_TGL; /**< Movable Region Boundary                            */
 } SMU_TypeDef;
 /** @} End of group EFR32MG24_SMU */
 
@@ -1020,66 +1021,67 @@ typedef struct {
  *****************************************************************************/
 
 /** SMU_CFGNS Register Declaration. */
-typedef struct {
-  uint32_t       RESERVED0[1U];                 /**< Reserved for future use                            */
-  __IM uint32_t  NSSTATUS;                      /**< Status Register                                    */
-  __IOM uint32_t NSLOCK;                        /**< Lock Register                                      */
-  __IOM uint32_t NSIF;                          /**< Interrupt Flag Register                            */
-  __IOM uint32_t NSIEN;                         /**< Interrupt Enable Register                          */
-  uint32_t       RESERVED1[3U];                 /**< Reserved for future use                            */
-  uint32_t       RESERVED2[8U];                 /**< Reserved for future use                            */
-  __IOM uint32_t PPUNSPATD0;                    /**< Privileged Access                                  */
-  __IOM uint32_t PPUNSPATD1;                    /**< Privileged Access                                  */
-  uint32_t       RESERVED3[62U];                /**< Reserved for future use                            */
-  __IM uint32_t  PPUNSFS;                       /**< Fault Status                                       */
-  uint32_t       RESERVED4[3U];                 /**< Reserved for future use                            */
-  __IOM uint32_t BMPUNSPATD0;                   /**< Privileged Attribute                               */
-  uint32_t       RESERVED5[63U];                /**< Reserved for future use                            */
-  uint32_t       RESERVED6[876U];               /**< Reserved for future use                            */
-  uint32_t       RESERVED7[1U];                 /**< Reserved for future use                            */
-  __IM uint32_t  NSSTATUS_SET;                  /**< Status Register                                    */
-  __IOM uint32_t NSLOCK_SET;                    /**< Lock Register                                      */
-  __IOM uint32_t NSIF_SET;                      /**< Interrupt Flag Register                            */
-  __IOM uint32_t NSIEN_SET;                     /**< Interrupt Enable Register                          */
-  uint32_t       RESERVED8[3U];                 /**< Reserved for future use                            */
-  uint32_t       RESERVED9[8U];                 /**< Reserved for future use                            */
-  __IOM uint32_t PPUNSPATD0_SET;                /**< Privileged Access                                  */
-  __IOM uint32_t PPUNSPATD1_SET;                /**< Privileged Access                                  */
-  uint32_t       RESERVED10[62U];               /**< Reserved for future use                            */
-  __IM uint32_t  PPUNSFS_SET;                   /**< Fault Status                                       */
-  uint32_t       RESERVED11[3U];                /**< Reserved for future use                            */
-  __IOM uint32_t BMPUNSPATD0_SET;               /**< Privileged Attribute                               */
-  uint32_t       RESERVED12[63U];               /**< Reserved for future use                            */
-  uint32_t       RESERVED13[876U];              /**< Reserved for future use                            */
-  uint32_t       RESERVED14[1U];                /**< Reserved for future use                            */
-  __IM uint32_t  NSSTATUS_CLR;                  /**< Status Register                                    */
-  __IOM uint32_t NSLOCK_CLR;                    /**< Lock Register                                      */
-  __IOM uint32_t NSIF_CLR;                      /**< Interrupt Flag Register                            */
-  __IOM uint32_t NSIEN_CLR;                     /**< Interrupt Enable Register                          */
-  uint32_t       RESERVED15[3U];                /**< Reserved for future use                            */
-  uint32_t       RESERVED16[8U];                /**< Reserved for future use                            */
-  __IOM uint32_t PPUNSPATD0_CLR;                /**< Privileged Access                                  */
-  __IOM uint32_t PPUNSPATD1_CLR;                /**< Privileged Access                                  */
-  uint32_t       RESERVED17[62U];               /**< Reserved for future use                            */
-  __IM uint32_t  PPUNSFS_CLR;                   /**< Fault Status                                       */
-  uint32_t       RESERVED18[3U];                /**< Reserved for future use                            */
-  __IOM uint32_t BMPUNSPATD0_CLR;               /**< Privileged Attribute                               */
-  uint32_t       RESERVED19[63U];               /**< Reserved for future use                            */
-  uint32_t       RESERVED20[876U];              /**< Reserved for future use                            */
-  uint32_t       RESERVED21[1U];                /**< Reserved for future use                            */
-  __IM uint32_t  NSSTATUS_TGL;                  /**< Status Register                                    */
-  __IOM uint32_t NSLOCK_TGL;                    /**< Lock Register                                      */
-  __IOM uint32_t NSIF_TGL;                      /**< Interrupt Flag Register                            */
-  __IOM uint32_t NSIEN_TGL;                     /**< Interrupt Enable Register                          */
-  uint32_t       RESERVED22[3U];                /**< Reserved for future use                            */
-  uint32_t       RESERVED23[8U];                /**< Reserved for future use                            */
-  __IOM uint32_t PPUNSPATD0_TGL;                /**< Privileged Access                                  */
-  __IOM uint32_t PPUNSPATD1_TGL;                /**< Privileged Access                                  */
-  uint32_t       RESERVED24[62U];               /**< Reserved for future use                            */
-  __IM uint32_t  PPUNSFS_TGL;                   /**< Fault Status                                       */
-  uint32_t       RESERVED25[3U];                /**< Reserved for future use                            */
-  __IOM uint32_t BMPUNSPATD0_TGL;               /**< Privileged Attribute                               */
-  uint32_t       RESERVED26[63U];               /**< Reserved for future use                            */
+typedef struct
+{
+	uint32_t RESERVED0[1U]; /**< Reserved for future use                            */
+	__IM uint32_t NSSTATUS; /**< Status Register                                    */
+	__IOM uint32_t NSLOCK; /**< Lock Register                                      */
+	__IOM uint32_t NSIF; /**< Interrupt Flag Register                            */
+	__IOM uint32_t NSIEN; /**< Interrupt Enable Register                          */
+	uint32_t RESERVED1[3U]; /**< Reserved for future use                            */
+	uint32_t RESERVED2[8U]; /**< Reserved for future use                            */
+	__IOM uint32_t PPUNSPATD0; /**< Privileged Access                                  */
+	__IOM uint32_t PPUNSPATD1; /**< Privileged Access                                  */
+	uint32_t RESERVED3[62U]; /**< Reserved for future use                            */
+	__IM uint32_t PPUNSFS; /**< Fault Status                                       */
+	uint32_t RESERVED4[3U]; /**< Reserved for future use                            */
+	__IOM uint32_t BMPUNSPATD0; /**< Privileged Attribute                               */
+	uint32_t RESERVED5[63U]; /**< Reserved for future use                            */
+	uint32_t RESERVED6[876U]; /**< Reserved for future use                            */
+	uint32_t RESERVED7[1U]; /**< Reserved for future use                            */
+	__IM uint32_t NSSTATUS_SET; /**< Status Register                                    */
+	__IOM uint32_t NSLOCK_SET; /**< Lock Register                                      */
+	__IOM uint32_t NSIF_SET; /**< Interrupt Flag Register                            */
+	__IOM uint32_t NSIEN_SET; /**< Interrupt Enable Register                          */
+	uint32_t RESERVED8[3U]; /**< Reserved for future use                            */
+	uint32_t RESERVED9[8U]; /**< Reserved for future use                            */
+	__IOM uint32_t PPUNSPATD0_SET; /**< Privileged Access                                  */
+	__IOM uint32_t PPUNSPATD1_SET; /**< Privileged Access                                  */
+	uint32_t RESERVED10[62U]; /**< Reserved for future use                            */
+	__IM uint32_t PPUNSFS_SET; /**< Fault Status                                       */
+	uint32_t RESERVED11[3U]; /**< Reserved for future use                            */
+	__IOM uint32_t BMPUNSPATD0_SET; /**< Privileged Attribute                               */
+	uint32_t RESERVED12[63U]; /**< Reserved for future use                            */
+	uint32_t RESERVED13[876U]; /**< Reserved for future use                            */
+	uint32_t RESERVED14[1U]; /**< Reserved for future use                            */
+	__IM uint32_t NSSTATUS_CLR; /**< Status Register                                    */
+	__IOM uint32_t NSLOCK_CLR; /**< Lock Register                                      */
+	__IOM uint32_t NSIF_CLR; /**< Interrupt Flag Register                            */
+	__IOM uint32_t NSIEN_CLR; /**< Interrupt Enable Register                          */
+	uint32_t RESERVED15[3U]; /**< Reserved for future use                            */
+	uint32_t RESERVED16[8U]; /**< Reserved for future use                            */
+	__IOM uint32_t PPUNSPATD0_CLR; /**< Privileged Access                                  */
+	__IOM uint32_t PPUNSPATD1_CLR; /**< Privileged Access                                  */
+	uint32_t RESERVED17[62U]; /**< Reserved for future use                            */
+	__IM uint32_t PPUNSFS_CLR; /**< Fault Status                                       */
+	uint32_t RESERVED18[3U]; /**< Reserved for future use                            */
+	__IOM uint32_t BMPUNSPATD0_CLR; /**< Privileged Attribute                               */
+	uint32_t RESERVED19[63U]; /**< Reserved for future use                            */
+	uint32_t RESERVED20[876U]; /**< Reserved for future use                            */
+	uint32_t RESERVED21[1U]; /**< Reserved for future use                            */
+	__IM uint32_t NSSTATUS_TGL; /**< Status Register                                    */
+	__IOM uint32_t NSLOCK_TGL; /**< Lock Register                                      */
+	__IOM uint32_t NSIF_TGL; /**< Interrupt Flag Register                            */
+	__IOM uint32_t NSIEN_TGL; /**< Interrupt Enable Register                          */
+	uint32_t RESERVED22[3U]; /**< Reserved for future use                            */
+	uint32_t RESERVED23[8U]; /**< Reserved for future use                            */
+	__IOM uint32_t PPUNSPATD0_TGL; /**< Privileged Access                                  */
+	__IOM uint32_t PPUNSPATD1_TGL; /**< Privileged Access                                  */
+	uint32_t RESERVED24[62U]; /**< Reserved for future use                            */
+	__IM uint32_t PPUNSFS_TGL; /**< Fault Status                                       */
+	uint32_t RESERVED25[3U]; /**< Reserved for future use                            */
+	__IOM uint32_t BMPUNSPATD0_TGL; /**< Privileged Attribute                               */
+	uint32_t RESERVED26[63U]; /**< Reserved for future use                            */
 } SMU_CFGNS_TypeDef;
 /** @} End of group EFR32MG24_SMU_CFGNS */
 

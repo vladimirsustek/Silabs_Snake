@@ -63,7 +63,8 @@ extern "C" {
  * @return Status code
  * @retval SL_STATUS_OK SWO initialized successfully
  */
-sl_status_t sl_debug_swo_init(void);
+sl_status_t
+sl_debug_swo_init(void);
 
 /**
  * Enable an ITM channel
@@ -76,7 +77,8 @@ sl_status_t sl_debug_swo_init(void);
  * @return Status code
  * @retval SL_STATUS_OK ITM channel enabled successfully
  */
-sl_status_t sl_debug_swo_enable_itm(uint32_t channel);
+sl_status_t
+sl_debug_swo_enable_itm(uint32_t channel);
 
 /**
  * Disable an ITM channel
@@ -89,7 +91,8 @@ sl_status_t sl_debug_swo_enable_itm(uint32_t channel);
  * @return Status code
  * @retval SL_STATUS_OK ITM channel disabled successfully
  */
-sl_status_t sl_debug_swo_disable_itm(uint32_t channel);
+sl_status_t
+sl_debug_swo_disable_itm(uint32_t channel);
 
 /**
  * Write a byte to an ITM channel
@@ -110,7 +113,8 @@ sl_status_t sl_debug_swo_disable_itm(uint32_t channel);
  * @retval SL_STATUS_NOT_INITIALIZED ITM has not been enabled, call
  *                                   @ref sl_debug_swo_init first.
  */
-sl_status_t sl_debug_swo_write_u8(uint32_t channel, uint8_t byte);
+sl_status_t
+sl_debug_swo_write_u8(uint32_t channel, uint8_t byte);
 
 /**
  * Write a half-word to an ITM channel
@@ -130,7 +134,8 @@ sl_status_t sl_debug_swo_write_u8(uint32_t channel, uint8_t byte);
  * @retval SL_STATUS_NOT_INITIALIZED ITM has not been enabled, call
  *                                   @ref sl_debug_swo_init first.
  */
-sl_status_t sl_debug_swo_write_u16(uint32_t channel, uint16_t half_word);
+sl_status_t
+sl_debug_swo_write_u16(uint32_t channel, uint16_t half_word);
 
 /**
  * Write a word to an ITM channel
@@ -150,7 +155,8 @@ sl_status_t sl_debug_swo_write_u16(uint32_t channel, uint16_t half_word);
  * @retval SL_STATUS_NOT_INITIALIZED ITM has not been enabled, call
  *                                   @ref sl_debug_swo_init first.
  */
-sl_status_t sl_debug_swo_write_u32(uint32_t channel, uint32_t word);
+sl_status_t
+sl_debug_swo_write_u32(uint32_t channel, uint32_t word);
 
 /**
  * alias for backward compatibility

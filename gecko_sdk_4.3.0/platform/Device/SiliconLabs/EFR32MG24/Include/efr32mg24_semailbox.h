@@ -31,9 +31,9 @@
 #define EFR32MG24_SEMAILBOX_H
 
 /**************************************************************************//**
-* @addtogroup Parts
-* @{
-******************************************************************************/
+ * @addtogroup Parts
+ * @{
+ ******************************************************************************/
 /**************************************************************************//**
  * @defgroup EFR32MG24_SEMAILBOX_HOST SEMAILBOX_HOST
  * @{
@@ -41,16 +41,17 @@
  *****************************************************************************/
 
 /** SEMAILBOX_HOST Register Declaration. */
-typedef struct {
-  __IOM uint32_t FIFO;                               /**< ESECURE_MAILBOX_FIFO                               */
-  uint32_t       RESERVED0[15U];                     /**< Reserved for future use                            */
-  __IM uint32_t  TX_STATUS;                          /**< ESECURE_MAILBOX_TXSTAT                             */
-  __IM uint32_t  RX_STATUS;                          /**< ESECURE_MAILBOX_RXSTAT                             */
-  __IM uint32_t  TX_PROT;                            /**< ESECURE_MAILBOX_TXPROTECT                          */
-  __IM uint32_t  RX_PROT;                            /**< ESECURE_MAILBOX_RXPROTECT                          */
-  __IOM uint32_t TX_HEADER;                          /**< ESECURE_MAILBOX_TXHEADER                           */
-  __IM uint32_t  RX_HEADER;                          /**< ESECURE_MAILBOX_RXHEADER                           */
-  __IOM uint32_t CONFIGURATION;                      /**< ESECURE_MAILBOX_CONFIG                             */
+typedef struct
+{
+	__IOM uint32_t FIFO; /**< ESECURE_MAILBOX_FIFO                               */
+	uint32_t RESERVED0[15U]; /**< Reserved for future use                            */
+	__IM uint32_t TX_STATUS; /**< ESECURE_MAILBOX_TXSTAT                             */
+	__IM uint32_t RX_STATUS; /**< ESECURE_MAILBOX_RXSTAT                             */
+	__IM uint32_t TX_PROT; /**< ESECURE_MAILBOX_TXPROTECT                          */
+	__IM uint32_t RX_PROT; /**< ESECURE_MAILBOX_RXPROTECT                          */
+	__IOM uint32_t TX_HEADER; /**< ESECURE_MAILBOX_TXHEADER                           */
+	__IM uint32_t RX_HEADER; /**< ESECURE_MAILBOX_RXHEADER                           */
+	__IOM uint32_t CONFIGURATION; /**< ESECURE_MAILBOX_CONFIG                             */
 } SEMAILBOX_HOST_TypeDef;
 /** @} End of group EFR32MG24_SEMAILBOX_HOST */
 
@@ -213,16 +214,17 @@ typedef struct {
  *****************************************************************************/
 
 /** SEMAILBOX_APBSE Register Declaration. */
-typedef struct {
-  __IOM uint32_t SE_ESECURE_MAILBOX_FIFO;            /**< ESECURE_MAILBOX_FIFO                               */
-  uint32_t       RESERVED0[15U];                     /**< Reserved for future use                            */
-  __IM uint32_t  SE_ESECURE_MAILBOX_TXSTAT;          /**< ESECURE_MAILBOX_TXSTAT                             */
-  __IM uint32_t  SE_ESECURE_MAILBOX_RXSTAT;          /**< ESECURE_MAILBOX_RXSTAT                             */
-  __IM uint32_t  SE_ESECURE_MAILBOX_TXPROTECT;       /**< ESECURE_MAILBOX_TXPROTECT                          */
-  __IM uint32_t  SE_ESECURE_MAILBOX_RXPROTECT;       /**< ESECURE_MAILBOX_RXPROTECT                          */
-  __IOM uint32_t SE_ESECURE_MAILBOX_TXHEADER;        /**< ESECURE_MAILBOX_TXHEADER                           */
-  __IM uint32_t  SE_ESECURE_MAILBOX_RXHEADER;        /**< ESECURE_MAILBOX_RXHEADER                           */
-  __IOM uint32_t SE_ESECURE_MAILBOX_CONFIG;          /**< ESECURE_MAILBOX_CONFIG                             */
+typedef struct
+{
+	__IOM uint32_t SE_ESECURE_MAILBOX_FIFO; /**< ESECURE_MAILBOX_FIFO                               */
+	uint32_t RESERVED0[15U]; /**< Reserved for future use                            */
+	__IM uint32_t SE_ESECURE_MAILBOX_TXSTAT; /**< ESECURE_MAILBOX_TXSTAT                             */
+	__IM uint32_t SE_ESECURE_MAILBOX_RXSTAT; /**< ESECURE_MAILBOX_RXSTAT                             */
+	__IM uint32_t SE_ESECURE_MAILBOX_TXPROTECT; /**< ESECURE_MAILBOX_TXPROTECT                          */
+	__IM uint32_t SE_ESECURE_MAILBOX_RXPROTECT; /**< ESECURE_MAILBOX_RXPROTECT                          */
+	__IOM uint32_t SE_ESECURE_MAILBOX_TXHEADER; /**< ESECURE_MAILBOX_TXHEADER                           */
+	__IM uint32_t SE_ESECURE_MAILBOX_RXHEADER; /**< ESECURE_MAILBOX_RXHEADER                           */
+	__IOM uint32_t SE_ESECURE_MAILBOX_CONFIG; /**< ESECURE_MAILBOX_CONFIG                             */
 } SEMAILBOX_APBSE_TypeDef;
 /** @} End of group EFR32MG24_SEMAILBOX_APBSE */
 

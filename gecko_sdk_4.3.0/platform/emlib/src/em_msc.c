@@ -223,11 +223,12 @@
 #if defined(_MSC_ECCCTRL_MASK)          \
   || defined(_SYSCFG_DMEM0ECCCTRL_MASK) \
   || defined(_MPAHBRAM_CTRL_MASK)
-typedef struct {
-  uint32_t           initSyndromeEnable;
-  uint32_t           correctionEnable;
-  uint32_t           base;
-  uint32_t           size;
+typedef struct
+{
+	uint32_t initSyndromeEnable;
+	uint32_t correctionEnable;
+	uint32_t base;
+	uint32_t size;
 } MSC_EccBank_Typedef;
 
 #endif
@@ -240,10 +241,9 @@ typedef struct {
   || defined(_MPAHBRAM_CTRL_MASK)
 static const MSC_EccBank_Typedef eccBankTbl[MSC_ECC_BANKS] =
 {
-  {
-    ECC_RAM0_SYNDROMES_INIT, ECC_RAM0_CORRECTION_EN,
-    ECC_RAM0_MEM_BASE, ECC_RAM0_MEM_SIZE
-  },
+{
+ECC_RAM0_SYNDROMES_INIT, ECC_RAM0_CORRECTION_EN,
+ECC_RAM0_MEM_BASE, ECC_RAM0_MEM_SIZE },
 #if MSC_ECC_BANKS > 1
   {
     ECC_RAM1_SYNDROMES_INIT, ECC_RAM1_CORRECTION_EN,
@@ -256,23 +256,20 @@ static const MSC_EccBank_Typedef eccBankTbl[MSC_ECC_BANKS] =
   },
 #endif
 #endif
-};
+		};
 #endif
 
 /*******************************************************************************
  ******************************     FUNCTIONS     ******************************
  ******************************************************************************/
 MSC_RAMFUNC_DECLARATOR MSC_Status_TypeDef
-MSC_WriteWordI(uint32_t *address,
-               void const *data,
-               uint32_t numBytes);
+MSC_WriteWordI(uint32_t *address, void const *data, uint32_t numBytes);
 
 MSC_RAMFUNC_DECLARATOR MSC_Status_TypeDef
-MSC_LoadWriteData(uint32_t* data,
-                  uint32_t numWords);
+MSC_LoadWriteData(uint32_t *data, uint32_t numWords);
 
 MSC_RAMFUNC_DECLARATOR MSC_Status_TypeDef
-MSC_LoadVerifyAddress(uint32_t* address);
+MSC_LoadVerifyAddress(uint32_t *address);
 
 /** @endcond */
 
@@ -310,43 +307,50 @@ MSC_LoadVerifyAddress(uint32_t* address);
 MSC_RAMFUNC_DEFINITION_BEGIN
 msc_Return_TypeDef mscStatusWait(uint32_t mask, uint32_t value)
 {
-  uint32_t timeOut = MSC_PROGRAM_TIMEOUT;
+	uint32_t timeOut = MSC_PROGRAM_TIMEOUT;
 
-  while (timeOut) {
-    uint32_t status = MSC->STATUS;
+	while (timeOut)
+	{
+		uint32_t status = MSC->STATUS;
 
-    /* if INVADDR is asserted by MSC, BUSY will never go high, can be checked early */
-    if (status & MSC_STATUS_INVADDR) {
-      return mscReturnInvalidAddr;
-    }
+		/* if INVADDR is asserted by MSC, BUSY will never go high, can be checked early */
+		if (status & MSC_STATUS_INVADDR)
+		{
+			return mscReturnInvalidAddr;
+		}
 
-    /*
-     * if requested operation fails because flash is locked, BUSY will be high
-     * for a few cycles and it's not safe to clear WRITECTRL.WREN during that
-     * period. mscStatusWait should return only when it's safe to do so.
-     *
-     * So if user is checking BUSY flag, make sure it matches user's expected
-     * value and only then check the lock bits. Otherwise, do check early and
-     * bail out if necessary.
-     */
+		/*
+		 * if requested operation fails because flash is locked, BUSY will be high
+		 * for a few cycles and it's not safe to clear WRITECTRL.WREN during that
+		 * period. mscStatusWait should return only when it's safe to do so.
+		 *
+		 * So if user is checking BUSY flag, make sure it matches user's expected
+		 * value and only then check the lock bits. Otherwise, do check early and
+		 * bail out if necessary.
+		 */
 
-    if ((!(mask & MSC_STATUS_BUSY))
-        && (status & (MSC_STATUS_LOCKED | MSC_STATUS_REGLOCK))) {
-      return mscReturnLocked;
-    }
+		if ((!(mask & MSC_STATUS_BUSY))
+				&& (status & (MSC_STATUS_LOCKED | MSC_STATUS_REGLOCK)))
+		{
+			return mscReturnLocked;
+		}
 
-    if ((status & mask) == value) {
-      if (status & (MSC_STATUS_LOCKED | MSC_STATUS_REGLOCK)) {
-        return mscReturnLocked;
-      } else {
-        return mscReturnOk;
-      }
-    }
+		if ((status & mask) == value)
+		{
+			if (status & (MSC_STATUS_LOCKED | MSC_STATUS_REGLOCK))
+			{
+				return mscReturnLocked;
+			}
+			else
+			{
+				return mscReturnOk;
+			}
+		}
 
-    timeOut--;
-  }
+		timeOut--;
+	}
 
-  return mscReturnTimeOut;
+	return mscReturnTimeOut;
 }
 MSC_RAMFUNC_DEFINITION_END
 
@@ -373,43 +377,46 @@ MSC_RAMFUNC_DEFINITION_END
  * @endverbatim
  ******************************************************************************/
 MSC_RAMFUNC_DEFINITION_BEGIN
-msc_Return_TypeDef writeBurst(uint32_t address,
-                              const uint32_t *data,
-                              uint32_t numBytes)
+msc_Return_TypeDef writeBurst(uint32_t address, const uint32_t *data,
+		uint32_t numBytes)
 {
-  msc_Return_TypeDef retVal;
+	msc_Return_TypeDef retVal;
 
-  MSC->ADDRB = address;
+	MSC->ADDRB = address;
 
-  if (MSC->STATUS & MSC_STATUS_INVADDR) {
-    return mscReturnInvalidAddr;
-  }
+	if (MSC->STATUS & MSC_STATUS_INVADDR)
+	{
+		return mscReturnInvalidAddr;
+	}
 
-  MSC->WDATA = *data++;
-  numBytes  -= 4;
+	MSC->WDATA = *data++;
+	numBytes -= 4;
 
-  while (numBytes) {
-    retVal = mscStatusWait(MSC_STATUS_WDATAREADY, MSC_STATUS_WDATAREADY);
+	while (numBytes)
+	{
+		retVal = mscStatusWait(MSC_STATUS_WDATAREADY, MSC_STATUS_WDATAREADY);
 
-    if (retVal != mscReturnOk) {
-      MSC->WRITECMD = MSC_WRITECMD_WRITEEND;
-      return retVal;
-    }
+		if (retVal != mscReturnOk)
+		{
+			MSC->WRITECMD = MSC_WRITECMD_WRITEEND;
+			return retVal;
+		}
 
-    MSC->WDATA = *data++;
-    numBytes  -= 4;
-  }
+		MSC->WDATA = *data++;
+		numBytes -= 4;
+	}
 
-  MSC->WRITECMD = MSC_WRITECMD_WRITEEND;
+	MSC->WRITECMD = MSC_WRITECMD_WRITEEND;
 
-  retVal = mscStatusWait((MSC_STATUS_BUSY | MSC_STATUS_PENDING), 0);
+	retVal = mscStatusWait((MSC_STATUS_BUSY | MSC_STATUS_PENDING), 0);
 
-  if (retVal == mscReturnOk) {
-    // We need to check twice to be sure
-    retVal = mscStatusWait((MSC_STATUS_BUSY | MSC_STATUS_PENDING), 0);
-  }
+	if (retVal == mscReturnOk)
+	{
+		// We need to check twice to be sure
+		retVal = mscStatusWait((MSC_STATUS_BUSY | MSC_STATUS_PENDING), 0);
+	}
 
-  return retVal;
+	return retVal;
 }
 MSC_RAMFUNC_DEFINITION_END
 
@@ -422,12 +429,12 @@ MSC_RAMFUNC_DEFINITION_END
 void MSC_Init(void)
 {
 #if defined(_CMU_CLKEN1_MASK)
-  CMU->CLKEN1_SET = CMU_CLKEN1_MSC;
+	CMU->CLKEN1_SET = CMU_CLKEN1_MSC;
 #endif
-  // Unlock MSC
-  MSC->LOCK = MSC_LOCK_LOCKKEY_UNLOCK;
-  // Disable flash write
-  MSC->WRITECTRL_CLR = MSC_WRITECTRL_WREN;
+	// Unlock MSC
+	MSC->LOCK = MSC_LOCK_LOCKKEY_UNLOCK;
+	// Disable flash write
+	MSC->WRITECTRL_CLR = MSC_WRITECTRL_WREN;
 }
 
 /***************************************************************************//**
@@ -436,14 +443,14 @@ void MSC_Init(void)
  ******************************************************************************/
 void MSC_Deinit(void)
 {
-  // Unlock MSC
-  MSC->LOCK = MSC_LOCK_LOCKKEY_UNLOCK;
-  // Disable flash write
-  MSC->WRITECTRL_CLR = MSC_WRITECTRL_WREN;
-  // Lock MSC
-  MSC->LOCK = MSC_LOCK_LOCKKEY_LOCK;
+	// Unlock MSC
+	MSC->LOCK = MSC_LOCK_LOCKKEY_UNLOCK;
+	// Disable flash write
+	MSC->WRITECTRL_CLR = MSC_WRITECTRL_WREN;
+	// Lock MSC
+	MSC->LOCK = MSC_LOCK_LOCKKEY_LOCK;
 #if defined(_CMU_CLKEN1_MASK)
-  CMU->CLKEN1_CLR = CMU_CLKEN1_MSC;
+	CMU->CLKEN1_CLR = CMU_CLKEN1_MSC;
 #endif
 }
 
@@ -456,16 +463,17 @@ void MSC_Deinit(void)
  ******************************************************************************/
 void MSC_ExecConfigSet(MSC_ExecConfig_TypeDef *execConfig)
 {
-  uint32_t mscReadCtrl;
+	uint32_t mscReadCtrl;
 
 #if defined(MSC_RDATACTRL_DOUTBUFEN)
-  mscReadCtrl = MSC->RDATACTRL & ~MSC_RDATACTRL_DOUTBUFEN;
+	mscReadCtrl = MSC->RDATACTRL & ~MSC_RDATACTRL_DOUTBUFEN;
 
-  if (execConfig->doutBufEn) {
-    mscReadCtrl |= MSC_RDATACTRL_DOUTBUFEN;
-  }
+	if (execConfig->doutBufEn)
+	{
+		mscReadCtrl |= MSC_RDATACTRL_DOUTBUFEN;
+	}
 
-  MSC->RDATACTRL = mscReadCtrl;
+	MSC->RDATACTRL = mscReadCtrl;
 #elif defined(MSC_READCTRL_DOUTBUFEN)
   mscReadCtrl = MSC->READCTRL & ~MSC_READCTRL_DOUTBUFEN;
 
@@ -501,36 +509,38 @@ void MSC_ExecConfigSet(MSC_ExecConfig_TypeDef *execConfig)
 MSC_RAMFUNC_DEFINITION_BEGIN
 MSC_Status_TypeDef MSC_ErasePage(uint32_t *startAddress)
 {
-  MSC_Status_TypeDef retVal;
-  bool wasLocked;
+	MSC_Status_TypeDef retVal;
+	bool wasLocked;
 
-  // Address must be aligned to page boundary
-  EFM_ASSERT((((uint32_t)startAddress) & (FLASH_PAGE_SIZE - 1U)) == 0);
+	// Address must be aligned to page boundary
+	EFM_ASSERT((((uint32_t)startAddress) & (FLASH_PAGE_SIZE - 1U)) == 0);
 
 #if defined(_CMU_CLKEN1_MASK)
-  CMU->CLKEN1_SET = CMU_CLKEN1_MSC;
+	CMU->CLKEN1_SET = CMU_CLKEN1_MSC;
 #endif
-  wasLocked = MSC_IS_LOCKED();
-  MSC->LOCK = MSC_LOCK_LOCKKEY_UNLOCK;
+	wasLocked = MSC_IS_LOCKED();
+	MSC->LOCK = MSC_LOCK_LOCKKEY_UNLOCK;
 
-  MSC->WRITECTRL_SET = MSC_WRITECTRL_WREN;
-  MSC->ADDRB         = (uint32_t)startAddress;
-  MSC->WRITECMD      = MSC_WRITECMD_ERASEPAGE;
+	MSC->WRITECTRL_SET = MSC_WRITECTRL_WREN;
+	MSC->ADDRB = (uint32_t) startAddress;
+	MSC->WRITECMD = MSC_WRITECMD_ERASEPAGE;
 
-  retVal = mscStatusWait((MSC_STATUS_BUSY | MSC_STATUS_PENDING), 0);
+	retVal = mscStatusWait((MSC_STATUS_BUSY | MSC_STATUS_PENDING), 0);
 
-  if (retVal == mscReturnOk) {
-    // We need to check twice to be sure
-    retVal = mscStatusWait((MSC_STATUS_BUSY | MSC_STATUS_PENDING), 0);
-  }
+	if (retVal == mscReturnOk)
+	{
+		// We need to check twice to be sure
+		retVal = mscStatusWait((MSC_STATUS_BUSY | MSC_STATUS_PENDING), 0);
+	}
 
-  MSC->WRITECTRL_CLR = MSC_WRITECTRL_WREN;
+	MSC->WRITECTRL_CLR = MSC_WRITECTRL_WREN;
 
-  if (wasLocked) {
-    MSC->LOCK = MSC_LOCK_LOCKKEY_LOCK;
-  }
+	if (wasLocked)
+	{
+		MSC->LOCK = MSC_LOCK_LOCKKEY_LOCK;
+	}
 
-  return retVal;
+	return retVal;
 }
 MSC_RAMFUNC_DEFINITION_END
 
@@ -570,76 +580,79 @@ MSC_RAMFUNC_DEFINITION_END
  * @endverbatim
  ******************************************************************************/
 MSC_RAMFUNC_DEFINITION_BEGIN
-MSC_Status_TypeDef MSC_WriteWord(uint32_t *address,
-                                 void const *data,
-                                 uint32_t numBytes)
+MSC_Status_TypeDef MSC_WriteWord(uint32_t *address, void const *data,
+		uint32_t numBytes)
 {
-  uint32_t addr;
-  const uint8_t  *pData;
-  uint32_t burstLen;
-  MSC_Status_TypeDef retVal = mscReturnOk;
-  bool wasLocked;
+	uint32_t addr;
+	const uint8_t *pData;
+	uint32_t burstLen;
+	MSC_Status_TypeDef retVal = mscReturnOk;
+	bool wasLocked;
 
-  // Check alignment (must be aligned to words)
-  EFM_ASSERT(((uint32_t)address & 0x3U) == 0);
-  // Check number of bytes, must be divisable by four
-  EFM_ASSERT((numBytes & 0x3U) == 0);
+	// Check alignment (must be aligned to words)
+	EFM_ASSERT(((uint32_t )address & 0x3U) == 0);
+	// Check number of bytes, must be divisable by four
+	EFM_ASSERT((numBytes & 0x3U) == 0);
 
 #if defined(_CMU_CLKEN1_MASK)
-  CMU->CLKEN1_SET = CMU_CLKEN1_MSC;
+	CMU->CLKEN1_SET = CMU_CLKEN1_MSC;
 #endif
-  wasLocked = MSC_IS_LOCKED();
-  MSC->LOCK = MSC_LOCK_LOCKKEY_UNLOCK;
+	wasLocked = MSC_IS_LOCKED();
+	MSC->LOCK = MSC_LOCK_LOCKKEY_UNLOCK;
 
-  // Enable flash write
-  MSC->WRITECTRL_SET = MSC_WRITECTRL_WREN;
+	// Enable flash write
+	MSC->WRITECTRL_SET = MSC_WRITECTRL_WREN;
 
-  addr  = (uint32_t)address;
-  pData = (uint8_t*)data;
+	addr = (uint32_t) address;
+	pData = (uint8_t*) data;
 
-  while (numBytes) {
-    // Max burst length is up to next flash page boundary
-    burstLen = SL_MIN(numBytes,
-                      ((addr + FLASH_PAGE_SIZE) & FLASH_PAGE_MASK) - addr);
+	while (numBytes)
+	{
+		// Max burst length is up to next flash page boundary
+		burstLen = SL_MIN(numBytes,
+				((addr + FLASH_PAGE_SIZE) & FLASH_PAGE_MASK) - addr);
 
-    if ((retVal = writeBurst(addr, (const uint32_t*)pData, burstLen))
-        != mscReturnOk) {
-      break;
-    }
+		if ((retVal = writeBurst(addr, (const uint32_t*) pData, burstLen))
+				!= mscReturnOk)
+		{
+			break;
+		}
 
-    addr     += burstLen;
-    pData    += burstLen;
-    numBytes -= burstLen;
-  }
+		addr += burstLen;
+		pData += burstLen;
+		numBytes -= burstLen;
+	}
 
-  // Disable flash write
-  MSC->WRITECTRL_CLR = MSC_WRITECTRL_WREN;
+	// Disable flash write
+	MSC->WRITECTRL_CLR = MSC_WRITECTRL_WREN;
 
-  if (wasLocked) {
-    MSC->LOCK = MSC_LOCK_LOCKKEY_LOCK;
-  }
+	if (wasLocked)
+	{
+		MSC->LOCK = MSC_LOCK_LOCKKEY_LOCK;
+	}
 
-  return retVal;
+	return retVal;
 }
 MSC_RAMFUNC_DEFINITION_END
 
 MSC_RAMFUNC_DEFINITION_BEGIN
 MSC_Status_TypeDef MSC_MassErase(void)
 {
-  MSC_Status_TypeDef retVal;
+	MSC_Status_TypeDef retVal;
 
-  if (MSC_IS_LOCKED()) {
-    return mscReturnLocked;
-  }
+	if (MSC_IS_LOCKED())
+	{
+		return mscReturnLocked;
+	}
 
-  MSC->WRITECTRL_SET    = MSC_WRITECTRL_WREN;                 // Set write enable bit
-  MSC->MISCLOCKWORD_CLR = MSC_MISCLOCKWORD_MELOCKBIT;         // Enable Write ctrl access
-  MSC->WRITECMD         = MSC_WRITECMD_ERASEMAIN0;            // Start Mass erase procedure
-  retVal                = mscStatusWait(MSC_STATUS_BUSY, 0);  // Wait for end of busy flag or a problem (INVADDR, LOCK, REGLOCK, TIMEOUT)
-  MSC->MISCLOCKWORD_SET = MSC_MISCLOCKWORD_MELOCKBIT;         // Reenable mass erase lock bit
-  MSC->WRITECTRL_CLR    = MSC_WRITECTRL_WREN;                 // Disable Write ctrl access
+	MSC->WRITECTRL_SET = MSC_WRITECTRL_WREN;             // Set write enable bit
+	MSC->MISCLOCKWORD_CLR = MSC_MISCLOCKWORD_MELOCKBIT; // Enable Write ctrl access
+	MSC->WRITECMD = MSC_WRITECMD_ERASEMAIN0;       // Start Mass erase procedure
+	retVal = mscStatusWait(MSC_STATUS_BUSY, 0); // Wait for end of busy flag or a problem (INVADDR, LOCK, REGLOCK, TIMEOUT)
+	MSC->MISCLOCKWORD_SET = MSC_MISCLOCKWORD_MELOCKBIT; // Reenable mass erase lock bit
+	MSC->WRITECTRL_CLR = MSC_WRITECTRL_WREN;        // Disable Write ctrl access
 
-  return retVal;
+	return retVal;
 }
 MSC_RAMFUNC_DEFINITION_END
 
@@ -677,78 +690,79 @@ MSC_RAMFUNC_DEFINITION_END
  *   flashReturnInvalidAddr - The operation tried to erase a non-flash area.
  * @endverbatim
  ******************************************************************************/
-MSC_Status_TypeDef MSC_WriteWordDma(int ch,
-                                    uint32_t *address,
-                                    const void *data,
-                                    uint32_t numBytes)
+MSC_Status_TypeDef MSC_WriteWordDma(int ch, uint32_t *address, const void *data,
+		uint32_t numBytes)
 {
-  uint32_t words = numBytes / 4;
-  uint32_t burstLen;
-  uint32_t src = (uint32_t) data;
-  uint32_t dst = (uint32_t) address;
-  bool wasLocked;
+	uint32_t words = numBytes / 4;
+	uint32_t burstLen;
+	uint32_t src = (uint32_t) data;
+	uint32_t dst = (uint32_t) address;
+	bool wasLocked;
 
-  EFM_ASSERT((ch >= 0) && (ch < (int)DMA_CHAN_COUNT));
+	EFM_ASSERT((ch >= 0) && (ch < (int)DMA_CHAN_COUNT));
 
-  LDMA->EN_SET = 0x1;
-  LDMAXBAR->CH[ch].REQSEL = LDMAXBAR_CH_REQSEL_SOURCESEL_MSC
-                            | LDMAXBAR_CH_REQSEL_SIGSEL_MSCWDATA;
-  LDMA->CH[ch].CFG = _LDMA_CH_CFG_RESETVALUE;
-  LDMA->CH[ch].LOOP = _LDMA_CH_LOOP_RESETVALUE;
-  LDMA->CH[ch].LINK = _LDMA_CH_LINK_RESETVALUE;
+	LDMA->EN_SET = 0x1;
+	LDMAXBAR->CH[ch].REQSEL = LDMAXBAR_CH_REQSEL_SOURCESEL_MSC
+			| LDMAXBAR_CH_REQSEL_SIGSEL_MSCWDATA;
+	LDMA->CH[ch].CFG = _LDMA_CH_CFG_RESETVALUE;
+	LDMA->CH[ch].LOOP = _LDMA_CH_LOOP_RESETVALUE;
+	LDMA->CH[ch].LINK = _LDMA_CH_LINK_RESETVALUE;
 
 #if defined(_CMU_CLKEN1_MASK)
-  CMU->CLKEN1_SET = CMU_CLKEN1_MSC;
+	CMU->CLKEN1_SET = CMU_CLKEN1_MSC;
 #endif
-  // Unlock MSC
-  wasLocked = MSC_IS_LOCKED();
-  MSC->LOCK = MSC_LOCK_LOCKKEY_UNLOCK;
-  // Enable writing to the MSC module.
-  MSC->WRITECTRL |= MSC_WRITECTRL_WREN;
+	// Unlock MSC
+	wasLocked = MSC_IS_LOCKED();
+	MSC->LOCK = MSC_LOCK_LOCKKEY_UNLOCK;
+	// Enable writing to the MSC module.
+	MSC->WRITECTRL |= MSC_WRITECTRL_WREN;
 
-  while (numBytes) {
-    // Max burst length is up to next flash page boundary
-    burstLen = SL_MIN(numBytes,
-                      ((dst + FLASH_PAGE_SIZE) & FLASH_PAGE_MASK) - dst);
-    words = burstLen / 4;
+	while (numBytes)
+	{
+		// Max burst length is up to next flash page boundary
+		burstLen = SL_MIN(numBytes,
+				((dst + FLASH_PAGE_SIZE) & FLASH_PAGE_MASK) - dst);
+		words = burstLen / 4;
 
-    // Load the address.
-    MSC->ADDRB = dst;
+		// Load the address.
+		MSC->ADDRB = dst;
 
-    // Check for an invalid address.
-    if (MSC->STATUS & MSC_STATUS_INVADDR) {
-      return mscReturnInvalidAddr;
-    }
+		// Check for an invalid address.
+		if (MSC->STATUS & MSC_STATUS_INVADDR)
+		{
+			return mscReturnInvalidAddr;
+		}
 
-    LDMA->CH[ch].CTRL = LDMA_CH_CTRL_DSTINC_NONE
-                        | LDMA_CH_CTRL_SIZE_WORD
-                        | ((words - 1) << _LDMA_CH_CTRL_XFERCNT_SHIFT);
-    LDMA->CH[ch].SRC = (uint32_t)src;
-    LDMA->CH[ch].DST = (uint32_t)&MSC->WDATA;
+		LDMA->CH[ch].CTRL = LDMA_CH_CTRL_DSTINC_NONE | LDMA_CH_CTRL_SIZE_WORD
+				| ((words - 1) << _LDMA_CH_CTRL_XFERCNT_SHIFT);
+		LDMA->CH[ch].SRC = (uint32_t) src;
+		LDMA->CH[ch].DST = (uint32_t) &MSC->WDATA;
 
-    // Enable channel
-    LDMA->CHEN_SET = (0x1 << ch);
+		// Enable channel
+		LDMA->CHEN_SET = (0x1 << ch);
 
-    while ((LDMA->CHDONE & (0x1 << ch)) == 0x0) {
-      ;
-    }
+		while ((LDMA->CHDONE & (0x1 << ch)) == 0x0)
+		{
+			;
+		}
 
-    LDMA->CHDONE_CLR = (0x1 << ch);
-    LDMA->CHDIS_SET = (0x1 << ch);
-    MSC->WRITECMD = MSC_WRITECMD_WRITEEND;
+		LDMA->CHDONE_CLR = (0x1 << ch);
+		LDMA->CHDIS_SET = (0x1 << ch);
+		MSC->WRITECMD = MSC_WRITECMD_WRITEEND;
 
-    dst      += burstLen;
-    src      += burstLen;
-    numBytes -= burstLen;
-  }
+		dst += burstLen;
+		src += burstLen;
+		numBytes -= burstLen;
+	}
 
-  // Disable writing to the MSC module.
-  MSC->WRITECTRL &= ~MSC_WRITECTRL_WREN;
-  if (wasLocked) {
-    MSC->LOCK = MSC_LOCK_LOCKKEY_LOCK;
-  }
+	// Disable writing to the MSC module.
+	MSC->WRITECTRL &= ~MSC_WRITECTRL_WREN;
+	if (wasLocked)
+	{
+		MSC->LOCK = MSC_LOCK_LOCKKEY_LOCK;
+	}
 
-  return mscReturnOk;
+	return mscReturnOk;
 }
 
 #else // defined(_SILICON_LABS_32B_SERIES_2)
@@ -1538,76 +1552,76 @@ SL_RAMFUNC_DEFINITION_END
  ******************************************************************************/
 static void mscEccReadWriteExistingPio(const MSC_EccBank_Typedef *eccBank)
 {
-  volatile uint32_t *ramptr = (volatile uint32_t *) eccBank->base;
-  const uint32_t *endptr = (const uint32_t *) (eccBank->base + eccBank->size);
-  volatile uint32_t *ctrlreg = &ECC_CTRL_REG;
-  uint32_t enableEcc;
+	volatile uint32_t *ramptr = (volatile uint32_t*) eccBank->base;
+	const uint32_t *endptr = (const uint32_t*) (eccBank->base + eccBank->size);
+	volatile uint32_t *ctrlreg = &ECC_CTRL_REG;
+	uint32_t enableEcc;
 
-  EFM_ASSERT(ramptr < endptr);
+	EFM_ASSERT(ramptr < endptr);
 
 #if defined(_SILICON_LABS_32B_SERIES_2_CONFIG_2) || defined(_SILICON_LABS_32B_SERIES_2_CONFIG_7)
   enableEcc = eccBank->initSyndromeEnable;
 #elif defined(_MPAHBRAM_CTRL_MASK)
-  /* MPAHBRAM ECC requires both ECCEN and ECCWEN to be set for the syndromes
-     to be written in ECC */
-  enableEcc = eccBank->correctionEnable;
-  /* Enable ECC syndrome write */
-  ECC_CTRL_REG |= eccBank->initSyndromeEnable;
+	/* MPAHBRAM ECC requires both ECCEN and ECCWEN to be set for the syndromes
+	 to be written in ECC */
+	enableEcc = eccBank->correctionEnable;
+	/* Enable ECC syndrome write */
+	ECC_CTRL_REG |= eccBank->initSyndromeEnable;
 
-  ECC_IFC_REG = ECC_IFC_MASK;
+	ECC_IFC_REG = ECC_IFC_MASK;
 #endif
 
 #ifndef __GNUC__
 #define __asm__        asm
 #endif
 
-  /*
-   * Performs a read and write of all RAM address to initialize
-   * ECC syndromes. ECC is initialized by reading a RAM address
-   * while ECC is disabled and write it back while ECC is enabled.
-   *
-   * HardFault could occur if we try to read values from RAM while ECC
-   * is enabled and not initialized. In this case, ECC tries to correct the
-   * value and ended giving the wrong value which could be sometimes an
-   * non-existing address.
-   *
-   * So for ECC initialization to work properly, this must ensures that while
-   * ECC is enabled, RAM will be accessed only through writes, no reads shall
-   * occur. It's hard to have such guarantee with C code, because the C
-   * compiler with optimization settings, can get in the way
-   * and do some unwanted reads while ECC is enabled. Assembly allows such
-   * guarantee and let ECC be initialized without triggering errors.
-   */
+	/*
+	 * Performs a read and write of all RAM address to initialize
+	 * ECC syndromes. ECC is initialized by reading a RAM address
+	 * while ECC is disabled and write it back while ECC is enabled.
+	 *
+	 * HardFault could occur if we try to read values from RAM while ECC
+	 * is enabled and not initialized. In this case, ECC tries to correct the
+	 * value and ended giving the wrong value which could be sometimes an
+	 * non-existing address.
+	 *
+	 * So for ECC initialization to work properly, this must ensures that while
+	 * ECC is enabled, RAM will be accessed only through writes, no reads shall
+	 * occur. It's hard to have such guarantee with C code, because the C
+	 * compiler with optimization settings, can get in the way
+	 * and do some unwanted reads while ECC is enabled. Assembly allows such
+	 * guarantee and let ECC be initialized without triggering errors.
+	 */
 
-  __asm__ volatile (
-    "1:\n\t"                         /* define label 1                       */
-    "LDR r1, [%[ramptr]]\n\t"        /* load content of ramptr into R1, ECC
-                                        is disabled to get a correct value   */
-    "LDR r0, [%[ctrlreg]]\n\t"       /* load ctrlreg content into R0         */
-    "ORR r0, r0, %[enableEcc]\n\t"     /* OR R0 and enableEcc, and store result
-                                          in R0                                */
-    "STR r0, [%[ctrlreg]]\n\t"       /* write R0 into ctrlreg, ECC is
-                                        enabled from now on                  */
-    "STR r1, [%[ramptr]]\n\t"        /* write back ram content where it was,
-                                        syndrome will be written in ECC      */
-    "BIC r0, r0, %[enableEcc]\n\t"     /* bit clear enableEcc from R0, and store
-                                          result in R0                         */
-    "STR r0, [%[ctrlreg]]\n\t"       /* write R0 into ctrlreg, ECC is
-                                        disabled                             */
-    "ADDS %[ramptr], %[ramptr], #4\n\t" /* increment ramptr by 4 (size of
-                                           a word)                           */
-    "CMP %[ramptr], %[endptr]\n\t"   /* compare ramptr and endptr...         */
-    "BCC 1b\n\t"                     /* ... and jump back to label 1 if Carrry
-                                        Clear (meaning ramptr < endptr)      */
-    "ORR r0, r0, %[enableEcc]\n\t"     /* and re-enable ECC ASAP to be sure no */
-    "STR r0, [%[ctrlreg]]\n\t"       /* STR occurs with ECC disabled         */
-    :[ramptr] "+r" (ramptr)
-    :[endptr] "r" (endptr),
-    [ctrlreg] "r" (ctrlreg),
-    [enableEcc] "r" (enableEcc)
-    : "r0", "r1", /* R0  and R1 used as temporary registers */
-    "memory"      /* Memory pointed by ramptr is modified   */
-    );
+	__asm__ volatile (
+			"1:\n\t" /* define label 1                       */
+			"LDR r1, [%[ramptr]]\n\t" /* load content of ramptr into R1, ECC
+			 is disabled to get a correct value   */
+			"LDR r0, [%[ctrlreg]]\n\t" /* load ctrlreg content into R0         */
+			"ORR r0, r0, %[enableEcc]\n\t" /* OR R0 and enableEcc, and store result
+			 in R0                                */
+			"STR r0, [%[ctrlreg]]\n\t" /* write R0 into ctrlreg, ECC is
+			 enabled from now on                  */
+			"STR r1, [%[ramptr]]\n\t" /* write back ram content where it was,
+			 syndrome will be written in ECC      */
+			"BIC r0, r0, %[enableEcc]\n\t" /* bit clear enableEcc from R0, and store
+			 result in R0                         */
+			"STR r0, [%[ctrlreg]]\n\t" /* write R0 into ctrlreg, ECC is
+			 disabled                             */
+			"ADDS %[ramptr], %[ramptr], #4\n\t" /* increment ramptr by 4 (size of
+			 a word)                           */
+			"CMP %[ramptr], %[endptr]\n\t" /* compare ramptr and endptr...         */
+			"BCC 1b\n\t" /* ... and jump back to label 1 if Carrry
+			 Clear (meaning ramptr < endptr)      */
+			"ORR r0, r0, %[enableEcc]\n\t" /* and re-enable ECC ASAP to be sure no */
+			"STR r0, [%[ctrlreg]]\n\t" /* STR occurs with ECC disabled         */
+			:[ramptr] "+r" (ramptr)
+			:[endptr] "r" (endptr),
+			[ctrlreg] "r" (ctrlreg),
+			[enableEcc] "r" (enableEcc)
+			: "r0", "r1", /* R0  and R1 used as temporary registers */
+			"memory" /* Memory pointed by ramptr is modified   */
+	);
 }
 
 #else
@@ -1763,41 +1777,41 @@ static void mscEccReadWriteExistingDma(uint32_t start,
  *
  ******************************************************************************/
 static void mscEccBankInit(const MSC_EccBank_Typedef *eccBank,
-                           uint32_t dmaChannels[2])
+		uint32_t dmaChannels[2])
 {
-  CORE_DECLARE_IRQ_STATE;
+	CORE_DECLARE_IRQ_STATE;
 
-  CORE_ENTER_CRITICAL();
+	CORE_ENTER_CRITICAL();
 
 #if defined(_SILICON_LABS_32B_SERIES_2_CONFIG_2)  \
   || defined(_SILICON_LABS_32B_SERIES_2_CONFIG_7) \
   || defined(_MPAHBRAM_CTRL_MASK)
-  (void) dmaChannels;
+	(void) dmaChannels;
 #if !defined(_MPAHBRAM_CTRL_MASK)
   /* Disable ECC write */
   ECC_CTRL_REG &= ~eccBank->initSyndromeEnable;
 #endif
-  /* Initialize ECC syndromes by using core cpu to load and store the existing
-     data values in RAM. */
-  mscEccReadWriteExistingPio(eccBank);
+	/* Initialize ECC syndromes by using core cpu to load and store the existing
+	 data values in RAM. */
+	mscEccReadWriteExistingPio(eccBank);
 #else
-  /* Enable ECC write */
-  ECC_CTRL_REG |= eccBank->initSyndromeEnable;
-  /* Initialize ECC syndromes by using DMA to read and write the existing
-     data values in RAM. */
-  mscEccReadWriteExistingDma(eccBank->base, eccBank->size, dmaChannels);
+	/* Enable ECC write */
+	ECC_CTRL_REG |= eccBank->initSyndromeEnable;
+	/* Initialize ECC syndromes by using DMA to read and write the existing
+	 data values in RAM. */
+	mscEccReadWriteExistingDma(eccBank->base, eccBank->size, dmaChannels);
 #endif
 
-  /* Clear any ECC errors that may have been reported before or during
-     initialization. */
-  ECC_IFC_REG = ECC_IFC_MASK;
+	/* Clear any ECC errors that may have been reported before or during
+	 initialization. */
+	ECC_IFC_REG = ECC_IFC_MASK;
 
 #if !defined(_MPAHBRAM_CTRL_MASK)
   /* Enable ECC decoder to detect and report ECC errors. */
   ECC_CTRL_REG |= eccBank->correctionEnable;
 #endif
 
-  CORE_EXIT_CRITICAL();
+	CORE_EXIT_CRITICAL();
 }
 
 /***************************************************************************//**
@@ -1814,8 +1828,8 @@ static void mscEccBankInit(const MSC_EccBank_Typedef *eccBank,
  ******************************************************************************/
 static void mscEccBankDisable(const MSC_EccBank_Typedef *eccBank)
 {
-  /* Disable ECC write (encoder) and checking (decoder). */
-  ECC_CTRL_REG &= ~(eccBank->initSyndromeEnable | eccBank->correctionEnable);
+	/* Disable ECC write (encoder) and checking (decoder). */
+	ECC_CTRL_REG &= ~(eccBank->initSyndromeEnable | eccBank->correctionEnable);
 }
 
 /***************************************************************************//**
@@ -1851,34 +1865,38 @@ static void mscEccBankDisable(const MSC_EccBank_Typedef *eccBank)
  ******************************************************************************/
 void MSC_EccConfigSet(MSC_EccConfig_TypeDef *eccConfig)
 {
-  unsigned int cnt;
+	unsigned int cnt;
 #if defined(ECC_FAULT_CTRL_REG)
-  uint32_t faultCtrlReg = ECC_FAULT_CTRL_REG;
-  /* Disable ECC faults if ecc fault ctrl register is defined. */
-  faultCtrlReg &= ~ECC_FAULT_EN;
-  ECC_FAULT_CTRL_REG = faultCtrlReg;
+	uint32_t faultCtrlReg = ECC_FAULT_CTRL_REG;
+	/* Disable ECC faults if ecc fault ctrl register is defined. */
+	faultCtrlReg &= ~ECC_FAULT_EN;
+	ECC_FAULT_CTRL_REG = faultCtrlReg;
 #endif
 
-  /* Loop through the ECC banks array, enable or disable according to
-     the eccConfig->enableEccBank array. */
-  for (cnt = 0; cnt < MSC_ECC_BANKS; cnt++) {
-    if (eccConfig->enableEccBank[cnt]) {
-      mscEccBankInit(&eccBankTbl[cnt], eccConfig->dmaChannels);
-    } else {
-      mscEccBankDisable(&eccBankTbl[cnt]);
-    }
-  }
+	/* Loop through the ECC banks array, enable or disable according to
+	 the eccConfig->enableEccBank array. */
+	for (cnt = 0; cnt < MSC_ECC_BANKS; cnt++)
+	{
+		if (eccConfig->enableEccBank[cnt])
+		{
+			mscEccBankInit(&eccBankTbl[cnt], eccConfig->dmaChannels);
+		}
+		else
+		{
+			mscEccBankDisable(&eccBankTbl[cnt]);
+		}
+	}
 
 #if defined(ECC_FAULT_CTRL_REG) && !defined(_SILICON_LABS_32B_SERIES_1_CONFIG_1)
-  /*
-   * Enable ECC faults if ecc fault ctrl register is set.
-   * On Series 1 Config 1, aka EFM32GG11, ECC faults should stay disabled.
-   * Reload register first, in case it was modified and/or shared by bank
-   * init functions.
-   */
-  faultCtrlReg = ECC_FAULT_CTRL_REG;
-  faultCtrlReg |= ECC_FAULT_EN;
-  ECC_FAULT_CTRL_REG = faultCtrlReg;
+	/*
+	 * Enable ECC faults if ecc fault ctrl register is set.
+	 * On Series 1 Config 1, aka EFM32GG11, ECC faults should stay disabled.
+	 * Reload register first, in case it was modified and/or shared by bank
+	 * init functions.
+	 */
+	faultCtrlReg = ECC_FAULT_CTRL_REG;
+	faultCtrlReg |= ECC_FAULT_EN;
+	ECC_FAULT_CTRL_REG = faultCtrlReg;
 #endif
 }
 
@@ -1902,31 +1920,32 @@ void MSC_EccConfigSet(MSC_EccConfig_TypeDef *eccConfig)
  ******************************************************************************/
 void MSC_DmemPortMapSet(MSC_DmemMaster_TypeDef master, uint8_t port)
 {
-  uint32_t bitfieldMask = DMEM_NUM_PORTS - 1;
+	uint32_t bitfieldMask = DMEM_NUM_PORTS - 1;
 
-  /* make sure master is within the mask of port map that can be changed
-   * make sure port is a sensible value
-   */
-  EFM_ASSERT(((1 << master) & _SYSCFG_DMEM0PORTMAPSEL_MASK) != 0x0);
-  EFM_ASSERT(port < DMEM_NUM_PORTS);
+	/* make sure master is within the mask of port map that can be changed
+	 * make sure port is a sensible value
+	 */
+	EFM_ASSERT(((1 << master) & _SYSCFG_DMEM0PORTMAPSEL_MASK) != 0x0);
+	EFM_ASSERT(port < DMEM_NUM_PORTS);
 
 #if defined(CMU_CLKEN0_SYSCFG)
-  bool disableSyscfgClk = false;
+	bool disableSyscfgClk = false;
 
-  if (!(CMU->CLKEN0 & _CMU_CLKEN0_SYSCFG_MASK)) {
-    disableSyscfgClk = true;
-    CMU->CLKEN0_SET = CMU_CLKEN0_SYSCFG;
-  }
+	if (!(CMU->CLKEN0 & _CMU_CLKEN0_SYSCFG_MASK))
+	{
+		disableSyscfgClk = true;
+		CMU->CLKEN0_SET = CMU_CLKEN0_SYSCFG;
+	}
 #endif
 
-  BUS_RegMaskedWrite(&SYSCFG->DMEM0PORTMAPSEL,
-                     bitfieldMask << master,
-                     (uint32_t)port << master);
+	BUS_RegMaskedWrite(&SYSCFG->DMEM0PORTMAPSEL, bitfieldMask << master,
+			(uint32_t) port << master);
 
 #if defined(CMU_CLKEN0_SYSCFG)
-  if (disableSyscfgClk) {
-    CMU->CLKEN0_CLR = CMU_CLKEN0_SYSCFG;
-  }
+	if (disableSyscfgClk)
+	{
+		CMU->CLKEN0_CLR = CMU_CLKEN0_SYSCFG;
+	}
 #endif
 }
 #endif
@@ -1950,11 +1969,12 @@ void MSC_DmemPortMapSet(MSC_DmemMaster_TypeDef master, uint8_t port)
  ******************************************************************************/
 void MSC_PortSetPriority(MSC_PortPriority_TypeDef portPriority)
 {
-  EFM_ASSERT(portPriority < ((DMEM_NUM_PORTS + 1) << _MPAHBRAM_CTRL_AHBPORTPRIORITY_SHIFT));
+	EFM_ASSERT(
+			portPriority < ((DMEM_NUM_PORTS + 1) << _MPAHBRAM_CTRL_AHBPORTPRIORITY_SHIFT));
 
-  BUS_RegMaskedWrite(&DMEM->CTRL,
-                     _MPAHBRAM_CTRL_AHBPORTPRIORITY_MASK,
-                     (uint32_t)portPriority << _MPAHBRAM_CTRL_AHBPORTPRIORITY_SHIFT);
+	BUS_RegMaskedWrite(&DMEM->CTRL,
+	_MPAHBRAM_CTRL_AHBPORTPRIORITY_MASK,
+			(uint32_t) portPriority << _MPAHBRAM_CTRL_AHBPORTPRIORITY_SHIFT);
 }
 
 /***************************************************************************//**
@@ -1969,12 +1989,13 @@ void MSC_PortSetPriority(MSC_PortPriority_TypeDef portPriority)
  ******************************************************************************/
 MSC_PortPriority_TypeDef MSC_PortGetCurrentPriority(void)
 {
-  uint32_t port = 0;
+	uint32_t port = 0;
 
-  port = BUS_RegMaskedRead(&DMEM->CTRL,
-                           _MPAHBRAM_CTRL_AHBPORTPRIORITY_MASK);
+	port = BUS_RegMaskedRead(&DMEM->CTRL,
+	_MPAHBRAM_CTRL_AHBPORTPRIORITY_MASK);
 
-  return (MSC_PortPriority_TypeDef)(port >> _MPAHBRAM_CTRL_AHBPORTPRIORITY_SHIFT);
+	return (MSC_PortPriority_TypeDef) (port
+			>> _MPAHBRAM_CTRL_AHBPORTPRIORITY_SHIFT);
 }
 #endif /* if defined(_MPAHBRAM_CTRL_AHBPORTPRIORITY_MASK) */
 

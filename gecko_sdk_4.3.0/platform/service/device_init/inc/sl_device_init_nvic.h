@@ -56,7 +56,8 @@ extern "C" {
  *
  * @return Status code
  ******************************************************************************/
-sl_status_t sl_device_init_nvic(void);
+sl_status_t
+sl_device_init_nvic(void);
 
 #ifdef __cplusplus
 }

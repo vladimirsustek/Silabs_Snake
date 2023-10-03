@@ -42,7 +42,8 @@ extern "C" {
 /**
  * System processing action
  */
-void sl_system_process_action(void);
+void
+sl_system_process_action(void);
 
 #ifdef __cplusplus
 }

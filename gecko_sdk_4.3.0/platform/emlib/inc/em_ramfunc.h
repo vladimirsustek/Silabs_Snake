@@ -44,50 +44,50 @@ extern "C" {
  *  Provides a unified method to manage RAM code across all supported tools.
  * @{
 
-  @note
-   Other cross-compiler support macros are implemented in [COMMON](../../common/api/group-common).
+ @note
+ Other cross-compiler support macros are implemented in [COMMON](../../common/api/group-common).
 
-  @note
-    Functions executing from RAM should not be declared as static.
+ @note
+ Functions executing from RAM should not be declared as static.
 
-  @warning
-    Standard library facilities are available to the tool with GCC in hosted
-	mode (default), regardless of the section attribute. Calls to standard
-    libraries placed in the default section may therefore occur. To disable
-    hosted mode, add '-ffreestanding' to the build command line. This is the
-    only way to guarantee no calls to standard libraries with GCC.
-    Read more at www.gcc.gnu.org/onlinedocs/gcc-5.3.0/gcc/Standards.html
+ @warning
+ Standard library facilities are available to the tool with GCC in hosted
+ mode (default), regardless of the section attribute. Calls to standard
+ libraries placed in the default section may therefore occur. To disable
+ hosted mode, add '-ffreestanding' to the build command line. This is the
+ only way to guarantee no calls to standard libraries with GCC.
+ Read more at www.gcc.gnu.org/onlinedocs/gcc-5.3.0/gcc/Standards.html
 
-  @warning
-    Keil/ARM uVision users must add a section named "ram_code" in their linker
-    scatter file. This section must be in RAM memory. Look in the MCU SDK for
-    example scatter files (ram_code.sct).
+ @warning
+ Keil/ARM uVision users must add a section named "ram_code" in their linker
+ scatter file. This section must be in RAM memory. Look in the MCU SDK for
+ example scatter files (ram_code.sct).
 
-  @n @section ramfunc_usage Usage
+ @n @section ramfunc_usage Usage
 
-  In your .h file:
-  @verbatim
-  #include "em_ramfunc.h"
+ In your .h file:
+ @verbatim
+ #include "em_ramfunc.h"
 
-  SL_RAMFUNC_DECLARATOR
-  void MyPrint(const char* string);
-  @endverbatim
+ SL_RAMFUNC_DECLARATOR
+ void MyPrint(const char* string);
+ @endverbatim
 
-  Issues have been observed with ARM GCC when there is no declarator. It is
-  recommended to have a declarator also for internal functions but move the
-  declarator to the .c file.
+ Issues have been observed with ARM GCC when there is no declarator. It is
+ recommended to have a declarator also for internal functions but move the
+ declarator to the .c file.
 
-  In your .c file:
-  @verbatim
-  #include "em_ramfunc.h"
+ In your .c file:
+ @verbatim
+ #include "em_ramfunc.h"
 
-  SL_RAMFUNC_DEFINITION_BEGIN
-  void MyPrint(const char* string)
-  {
-  ...
-  }
-  SL_RAMFUNC_DEFINITION_END
-  @endverbatim
+ SL_RAMFUNC_DEFINITION_BEGIN
+ void MyPrint(const char* string)
+ {
+ ...
+ }
+ SL_RAMFUNC_DEFINITION_END
+ @endverbatim
 
  ******************************************************************************/
 /* *INDENT-ON* */

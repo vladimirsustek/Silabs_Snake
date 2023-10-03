@@ -83,22 +83,27 @@
  ******************************************************************************/
 static PRS_Signal_t getSignal(unsigned int ch, PRS_ChType_t type)
 {
-  PRS_Signal_t signal;
+	PRS_Signal_t signal;
 
 #if defined(_PRS_ASYNC_CH_CTRL_SOURCESEL_MASK)
-  if (type == prsTypeAsync) {
-    signal = (PRS_Signal_t) (PRS->ASYNC_CH[ch].CTRL
-                             & (_PRS_ASYNC_CH_CTRL_SOURCESEL_MASK | _PRS_ASYNC_CH_CTRL_SIGSEL_MASK));
-  } else {
-    signal = (PRS_Signal_t) (PRS->SYNC_CH[ch].CTRL
-                             & (_PRS_SYNC_CH_CTRL_SOURCESEL_MASK | _PRS_SYNC_CH_CTRL_SIGSEL_MASK));
-  }
+	if (type == prsTypeAsync)
+	{
+		signal = (PRS_Signal_t) (PRS->ASYNC_CH[ch].CTRL
+				& (_PRS_ASYNC_CH_CTRL_SOURCESEL_MASK
+						| _PRS_ASYNC_CH_CTRL_SIGSEL_MASK));
+	}
+	else
+	{
+		signal = (PRS_Signal_t) (PRS->SYNC_CH[ch].CTRL
+				& (_PRS_SYNC_CH_CTRL_SOURCESEL_MASK
+						| _PRS_SYNC_CH_CTRL_SIGSEL_MASK));
+	}
 #else
   (void) type;
   signal = (PRS_Signal_t) (PRS->CH[ch].CTRL
                            & (_PRS_CH_CTRL_SOURCESEL_MASK | _PRS_CH_CTRL_SIGSEL_MASK));
 #endif
-  return signal;
+	return signal;
 }
 
 /** @endcond */
@@ -125,33 +130,34 @@ static PRS_Signal_t getSignal(unsigned int ch, PRS_ChType_t type)
  ******************************************************************************/
 uint32_t PRS_ConvertToSyncSource(uint32_t asyncSource)
 {
-  uint32_t syncSource = 0;
+	uint32_t syncSource = 0;
 
-  switch (asyncSource) {
-    case _PRS_ASYNC_CH_CTRL_SOURCESEL_NONE:
-      syncSource = _PRS_SYNC_CH_CTRL_SOURCESEL_NONE;
-      break;
+	switch (asyncSource)
+	{
+	case _PRS_ASYNC_CH_CTRL_SOURCESEL_NONE:
+		syncSource = _PRS_SYNC_CH_CTRL_SOURCESEL_NONE;
+		break;
 #if defined(IADC_PRESENT)
-    case _PRS_ASYNC_CH_CTRL_SOURCESEL_IADC0:
-      syncSource = _PRS_SYNC_CH_CTRL_SOURCESEL_IADC0;
-      break;
+	case _PRS_ASYNC_CH_CTRL_SOURCESEL_IADC0:
+		syncSource = _PRS_SYNC_CH_CTRL_SOURCESEL_IADC0;
+		break;
 #endif
-    case _PRS_ASYNC_CH_CTRL_SOURCESEL_TIMER0:
-      syncSource = _PRS_SYNC_CH_CTRL_SOURCESEL_TIMER0;
-      break;
-    case _PRS_ASYNC_CH_CTRL_SOURCESEL_TIMER1:
-      syncSource = _PRS_SYNC_CH_CTRL_SOURCESEL_TIMER1;
-      break;
-    case _PRS_ASYNC_CH_CTRL_SOURCESEL_TIMER2:
-      syncSource = _PRS_SYNC_CH_CTRL_SOURCESEL_TIMER2;
-      break;
-    case _PRS_ASYNC_CH_CTRL_SOURCESEL_TIMER3:
-      syncSource = _PRS_SYNC_CH_CTRL_SOURCESEL_TIMER3;
-      break;
+	case _PRS_ASYNC_CH_CTRL_SOURCESEL_TIMER0:
+		syncSource = _PRS_SYNC_CH_CTRL_SOURCESEL_TIMER0;
+		break;
+	case _PRS_ASYNC_CH_CTRL_SOURCESEL_TIMER1:
+		syncSource = _PRS_SYNC_CH_CTRL_SOURCESEL_TIMER1;
+		break;
+	case _PRS_ASYNC_CH_CTRL_SOURCESEL_TIMER2:
+		syncSource = _PRS_SYNC_CH_CTRL_SOURCESEL_TIMER2;
+		break;
+	case _PRS_ASYNC_CH_CTRL_SOURCESEL_TIMER3:
+		syncSource = _PRS_SYNC_CH_CTRL_SOURCESEL_TIMER3;
+		break;
 #if defined(TIMER4)
-    case _PRS_ASYNC_CH_CTRL_SOURCESEL_TIMER4:
-      syncSource = _PRS_SYNC_CH_CTRL_SOURCESEL_TIMER4;
-      break;
+	case _PRS_ASYNC_CH_CTRL_SOURCESEL_TIMER4:
+		syncSource = _PRS_SYNC_CH_CTRL_SOURCESEL_TIMER4;
+		break;
 #endif
 #if defined(TIMER5)
     case _PRS_ASYNC_CH_CTRL_SOURCESEL_TIMER5:
@@ -169,20 +175,20 @@ uint32_t PRS_ConvertToSyncSource(uint32_t asyncSource)
       break;
 #endif
 #if defined(VDAC0)
-    case _PRS_ASYNC_CH_CTRL_SOURCESEL_VDAC0L:
-      syncSource = _PRS_SYNC_CH_CTRL_SOURCESEL_VDAC0;
-      break;
+	case _PRS_ASYNC_CH_CTRL_SOURCESEL_VDAC0L:
+		syncSource = _PRS_SYNC_CH_CTRL_SOURCESEL_VDAC0;
+		break;
 #endif
 #if defined(VDAC1)
-    case _PRS_ASYNC_CH_CTRL_SOURCESEL_VDAC1L:
-      syncSource = _PRS_SYNC_CH_CTRL_SOURCESEL_VDAC1;
-      break;
+	case _PRS_ASYNC_CH_CTRL_SOURCESEL_VDAC1L:
+		syncSource = _PRS_SYNC_CH_CTRL_SOURCESEL_VDAC1;
+		break;
 #endif
-    default:
-      EFM_ASSERT(false);
-      break;
-  }
-  return syncSource;
+	default:
+		EFM_ASSERT(false);
+		break;
+	}
+	return syncSource;
 }
 
 /***************************************************************************//**
@@ -205,15 +211,16 @@ uint32_t PRS_ConvertToSyncSource(uint32_t asyncSource)
  ******************************************************************************/
 uint32_t PRS_ConvertToSyncSignal(uint32_t asyncSource, uint32_t asyncSignal)
 {
-  uint32_t syncSignal = asyncSignal;
+	uint32_t syncSignal = asyncSignal;
 
-  switch (asyncSource) {
-    case _PRS_ASYNC_CH_CTRL_SOURCESEL_TIMER0:
-    case _PRS_ASYNC_CH_CTRL_SOURCESEL_TIMER1:
-    case _PRS_ASYNC_CH_CTRL_SOURCESEL_TIMER2:
-    case _PRS_ASYNC_CH_CTRL_SOURCESEL_TIMER3:
+	switch (asyncSource)
+	{
+	case _PRS_ASYNC_CH_CTRL_SOURCESEL_TIMER0:
+	case _PRS_ASYNC_CH_CTRL_SOURCESEL_TIMER1:
+	case _PRS_ASYNC_CH_CTRL_SOURCESEL_TIMER2:
+	case _PRS_ASYNC_CH_CTRL_SOURCESEL_TIMER3:
 #if defined(_PRS_ASYNC_CH_CTRL_SOURCESEL_TIMER4)
-    case _PRS_ASYNC_CH_CTRL_SOURCESEL_TIMER4:
+	case _PRS_ASYNC_CH_CTRL_SOURCESEL_TIMER4:
 #endif
 #if defined(_PRS_ASYNC_CH_CTRL_SOURCESEL_TIMER5)
     case _PRS_ASYNC_CH_CTRL_SOURCESEL_TIMER5:
@@ -224,82 +231,86 @@ uint32_t PRS_ConvertToSyncSignal(uint32_t asyncSource, uint32_t asyncSignal)
 #if defined(_PRS_ASYNC_CH_CTRL_SOURCESEL_TIMER7)
     case _PRS_ASYNC_CH_CTRL_SOURCESEL_TIMER7:
 #endif
-      /* Async and sync signal values are consistent across all timers instances.
-       * Generic defines are used. */
-      switch (asyncSignal) {
-        case _PRS_ASYNC_CH_CTRL_SIGSEL_TIMERUF:
-          syncSignal = _PRS_SYNC_CH_CTRL_SIGSEL_TIMERUF;
-          break;
-        case _PRS_ASYNC_CH_CTRL_SIGSEL_TIMEROF:
-          syncSignal = _PRS_SYNC_CH_CTRL_SIGSEL_TIMEROF;
-          break;
-        case _PRS_ASYNC_CH_CTRL_SIGSEL_TIMERCC0:
-          syncSignal = _PRS_SYNC_CH_CTRL_SIGSEL_TIMERCC0;
-          break;
-        case _PRS_ASYNC_CH_CTRL_SIGSEL_TIMERCC1:
-          syncSignal = _PRS_SYNC_CH_CTRL_SIGSEL_TIMERCC1;
-          break;
-        case _PRS_ASYNC_CH_CTRL_SIGSEL_TIMERCC2:
-          syncSignal = _PRS_SYNC_CH_CTRL_SIGSEL_TIMERCC2;
-          break;
-        default:
-          EFM_ASSERT(false);
-          break;
-      }
-      break;
+		/* Async and sync signal values are consistent across all timers instances.
+		 * Generic defines are used. */
+		switch (asyncSignal)
+		{
+		case _PRS_ASYNC_CH_CTRL_SIGSEL_TIMERUF:
+			syncSignal = _PRS_SYNC_CH_CTRL_SIGSEL_TIMERUF;
+			break;
+		case _PRS_ASYNC_CH_CTRL_SIGSEL_TIMEROF:
+			syncSignal = _PRS_SYNC_CH_CTRL_SIGSEL_TIMEROF;
+			break;
+		case _PRS_ASYNC_CH_CTRL_SIGSEL_TIMERCC0:
+			syncSignal = _PRS_SYNC_CH_CTRL_SIGSEL_TIMERCC0;
+			break;
+		case _PRS_ASYNC_CH_CTRL_SIGSEL_TIMERCC1:
+			syncSignal = _PRS_SYNC_CH_CTRL_SIGSEL_TIMERCC1;
+			break;
+		case _PRS_ASYNC_CH_CTRL_SIGSEL_TIMERCC2:
+			syncSignal = _PRS_SYNC_CH_CTRL_SIGSEL_TIMERCC2;
+			break;
+		default:
+			EFM_ASSERT(false);
+			break;
+		}
+		break;
 #if defined(IADC0)
-    case _PRS_ASYNC_CH_CTRL_SOURCESEL_IADC0:
-      switch (asyncSignal) {
-        case _PRS_ASYNC_CH_CTRL_SIGSEL_IADC0SCANENTRYDONE:
-          syncSignal = _PRS_SYNC_CH_CTRL_SIGSEL_IADC0SCANENTRYDONE;
-          break;
-        case _PRS_ASYNC_CH_CTRL_SIGSEL_IADC0SCANTABLEDONE:
-          syncSignal = _PRS_SYNC_CH_CTRL_SIGSEL_IADC0SCANTABLEDONE;
-          break;
-        case _PRS_ASYNC_CH_CTRL_SIGSEL_IADC0SINGLEDONE:
-          syncSignal = _PRS_SYNC_CH_CTRL_SIGSEL_IADC0SINGLEDONE;
-          break;
-        default:
-          EFM_ASSERT(false);
-          break;
-      }
-      break;
+	case _PRS_ASYNC_CH_CTRL_SOURCESEL_IADC0:
+		switch (asyncSignal)
+		{
+		case _PRS_ASYNC_CH_CTRL_SIGSEL_IADC0SCANENTRYDONE:
+			syncSignal = _PRS_SYNC_CH_CTRL_SIGSEL_IADC0SCANENTRYDONE;
+			break;
+		case _PRS_ASYNC_CH_CTRL_SIGSEL_IADC0SCANTABLEDONE:
+			syncSignal = _PRS_SYNC_CH_CTRL_SIGSEL_IADC0SCANTABLEDONE;
+			break;
+		case _PRS_ASYNC_CH_CTRL_SIGSEL_IADC0SINGLEDONE:
+			syncSignal = _PRS_SYNC_CH_CTRL_SIGSEL_IADC0SINGLEDONE;
+			break;
+		default:
+			EFM_ASSERT(false);
+			break;
+		}
+		break;
 #endif
 #if defined(VDAC0)
-    case _PRS_ASYNC_CH_CTRL_SOURCESEL_VDAC0L:
-      switch (asyncSignal) {
-        case _PRS_ASYNC_CH_CTRL_SIGSEL_VDAC0LCH0DONEASYNC:
-          syncSignal = _PRS_SYNC_CH_CTRL_SIGSEL_VDAC0CH0DONESYNC;
-          break;
-        case _PRS_ASYNC_CH_CTRL_SIGSEL_VDAC0LCH1DONEASYNC:
-          syncSignal = _PRS_SYNC_CH_CTRL_SIGSEL_VDAC0CH1DONESYNC;
-          break;
-        default:
-          EFM_ASSERT(false);
-          break;
-      }
-      break;
+	case _PRS_ASYNC_CH_CTRL_SOURCESEL_VDAC0L:
+		switch (asyncSignal)
+		{
+		case _PRS_ASYNC_CH_CTRL_SIGSEL_VDAC0LCH0DONEASYNC:
+			syncSignal = _PRS_SYNC_CH_CTRL_SIGSEL_VDAC0CH0DONESYNC;
+			break;
+		case _PRS_ASYNC_CH_CTRL_SIGSEL_VDAC0LCH1DONEASYNC:
+			syncSignal = _PRS_SYNC_CH_CTRL_SIGSEL_VDAC0CH1DONESYNC;
+			break;
+		default:
+			EFM_ASSERT(false);
+			break;
+		}
+		break;
 #endif
 #if defined(VDAC1)
-    case _PRS_ASYNC_CH_CTRL_SOURCESEL_VDAC1L:
-      switch (asyncSignal) {
-        case _PRS_ASYNC_CH_CTRL_SIGSEL_VDAC1LCH0DONEASYNC:
-          syncSignal = _PRS_SYNC_CH_CTRL_SIGSEL_VDAC1CH0DONESYNC;
-          break;
-        case _PRS_ASYNC_CH_CTRL_SIGSEL_VDAC1LCH1DONEASYNC:
-          syncSignal = _PRS_SYNC_CH_CTRL_SIGSEL_VDAC1CH1DONESYNC;
-          break;
-        default:
-          EFM_ASSERT(false);
-          break;
-      }
-      break;
+	case _PRS_ASYNC_CH_CTRL_SOURCESEL_VDAC1L:
+		switch (asyncSignal)
+		{
+		case _PRS_ASYNC_CH_CTRL_SIGSEL_VDAC1LCH0DONEASYNC:
+			syncSignal = _PRS_SYNC_CH_CTRL_SIGSEL_VDAC1CH0DONESYNC;
+			break;
+		case _PRS_ASYNC_CH_CTRL_SIGSEL_VDAC1LCH1DONEASYNC:
+			syncSignal = _PRS_SYNC_CH_CTRL_SIGSEL_VDAC1CH1DONESYNC;
+			break;
+		default:
+			EFM_ASSERT(false);
+			break;
+		}
+		break;
 #endif
-    default:
-      // No translation
-      break;
-  }
-  return syncSignal;
+	default:
+		// No translation
+		break;
+	}
+	return syncSignal;
 }
 #endif
 
@@ -320,16 +331,14 @@ uint32_t PRS_ConvertToSyncSignal(uint32_t asyncSource, uint32_t asyncSignal)
  * @param[in] edge
  *   An edge (for selected source/signal) to generate the pulse for.
  ******************************************************************************/
-void PRS_SourceSignalSet(unsigned int ch,
-                         uint32_t source,
-                         uint32_t signal,
-                         PRS_Edge_TypeDef edge)
+void PRS_SourceSignalSet(unsigned int ch, uint32_t source, uint32_t signal,
+		PRS_Edge_TypeDef edge)
 {
 #if defined(_PRS_SYNC_CH_CTRL_MASK)
-  (void) edge;
-  EFM_ASSERT(ch < PRS_SYNC_CHAN_COUNT);
-  PRS->SYNC_CH[ch].CTRL = (source & _PRS_SYNC_CH_CTRL_SOURCESEL_MASK)
-                          | (signal & _PRS_SYNC_CH_CTRL_SIGSEL_MASK);
+	(void) edge;
+	EFM_ASSERT(ch < PRS_SYNC_CHAN_COUNT);
+	PRS->SYNC_CH[ch].CTRL = (source & _PRS_SYNC_CH_CTRL_SOURCESEL_MASK)
+			| (signal & _PRS_SYNC_CH_CTRL_SIGSEL_MASK);
 #else
   EFM_ASSERT(ch < PRS_CHAN_COUNT);
   PRS->CH[ch].CTRL = (source & _PRS_CH_CTRL_SOURCESEL_MASK)
@@ -367,11 +376,9 @@ void PRS_SourceSignalSet(unsigned int ch,
  *   An asynchronous signal (for selected @p source) to use. Use one of the
  *   PRS_CH_CTRL_SIGSEL_x defines that support asynchronous operation.
  ******************************************************************************/
-void PRS_SourceAsyncSignalSet(unsigned int ch,
-                              uint32_t source,
-                              uint32_t signal)
+void PRS_SourceAsyncSignalSet(unsigned int ch, uint32_t source, uint32_t signal)
 {
-  PRS_ConnectSignal(ch, prsTypeAsync, (PRS_Signal_t) (source | signal));
+	PRS_ConnectSignal(ch, prsTypeAsync, (PRS_Signal_t) (source | signal));
 }
 #endif
 
@@ -427,24 +434,29 @@ void PRS_GpioOutputLocation(unsigned int ch,
  ******************************************************************************/
 int PRS_GetFreeChannel(PRS_ChType_t type)
 {
-  int ch = -1;
-  PRS_Signal_t signal;
-  int max;
+	int ch = -1;
+	PRS_Signal_t signal;
+	int max;
 
-  if (type == prsTypeAsync) {
-    max = PRS_ASYNC_CHAN_COUNT;
-  } else {
-    max = PRS_SYNC_CHAN_COUNT;
-  }
+	if (type == prsTypeAsync)
+	{
+		max = PRS_ASYNC_CHAN_COUNT;
+	}
+	else
+	{
+		max = PRS_SYNC_CHAN_COUNT;
+	}
 
-  for (int i = 0; i < max; i++) {
-    signal = getSignal(i, type);
-    if (signal == prsSignalNone) {
-      ch = i;
-      break;
-    }
-  }
-  return ch;
+	for (int i = 0; i < max; i++)
+	{
+		signal = getSignal(i, type);
+		if (signal == prsSignalNone)
+		{
+			ch = i;
+			break;
+		}
+	}
+	return ch;
 }
 
 /***************************************************************************//**
@@ -456,16 +468,18 @@ int PRS_GetFreeChannel(PRS_ChType_t type)
  ******************************************************************************/
 void PRS_Reset(void)
 {
-  unsigned int i;
+	unsigned int i;
 
 #if defined(_SILICON_LABS_32B_SERIES_2)
-  PRS->ASYNC_SWLEVEL = 0;
-  for (i = 0; i < PRS_ASYNC_CHAN_COUNT; i++) {
-    PRS->ASYNC_CH[i].CTRL = _PRS_ASYNC_CH_CTRL_RESETVALUE;
-  }
-  for (i = 0; i < PRS_SYNC_CHAN_COUNT; i++) {
-    PRS->SYNC_CH[i].CTRL = _PRS_SYNC_CH_CTRL_RESETVALUE;
-  }
+	PRS->ASYNC_SWLEVEL = 0;
+	for (i = 0; i < PRS_ASYNC_CHAN_COUNT; i++)
+	{
+		PRS->ASYNC_CH[i].CTRL = _PRS_ASYNC_CH_CTRL_RESETVALUE;
+	}
+	for (i = 0; i < PRS_SYNC_CHAN_COUNT; i++)
+	{
+		PRS->SYNC_CH[i].CTRL = _PRS_SYNC_CH_CTRL_RESETVALUE;
+	}
 #else
   PRS->SWLEVEL = 0x0;
   for (i = 0; i < PRS_CHAN_COUNT; i++) {
@@ -495,23 +509,28 @@ void PRS_Reset(void)
 void PRS_ConnectSignal(unsigned int ch, PRS_ChType_t type, PRS_Signal_t signal)
 {
 #if defined(_PRS_ASYNC_CH_CTRL_MASK)
-  // Series 2 devices
-  uint32_t sourceField = ((uint32_t)signal & _PRS_ASYNC_CH_CTRL_SOURCESEL_MASK)
-                         >> _PRS_ASYNC_CH_CTRL_SOURCESEL_SHIFT;
-  uint32_t signalField = ((uint32_t)signal & _PRS_ASYNC_CH_CTRL_SIGSEL_MASK)
-                         >> _PRS_ASYNC_CH_CTRL_SIGSEL_SHIFT;
-  if (type == prsTypeAsync) {
-    EFM_ASSERT(ch < PRS_ASYNC_CHAN_COUNT);
-    PRS->ASYNC_CH[ch].CTRL = PRS_ASYNC_CH_CTRL_FNSEL_A
-                             | (sourceField << _PRS_ASYNC_CH_CTRL_SOURCESEL_SHIFT)
-                             | (signalField << _PRS_ASYNC_CH_CTRL_SIGSEL_SHIFT);
-  } else {
-    EFM_ASSERT(ch < PRS_SYNC_CHAN_COUNT);
-    signalField = PRS_ConvertToSyncSignal(sourceField, signalField);
-    sourceField = PRS_ConvertToSyncSource(sourceField);
-    PRS->SYNC_CH[ch].CTRL = (sourceField << _PRS_SYNC_CH_CTRL_SOURCESEL_SHIFT)
-                            | (signalField << _PRS_SYNC_CH_CTRL_SIGSEL_SHIFT);
-  }
+	// Series 2 devices
+	uint32_t sourceField = ((uint32_t) signal
+			& _PRS_ASYNC_CH_CTRL_SOURCESEL_MASK)
+			>> _PRS_ASYNC_CH_CTRL_SOURCESEL_SHIFT;
+	uint32_t signalField = ((uint32_t) signal & _PRS_ASYNC_CH_CTRL_SIGSEL_MASK)
+			>> _PRS_ASYNC_CH_CTRL_SIGSEL_SHIFT;
+	if (type == prsTypeAsync)
+	{
+		EFM_ASSERT(ch < PRS_ASYNC_CHAN_COUNT);
+		PRS->ASYNC_CH[ch].CTRL = PRS_ASYNC_CH_CTRL_FNSEL_A
+				| (sourceField << _PRS_ASYNC_CH_CTRL_SOURCESEL_SHIFT)
+				| (signalField << _PRS_ASYNC_CH_CTRL_SIGSEL_SHIFT);
+	}
+	else
+	{
+		EFM_ASSERT(ch < PRS_SYNC_CHAN_COUNT);
+		signalField = PRS_ConvertToSyncSignal(sourceField, signalField);
+		sourceField = PRS_ConvertToSyncSource(sourceField);
+		PRS->SYNC_CH[ch].CTRL = (sourceField
+				<< _PRS_SYNC_CH_CTRL_SOURCESEL_SHIFT)
+				| (signalField << _PRS_SYNC_CH_CTRL_SIGSEL_SHIFT);
+	}
 #else
   // Series 0 and Series 1 devices
   uint32_t signalField = (uint32_t) signal & (_PRS_CH_CTRL_SOURCESEL_MASK
@@ -551,20 +570,25 @@ void PRS_ConnectSignal(unsigned int ch, PRS_ChType_t type, PRS_Signal_t signal)
  * @param[in] consumer
  *   This is the PRS consumer.
  ******************************************************************************/
-void PRS_ConnectConsumer(unsigned int ch, PRS_ChType_t type, PRS_Consumer_t consumer)
+void PRS_ConnectConsumer(unsigned int ch, PRS_ChType_t type,
+		PRS_Consumer_t consumer)
 {
-  EFM_ASSERT((uint32_t)consumer <= 0xFFF);
-  volatile uint32_t * addr = (volatile uint32_t *) PRS;
-  uint32_t offset = (uint32_t) consumer;
-  addr = addr + offset / 4;
+	EFM_ASSERT((uint32_t )consumer <= 0xFFF);
+	volatile uint32_t *addr = (volatile uint32_t*) PRS;
+	uint32_t offset = (uint32_t) consumer;
+	addr = addr + offset / 4;
 
-  if (consumer != prsConsumerNone) {
-    if (type == prsTypeAsync) {
-      *addr = ch << _PRS_CONSUMER_TIMER0_CC0_PRSSEL_SHIFT;
-    } else {
-      *addr = ch << _PRS_CONSUMER_TIMER0_CC0_SPRSSEL_SHIFT;
-    }
-  }
+	if (consumer != prsConsumerNone)
+	{
+		if (type == prsTypeAsync)
+		{
+			*addr = ch << _PRS_CONSUMER_TIMER0_CC0_PRSSEL_SHIFT;
+		}
+		else
+		{
+			*addr = ch << _PRS_CONSUMER_TIMER0_CC0_SPRSSEL_SHIFT;
+		}
+	}
 }
 
 /***************************************************************************//**
@@ -592,23 +616,32 @@ void PRS_ConnectConsumer(unsigned int ch, PRS_ChType_t type, PRS_Consumer_t cons
  * @param[in] pin
  *   GPIO pin
  ******************************************************************************/
-void PRS_PinOutput(unsigned int ch, PRS_ChType_t type, GPIO_Port_TypeDef port, uint8_t pin)
+void PRS_PinOutput(unsigned int ch, PRS_ChType_t type, GPIO_Port_TypeDef port,
+		uint8_t pin)
 {
-  volatile uint32_t * addr;
-  if (type == prsTypeAsync) {
-    addr = &GPIO->PRSROUTE[0].ASYNCH0ROUTE;
-  } else {
-    addr = &GPIO->PRSROUTE[0].SYNCH0ROUTE;
-  }
-  addr += ch;
-  *addr = ((uint32_t)port << _GPIO_PRS_ASYNCH0ROUTE_PORT_SHIFT)
-          | ((uint32_t)pin << _GPIO_PRS_ASYNCH0ROUTE_PIN_SHIFT);
+	volatile uint32_t *addr;
+	if (type == prsTypeAsync)
+	{
+		addr = &GPIO->PRSROUTE[0].ASYNCH0ROUTE;
+	}
+	else
+	{
+		addr = &GPIO->PRSROUTE[0].SYNCH0ROUTE;
+	}
+	addr += ch;
+	*addr = ((uint32_t) port << _GPIO_PRS_ASYNCH0ROUTE_PORT_SHIFT)
+			| ((uint32_t) pin << _GPIO_PRS_ASYNCH0ROUTE_PIN_SHIFT);
 
-  if (type == prsTypeAsync) {
-    GPIO->PRSROUTE[0].ROUTEEN |= 0x1 << (ch + _GPIO_PRS_ROUTEEN_ASYNCH0PEN_SHIFT);
-  } else {
-    GPIO->PRSROUTE[0].ROUTEEN |= 0x1 << (ch + _GPIO_PRS_ROUTEEN_SYNCH0PEN_SHIFT);
-  }
+	if (type == prsTypeAsync)
+	{
+		GPIO->PRSROUTE[0].ROUTEEN |= 0x1
+				<< (ch + _GPIO_PRS_ROUTEEN_ASYNCH0PEN_SHIFT);
+	}
+	else
+	{
+		GPIO->PRSROUTE[0].ROUTEEN |= 0x1
+				<< (ch + _GPIO_PRS_ROUTEEN_SYNCH0PEN_SHIFT);
+	}
 }
 
 /***************************************************************************//**
@@ -639,8 +672,8 @@ void PRS_PinOutput(unsigned int ch, PRS_ChType_t type, GPIO_Port_TypeDef port, u
  ******************************************************************************/
 void PRS_Combine(unsigned int chA, unsigned int chB, PRS_Logic_t logic)
 {
-  EFM_ASSERT(chA < PRS_ASYNC_CHAN_COUNT);
-  EFM_ASSERT(chB < PRS_ASYNC_CHAN_COUNT);
+	EFM_ASSERT(chA < PRS_ASYNC_CHAN_COUNT);
+	EFM_ASSERT(chB < PRS_ASYNC_CHAN_COUNT);
 
 #if defined(_SILICON_LABS_32B_SERIES_2_CONFIG_1)
   EFM_ASSERT(chA == ((chB + 1) % PRS_ASYNC_CHAN_COUNT));
@@ -648,11 +681,10 @@ void PRS_Combine(unsigned int chA, unsigned int chB, PRS_Logic_t logic)
                             | ((uint32_t)logic << _PRS_ASYNC_CH_CTRL_FNSEL_SHIFT);
 
 #else
-  PRS->ASYNC_CH[chA].CTRL = (PRS->ASYNC_CH[chA].CTRL
-                             & ~(_PRS_ASYNC_CH_CTRL_FNSEL_MASK
-                                 | _PRS_ASYNC_CH_CTRL_AUXSEL_MASK))
-                            | ((uint32_t)logic << _PRS_ASYNC_CH_CTRL_FNSEL_SHIFT)
-                            | ((uint32_t)chB << _PRS_ASYNC_CH_CTRL_AUXSEL_SHIFT);
+	PRS->ASYNC_CH[chA].CTRL = (PRS->ASYNC_CH[chA].CTRL
+			& ~(_PRS_ASYNC_CH_CTRL_FNSEL_MASK | _PRS_ASYNC_CH_CTRL_AUXSEL_MASK))
+			| ((uint32_t) logic << _PRS_ASYNC_CH_CTRL_FNSEL_SHIFT)
+			| ((uint32_t) chB << _PRS_ASYNC_CH_CTRL_AUXSEL_SHIFT);
 #endif
 }
 #endif

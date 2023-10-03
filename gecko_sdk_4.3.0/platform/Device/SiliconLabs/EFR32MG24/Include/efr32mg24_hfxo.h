@@ -32,9 +32,9 @@
 #define HFXO_HAS_SET_CLEAR
 
 /**************************************************************************//**
-* @addtogroup Parts
-* @{
-******************************************************************************/
+ * @addtogroup Parts
+ * @{
+ ******************************************************************************/
 /**************************************************************************//**
  * @defgroup EFR32MG24_HFXO HFXO
  * @{
@@ -42,94 +42,95 @@
  *****************************************************************************/
 
 /** HFXO Register Declaration. */
-typedef struct {
-  __IM uint32_t  IPVERSION;                     /**< IP version ID                                      */
-  uint32_t       RESERVED0[3U];                 /**< Reserved for future use                            */
-  __IOM uint32_t XTALCFG;                       /**< Crystal Configuration Register                     */
-  uint32_t       RESERVED1[1U];                 /**< Reserved for future use                            */
-  __IOM uint32_t XTALCTRL;                      /**< Crystal Control Register                           */
-  __IOM uint32_t XTALCTRL1;                     /**< BUFOUT Crystal Control Register                    */
-  __IOM uint32_t CFG;                           /**< Configuration Register                             */
-  uint32_t       RESERVED2[1U];                 /**< Reserved for future use                            */
-  __IOM uint32_t CTRL;                          /**< Control Register                                   */
-  uint32_t       RESERVED3[5U];                 /**< Reserved for future use                            */
-  __IOM uint32_t BUFOUTTRIM;                    /**< BUFOUT Trim Configuration Register                 */
-  __IOM uint32_t BUFOUTCTRL;                    /**< BUFOUT Control Register                            */
-  uint32_t       RESERVED4[2U];                 /**< Reserved for future use                            */
-  __IOM uint32_t CMD;                           /**< Command Register                                   */
-  uint32_t       RESERVED5[1U];                 /**< Reserved for future use                            */
-  __IM uint32_t  STATUS;                        /**< Status Register                                    */
-  uint32_t       RESERVED6[5U];                 /**< Reserved for future use                            */
-  __IOM uint32_t IF;                            /**< Interrupt Flag Register                            */
-  __IOM uint32_t IEN;                           /**< Interrupt Enable Register                          */
-  uint32_t       RESERVED7[2U];                 /**< Reserved for future use                            */
-  __IOM uint32_t LOCK;                          /**< Configuration Lock Register                        */
-  uint32_t       RESERVED8[991U];               /**< Reserved for future use                            */
-  __IM uint32_t  IPVERSION_SET;                 /**< IP version ID                                      */
-  uint32_t       RESERVED9[3U];                 /**< Reserved for future use                            */
-  __IOM uint32_t XTALCFG_SET;                   /**< Crystal Configuration Register                     */
-  uint32_t       RESERVED10[1U];                /**< Reserved for future use                            */
-  __IOM uint32_t XTALCTRL_SET;                  /**< Crystal Control Register                           */
-  __IOM uint32_t XTALCTRL1_SET;                 /**< BUFOUT Crystal Control Register                    */
-  __IOM uint32_t CFG_SET;                       /**< Configuration Register                             */
-  uint32_t       RESERVED11[1U];                /**< Reserved for future use                            */
-  __IOM uint32_t CTRL_SET;                      /**< Control Register                                   */
-  uint32_t       RESERVED12[5U];                /**< Reserved for future use                            */
-  __IOM uint32_t BUFOUTTRIM_SET;                /**< BUFOUT Trim Configuration Register                 */
-  __IOM uint32_t BUFOUTCTRL_SET;                /**< BUFOUT Control Register                            */
-  uint32_t       RESERVED13[2U];                /**< Reserved for future use                            */
-  __IOM uint32_t CMD_SET;                       /**< Command Register                                   */
-  uint32_t       RESERVED14[1U];                /**< Reserved for future use                            */
-  __IM uint32_t  STATUS_SET;                    /**< Status Register                                    */
-  uint32_t       RESERVED15[5U];                /**< Reserved for future use                            */
-  __IOM uint32_t IF_SET;                        /**< Interrupt Flag Register                            */
-  __IOM uint32_t IEN_SET;                       /**< Interrupt Enable Register                          */
-  uint32_t       RESERVED16[2U];                /**< Reserved for future use                            */
-  __IOM uint32_t LOCK_SET;                      /**< Configuration Lock Register                        */
-  uint32_t       RESERVED17[991U];              /**< Reserved for future use                            */
-  __IM uint32_t  IPVERSION_CLR;                 /**< IP version ID                                      */
-  uint32_t       RESERVED18[3U];                /**< Reserved for future use                            */
-  __IOM uint32_t XTALCFG_CLR;                   /**< Crystal Configuration Register                     */
-  uint32_t       RESERVED19[1U];                /**< Reserved for future use                            */
-  __IOM uint32_t XTALCTRL_CLR;                  /**< Crystal Control Register                           */
-  __IOM uint32_t XTALCTRL1_CLR;                 /**< BUFOUT Crystal Control Register                    */
-  __IOM uint32_t CFG_CLR;                       /**< Configuration Register                             */
-  uint32_t       RESERVED20[1U];                /**< Reserved for future use                            */
-  __IOM uint32_t CTRL_CLR;                      /**< Control Register                                   */
-  uint32_t       RESERVED21[5U];                /**< Reserved for future use                            */
-  __IOM uint32_t BUFOUTTRIM_CLR;                /**< BUFOUT Trim Configuration Register                 */
-  __IOM uint32_t BUFOUTCTRL_CLR;                /**< BUFOUT Control Register                            */
-  uint32_t       RESERVED22[2U];                /**< Reserved for future use                            */
-  __IOM uint32_t CMD_CLR;                       /**< Command Register                                   */
-  uint32_t       RESERVED23[1U];                /**< Reserved for future use                            */
-  __IM uint32_t  STATUS_CLR;                    /**< Status Register                                    */
-  uint32_t       RESERVED24[5U];                /**< Reserved for future use                            */
-  __IOM uint32_t IF_CLR;                        /**< Interrupt Flag Register                            */
-  __IOM uint32_t IEN_CLR;                       /**< Interrupt Enable Register                          */
-  uint32_t       RESERVED25[2U];                /**< Reserved for future use                            */
-  __IOM uint32_t LOCK_CLR;                      /**< Configuration Lock Register                        */
-  uint32_t       RESERVED26[991U];              /**< Reserved for future use                            */
-  __IM uint32_t  IPVERSION_TGL;                 /**< IP version ID                                      */
-  uint32_t       RESERVED27[3U];                /**< Reserved for future use                            */
-  __IOM uint32_t XTALCFG_TGL;                   /**< Crystal Configuration Register                     */
-  uint32_t       RESERVED28[1U];                /**< Reserved for future use                            */
-  __IOM uint32_t XTALCTRL_TGL;                  /**< Crystal Control Register                           */
-  __IOM uint32_t XTALCTRL1_TGL;                 /**< BUFOUT Crystal Control Register                    */
-  __IOM uint32_t CFG_TGL;                       /**< Configuration Register                             */
-  uint32_t       RESERVED29[1U];                /**< Reserved for future use                            */
-  __IOM uint32_t CTRL_TGL;                      /**< Control Register                                   */
-  uint32_t       RESERVED30[5U];                /**< Reserved for future use                            */
-  __IOM uint32_t BUFOUTTRIM_TGL;                /**< BUFOUT Trim Configuration Register                 */
-  __IOM uint32_t BUFOUTCTRL_TGL;                /**< BUFOUT Control Register                            */
-  uint32_t       RESERVED31[2U];                /**< Reserved for future use                            */
-  __IOM uint32_t CMD_TGL;                       /**< Command Register                                   */
-  uint32_t       RESERVED32[1U];                /**< Reserved for future use                            */
-  __IM uint32_t  STATUS_TGL;                    /**< Status Register                                    */
-  uint32_t       RESERVED33[5U];                /**< Reserved for future use                            */
-  __IOM uint32_t IF_TGL;                        /**< Interrupt Flag Register                            */
-  __IOM uint32_t IEN_TGL;                       /**< Interrupt Enable Register                          */
-  uint32_t       RESERVED34[2U];                /**< Reserved for future use                            */
-  __IOM uint32_t LOCK_TGL;                      /**< Configuration Lock Register                        */
+typedef struct
+{
+	__IM uint32_t IPVERSION; /**< IP version ID                                      */
+	uint32_t RESERVED0[3U]; /**< Reserved for future use                            */
+	__IOM uint32_t XTALCFG; /**< Crystal Configuration Register                     */
+	uint32_t RESERVED1[1U]; /**< Reserved for future use                            */
+	__IOM uint32_t XTALCTRL; /**< Crystal Control Register                           */
+	__IOM uint32_t XTALCTRL1; /**< BUFOUT Crystal Control Register                    */
+	__IOM uint32_t CFG; /**< Configuration Register                             */
+	uint32_t RESERVED2[1U]; /**< Reserved for future use                            */
+	__IOM uint32_t CTRL; /**< Control Register                                   */
+	uint32_t RESERVED3[5U]; /**< Reserved for future use                            */
+	__IOM uint32_t BUFOUTTRIM; /**< BUFOUT Trim Configuration Register                 */
+	__IOM uint32_t BUFOUTCTRL; /**< BUFOUT Control Register                            */
+	uint32_t RESERVED4[2U]; /**< Reserved for future use                            */
+	__IOM uint32_t CMD; /**< Command Register                                   */
+	uint32_t RESERVED5[1U]; /**< Reserved for future use                            */
+	__IM uint32_t STATUS; /**< Status Register                                    */
+	uint32_t RESERVED6[5U]; /**< Reserved for future use                            */
+	__IOM uint32_t IF; /**< Interrupt Flag Register                            */
+	__IOM uint32_t IEN; /**< Interrupt Enable Register                          */
+	uint32_t RESERVED7[2U]; /**< Reserved for future use                            */
+	__IOM uint32_t LOCK; /**< Configuration Lock Register                        */
+	uint32_t RESERVED8[991U]; /**< Reserved for future use                            */
+	__IM uint32_t IPVERSION_SET; /**< IP version ID                                      */
+	uint32_t RESERVED9[3U]; /**< Reserved for future use                            */
+	__IOM uint32_t XTALCFG_SET; /**< Crystal Configuration Register                     */
+	uint32_t RESERVED10[1U]; /**< Reserved for future use                            */
+	__IOM uint32_t XTALCTRL_SET; /**< Crystal Control Register                           */
+	__IOM uint32_t XTALCTRL1_SET; /**< BUFOUT Crystal Control Register                    */
+	__IOM uint32_t CFG_SET; /**< Configuration Register                             */
+	uint32_t RESERVED11[1U]; /**< Reserved for future use                            */
+	__IOM uint32_t CTRL_SET; /**< Control Register                                   */
+	uint32_t RESERVED12[5U]; /**< Reserved for future use                            */
+	__IOM uint32_t BUFOUTTRIM_SET; /**< BUFOUT Trim Configuration Register                 */
+	__IOM uint32_t BUFOUTCTRL_SET; /**< BUFOUT Control Register                            */
+	uint32_t RESERVED13[2U]; /**< Reserved for future use                            */
+	__IOM uint32_t CMD_SET; /**< Command Register                                   */
+	uint32_t RESERVED14[1U]; /**< Reserved for future use                            */
+	__IM uint32_t STATUS_SET; /**< Status Register                                    */
+	uint32_t RESERVED15[5U]; /**< Reserved for future use                            */
+	__IOM uint32_t IF_SET; /**< Interrupt Flag Register                            */
+	__IOM uint32_t IEN_SET; /**< Interrupt Enable Register                          */
+	uint32_t RESERVED16[2U]; /**< Reserved for future use                            */
+	__IOM uint32_t LOCK_SET; /**< Configuration Lock Register                        */
+	uint32_t RESERVED17[991U]; /**< Reserved for future use                            */
+	__IM uint32_t IPVERSION_CLR; /**< IP version ID                                      */
+	uint32_t RESERVED18[3U]; /**< Reserved for future use                            */
+	__IOM uint32_t XTALCFG_CLR; /**< Crystal Configuration Register                     */
+	uint32_t RESERVED19[1U]; /**< Reserved for future use                            */
+	__IOM uint32_t XTALCTRL_CLR; /**< Crystal Control Register                           */
+	__IOM uint32_t XTALCTRL1_CLR; /**< BUFOUT Crystal Control Register                    */
+	__IOM uint32_t CFG_CLR; /**< Configuration Register                             */
+	uint32_t RESERVED20[1U]; /**< Reserved for future use                            */
+	__IOM uint32_t CTRL_CLR; /**< Control Register                                   */
+	uint32_t RESERVED21[5U]; /**< Reserved for future use                            */
+	__IOM uint32_t BUFOUTTRIM_CLR; /**< BUFOUT Trim Configuration Register                 */
+	__IOM uint32_t BUFOUTCTRL_CLR; /**< BUFOUT Control Register                            */
+	uint32_t RESERVED22[2U]; /**< Reserved for future use                            */
+	__IOM uint32_t CMD_CLR; /**< Command Register                                   */
+	uint32_t RESERVED23[1U]; /**< Reserved for future use                            */
+	__IM uint32_t STATUS_CLR; /**< Status Register                                    */
+	uint32_t RESERVED24[5U]; /**< Reserved for future use                            */
+	__IOM uint32_t IF_CLR; /**< Interrupt Flag Register                            */
+	__IOM uint32_t IEN_CLR; /**< Interrupt Enable Register                          */
+	uint32_t RESERVED25[2U]; /**< Reserved for future use                            */
+	__IOM uint32_t LOCK_CLR; /**< Configuration Lock Register                        */
+	uint32_t RESERVED26[991U]; /**< Reserved for future use                            */
+	__IM uint32_t IPVERSION_TGL; /**< IP version ID                                      */
+	uint32_t RESERVED27[3U]; /**< Reserved for future use                            */
+	__IOM uint32_t XTALCFG_TGL; /**< Crystal Configuration Register                     */
+	uint32_t RESERVED28[1U]; /**< Reserved for future use                            */
+	__IOM uint32_t XTALCTRL_TGL; /**< Crystal Control Register                           */
+	__IOM uint32_t XTALCTRL1_TGL; /**< BUFOUT Crystal Control Register                    */
+	__IOM uint32_t CFG_TGL; /**< Configuration Register                             */
+	uint32_t RESERVED29[1U]; /**< Reserved for future use                            */
+	__IOM uint32_t CTRL_TGL; /**< Control Register                                   */
+	uint32_t RESERVED30[5U]; /**< Reserved for future use                            */
+	__IOM uint32_t BUFOUTTRIM_TGL; /**< BUFOUT Trim Configuration Register                 */
+	__IOM uint32_t BUFOUTCTRL_TGL; /**< BUFOUT Control Register                            */
+	uint32_t RESERVED31[2U]; /**< Reserved for future use                            */
+	__IOM uint32_t CMD_TGL; /**< Command Register                                   */
+	uint32_t RESERVED32[1U]; /**< Reserved for future use                            */
+	__IM uint32_t STATUS_TGL; /**< Status Register                                    */
+	uint32_t RESERVED33[5U]; /**< Reserved for future use                            */
+	__IOM uint32_t IF_TGL; /**< Interrupt Flag Register                            */
+	__IOM uint32_t IEN_TGL; /**< Interrupt Enable Register                          */
+	uint32_t RESERVED34[2U]; /**< Reserved for future use                            */
+	__IOM uint32_t LOCK_TGL; /**< Configuration Lock Register                        */
 } HFXO_TypeDef;
 /** @} End of group EFR32MG24_HFXO */
 

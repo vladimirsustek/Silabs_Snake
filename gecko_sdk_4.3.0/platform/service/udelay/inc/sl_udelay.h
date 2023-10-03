@@ -67,7 +67,8 @@ extern "C" {
  *   the sleeptimer api for delays of more than 1 ms as it is using a hardware
  *   counter and will result in better accuracy.
  */
-void sl_udelay_wait(unsigned us);
+void
+sl_udelay_wait(unsigned us);
 
 #ifdef __cplusplus
 }

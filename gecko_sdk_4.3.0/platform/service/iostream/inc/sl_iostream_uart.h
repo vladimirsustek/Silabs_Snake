@@ -78,18 +78,21 @@ extern "C" {
 
 // -----------------------------------------------------------------------------
 // Data Types
-
 #define uartFlowControlNone  0
 #define uartFlowControlSoftware    0xFFFF
 #define UARTXON     0x11
 #define UARTXOFF    0x13
 
 /// @brief I/O Stream UART stream object
-typedef struct {
-  sl_iostream_t stream;                                               ///< stream
-  sl_status_t (*deinit)(void *stream);                                ///< uart deinit
-  void (*set_auto_cr_lf)(void *context, bool on);                     ///< set_auto_cr_lf
-  bool (*get_auto_cr_lf)(void *context);                              ///< get_auto_cr_lf
+typedef struct
+{
+	sl_iostream_t stream;                                            ///< stream
+	sl_status_t
+	(*deinit)(void *stream);                                ///< uart deinit
+	void
+	(*set_auto_cr_lf)(void *context, bool on);               ///< set_auto_cr_lf
+	bool (*get_auto_cr_lf)
+	(void *context);                              ///< get_auto_cr_lf
 #if defined(SL_CATALOG_POWER_MANAGER_PRESENT)
   void (*set_rx_energy_mode_restriction)(void *context, bool on);     ///< set_rx_energy_mode_restriction. Available only when Power Manager present.
   bool (*get_rx_energy_mode_restriction)(void *context);              ///< get_rx_energy_mode_restriction. Available only when Power Manager present.
@@ -104,47 +107,55 @@ typedef struct {
 } sl_iostream_uart_t;
 
 /// @brief I/O Stream (L)DMA Config
-typedef struct {
-  DMADRV_PeripheralSignal_t peripheral_signal;  ///< Peripheral signal to trigger a DMA transfer on
-  uint8_t *src;                                 ///< Pointer to IO Stream peripheral data register
+typedef struct
+{
+	DMADRV_PeripheralSignal_t peripheral_signal; ///< Peripheral signal to trigger a DMA transfer on
+	uint8_t *src;             ///< Pointer to IO Stream peripheral data register
 } sl_iostream_dma_config_t;
 
 /// @brief I/O Steam (L)DMA Context
-typedef struct {
-  sl_iostream_dma_config_t cfg;                       ///< DMA Configuration
-  uint8_t channel;                                    ///< DMA Channel
+typedef struct
+{
+	sl_iostream_dma_config_t cfg;                       ///< DMA Configuration
+	uint8_t channel;                                    ///< DMA Channel
 } sl_iostream_dma_context_t;
 
 /// @brief I/O Stream UART config
-typedef struct {
-  sl_iostream_dma_config_t dma_cfg;                     ///< DMA Config
-  IRQn_Type rx_irq_number;                              ///< rx_irq_number
-  IRQn_Type tx_irq_number;                              ///< tx_irq_number
-  uint8_t *rx_buffer;                                   ///< UART Rx Buffer
-  size_t rx_buffer_length;                              ///< UART Rx Buffer length
-  bool lf_to_crlf;                                      ///< lf_to_crlf
-  bool rx_when_sleeping;                                ///< rx_when_sleeping
-  bool sw_flow_control;                                 ///< sw_flow_control
+typedef struct
+{
+	sl_iostream_dma_config_t dma_cfg;                     ///< DMA Config
+	IRQn_Type rx_irq_number;                              ///< rx_irq_number
+	IRQn_Type tx_irq_number;                              ///< tx_irq_number
+	uint8_t *rx_buffer;                                   ///< UART Rx Buffer
+	size_t rx_buffer_length;                          ///< UART Rx Buffer length
+	bool lf_to_crlf;                                      ///< lf_to_crlf
+	bool rx_when_sleeping;                                ///< rx_when_sleeping
+	bool sw_flow_control;                                 ///< sw_flow_control
 } sl_iostream_uart_config_t;
 
 /// @brief I/O Stream UART context
-typedef struct {
-  sl_iostream_dma_context_t dma;            ///< DMA Context
-  uint8_t *rx_buffer;                       ///< UART Rx Buffer
-  size_t rx_buffer_len;                     ///< UART Rx Buffer length
-  uint8_t *rx_read_ptr;                     ///< Address of the next byte to be read
-  volatile bool rx_data_available;          ///< UART Rx Buffer data available to be read
-  volatile bool rx_buffer_full;             ///< UART Rx Buffer full
-  sl_status_t (*tx)(void *context, char c); ///< Tx function pointer
-  void (*tx_completed)(void *context, bool enable); ///< Pointer to a function handling the Tx Completed event
-  void (*set_next_byte_detect)(void *context);///< Pointer to a function to enable detection of next byte on stream
-  sl_status_t (*deinit)(void *context);     ///< DeInit function pointer
-  bool lf_to_crlf;                          ///< lf_to_crlf
-  bool sw_flow_control;                     ///< software flow control
-  uint8_t *ctrl_char_scan_ptr;              ///< Pointer to where the last control character scan ended
-  volatile bool xon;                        ///< Transmitter enabled
-  bool remote_xon;                          ///< Remote Transmitter enabled
-  IRQn_Type rx_irq_number;                  ///< Receive IRQ Number
+typedef struct
+{
+	sl_iostream_dma_context_t dma;            ///< DMA Context
+	uint8_t *rx_buffer;                       ///< UART Rx Buffer
+	size_t rx_buffer_len;                     ///< UART Rx Buffer length
+	uint8_t *rx_read_ptr;               ///< Address of the next byte to be read
+	volatile bool rx_data_available; ///< UART Rx Buffer data available to be read
+	volatile bool rx_buffer_full;             ///< UART Rx Buffer full
+	sl_status_t
+	(*tx)(void *context, char c); ///< Tx function pointer
+	void
+	(*tx_completed)(void *context, bool enable); ///< Pointer to a function handling the Tx Completed event
+	void
+	(*set_next_byte_detect)(void *context); ///< Pointer to a function to enable detection of next byte on stream
+	sl_status_t
+	(*deinit)(void *context);     ///< DeInit function pointer
+	bool lf_to_crlf;                          ///< lf_to_crlf
+	bool sw_flow_control;                     ///< software flow control
+	uint8_t *ctrl_char_scan_ptr; ///< Pointer to where the last control character scan ended
+	volatile bool xon;                        ///< Transmitter enabled
+	bool remote_xon;                          ///< Remote Transmitter enabled
+	IRQn_Type rx_irq_number;                  ///< Receive IRQ Number
 #if defined(SL_CATALOG_POWER_MANAGER_PRESENT)
   IRQn_Type tx_irq_number;                  ///< Transmit IRQ Number
   volatile bool tx_idle;                    ///< tx_idle. Available only when Power Manager present.
@@ -175,12 +186,13 @@ typedef struct {
  *
  * @return Status result
  ******************************************************************************/
-__STATIC_INLINE sl_status_t sl_iostream_uart_deinit(sl_iostream_uart_t *iostream_uart)
+__STATIC_INLINE sl_status_t
+sl_iostream_uart_deinit(sl_iostream_uart_t *iostream_uart)
 {
-  #if defined(SL_CATALOG_POWER_MANAGER_PRESENT)
+#if defined(SL_CATALOG_POWER_MANAGER_PRESENT)
   iostream_uart->set_rx_energy_mode_restriction(iostream_uart->stream.context, false);
   #endif
-  return iostream_uart->deinit(iostream_uart);
+	return iostream_uart->deinit(iostream_uart);
 }
 
 /***************************************************************************//**
@@ -190,10 +202,11 @@ __STATIC_INLINE sl_status_t sl_iostream_uart_deinit(sl_iostream_uart_t *iostream
  *
  * @param[in] on  If true, automatic LF to CRLF conversion will be enabled.
  ******************************************************************************/
-__STATIC_INLINE void sl_iostream_uart_set_auto_cr_lf(sl_iostream_uart_t *iostream_uart,
-                                                     bool on)
+__STATIC_INLINE void sl_iostream_uart_set_auto_cr_lf(
+		sl_iostream_uart_t *iostream_uart,
+		bool on)
 {
-  iostream_uart->set_auto_cr_lf(iostream_uart->stream.context, on);
+	iostream_uart->set_auto_cr_lf(iostream_uart->stream.context, on);
 }
 
 /***************************************************************************//**
@@ -203,9 +216,10 @@ __STATIC_INLINE void sl_iostream_uart_set_auto_cr_lf(sl_iostream_uart_t *iostrea
  *
  * @return Auto-conversion mode.
  ******************************************************************************/
-__STATIC_INLINE bool sl_iostream_uart_get_auto_cr_lf(sl_iostream_uart_t *iostream_uart)
+__STATIC_INLINE bool
+sl_iostream_uart_get_auto_cr_lf(sl_iostream_uart_t *iostream_uart)
 {
-  return iostream_uart->get_auto_cr_lf(iostream_uart->stream.context);
+	return iostream_uart->get_auto_cr_lf(iostream_uart->stream.context);
 }
 
 /***************************************************************************//**
@@ -213,9 +227,11 @@ __STATIC_INLINE bool sl_iostream_uart_get_auto_cr_lf(sl_iostream_uart_t *iostrea
  *
  * @param[in] iostream_uart  UART stream object.
  ******************************************************************************/
-__STATIC_INLINE void sl_iostream_uart_prepare_for_sleep(sl_iostream_uart_t *iostream_uart)
+__STATIC_INLINE void sl_iostream_uart_prepare_for_sleep(
+		sl_iostream_uart_t *iostream_uart)
 {
-  ((sl_iostream_uart_context_t*)iostream_uart->stream.context)->set_next_byte_detect(iostream_uart->stream.context);
+	((sl_iostream_uart_context_t*) iostream_uart->stream.context)->set_next_byte_detect(
+			iostream_uart->stream.context);
 }
 
 #if defined(SL_CATALOG_POWER_MANAGER_PRESENT)

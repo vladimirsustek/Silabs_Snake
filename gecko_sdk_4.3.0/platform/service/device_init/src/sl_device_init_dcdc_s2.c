@@ -36,13 +36,13 @@ sl_status_t sl_device_init_dcdc(void)
 {
 #if !defined(SL_DEVICE_INIT_DCDC_TYPE) || (defined(SL_DEVICE_INIT_DCDC_TYPE) && (SL_DEVICE_INIT_DCDC_TYPE == SL_DEVICE_INIT_DCDC_TYPE_BUCK))
 #if SL_DEVICE_INIT_DCDC_ENABLE
-  EMU_DCDCInit_TypeDef dcdcInit = EMU_DCDCINIT_DEFAULT;
+	EMU_DCDCInit_TypeDef dcdcInit = EMU_DCDCINIT_DEFAULT;
 #if SL_DEVICE_INIT_DCDC_BYPASS
   dcdcInit.mode = emuDcdcMode_Bypass;
 #endif
-  EMU_DCDCInit(&dcdcInit);
+	EMU_DCDCInit(&dcdcInit);
 #if SL_DEVICE_INIT_DCDC_PFMX_IPKVAL_OVERRIDE
-  EMU_DCDCSetPFMXModePeakCurrent(SL_DEVICE_INIT_DCDC_PFMX_IPKVAL);
+	EMU_DCDCSetPFMXModePeakCurrent(SL_DEVICE_INIT_DCDC_PFMX_IPKVAL);
 #endif
 #else // SL_DEVICE_INIT_DCDC_ENABLE
   EMU_DCDCPowerOff();
@@ -53,5 +53,5 @@ sl_status_t sl_device_init_dcdc(void)
   EMU_DCDCBoostInit(&dcdcBoostInit);
 #endif
 #endif //SL_DEVICE_INIT_DCDC_TYPE
-  return SL_STATUS_OK;
+	return SL_STATUS_OK;
 }

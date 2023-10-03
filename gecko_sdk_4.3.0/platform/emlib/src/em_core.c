@@ -282,9 +282,11 @@
 
 #if (SL_EMLIB_CORE_ENABLE_INTERRUPT_DISABLED_TIMING == 1)
 // cycle counter to record atomic sections
-sl_cycle_counter_handle_t atomic_cycle_counter   = { 0 };
+sl_cycle_counter_handle_t atomic_cycle_counter =
+{	0};
 // cycle counter to record critical sections
-sl_cycle_counter_handle_t critical_cycle_counter = { 0 };
+sl_cycle_counter_handle_t critical_cycle_counter =
+{	0};
 #endif
 
 /** @endcond */
@@ -302,7 +304,7 @@ sl_cycle_counter_handle_t critical_cycle_counter = { 0 };
  ******************************************************************************/
 SL_WEAK void CORE_CriticalDisableIrq(void)
 {
-  __disable_irq();
+	__disable_irq();
 }
 
 /***************************************************************************//**
@@ -313,7 +315,7 @@ SL_WEAK void CORE_CriticalDisableIrq(void)
  ******************************************************************************/
 SL_WEAK void CORE_CriticalEnableIrq(void)
 {
-  __enable_irq();
+	__enable_irq();
 }
 
 /***************************************************************************//**
@@ -328,12 +330,13 @@ SL_WEAK void CORE_CriticalEnableIrq(void)
  ******************************************************************************/
 SL_WEAK CORE_irqState_t CORE_EnterCritical(void)
 {
-  CORE_irqState_t irqState = __get_PRIMASK();
-  __disable_irq();
-  if (irqState == 0U) {
-    START_COUNTER(&critical_cycle_counter);
-  }
-  return irqState;
+	CORE_irqState_t irqState = __get_PRIMASK();
+	__disable_irq();
+	if (irqState == 0U)
+	{
+		START_COUNTER(&critical_cycle_counter);
+	}
+	return irqState;
 }
 
 /***************************************************************************//**
@@ -347,10 +350,11 @@ SL_WEAK CORE_irqState_t CORE_EnterCritical(void)
  ******************************************************************************/
 SL_WEAK void CORE_ExitCritical(CORE_irqState_t irqState)
 {
-  if (irqState == 0U) {
-    STOP_COUNTER(&critical_cycle_counter);
-    __enable_irq();
-  }
+	if (irqState == 0U)
+	{
+		STOP_COUNTER(&critical_cycle_counter);
+		__enable_irq();
+	}
 }
 
 /***************************************************************************//**
@@ -363,11 +367,12 @@ SL_WEAK void CORE_ExitCritical(CORE_irqState_t irqState)
  ******************************************************************************/
 SL_WEAK void CORE_YieldCritical(void)
 {
-  if ((__get_PRIMASK() & 1U) != 0U) {
-    __enable_irq();
-    __ISB();
-    __disable_irq();
-  }
+	if ((__get_PRIMASK() & 1U) != 0U)
+	{
+		__enable_irq();
+		__ISB();
+		__disable_irq();
+	}
 }
 
 /***************************************************************************//**
@@ -385,7 +390,7 @@ SL_WEAK void CORE_YieldCritical(void)
 SL_WEAK void CORE_AtomicDisableIrq(void)
 {
 #if (CORE_ATOMIC_METHOD == CORE_ATOMIC_METHOD_BASEPRI)
-  __set_BASEPRI(CORE_ATOMIC_BASE_PRIORITY_LEVEL << (8UL - __NVIC_PRIO_BITS));
+	__set_BASEPRI(CORE_ATOMIC_BASE_PRIORITY_LEVEL << (8UL - __NVIC_PRIO_BITS));
 #else
   __disable_irq();
 #endif // (CORE_ATOMIC_METHOD == CORE_ATOMIC_METHOD_BASEPRI)
@@ -409,7 +414,7 @@ SL_WEAK void CORE_AtomicDisableIrq(void)
 SL_WEAK void CORE_AtomicEnableIrq(void)
 {
 #if (CORE_ATOMIC_METHOD == CORE_ATOMIC_METHOD_BASEPRI)
-  __set_BASEPRI(0);
+	__set_BASEPRI(0);
 #else
   __enable_irq();
 #endif // (CORE_ATOMIC_METHOD == CORE_ATOMIC_METHOD_BASEPRI)
@@ -432,13 +437,14 @@ SL_WEAK void CORE_AtomicEnableIrq(void)
 SL_WEAK CORE_irqState_t CORE_EnterAtomic(void)
 {
 #if (CORE_ATOMIC_METHOD == CORE_ATOMIC_METHOD_BASEPRI)
-  CORE_irqState_t irqState = __get_BASEPRI();
-  __set_BASEPRI(CORE_ATOMIC_BASE_PRIORITY_LEVEL << (8U - __NVIC_PRIO_BITS));
-  if ((irqState & (CORE_ATOMIC_BASE_PRIORITY_LEVEL << (8U - __NVIC_PRIO_BITS)))
-      != (CORE_ATOMIC_BASE_PRIORITY_LEVEL << (8U - __NVIC_PRIO_BITS))) {
-    START_COUNTER(&atomic_cycle_counter);
-  }
-  return irqState;
+	CORE_irqState_t irqState = __get_BASEPRI();
+	__set_BASEPRI(CORE_ATOMIC_BASE_PRIORITY_LEVEL << (8U - __NVIC_PRIO_BITS));
+	if ((irqState & (CORE_ATOMIC_BASE_PRIORITY_LEVEL << (8U - __NVIC_PRIO_BITS)))
+			!= (CORE_ATOMIC_BASE_PRIORITY_LEVEL << (8U - __NVIC_PRIO_BITS)))
+	{
+		START_COUNTER(&atomic_cycle_counter);
+	}
+	return irqState;
 #else
   CORE_irqState_t irqState = __get_PRIMASK();
   __disable_irq();
@@ -465,11 +471,12 @@ SL_WEAK CORE_irqState_t CORE_EnterAtomic(void)
 SL_WEAK void CORE_ExitAtomic(CORE_irqState_t irqState)
 {
 #if (CORE_ATOMIC_METHOD == CORE_ATOMIC_METHOD_BASEPRI)
-  if ((irqState & (CORE_ATOMIC_BASE_PRIORITY_LEVEL << (8U - __NVIC_PRIO_BITS)))
-      != (CORE_ATOMIC_BASE_PRIORITY_LEVEL << (8U - __NVIC_PRIO_BITS))) {
-    STOP_COUNTER(&atomic_cycle_counter);
-  }
-  __set_BASEPRI(irqState);
+	if ((irqState & (CORE_ATOMIC_BASE_PRIORITY_LEVEL << (8U - __NVIC_PRIO_BITS)))
+			!= (CORE_ATOMIC_BASE_PRIORITY_LEVEL << (8U - __NVIC_PRIO_BITS)))
+	{
+		STOP_COUNTER(&atomic_cycle_counter);
+	}
+	__set_BASEPRI(irqState);
 #else
   if (irqState == 0U) {
     STOP_COUNTER(&atomic_cycle_counter);
@@ -493,12 +500,13 @@ SL_WEAK void CORE_ExitAtomic(CORE_irqState_t irqState)
 SL_WEAK void CORE_YieldAtomic(void)
 {
 #if (CORE_ATOMIC_METHOD == CORE_ATOMIC_METHOD_BASEPRI)
-  CORE_irqState_t basepri = __get_BASEPRI();
-  if (basepri >= (CORE_ATOMIC_BASE_PRIORITY_LEVEL << (8U - __NVIC_PRIO_BITS))) {
-    __set_BASEPRI(0);
-    __ISB();
-    __set_BASEPRI(basepri);
-  }
+	CORE_irqState_t basepri = __get_BASEPRI();
+	if (basepri >= (CORE_ATOMIC_BASE_PRIORITY_LEVEL << (8U - __NVIC_PRIO_BITS)))
+	{
+		__set_BASEPRI(0);
+		__ISB();
+		__set_BASEPRI(basepri);
+	}
 #else
   if ((__get_PRIMASK() & 1U) != 0U) {
     __enable_irq();
@@ -522,12 +530,10 @@ SL_WEAK void CORE_YieldAtomic(void)
  *   A mask specifying which NVIC interrupts to disable within the section.
  ******************************************************************************/
 void CORE_EnterNvicMask(CORE_nvicMask_t *nvicState,
-                        const CORE_nvicMask_t *disable)
+		const CORE_nvicMask_t *disable)
 {
-  CORE_CRITICAL_SECTION(
-    *nvicState = *(CORE_nvicMask_t*)((uint32_t)&NVIC->ICER[0]);
-    *(CORE_nvicMask_t*)((uint32_t)&NVIC->ICER[0]) = *disable;
-    )
+	CORE_CRITICAL_SECTION(
+			*nvicState = *(CORE_nvicMask_t*)((uint32_t)&NVIC->ICER[0]); *(CORE_nvicMask_t*)((uint32_t)&NVIC->ICER[0]) = *disable;)
 }
 
 /***************************************************************************//**
@@ -539,9 +545,8 @@ void CORE_EnterNvicMask(CORE_nvicMask_t *nvicState,
  ******************************************************************************/
 void CORE_NvicDisableMask(const CORE_nvicMask_t *disable)
 {
-  CORE_CRITICAL_SECTION(
-    *(CORE_nvicMask_t*)((uint32_t)&NVIC->ICER[0]) = *disable;
-    )
+	CORE_CRITICAL_SECTION(
+			*(CORE_nvicMask_t*)((uint32_t)&NVIC->ICER[0]) = *disable;)
 }
 
 /***************************************************************************//**
@@ -553,9 +558,8 @@ void CORE_NvicDisableMask(const CORE_nvicMask_t *disable)
  ******************************************************************************/
 void CORE_NvicEnableMask(const CORE_nvicMask_t *enable)
 {
-  CORE_CRITICAL_SECTION(
-    *(CORE_nvicMask_t*)((uint32_t)&NVIC->ISER[0]) = *enable;
-    )
+	CORE_CRITICAL_SECTION(
+			*(CORE_nvicMask_t*)((uint32_t)&NVIC->ISER[0]) = *enable;)
 }
 
 /***************************************************************************//**
@@ -571,15 +575,14 @@ void CORE_NvicEnableMask(const CORE_nvicMask_t *enable)
  ******************************************************************************/
 void CORE_YieldNvicMask(const CORE_nvicMask_t *enable)
 {
-  CORE_nvicMask_t nvicMask;
+	CORE_nvicMask_t nvicMask;
 
-  // Get current NVIC enable mask.
-  CORE_CRITICAL_SECTION(
-    nvicMask = *(CORE_nvicMask_t*)((uint32_t)&NVIC->ISER[0]);
-    )
+	// Get current NVIC enable mask.
+	CORE_CRITICAL_SECTION(
+			nvicMask = *(CORE_nvicMask_t*)((uint32_t)&NVIC->ISER[0]);)
 
-  // Make a mask with bits set for those interrupts that are currently
-  // disabled but are set in the enable mask.
+	// Make a mask with bits set for those interrupts that are currently
+	// disabled but are set in the enable mask.
 #if (CORE_NVIC_REG_WORDS == 1)
   nvicMask.a[0] &= enable->a[0];
   nvicMask.a[0] = ~nvicMask.a[0] & enable->a[0];
@@ -593,22 +596,23 @@ void CORE_YieldNvicMask(const CORE_nvicMask_t *enable)
 
   if ((nvicMask.a[0] != 0U) || (nvicMask.a[1] != 0U)) {
 #elif (CORE_NVIC_REG_WORDS == 3)
-  nvicMask.a[0] &= enable->a[0];
-  nvicMask.a[1] &= enable->a[1];
-  nvicMask.a[2] &= enable->a[2];
-  nvicMask.a[0] = ~nvicMask.a[0] & enable->a[0];
-  nvicMask.a[1] = ~nvicMask.a[1] & enable->a[1];
-  nvicMask.a[2] = ~nvicMask.a[2] & enable->a[2];
+	nvicMask.a[0] &= enable->a[0];
+	nvicMask.a[1] &= enable->a[1];
+	nvicMask.a[2] &= enable->a[2];
+	nvicMask.a[0] = ~nvicMask.a[0] & enable->a[0];
+	nvicMask.a[1] = ~nvicMask.a[1] & enable->a[1];
+	nvicMask.a[2] = ~nvicMask.a[2] & enable->a[2];
 
-  if ((nvicMask.a[0] != 0U) || (nvicMask.a[1] != 0U) || (nvicMask.a[2] != 0U)) {
+	if ((nvicMask.a[0] != 0U) || (nvicMask.a[1] != 0U) || (nvicMask.a[2] != 0U))
+	{
 #endif
 
-    // Enable previously disabled interrupts.
-    *(CORE_nvicMask_t*)((uint32_t)&NVIC->ISER[0]) = nvicMask;
+		// Enable previously disabled interrupts.
+		*(CORE_nvicMask_t*) ((uint32_t) &NVIC->ISER[0]) = nvicMask;
 
-    // Disable those interrupts again.
-    *(CORE_nvicMask_t*)((uint32_t)&NVIC->ICER[0]) = nvicMask;
-  }
+		// Disable those interrupts again.
+		*(CORE_nvicMask_t*) ((uint32_t) &NVIC->ICER[0]) = nvicMask;
+	}
 }
 
 /***************************************************************************//**
@@ -623,8 +627,8 @@ void CORE_YieldNvicMask(const CORE_nvicMask_t *enable)
  ******************************************************************************/
 void CORE_NvicMaskSetIRQ(IRQn_Type irqN, CORE_nvicMask_t *mask)
 {
-  EFM_ASSERT(((int)irqN >= 0) && ((int)irqN < EXT_IRQ_COUNT));
-  mask->a[(unsigned)irqN >> 5] |= 1UL << ((unsigned)irqN & 0x1FUL);
+	EFM_ASSERT(((int)irqN >= 0) && ((int)irqN < EXT_IRQ_COUNT));
+	mask->a[(unsigned) irqN >> 5] |= 1UL << ((unsigned) irqN & 0x1FUL);
 }
 
 /***************************************************************************//**
@@ -639,8 +643,8 @@ void CORE_NvicMaskSetIRQ(IRQn_Type irqN, CORE_nvicMask_t *mask)
  ******************************************************************************/
 void CORE_NvicMaskClearIRQ(IRQn_Type irqN, CORE_nvicMask_t *mask)
 {
-  EFM_ASSERT(((int)irqN >= 0) && ((int)irqN < EXT_IRQ_COUNT));
-  mask->a[(unsigned)irqN >> 5] &= ~(1UL << ((unsigned)irqN & 0x1FUL));
+	EFM_ASSERT(((int)irqN >= 0) && ((int)irqN < EXT_IRQ_COUNT));
+	mask->a[(unsigned) irqN >> 5] &= ~(1UL << ((unsigned) irqN & 0x1FUL));
 }
 
 /***************************************************************************//**
@@ -651,9 +655,10 @@ void CORE_NvicMaskClearIRQ(IRQn_Type irqN, CORE_nvicMask_t *mask)
  *   True if the CPU is in handler mode (currently executing an interrupt handler).
  *   @n False if the CPU is in thread mode.
  ******************************************************************************/
-SL_WEAK bool CORE_InIrqContext(void)
+SL_WEAK bool
+CORE_InIrqContext(void)
 {
-  return (SCB->ICSR & SCB_ICSR_VECTACTIVE_Msk) != 0U;
+	return (SCB->ICSR & SCB_ICSR_VECTACTIVE_Msk) != 0U;
 }
 
 /***************************************************************************//**
@@ -666,46 +671,52 @@ SL_WEAK bool CORE_InIrqContext(void)
  * @return
  *   True if the interrupt is disabled or blocked.
  ******************************************************************************/
-SL_WEAK bool CORE_IrqIsBlocked(IRQn_Type irqN)
+SL_WEAK bool
+CORE_IrqIsBlocked(IRQn_Type irqN)
 {
-  uint32_t irqPri, activeIrq;
+	uint32_t irqPri, activeIrq;
 
 #if (__CORTEX_M >= 3)
-  uint32_t basepri;
+	uint32_t basepri;
 
-  EFM_ASSERT((irqN >= MemoryManagement_IRQn)
-             && (irqN < (IRQn_Type)EXT_IRQ_COUNT));
+	EFM_ASSERT(
+			(irqN >= MemoryManagement_IRQn) && (irqN < (IRQn_Type)EXT_IRQ_COUNT));
 #else
   EFM_ASSERT((irqN >= SVCall_IRQn) && ((IRQn_Type)irqN < EXT_IRQ_COUNT));
 #endif
 
-  if ((__get_PRIMASK() & 1U) != 0U) {
-    return true;                            // All IRQs are disabled.
-  }
+	if ((__get_PRIMASK() & 1U) != 0U)
+	{
+		return true;                            // All IRQs are disabled.
+	}
 
-  if (CORE_NvicIRQDisabled(irqN)) {
-    return true;                            // The IRQ in question is disabled.
-  }
+	if (CORE_NvicIRQDisabled(irqN))
+	{
+		return true;                         // The IRQ in question is disabled.
+	}
 
-  irqPri  = NVIC_GetPriority(irqN);
+	irqPri = NVIC_GetPriority(irqN);
 #if (__CORTEX_M >= 3)
-  basepri = __get_BASEPRI();
-  if ((basepri != 0U)
-      && (irqPri >= (basepri >> (8U - __NVIC_PRIO_BITS)))) {
-    return true;                            // The IRQ in question has too low
-  }                                         // priority vs. BASEPRI.
+	basepri = __get_BASEPRI();
+	if ((basepri != 0U) && (irqPri >= (basepri >> (8U - __NVIC_PRIO_BITS))))
+	{
+		return true;                          // The IRQ in question has too low
+	}                                         // priority vs. BASEPRI.
 #endif
 
-  // Check if already in an interrupt handler. If so, an interrupt with a
-  // higher priority (lower priority value) can preempt.
-  activeIrq = (SCB->ICSR & SCB_ICSR_VECTACTIVE_Msk) >> SCB_ICSR_VECTACTIVE_Pos;
-  if (activeIrq != 0U) {
-    if (irqPri >= NVIC_GetPriority((IRQn_Type)(activeIrq - 16U))) {
-      return true;                          // The IRQ in question has too low
-    }                                       // priority vs. current active IRQ
-  }
+	// Check if already in an interrupt handler. If so, an interrupt with a
+	// higher priority (lower priority value) can preempt.
+	activeIrq =
+			(SCB->ICSR & SCB_ICSR_VECTACTIVE_Msk) >> SCB_ICSR_VECTACTIVE_Pos;
+	if (activeIrq != 0U)
+	{
+		if (irqPri >= NVIC_GetPriority((IRQn_Type) (activeIrq - 16U)))
+		{
+			return true;                      // The IRQ in question has too low
+		}                                     // priority vs. current active IRQ
+	}
 
-  return false;
+	return false;
 }
 
 /***************************************************************************//**
@@ -715,15 +726,17 @@ SL_WEAK bool CORE_IrqIsBlocked(IRQn_Type irqN)
  * @return
  *   True if interrupts are disabled.
  ******************************************************************************/
-SL_WEAK bool CORE_IrqIsDisabled(void)
+SL_WEAK bool
+CORE_IrqIsDisabled(void)
 {
 #if (CORE_ATOMIC_METHOD == CORE_ATOMIC_METHOD_PRIMASK)
   return (__get_PRIMASK() & 1U) == 1U;
 
 #elif (CORE_ATOMIC_METHOD == CORE_ATOMIC_METHOD_BASEPRI)
-  return ((__get_PRIMASK() & 1U) == 1U)
-         || (__get_BASEPRI() >= (CORE_ATOMIC_BASE_PRIORITY_LEVEL
-                                 << (8U - __NVIC_PRIO_BITS)));
+	return ((__get_PRIMASK() & 1U) == 1U)
+			|| (__get_BASEPRI()
+					>= (CORE_ATOMIC_BASE_PRIORITY_LEVEL
+							<< (8U - __NVIC_PRIO_BITS)));
 #endif
 }
 
@@ -736,9 +749,8 @@ SL_WEAK bool CORE_IrqIsDisabled(void)
  ******************************************************************************/
 void CORE_GetNvicEnabledMask(CORE_nvicMask_t *mask)
 {
-  CORE_CRITICAL_SECTION(
-    *mask = *(CORE_nvicMask_t*)((uint32_t)&NVIC->ISER[0]);
-    )
+	CORE_CRITICAL_SECTION(
+			*mask = *(CORE_nvicMask_t*)((uint32_t)&NVIC->ISER[0]);)
 }
 
 /***************************************************************************//**
@@ -751,13 +763,13 @@ void CORE_GetNvicEnabledMask(CORE_nvicMask_t *mask)
  * @return
  *   True if all NVIC interrupt mask bits are clear.
  ******************************************************************************/
-bool CORE_GetNvicMaskDisableState(const CORE_nvicMask_t *mask)
+bool
+CORE_GetNvicMaskDisableState(const CORE_nvicMask_t *mask)
 {
-  CORE_nvicMask_t nvicMask;
+	CORE_nvicMask_t nvicMask;
 
-  CORE_CRITICAL_SECTION(
-    nvicMask = *(CORE_nvicMask_t*)((uint32_t)&NVIC->ISER[0]);
-    )
+	CORE_CRITICAL_SECTION(
+			nvicMask = *(CORE_nvicMask_t*)((uint32_t)&NVIC->ISER[0]);)
 
 #if (CORE_NVIC_REG_WORDS == 1)
   return (mask->a[0] & nvicMask.a[0]) == 0U;
@@ -767,9 +779,9 @@ bool CORE_GetNvicMaskDisableState(const CORE_nvicMask_t *mask)
          && ((mask->a[1] & nvicMask.a[1]) == 0U);
 
 #elif (CORE_NVIC_REG_WORDS == 3)
-  return ((mask->a[0] & nvicMask.a[0]) == 0U)
-         && ((mask->a[1] & nvicMask.a[1]) == 0U)
-         && ((mask->a[2] & nvicMask.a[2]) == 0U);
+	return ((mask->a[0] & nvicMask.a[0]) == 0U)
+			&& ((mask->a[1] & nvicMask.a[1]) == 0U)
+			&& ((mask->a[2] & nvicMask.a[2]) == 0U);
 #endif
 }
 
@@ -783,14 +795,15 @@ bool CORE_GetNvicMaskDisableState(const CORE_nvicMask_t *mask)
  * @return
  *   True if the interrupt is disabled.
  ******************************************************************************/
-bool CORE_NvicIRQDisabled(IRQn_Type irqN)
+bool
+CORE_NvicIRQDisabled(IRQn_Type irqN)
 {
-  CORE_nvicMask_t *mask;
+	CORE_nvicMask_t *mask;
 
-  EFM_ASSERT(((int)irqN >= 0) && ((int)irqN < EXT_IRQ_COUNT));
-  mask = (CORE_nvicMask_t*)((uint32_t)&NVIC->ISER[0]);
-  return (mask->a[(unsigned)irqN >> 5U] & (1UL << ((unsigned)irqN & 0x1FUL)))
-         == 0UL;
+	EFM_ASSERT(((int)irqN >= 0) && ((int)irqN < EXT_IRQ_COUNT));
+	mask = (CORE_nvicMask_t*) ((uint32_t) &NVIC->ISER[0]);
+	return (mask->a[(unsigned) irqN >> 5U] & (1UL << ((unsigned) irqN & 0x1FUL)))
+			== 0UL;
 }
 
 /***************************************************************************//**
@@ -806,10 +819,11 @@ bool CORE_NvicIRQDisabled(IRQn_Type irqN)
  * @note
  *   Uses the interrupt vector table defined by the current VTOR register value.
  ******************************************************************************/
-void *CORE_GetNvicRamTableHandler(IRQn_Type irqN)
+void*
+CORE_GetNvicRamTableHandler(IRQn_Type irqN)
 {
-  EFM_ASSERT(((int)irqN >= -16) && ((int)irqN < EXT_IRQ_COUNT));
-  return (void*)((uint32_t*)(((uint32_t*)SCB->VTOR)[(int)irqN + 16]));
+	EFM_ASSERT(((int)irqN >= -16) && ((int)irqN < EXT_IRQ_COUNT));
+	return (void*) ((uint32_t*) (((uint32_t*) SCB->VTOR)[(int) irqN + 16]));
 }
 
 /***************************************************************************//**
@@ -827,8 +841,8 @@ void *CORE_GetNvicRamTableHandler(IRQn_Type irqN)
  ******************************************************************************/
 void CORE_SetNvicRamTableHandler(IRQn_Type irqN, void *handler)
 {
-  EFM_ASSERT(((int)irqN >= -16) && ((int)irqN < EXT_IRQ_COUNT));
-  ((uint32_t*)SCB->VTOR)[(int)irqN + 16] = (uint32_t)((uint32_t*)handler);
+	EFM_ASSERT(((int)irqN >= -16) && ((int)irqN < EXT_IRQ_COUNT));
+	((uint32_t*) SCB->VTOR)[(int) irqN + 16] = (uint32_t) ((uint32_t*) handler);
 }
 
 /***************************************************************************//**
@@ -862,53 +876,63 @@ void CORE_SetNvicRamTableHandler(IRQn_Type irqN, void *handler)
  *   to partly initialize a target table before passing it to this function.
  *
  ******************************************************************************/
-void CORE_InitNvicVectorTable(uint32_t *sourceTable,
-                              uint32_t sourceSize,
-                              uint32_t *targetTable,
-                              uint32_t targetSize,
-                              void *defaultHandler,
-                              bool overwriteActive)
+void CORE_InitNvicVectorTable(uint32_t *sourceTable, uint32_t sourceSize,
+		uint32_t *targetTable, uint32_t targetSize, void *defaultHandler,
+		bool overwriteActive)
 {
-  uint32_t i;
+	uint32_t i;
 
-  // ASSERT on non SRAM-based target table.
-  EFM_ASSERT(((uint32_t)targetTable >= SRAM_BASE)
-             && ((uint32_t)targetTable < (SRAM_BASE + SRAM_SIZE)));
+	// ASSERT on non SRAM-based target table.
+	EFM_ASSERT(
+			((uint32_t)targetTable >= SRAM_BASE) && ((uint32_t)targetTable < (SRAM_BASE + SRAM_SIZE)));
 
-  // ASSERT if misaligned with respect to the VTOR register implementation.
+	// ASSERT if misaligned with respect to the VTOR register implementation.
 #if defined(SCB_VTOR_TBLBASE_Msk)
   EFM_ASSERT(((uint32_t)targetTable & ~(SCB_VTOR_TBLOFF_Msk
                                         | SCB_VTOR_TBLBASE_Msk)) == 0U);
 #else
-  EFM_ASSERT(((uint32_t)targetTable & ~SCB_VTOR_TBLOFF_Msk) == 0U);
+	EFM_ASSERT(((uint32_t)targetTable & ~SCB_VTOR_TBLOFF_Msk) == 0U);
 #endif
 
-  // ASSERT if misaligned with respect to the vector table size.
-  // The vector table address must be aligned at its size rounded up to nearest 2^n.
-  EFM_ASSERT(((uint32_t)targetTable
-              & ((1UL << (32UL - __CLZ((targetSize * 4UL) - 1UL))) - 1UL))
-             == 0UL);
+	// ASSERT if misaligned with respect to the vector table size.
+	// The vector table address must be aligned at its size rounded up to nearest 2^n.
+	EFM_ASSERT(
+			((uint32_t )targetTable
+					& ((1UL << (32UL - __CLZ((targetSize * 4UL) - 1UL))) - 1UL))
+					== 0UL);
 
-  for (i = 0; i < targetSize; i++) {
-    if (overwriteActive) {                      // Overwrite target entries.
-      if (i < sourceSize) {                     //   targetSize <= sourceSize
-        targetTable[i] = sourceTable[i];
-      } else {                                  //   targetSize > sourceSize
-        targetTable[i] = (uint32_t)((uint32_t*)defaultHandler);
-      }
-    } else {                            // Overwrite target entries which are 0.
-      if (i < sourceSize) {                     // targetSize <= sourceSize
-        if (targetTable[i] == 0U) {
-          targetTable[i] = sourceTable[i];
-        }
-      } else {                                  // targetSize > sourceSize
-        if (targetTable[i] == 0U) {
-          targetTable[i] = (uint32_t)((uint32_t*)defaultHandler);
-        }
-      }
-    }
-  }
-  SCB->VTOR = (uint32_t)targetTable;
+	for (i = 0; i < targetSize; i++)
+	{
+		if (overwriteActive)
+		{                      // Overwrite target entries.
+			if (i < sourceSize)
+			{                     //   targetSize <= sourceSize
+				targetTable[i] = sourceTable[i];
+			}
+			else
+			{                                  //   targetSize > sourceSize
+				targetTable[i] = (uint32_t) ((uint32_t*) defaultHandler);
+			}
+		}
+		else
+		{                            // Overwrite target entries which are 0.
+			if (i < sourceSize)
+			{                     // targetSize <= sourceSize
+				if (targetTable[i] == 0U)
+				{
+					targetTable[i] = sourceTable[i];
+				}
+			}
+			else
+			{                                  // targetSize > sourceSize
+				if (targetTable[i] == 0U)
+				{
+					targetTable[i] = (uint32_t) ((uint32_t*) defaultHandler);
+				}
+			}
+		}
+	}
+	SCB->VTOR = (uint32_t) targetTable;
 }
 
 #if (SL_EMLIB_CORE_ENABLE_INTERRUPT_DISABLED_TIMING == 1) || defined(DOXYGEN)

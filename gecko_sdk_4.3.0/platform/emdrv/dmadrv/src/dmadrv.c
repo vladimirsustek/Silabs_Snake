@@ -48,26 +48,27 @@
 #define EMDRV_DMADRV_DMA_CH_COUNT DMA_CHAN_COUNT
 #endif
 
-typedef enum {
-  dmaDirectionMemToPeripheral,
-  dmaDirectionPeripheralToMem
+typedef enum
+{
+	dmaDirectionMemToPeripheral, dmaDirectionPeripheralToMem
 } DmaDirection_t;
 
-typedef enum {
-  dmaModeBasic,
-  dmaModePingPong
+typedef enum
+{
+	dmaModeBasic, dmaModePingPong
 } DmaMode_t;
 
-typedef struct {
-  DMADRV_Callback_t callback;
-  void              *userParam;
-  unsigned int      callbackCount;
+typedef struct
+{
+	DMADRV_Callback_t callback;
+	void *userParam;
+	unsigned int callbackCount;
 #if defined(EMDRV_DMADRV_UDMA)
-  int               length;
+	int length;
 #endif
-  bool              allocated;
+	bool allocated;
 #if defined(EMDRV_DMADRV_LDMA)
-  DmaMode_t         mode;
+	DmaMode_t mode;
 #endif
 } ChTable_t;
 
@@ -83,26 +84,20 @@ const LDMA_TransferCfg_t xferCfg = LDMA_TRANSFER_CFG_PERIPHERAL(0);
 const LDMA_Descriptor_t m2p = LDMA_DESCRIPTOR_SINGLE_M2P_BYTE(NULL, NULL, 1UL);
 const LDMA_Descriptor_t p2m = LDMA_DESCRIPTOR_SINGLE_P2M_BYTE(NULL, NULL, 1UL);
 
-typedef struct {
-  LDMA_Descriptor_t desc[2];
+typedef struct
+{
+	LDMA_Descriptor_t desc[2];
 } DmaXfer_t;
 
 static DmaXfer_t dmaXfer[EMDRV_DMADRV_DMA_CH_COUNT];
 #endif
 
-static Ecode_t StartTransfer(DmaMode_t             mode,
-                             DmaDirection_t        direction,
-                             unsigned int          channelId,
-                             DMADRV_PeripheralSignal_t
-                             peripheralSignal,
-                             void                  *buf0,
-                             void                  *buf1,
-                             void                  *buf2,
-                             bool                  bufInc,
-                             int                   len,
-                             DMADRV_DataSize_t     size,
-                             DMADRV_Callback_t     callback,
-                             void                  *cbUserParam);
+static Ecode_t
+StartTransfer(DmaMode_t mode, DmaDirection_t direction, unsigned int channelId,
+		DMADRV_PeripheralSignal_t peripheralSignal, void *buf0, void *buf1,
+		void *buf2,
+		bool bufInc, int len, DMADRV_DataSize_t size,
+		DMADRV_Callback_t callback, void *cbUserParam);
 
 /// @endcond
 
@@ -122,30 +117,34 @@ static Ecode_t StartTransfer(DmaMode_t             mode,
  ******************************************************************************/
 Ecode_t DMADRV_AllocateChannel(unsigned int *channelId, void *capabilities)
 {
-  unsigned int i;
-  (void)capabilities;
-  CORE_DECLARE_IRQ_STATE;
+	unsigned int i;
+	(void) capabilities;
+	CORE_DECLARE_IRQ_STATE;
 
-  if ( !initialized ) {
-    return ECODE_EMDRV_DMADRV_NOT_INITIALIZED;
-  }
+	if (!initialized)
+	{
+		return ECODE_EMDRV_DMADRV_NOT_INITIALIZED;
+	}
 
-  if ( channelId == NULL ) {
-    return ECODE_EMDRV_DMADRV_PARAM_ERROR;
-  }
+	if (channelId == NULL)
+	{
+		return ECODE_EMDRV_DMADRV_PARAM_ERROR;
+	}
 
-  CORE_ENTER_ATOMIC();
-  for ( i = 0U; i < (unsigned int)EMDRV_DMADRV_DMA_CH_COUNT; i++ ) {
-    if ( !chTable[i].allocated ) {
-      *channelId           = i;
-      chTable[i].allocated = true;
-      chTable[i].callback  = NULL;
-      CORE_EXIT_ATOMIC();
-      return ECODE_EMDRV_DMADRV_OK;
-    }
-  }
-  CORE_EXIT_ATOMIC();
-  return ECODE_EMDRV_DMADRV_CHANNELS_EXHAUSTED;
+	CORE_ENTER_ATOMIC();
+	for (i = 0U; i < (unsigned int) EMDRV_DMADRV_DMA_CH_COUNT; i++)
+	{
+		if (!chTable[i].allocated)
+		{
+			*channelId = i;
+			chTable[i].allocated = true;
+			chTable[i].callback = NULL;
+			CORE_EXIT_ATOMIC();
+			return ECODE_EMDRV_DMADRV_OK;
+		}
+	}
+	CORE_EXIT_ATOMIC();
+	return ECODE_EMDRV_DMADRV_CHANNELS_EXHAUSTED;
 }
 
 /***************************************************************************//**
@@ -162,36 +161,39 @@ Ecode_t DMADRV_AllocateChannel(unsigned int *channelId, void *capabilities)
  ******************************************************************************/
 Ecode_t DMADRV_DeInit(void)
 {
-  int i;
-  bool inUse;
-  CORE_DECLARE_IRQ_STATE;
+	int i;
+	bool inUse;
+	CORE_DECLARE_IRQ_STATE;
 
-  inUse = false;
+	inUse = false;
 
-  CORE_ENTER_ATOMIC();
-  for ( i = 0; i < (int)EMDRV_DMADRV_DMA_CH_COUNT; i++ ) {
-    if ( chTable[i].allocated ) {
-      inUse = true;
-      break;
-    }
-  }
+	CORE_ENTER_ATOMIC();
+	for (i = 0; i < (int) EMDRV_DMADRV_DMA_CH_COUNT; i++)
+	{
+		if (chTable[i].allocated)
+		{
+			inUse = true;
+			break;
+		}
+	}
 
-  if ( !inUse ) {
+	if (!inUse)
+	{
 #if defined(EMDRV_DMADRV_UDMA)
     NVIC_DisableIRQ(DMA_IRQn);
     DMA->IEN    = _DMA_IEN_RESETVALUE;
     DMA->CONFIG = _DMA_CONFIG_RESETVALUE;
     CMU_ClockEnable(cmuClock_DMA, false);
 #elif defined(EMDRV_DMADRV_LDMA)
-    LDMA_DeInit();
+		LDMA_DeInit();
 #endif
-    initialized = false;
-    CORE_EXIT_ATOMIC();
-    return ECODE_EMDRV_DMADRV_OK;
-  }
-  CORE_EXIT_ATOMIC();
+		initialized = false;
+		CORE_EXIT_ATOMIC();
+		return ECODE_EMDRV_DMADRV_OK;
+	}
+	CORE_EXIT_ATOMIC();
 
-  return ECODE_EMDRV_DMADRV_IN_USE;
+	return ECODE_EMDRV_DMADRV_IN_USE;
 }
 
 /***************************************************************************//**
@@ -207,25 +209,28 @@ Ecode_t DMADRV_DeInit(void)
  ******************************************************************************/
 Ecode_t DMADRV_FreeChannel(unsigned int channelId)
 {
-  CORE_DECLARE_IRQ_STATE;
+	CORE_DECLARE_IRQ_STATE;
 
-  if ( !initialized ) {
-    return ECODE_EMDRV_DMADRV_NOT_INITIALIZED;
-  }
+	if (!initialized)
+	{
+		return ECODE_EMDRV_DMADRV_NOT_INITIALIZED;
+	}
 
-  if ( channelId >= EMDRV_DMADRV_DMA_CH_COUNT ) {
-    return ECODE_EMDRV_DMADRV_PARAM_ERROR;
-  }
+	if (channelId >= EMDRV_DMADRV_DMA_CH_COUNT)
+	{
+		return ECODE_EMDRV_DMADRV_PARAM_ERROR;
+	}
 
-  CORE_ENTER_ATOMIC();
-  if ( chTable[channelId].allocated ) {
-    chTable[channelId].allocated = false;
-    CORE_EXIT_ATOMIC();
-    return ECODE_EMDRV_DMADRV_OK;
-  }
-  CORE_EXIT_ATOMIC();
+	CORE_ENTER_ATOMIC();
+	if (chTable[channelId].allocated)
+	{
+		chTable[channelId].allocated = false;
+		CORE_EXIT_ATOMIC();
+		return ECODE_EMDRV_DMADRV_OK;
+	}
+	CORE_EXIT_ATOMIC();
 
-  return ECODE_EMDRV_DMADRV_ALREADY_FREED;
+	return ECODE_EMDRV_DMADRV_ALREADY_FREED;
 }
 
 /***************************************************************************//**
@@ -241,30 +246,33 @@ Ecode_t DMADRV_FreeChannel(unsigned int channelId)
  ******************************************************************************/
 Ecode_t DMADRV_Init(void)
 {
-  int i;
-  CORE_DECLARE_IRQ_STATE;
+	int i;
+	CORE_DECLARE_IRQ_STATE;
 #if defined(EMDRV_DMADRV_UDMA)
   DMA_Init_TypeDef dmaInit;
 #elif defined(EMDRV_DMADRV_LDMA)
-  LDMA_Init_t dmaInit = LDMA_INIT_DEFAULT;
-  dmaInit.ldmaInitCtrlNumFixed = EMDRV_DMADRV_DMA_CH_PRIORITY;
+	LDMA_Init_t dmaInit = LDMA_INIT_DEFAULT;
+	dmaInit.ldmaInitCtrlNumFixed = EMDRV_DMADRV_DMA_CH_PRIORITY;
 #endif
 
-  CORE_ENTER_ATOMIC();
-  if ( initialized ) {
-    CORE_EXIT_ATOMIC();
-    return ECODE_EMDRV_DMADRV_ALREADY_INITIALIZED;
-  }
-  initialized = true;
-  CORE_EXIT_ATOMIC();
+	CORE_ENTER_ATOMIC();
+	if (initialized)
+	{
+		CORE_EXIT_ATOMIC();
+		return ECODE_EMDRV_DMADRV_ALREADY_INITIALIZED;
+	}
+	initialized = true;
+	CORE_EXIT_ATOMIC();
 
-  if ( EMDRV_DMADRV_DMA_IRQ_PRIORITY >= (1 << __NVIC_PRIO_BITS) ) {
-    return ECODE_EMDRV_DMADRV_PARAM_ERROR;
-  }
+	if ( EMDRV_DMADRV_DMA_IRQ_PRIORITY >= (1 << __NVIC_PRIO_BITS))
+	{
+		return ECODE_EMDRV_DMADRV_PARAM_ERROR;
+	}
 
-  for ( i = 0; i < (int)EMDRV_DMADRV_DMA_CH_COUNT; i++ ) {
-    chTable[i].allocated = false;
-  }
+	for (i = 0; i < (int) EMDRV_DMADRV_DMA_CH_COUNT; i++)
+	{
+		chTable[i].allocated = false;
+	}
 
 #if defined(EMDRV_DMADRV_UDMA)
   NVIC_SetPriority(DMA_IRQn, EMDRV_DMADRV_DMA_IRQ_PRIORITY);
@@ -272,11 +280,11 @@ Ecode_t DMADRV_Init(void)
   dmaInit.controlBlock = dmaControlBlock;
   DMA_Init(&dmaInit);
 #elif defined(EMDRV_DMADRV_LDMA)
-  dmaInit.ldmaInitIrqPriority = EMDRV_DMADRV_DMA_IRQ_PRIORITY;
-  LDMA_Init(&dmaInit);
+	dmaInit.ldmaInitIrqPriority = EMDRV_DMADRV_DMA_IRQ_PRIORITY;
+	LDMA_Init(&dmaInit);
 #endif
 
-  return ECODE_EMDRV_DMADRV_OK;
+	return ECODE_EMDRV_DMADRV_OK;
 }
 
 #if defined(EMDRV_DMADRV_LDMA) || defined(DOXYGEN)
@@ -308,33 +316,34 @@ Ecode_t DMADRV_Init(void)
  *   @ref ECODE_EMDRV_DMADRV_OK on success. On failure, an appropriate
  *   DMADRV @ref Ecode_t is returned.
  ******************************************************************************/
-Ecode_t DMADRV_LdmaStartTransfer(int                channelId,
-                                 LDMA_TransferCfg_t *transfer,
-                                 LDMA_Descriptor_t  *descriptor,
-                                 DMADRV_Callback_t  callback,
-                                 void               *cbUserParam)
+Ecode_t DMADRV_LdmaStartTransfer(int channelId, LDMA_TransferCfg_t *transfer,
+		LDMA_Descriptor_t *descriptor, DMADRV_Callback_t callback,
+		void *cbUserParam)
 {
-  ChTable_t *ch;
+	ChTable_t *ch;
 
-  if ( !initialized ) {
-    return ECODE_EMDRV_DMADRV_NOT_INITIALIZED;
-  }
+	if (!initialized)
+	{
+		return ECODE_EMDRV_DMADRV_NOT_INITIALIZED;
+	}
 
-  if ( channelId >= (int)EMDRV_DMADRV_DMA_CH_COUNT ) {
-    return ECODE_EMDRV_DMADRV_PARAM_ERROR;
-  }
+	if (channelId >= (int) EMDRV_DMADRV_DMA_CH_COUNT)
+	{
+		return ECODE_EMDRV_DMADRV_PARAM_ERROR;
+	}
 
-  ch = &chTable[channelId];
-  if ( ch->allocated == false ) {
-    return ECODE_EMDRV_DMADRV_CH_NOT_ALLOCATED;
-  }
+	ch = &chTable[channelId];
+	if (ch->allocated == false)
+	{
+		return ECODE_EMDRV_DMADRV_CH_NOT_ALLOCATED;
+	}
 
-  ch->callback      = callback;
-  ch->userParam     = cbUserParam;
-  ch->callbackCount = 0;
-  LDMA_StartTransfer(channelId, transfer, descriptor);
+	ch->callback = callback;
+	ch->userParam = cbUserParam;
+	ch->callbackCount = 0;
+	LDMA_StartTransfer(channelId, transfer, descriptor);
 
-  return ECODE_EMDRV_DMADRV_OK;
+	return ECODE_EMDRV_DMADRV_OK;
 }
 #endif
 
@@ -375,29 +384,14 @@ Ecode_t DMADRV_LdmaStartTransfer(int                channelId,
  *   @ref ECODE_EMDRV_DMADRV_OK on success. On failure, an appropriate
  *   DMADRV @ref Ecode_t is returned.
  ******************************************************************************/
-Ecode_t DMADRV_MemoryPeripheral(unsigned int          channelId,
-                                DMADRV_PeripheralSignal_t
-                                peripheralSignal,
-                                void                  *dst,
-                                void                  *src,
-                                bool                  srcInc,
-                                int                   len,
-                                DMADRV_DataSize_t     size,
-                                DMADRV_Callback_t     callback,
-                                void                  *cbUserParam)
+Ecode_t DMADRV_MemoryPeripheral(unsigned int channelId,
+		DMADRV_PeripheralSignal_t peripheralSignal, void *dst, void *src,
+		bool srcInc, int len, DMADRV_DataSize_t size,
+		DMADRV_Callback_t callback, void *cbUserParam)
 {
-  return StartTransfer(dmaModeBasic,
-                       dmaDirectionMemToPeripheral,
-                       channelId,
-                       peripheralSignal,
-                       dst,
-                       src,
-                       NULL,
-                       srcInc,
-                       len,
-                       size,
-                       callback,
-                       cbUserParam);
+	return StartTransfer(dmaModeBasic, dmaDirectionMemToPeripheral, channelId,
+			peripheralSignal, dst, src,
+			NULL, srcInc, len, size, callback, cbUserParam);
 }
 
 /***************************************************************************//**
@@ -440,31 +434,15 @@ Ecode_t DMADRV_MemoryPeripheral(unsigned int          channelId,
  *   @ref ECODE_EMDRV_DMADRV_OK on success. On failure, an appropriate
  *   DMADRV @ref Ecode_t is returned.
  ******************************************************************************/
-Ecode_t DMADRV_MemoryPeripheralPingPong(
-  unsigned int          channelId,
-  DMADRV_PeripheralSignal_t
-  peripheralSignal,
-  void                  *dst,
-  void                  *src0,
-  void                  *src1,
-  bool                  srcInc,
-  int                   len,
-  DMADRV_DataSize_t     size,
-  DMADRV_Callback_t     callback,
-  void                  *cbUserParam)
+Ecode_t DMADRV_MemoryPeripheralPingPong(unsigned int channelId,
+		DMADRV_PeripheralSignal_t peripheralSignal, void *dst, void *src0,
+		void *src1,
+		bool srcInc, int len, DMADRV_DataSize_t size,
+		DMADRV_Callback_t callback, void *cbUserParam)
 {
-  return StartTransfer(dmaModePingPong,
-                       dmaDirectionMemToPeripheral,
-                       channelId,
-                       peripheralSignal,
-                       dst,
-                       src0,
-                       src1,
-                       srcInc,
-                       len,
-                       size,
-                       callback,
-                       cbUserParam);
+	return StartTransfer(dmaModePingPong, dmaDirectionMemToPeripheral,
+			channelId, peripheralSignal, dst, src0, src1, srcInc, len, size,
+			callback, cbUserParam);
 }
 
 /***************************************************************************//**
@@ -504,29 +482,14 @@ Ecode_t DMADRV_MemoryPeripheralPingPong(
  *   @ref ECODE_EMDRV_DMADRV_OK on success. On failure, an appropriate
  *   DMADRV @ref Ecode_t is returned.
  ******************************************************************************/
-Ecode_t DMADRV_PeripheralMemory(unsigned int          channelId,
-                                DMADRV_PeripheralSignal_t
-                                peripheralSignal,
-                                void                  *dst,
-                                void                  *src,
-                                bool                  dstInc,
-                                int                   len,
-                                DMADRV_DataSize_t     size,
-                                DMADRV_Callback_t     callback,
-                                void                  *cbUserParam)
+Ecode_t DMADRV_PeripheralMemory(unsigned int channelId,
+		DMADRV_PeripheralSignal_t peripheralSignal, void *dst, void *src,
+		bool dstInc, int len, DMADRV_DataSize_t size,
+		DMADRV_Callback_t callback, void *cbUserParam)
 {
-  return StartTransfer(dmaModeBasic,
-                       dmaDirectionPeripheralToMem,
-                       channelId,
-                       peripheralSignal,
-                       dst,
-                       src,
-                       NULL,
-                       dstInc,
-                       len,
-                       size,
-                       callback,
-                       cbUserParam);
+	return StartTransfer(dmaModeBasic, dmaDirectionPeripheralToMem, channelId,
+			peripheralSignal, dst, src,
+			NULL, dstInc, len, size, callback, cbUserParam);
 }
 
 /***************************************************************************//**
@@ -569,31 +532,15 @@ Ecode_t DMADRV_PeripheralMemory(unsigned int          channelId,
  *   @ref ECODE_EMDRV_DMADRV_OK on success. On failure, an appropriate
  *   DMADRV @ref Ecode_t is returned.
  ******************************************************************************/
-Ecode_t DMADRV_PeripheralMemoryPingPong(
-  unsigned int          channelId,
-  DMADRV_PeripheralSignal_t
-  peripheralSignal,
-  void                  *dst0,
-  void                  *dst1,
-  void                  *src,
-  bool                  dstInc,
-  int                   len,
-  DMADRV_DataSize_t     size,
-  DMADRV_Callback_t     callback,
-  void                  *cbUserParam)
+Ecode_t DMADRV_PeripheralMemoryPingPong(unsigned int channelId,
+		DMADRV_PeripheralSignal_t peripheralSignal, void *dst0, void *dst1,
+		void *src,
+		bool dstInc, int len, DMADRV_DataSize_t size,
+		DMADRV_Callback_t callback, void *cbUserParam)
 {
-  return StartTransfer(dmaModePingPong,
-                       dmaDirectionPeripheralToMem,
-                       channelId,
-                       peripheralSignal,
-                       dst0,
-                       dst1,
-                       src,
-                       dstInc,
-                       len,
-                       size,
-                       callback,
-                       cbUserParam);
+	return StartTransfer(dmaModePingPong, dmaDirectionPeripheralToMem,
+			channelId, peripheralSignal, dst0, dst1, src, dstInc, len, size,
+			callback, cbUserParam);
 }
 
 /***************************************************************************//**
@@ -609,25 +556,28 @@ Ecode_t DMADRV_PeripheralMemoryPingPong(
  ******************************************************************************/
 Ecode_t DMADRV_PauseTransfer(unsigned int channelId)
 {
-  if ( !initialized ) {
-    return ECODE_EMDRV_DMADRV_NOT_INITIALIZED;
-  }
+	if (!initialized)
+	{
+		return ECODE_EMDRV_DMADRV_NOT_INITIALIZED;
+	}
 
-  if ( channelId >= EMDRV_DMADRV_DMA_CH_COUNT ) {
-    return ECODE_EMDRV_DMADRV_PARAM_ERROR;
-  }
+	if (channelId >= EMDRV_DMADRV_DMA_CH_COUNT)
+	{
+		return ECODE_EMDRV_DMADRV_PARAM_ERROR;
+	}
 
-  if ( chTable[channelId].allocated == false ) {
-    return ECODE_EMDRV_DMADRV_CH_NOT_ALLOCATED;
-  }
+	if (chTable[channelId].allocated == false)
+	{
+		return ECODE_EMDRV_DMADRV_CH_NOT_ALLOCATED;
+	}
 
 #if defined(EMDRV_DMADRV_UDMA)
   DMA_ChannelRequestEnable(channelId, false);
 #elif defined(EMDRV_DMADRV_LDMA)
-  LDMA_EnableChannelRequest(channelId, false);
+	LDMA_EnableChannelRequest(channelId, false);
 #endif
 
-  return ECODE_EMDRV_DMADRV_OK;
+	return ECODE_EMDRV_DMADRV_OK;
 }
 
 /***************************************************************************//**
@@ -643,25 +593,28 @@ Ecode_t DMADRV_PauseTransfer(unsigned int channelId)
  ******************************************************************************/
 Ecode_t DMADRV_ResumeTransfer(unsigned int channelId)
 {
-  if ( !initialized ) {
-    return ECODE_EMDRV_DMADRV_NOT_INITIALIZED;
-  }
+	if (!initialized)
+	{
+		return ECODE_EMDRV_DMADRV_NOT_INITIALIZED;
+	}
 
-  if ( channelId >= EMDRV_DMADRV_DMA_CH_COUNT ) {
-    return ECODE_EMDRV_DMADRV_PARAM_ERROR;
-  }
+	if (channelId >= EMDRV_DMADRV_DMA_CH_COUNT)
+	{
+		return ECODE_EMDRV_DMADRV_PARAM_ERROR;
+	}
 
-  if ( chTable[channelId].allocated == false ) {
-    return ECODE_EMDRV_DMADRV_CH_NOT_ALLOCATED;
-  }
+	if (chTable[channelId].allocated == false)
+	{
+		return ECODE_EMDRV_DMADRV_CH_NOT_ALLOCATED;
+	}
 
 #if defined(EMDRV_DMADRV_UDMA)
   DMA_ChannelRequestEnable(channelId, true);
 #elif defined(EMDRV_DMADRV_LDMA)
-  LDMA_EnableChannelRequest(channelId, true);
+	LDMA_EnableChannelRequest(channelId, true);
 #endif
 
-  return ECODE_EMDRV_DMADRV_OK;
+	return ECODE_EMDRV_DMADRV_OK;
 }
 
 /***************************************************************************//**
@@ -677,25 +630,28 @@ Ecode_t DMADRV_ResumeTransfer(unsigned int channelId)
  ******************************************************************************/
 Ecode_t DMADRV_StopTransfer(unsigned int channelId)
 {
-  if ( !initialized ) {
-    return ECODE_EMDRV_DMADRV_NOT_INITIALIZED;
-  }
+	if (!initialized)
+	{
+		return ECODE_EMDRV_DMADRV_NOT_INITIALIZED;
+	}
 
-  if ( channelId >= EMDRV_DMADRV_DMA_CH_COUNT ) {
-    return ECODE_EMDRV_DMADRV_PARAM_ERROR;
-  }
+	if (channelId >= EMDRV_DMADRV_DMA_CH_COUNT)
+	{
+		return ECODE_EMDRV_DMADRV_PARAM_ERROR;
+	}
 
-  if ( chTable[channelId].allocated == false ) {
-    return ECODE_EMDRV_DMADRV_CH_NOT_ALLOCATED;
-  }
+	if (chTable[channelId].allocated == false)
+	{
+		return ECODE_EMDRV_DMADRV_CH_NOT_ALLOCATED;
+	}
 
 #if defined(EMDRV_DMADRV_UDMA)
   DMA_ChannelEnable(channelId, false);
 #elif defined(EMDRV_DMADRV_LDMA)
-  LDMA_StopTransfer(channelId);
+	LDMA_StopTransfer(channelId);
 #endif
 
-  return ECODE_EMDRV_DMADRV_OK;
+	return ECODE_EMDRV_DMADRV_OK;
 }
 
 /***************************************************************************//**
@@ -714,31 +670,35 @@ Ecode_t DMADRV_StopTransfer(unsigned int channelId)
  ******************************************************************************/
 Ecode_t DMADRV_TransferActive(unsigned int channelId, bool *active)
 {
-  if ( !initialized ) {
-    return ECODE_EMDRV_DMADRV_NOT_INITIALIZED;
-  }
+	if (!initialized)
+	{
+		return ECODE_EMDRV_DMADRV_NOT_INITIALIZED;
+	}
 
-  if ( (channelId >= EMDRV_DMADRV_DMA_CH_COUNT)
-       || (active == NULL) ) {
-    return ECODE_EMDRV_DMADRV_PARAM_ERROR;
-  }
+	if ((channelId >= EMDRV_DMADRV_DMA_CH_COUNT) || (active == NULL))
+	{
+		return ECODE_EMDRV_DMADRV_PARAM_ERROR;
+	}
 
-  if ( chTable[channelId].allocated == false ) {
-    return ECODE_EMDRV_DMADRV_CH_NOT_ALLOCATED;
-  }
+	if (chTable[channelId].allocated == false)
+	{
+		return ECODE_EMDRV_DMADRV_CH_NOT_ALLOCATED;
+	}
 
 #if defined(EMDRV_DMADRV_UDMA)
   if ( DMA_ChannelEnabled(channelId) )
 #elif defined(EMDRV_DMADRV_LDMA)
-  if ( LDMA_ChannelEnabled(channelId) )
+	if (LDMA_ChannelEnabled(channelId))
 #endif
-  {
-    *active = true;
-  } else {
-    *active = false;
-  }
+	{
+		*active = true;
+	}
+	else
+	{
+		*active = false;
+	}
 
-  return ECODE_EMDRV_DMADRV_OK;
+	return ECODE_EMDRV_DMADRV_OK;
 }
 
 /***************************************************************************//**
@@ -761,31 +721,35 @@ Ecode_t DMADRV_TransferActive(unsigned int channelId, bool *active)
  ******************************************************************************/
 Ecode_t DMADRV_TransferCompletePending(unsigned int channelId, bool *pending)
 {
-  if ( !initialized ) {
-    return ECODE_EMDRV_DMADRV_NOT_INITIALIZED;
-  }
+	if (!initialized)
+	{
+		return ECODE_EMDRV_DMADRV_NOT_INITIALIZED;
+	}
 
-  if ( (channelId >= EMDRV_DMADRV_DMA_CH_COUNT)
-       || (pending == NULL) ) {
-    return ECODE_EMDRV_DMADRV_PARAM_ERROR;
-  }
+	if ((channelId >= EMDRV_DMADRV_DMA_CH_COUNT) || (pending == NULL))
+	{
+		return ECODE_EMDRV_DMADRV_PARAM_ERROR;
+	}
 
-  if ( chTable[channelId].allocated == false ) {
-    return ECODE_EMDRV_DMADRV_CH_NOT_ALLOCATED;
-  }
+	if (chTable[channelId].allocated == false)
+	{
+		return ECODE_EMDRV_DMADRV_CH_NOT_ALLOCATED;
+	}
 
 #if defined(EMDRV_DMADRV_UDMA)
   if ( DMA->IF & (1 << channelId) )
 #elif defined(EMDRV_DMADRV_LDMA)
-  if ( LDMA->IF & (1 << channelId) )
+	if ( LDMA->IF & (1 << channelId))
 #endif
-  {
-    *pending = true;
-  } else {
-    *pending = false;
-  }
+	{
+		*pending = true;
+	}
+	else
+	{
+		*pending = false;
+	}
 
-  return ECODE_EMDRV_DMADRV_OK;
+	return ECODE_EMDRV_DMADRV_OK;
 }
 
 /***************************************************************************//**
@@ -813,18 +777,20 @@ Ecode_t DMADRV_TransferDone(unsigned int channelId, bool *done)
   uint32_t remaining, iflag;
 #endif
 
-  if ( !initialized ) {
-    return ECODE_EMDRV_DMADRV_NOT_INITIALIZED;
-  }
+	if (!initialized)
+	{
+		return ECODE_EMDRV_DMADRV_NOT_INITIALIZED;
+	}
 
-  if ( (channelId >= EMDRV_DMADRV_DMA_CH_COUNT)
-       || (done == NULL) ) {
-    return ECODE_EMDRV_DMADRV_PARAM_ERROR;
-  }
+	if ((channelId >= EMDRV_DMADRV_DMA_CH_COUNT) || (done == NULL))
+	{
+		return ECODE_EMDRV_DMADRV_PARAM_ERROR;
+	}
 
-  if ( chTable[channelId].allocated == false ) {
-    return ECODE_EMDRV_DMADRV_CH_NOT_ALLOCATED;
-  }
+	if (chTable[channelId].allocated == false)
+	{
+		return ECODE_EMDRV_DMADRV_CH_NOT_ALLOCATED;
+	}
 
 #if defined(EMDRV_DMADRV_UDMA)
   CORE_ATOMIC_SECTION(
@@ -841,10 +807,10 @@ Ecode_t DMADRV_TransferDone(unsigned int channelId, bool *done)
     *done = false;
   }
 #elif defined(EMDRV_DMADRV_LDMA)
-  *done = LDMA_TransferDone(channelId);
+	*done = LDMA_TransferDone(channelId);
 #endif
 
-  return ECODE_EMDRV_DMADRV_OK;
+	return ECODE_EMDRV_DMADRV_OK;
 }
 
 /***************************************************************************//**
@@ -867,25 +833,26 @@ Ecode_t DMADRV_TransferDone(unsigned int channelId, bool *done)
  *  @ref ECODE_EMDRV_DMADRV_OK on success. On failure, an appropriate
  *  DMADRV @ref Ecode_t is returned.
  ******************************************************************************/
-Ecode_t DMADRV_TransferRemainingCount(unsigned int channelId,
-                                      int *remaining)
+Ecode_t DMADRV_TransferRemainingCount(unsigned int channelId, int *remaining)
 {
 #if defined(EMDRV_DMADRV_UDMA)
   uint32_t remain, iflag;
 #endif
 
-  if ( !initialized ) {
-    return ECODE_EMDRV_DMADRV_NOT_INITIALIZED;
-  }
+	if (!initialized)
+	{
+		return ECODE_EMDRV_DMADRV_NOT_INITIALIZED;
+	}
 
-  if ( (channelId >= EMDRV_DMADRV_DMA_CH_COUNT)
-       || (remaining == NULL) ) {
-    return ECODE_EMDRV_DMADRV_PARAM_ERROR;
-  }
+	if ((channelId >= EMDRV_DMADRV_DMA_CH_COUNT) || (remaining == NULL))
+	{
+		return ECODE_EMDRV_DMADRV_PARAM_ERROR;
+	}
 
-  if ( chTable[channelId].allocated == false ) {
-    return ECODE_EMDRV_DMADRV_CH_NOT_ALLOCATED;
-  }
+	if (chTable[channelId].allocated == false)
+	{
+		return ECODE_EMDRV_DMADRV_CH_NOT_ALLOCATED;
+	}
 
 #if defined(EMDRV_DMADRV_UDMA)
   CORE_ATOMIC_SECTION(
@@ -902,10 +869,10 @@ Ecode_t DMADRV_TransferRemainingCount(unsigned int channelId,
     *remaining = 1 + remain;
   }
 #elif defined(EMDRV_DMADRV_LDMA)
-  *remaining = LDMA_TransferRemainingCount(channelId);
+	*remaining = LDMA_TransferRemainingCount(channelId);
 #endif
 
-  return ECODE_EMDRV_DMADRV_OK;
+	return ECODE_EMDRV_DMADRV_OK;
 }
 
 /// @cond DO_NOT_INCLUDE_WITH_DOXYGEN
@@ -917,46 +884,51 @@ Ecode_t DMADRV_TransferRemainingCount(unsigned int channelId,
  ******************************************************************************/
 void LDMA_IRQHandler(void)
 {
-  bool stop;
-  ChTable_t *ch;
-  uint32_t pending, chnum, chmask;
+	bool stop;
+	ChTable_t *ch;
+	uint32_t pending, chnum, chmask;
 
-  /* Get all pending and enabled interrupts. */
-  pending  = LDMA->IF;
-  pending &= LDMA->IEN;
+	/* Get all pending and enabled interrupts. */
+	pending = LDMA->IF;
+	pending &= LDMA->IEN;
 
-  /* Check for LDMA error. */
-  if ( pending & LDMA_IF_ERROR ) {
-    /* Loop to enable debugger to see what has happened. */
-    while (true) {
-      /* Wait forever. */
-    }
-  }
+	/* Check for LDMA error. */
+	if (pending & LDMA_IF_ERROR)
+	{
+		/* Loop to enable debugger to see what has happened. */
+		while (true)
+		{
+			/* Wait forever. */
+		}
+	}
 
-  /* Iterate over all LDMA channels. */
-  for ( chnum = 0, chmask = 1;
-        chnum < EMDRV_DMADRV_DMA_CH_COUNT;
-        chnum++, chmask <<= 1 ) {
-    if ( pending & chmask ) {
-      /* Clear the interrupt flag. */
+	/* Iterate over all LDMA channels. */
+	for (chnum = 0, chmask = 1; chnum < EMDRV_DMADRV_DMA_CH_COUNT;
+			chnum++, chmask <<= 1)
+	{
+		if (pending & chmask)
+		{
+			/* Clear the interrupt flag. */
 #if defined (LDMA_HAS_SET_CLEAR)
-      LDMA->IF_CLR = chmask;
+			LDMA->IF_CLR = chmask;
 #else
       LDMA->IFC = chmask;
 #endif
 
-      ch = &chTable[chnum];
-      if ( ch->callback != NULL ) {
-        ch->callbackCount++;
-        stop = !ch->callback(chnum, ch->callbackCount, ch->userParam);
+			ch = &chTable[chnum];
+			if (ch->callback != NULL)
+			{
+				ch->callbackCount++;
+				stop = !ch->callback(chnum, ch->callbackCount, ch->userParam);
 
-        if ( (ch->mode == dmaModePingPong) && stop ) {
-          dmaXfer[chnum].desc[0].xfer.link = 0;
-          dmaXfer[chnum].desc[1].xfer.link = 0;
-        }
-      }
-    }
-  }
+				if ((ch->mode == dmaModePingPong) && stop)
+				{
+					dmaXfer[chnum].desc[0].xfer.link = 0;
+					dmaXfer[chnum].desc[1].xfer.link = 0;
+				}
+			}
+		}
+	}
 }
 #endif /* defined( EMDRV_DMADRV_LDMA ) */
 
@@ -1143,92 +1115,94 @@ static Ecode_t StartTransfer(DmaMode_t             mode,
  * @brief
  *  Start an LDMA transfer.
  ******************************************************************************/
-static Ecode_t StartTransfer(DmaMode_t             mode,
-                             DmaDirection_t        direction,
-                             unsigned int          channelId,
-                             DMADRV_PeripheralSignal_t
-                             peripheralSignal,
-                             void                  *buf0,
-                             void                  *buf1,
-                             void                  *buf2,
-                             bool                  bufInc,
-                             int                   len,
-                             DMADRV_DataSize_t     size,
-                             DMADRV_Callback_t     callback,
-                             void                  *cbUserParam)
+static Ecode_t StartTransfer(DmaMode_t mode, DmaDirection_t direction,
+		unsigned int channelId, DMADRV_PeripheralSignal_t peripheralSignal,
+		void *buf0, void *buf1, void *buf2,
+		bool bufInc, int len, DMADRV_DataSize_t size,
+		DMADRV_Callback_t callback, void *cbUserParam)
 {
-  ChTable_t *ch;
-  LDMA_TransferCfg_t xfer;
-  LDMA_Descriptor_t *desc;
+	ChTable_t *ch;
+	LDMA_TransferCfg_t xfer;
+	LDMA_Descriptor_t *desc;
 
-  if ( !initialized ) {
-    return ECODE_EMDRV_DMADRV_NOT_INITIALIZED;
-  }
+	if (!initialized)
+	{
+		return ECODE_EMDRV_DMADRV_NOT_INITIALIZED;
+	}
 
-  if ( (channelId >= EMDRV_DMADRV_DMA_CH_COUNT)
-       || (buf0 == NULL)
-       || (buf1 == NULL)
-       || (len > DMADRV_MAX_XFER_COUNT)
-       || ((mode == dmaModePingPong) && (buf2 == NULL)) ) {
-    return ECODE_EMDRV_DMADRV_PARAM_ERROR;
-  }
+	if ((channelId >= EMDRV_DMADRV_DMA_CH_COUNT) || (buf0 == NULL)
+			|| (buf1 == NULL) || (len > DMADRV_MAX_XFER_COUNT)
+			|| ((mode == dmaModePingPong) && (buf2 == NULL)))
+	{
+		return ECODE_EMDRV_DMADRV_PARAM_ERROR;
+	}
 
-  ch = &chTable[channelId];
-  if ( ch->allocated == false ) {
-    return ECODE_EMDRV_DMADRV_CH_NOT_ALLOCATED;
-  }
+	ch = &chTable[channelId];
+	if (ch->allocated == false)
+	{
+		return ECODE_EMDRV_DMADRV_CH_NOT_ALLOCATED;
+	}
 
-  xfer = xferCfg;
-  desc = &dmaXfer[channelId].desc[0];
+	xfer = xferCfg;
+	desc = &dmaXfer[channelId].desc[0];
 
-  if ( direction == dmaDirectionMemToPeripheral ) {
-    *desc = m2p;
-    if ( !bufInc ) {
-      desc->xfer.srcInc = ldmaCtrlSrcIncNone;
-    }
-  } else {
-    *desc = p2m;
-    if ( !bufInc ) {
-      desc->xfer.dstInc = ldmaCtrlDstIncNone;
-    }
-  }
+	if (direction == dmaDirectionMemToPeripheral)
+	{
+		*desc = m2p;
+		if (!bufInc)
+		{
+			desc->xfer.srcInc = ldmaCtrlSrcIncNone;
+		}
+	}
+	else
+	{
+		*desc = p2m;
+		if (!bufInc)
+		{
+			desc->xfer.dstInc = ldmaCtrlDstIncNone;
+		}
+	}
 
-  xfer.ldmaReqSel    = peripheralSignal;
-  desc->xfer.xferCnt = len - 1;
-  desc->xfer.dstAddr = (uint32_t)(uint8_t *)buf0;
-  desc->xfer.srcAddr = (uint32_t)(uint8_t *)buf1;
-  desc->xfer.size    = size;
+	xfer.ldmaReqSel = peripheralSignal;
+	desc->xfer.xferCnt = len - 1;
+	desc->xfer.dstAddr = (uint32_t) (uint8_t*) buf0;
+	desc->xfer.srcAddr = (uint32_t) (uint8_t*) buf1;
+	desc->xfer.size = size;
 
-  if ( mode == dmaModePingPong ) {
-    desc->xfer.linkMode = ldmaLinkModeRel;
-    desc->xfer.link     = 1;
-    desc->xfer.linkAddr = 4;      /* Refer to the "pong" descriptor. */
+	if (mode == dmaModePingPong)
+	{
+		desc->xfer.linkMode = ldmaLinkModeRel;
+		desc->xfer.link = 1;
+		desc->xfer.linkAddr = 4; /* Refer to the "pong" descriptor. */
 
-    /* Set the "pong" descriptor equal to the "ping" descriptor. */
-    dmaXfer[channelId].desc[1] = *desc;
-    /* Refer to the "ping" descriptor. */
-    dmaXfer[channelId].desc[1].xfer.linkAddr = -4;
-    dmaXfer[channelId].desc[1].xfer.srcAddr = (uint32_t)(uint8_t *)buf2;
+		/* Set the "pong" descriptor equal to the "ping" descriptor. */
+		dmaXfer[channelId].desc[1] = *desc;
+		/* Refer to the "ping" descriptor. */
+		dmaXfer[channelId].desc[1].xfer.linkAddr = -4;
+		dmaXfer[channelId].desc[1].xfer.srcAddr = (uint32_t) (uint8_t*) buf2;
 
-    if ( direction == dmaDirectionPeripheralToMem ) {
-      dmaXfer[channelId].desc[1].xfer.dstAddr = (uint32_t)(uint8_t *)buf1;
-      desc->xfer.srcAddr = (uint32_t)(uint8_t *)buf2;
-    }
-  }
+		if (direction == dmaDirectionPeripheralToMem)
+		{
+			dmaXfer[channelId].desc[1].xfer.dstAddr =
+					(uint32_t) (uint8_t*) buf1;
+			desc->xfer.srcAddr = (uint32_t) (uint8_t*) buf2;
+		}
+	}
 
-  /* Whether an interrupt is needed. */
-  if ( (callback == NULL) && (mode == dmaModeBasic) ) {
-    desc->xfer.doneIfs = 0;
-  }
+	/* Whether an interrupt is needed. */
+	if ((callback == NULL) && (mode == dmaModeBasic))
+	{
+		desc->xfer.doneIfs = 0;
+	}
 
-  ch->callback      = callback;
-  ch->userParam     = cbUserParam;
-  ch->callbackCount = 0;
-  ch->mode          = mode;
+	ch->callback = callback;
+	ch->userParam = cbUserParam;
+	ch->callbackCount = 0;
+	ch->mode = mode;
 
-  LDMA_StartTransfer(channelId, &xfer, desc);
+	LDMA_StartTransfer(channelId, &xfer, desc);
 
-  return ECODE_EMDRV_DMADRV_OK;
+	return ECODE_EMDRV_DMADRV_OK;
 }
 #endif /* defined( EMDRV_DMADRV_LDMA ) */
 

@@ -32,9 +32,9 @@
 #define SCRATCHPAD_HAS_SET_CLEAR
 
 /**************************************************************************//**
-* @addtogroup Parts
-* @{
-******************************************************************************/
+ * @addtogroup Parts
+ * @{
+ ******************************************************************************/
 /**************************************************************************//**
  * @defgroup EFR32MG24_SCRATCHPAD SCRATCHPAD
  * @{
@@ -42,18 +42,19 @@
  *****************************************************************************/
 
 /** SCRATCHPAD Register Declaration. */
-typedef struct {
-  __IOM uint32_t SREG0;                         /**< Scratchpad Register 0                              */
-  __IOM uint32_t SREG1;                         /**< Scratchpad Register 1                              */
-  uint32_t       RESERVED0[1022U];              /**< Reserved for future use                            */
-  __IOM uint32_t SREG0_SET;                     /**< Scratchpad Register 0                              */
-  __IOM uint32_t SREG1_SET;                     /**< Scratchpad Register 1                              */
-  uint32_t       RESERVED1[1022U];              /**< Reserved for future use                            */
-  __IOM uint32_t SREG0_CLR;                     /**< Scratchpad Register 0                              */
-  __IOM uint32_t SREG1_CLR;                     /**< Scratchpad Register 1                              */
-  uint32_t       RESERVED2[1022U];              /**< Reserved for future use                            */
-  __IOM uint32_t SREG0_TGL;                     /**< Scratchpad Register 0                              */
-  __IOM uint32_t SREG1_TGL;                     /**< Scratchpad Register 1                              */
+typedef struct
+{
+	__IOM uint32_t SREG0; /**< Scratchpad Register 0                              */
+	__IOM uint32_t SREG1; /**< Scratchpad Register 1                              */
+	uint32_t RESERVED0[1022U]; /**< Reserved for future use                            */
+	__IOM uint32_t SREG0_SET; /**< Scratchpad Register 0                              */
+	__IOM uint32_t SREG1_SET; /**< Scratchpad Register 1                              */
+	uint32_t RESERVED1[1022U]; /**< Reserved for future use                            */
+	__IOM uint32_t SREG0_CLR; /**< Scratchpad Register 0                              */
+	__IOM uint32_t SREG1_CLR; /**< Scratchpad Register 1                              */
+	uint32_t RESERVED2[1022U]; /**< Reserved for future use                            */
+	__IOM uint32_t SREG0_TGL; /**< Scratchpad Register 0                              */
+	__IOM uint32_t SREG1_TGL; /**< Scratchpad Register 1                              */
 } SCRATCHPAD_TypeDef;
 /** @} End of group EFR32MG24_SCRATCHPAD */
 

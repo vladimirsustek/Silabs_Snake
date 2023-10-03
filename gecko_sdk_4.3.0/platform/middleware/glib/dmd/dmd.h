@@ -110,39 +110,41 @@ extern "C" {
 /** @endcond */
 
 /** Configuration parameter for DMD_init. This typedef is defined 'void' and
-    may be defined differently in the future. */
+ may be defined differently in the future. */
 typedef void DMD_InitConfig;
 
 /** @struct DMD_DisplayGeometry
  *  @brief Dimensions of the display
  */
-typedef struct __DMD_DisplayGeometry{
-  /** Horizontal size of the display, in pixels */
-  uint16_t xSize;
-  /** Vertical size of the display, in pixels */
-  uint16_t ySize;
-  /** X coordinate of the top left corner of the clipping area */
-  uint16_t xClipStart;
-  /** Y coordinate of the top left corner of the clipping area */
-  uint16_t yClipStart;
-  /** Width of the clipping area */
-  uint16_t clipWidth;
-  /** Height of the clipping area */
-  uint16_t clipHeight;
+typedef struct __DMD_DisplayGeometry
+{
+	/** Horizontal size of the display, in pixels */
+	uint16_t xSize;
+	/** Vertical size of the display, in pixels */
+	uint16_t ySize;
+	/** X coordinate of the top left corner of the clipping area */
+	uint16_t xClipStart;
+	/** Y coordinate of the top left corner of the clipping area */
+	uint16_t yClipStart;
+	/** Width of the clipping area */
+	uint16_t clipWidth;
+	/** Height of the clipping area */
+	uint16_t clipHeight;
 } DMD_DisplayGeometry; /**< Typedef for display dimensions */
 
 /** @struct DMD_MemoryError
  *  @brief Information about a memory error
  */
-typedef struct __DMD_MemoryError{
-  /** X coordinate of the address where the error happened */
-  uint16_t x;
-  /** Y coordinate of the address where the error happened */
-  uint16_t y;
-  /** The color that was written to the memory address */
-  uint8_t  writtenColor[3];
-  /** The color that was read from the memory address */
-  uint8_t  readColor[3];
+typedef struct __DMD_MemoryError
+{
+	/** X coordinate of the address where the error happened */
+	uint16_t x;
+	/** Y coordinate of the address where the error happened */
+	uint16_t y;
+	/** The color that was written to the memory address */
+	uint8_t writtenColor[3];
+	/** The color that was read from the memory address */
+	uint8_t readColor[3];
 } DMD_MemoryError; /**< Typedef for memory error information */
 
 /***************************************************************************//**
@@ -155,7 +157,8 @@ typedef struct __DMD_MemoryError{
  *  @return
  *    DMD_OK on success, otherwise error code
  ******************************************************************************/
-EMSTATUS DMD_init(DMD_InitConfig *initConfig);
+EMSTATUS
+DMD_init(DMD_InitConfig *initConfig);
 
 /***************************************************************************//**
  *  @brief
@@ -167,7 +170,8 @@ EMSTATUS DMD_init(DMD_InitConfig *initConfig);
  *  @return
  *    DMD_OK on success, otherwise error code
  ******************************************************************************/
-EMSTATUS DMD_getDisplayGeometry(DMD_DisplayGeometry **geometry);
+EMSTATUS
+DMD_getDisplayGeometry(DMD_DisplayGeometry **geometry);
 
 /***************************************************************************//**
  *  @brief
@@ -192,8 +196,9 @@ EMSTATUS DMD_getDisplayGeometry(DMD_DisplayGeometry **geometry);
  *  @return
  *    DMD_OK on success, otherwise error code
  ******************************************************************************/
-EMSTATUS DMD_setClippingArea(uint16_t xStart, uint16_t yStart,
-                             uint16_t width, uint16_t height);
+EMSTATUS
+DMD_setClippingArea(uint16_t xStart, uint16_t yStart, uint16_t width,
+		uint16_t height);
 
 /***************************************************************************//**
  *  @brief
@@ -219,17 +224,18 @@ EMSTATUS DMD_setClippingArea(uint16_t xStart, uint16_t yStart,
  *  @return
  *    DMD_OK on success, otherwise error code
  ******************************************************************************/
-EMSTATUS DMD_writeData(uint16_t x, uint16_t y,
-                       const uint8_t data[], uint32_t numPixels);
+EMSTATUS
+DMD_writeData(uint16_t x, uint16_t y, const uint8_t data[], uint32_t numPixels);
 
 /** @cond DO_NOT_INCLUDE_WITH_DOXYGEN */
-EMSTATUS DMD_writeDataRLE(uint16_t x, uint16_t y, uint16_t xlen, uint16_t ylen,
-                          const uint8_t *data);
-EMSTATUS DMD_writeDataRLEFade(uint16_t x, uint16_t y, uint16_t xlen, uint16_t ylen,
-                              const uint8_t *data,
-                              int red, int green, int blue, int weight);
-EMSTATUS DMD_readData(uint16_t x, uint16_t y,
-                      uint8_t data[], uint32_t numPixels);
+EMSTATUS
+DMD_writeDataRLE(uint16_t x, uint16_t y, uint16_t xlen, uint16_t ylen,
+		const uint8_t *data);
+EMSTATUS
+DMD_writeDataRLEFade(uint16_t x, uint16_t y, uint16_t xlen, uint16_t ylen,
+		const uint8_t *data, int red, int green, int blue, int weight);
+EMSTATUS
+DMD_readData(uint16_t x, uint16_t y, uint8_t data[], uint32_t numPixels);
 /** @endcond */
 
 /***************************************************************************//**
@@ -257,8 +263,9 @@ EMSTATUS DMD_readData(uint16_t x, uint16_t y,
  *  @return
  *    DMD_OK on success, otherwise error code
  ******************************************************************************/
-EMSTATUS DMD_writeColor(uint16_t x, uint16_t y, uint8_t red,
-                        uint8_t green, uint8_t blue, uint32_t numPixels);
+EMSTATUS
+DMD_writeColor(uint16_t x, uint16_t y, uint8_t red, uint8_t green, uint8_t blue,
+		uint32_t numPixels);
 
 /***************************************************************************//**
  *  @brief
@@ -268,7 +275,8 @@ EMSTATUS DMD_writeColor(uint16_t x, uint16_t y, uint8_t red,
  *  @return
  *    DMD_OK on success, otherwise error code
  ******************************************************************************/
-EMSTATUS DMD_sleep(void);
+EMSTATUS
+DMD_sleep(void);
 
 /***************************************************************************//**
  *  @brief
@@ -277,7 +285,8 @@ EMSTATUS DMD_sleep(void);
  *  @return
  *    DMD_OK on success, otherwise error code
  ******************************************************************************/
-EMSTATUS DMD_wakeUp(void);
+EMSTATUS
+DMD_wakeUp(void);
 
 /***************************************************************************//**
  *  @brief
@@ -292,7 +301,8 @@ EMSTATUS DMD_wakeUp(void);
  *  @return
  *    Returns DMD_OK if successful, error otherwise.
  ******************************************************************************/
-EMSTATUS DMD_flipDisplay(int horizontal, int vertical);
+EMSTATUS
+DMD_flipDisplay(int horizontal, int vertical);
 
 /***************************************************************************//**
  *  @brief
@@ -304,7 +314,8 @@ EMSTATUS DMD_flipDisplay(int horizontal, int vertical);
  *  @return
  *    Returns DMD_OK if successful, error otherwise.
  ******************************************************************************/
-EMSTATUS DMD_selectFramebuffer (void *framebuffer);
+EMSTATUS
+DMD_selectFramebuffer(void *framebuffer);
 
 /***************************************************************************//**
  * @brief
@@ -317,7 +328,8 @@ EMSTATUS DMD_selectFramebuffer (void *framebuffer);
  * @return
  *    DMD_OK on success
  ******************************************************************************/
-EMSTATUS DMD_getFrameBuffer (void **framebuffer);
+EMSTATUS
+DMD_getFrameBuffer(void **framebuffer);
 
 /***************************************************************************//**
  *  @brief
@@ -331,20 +343,26 @@ EMSTATUS DMD_getFrameBuffer (void **framebuffer);
  *  @return
  *    Returns DMD_OK if successful, error otherwise.
  ******************************************************************************/
-EMSTATUS DMD_updateDisplay (void);
+EMSTATUS
+DMD_updateDisplay(void);
 
 /** @cond DO_NOT_INCLUDE_WITH_DOXYGEN */
 /* Test functions */
-EMSTATUS DMD_testParameterChecks(void);
-EMSTATUS DMD_testMemory(uint16_t x, uint16_t y,
-                        uint32_t useClipWrite, uint32_t useClipRead,
-                        DMD_MemoryError *memoryError);
-EMSTATUS DMD_testMemory2(uint16_t x, uint16_t y,
-                         uint32_t useClipWrite);
-EMSTATUS DMD_testDeviceCode(void);
-EMSTATUS DMD_testColors(uint32_t delay);
-EMSTATUS DMD_testClipping(void);
-EMSTATUS DMD_runTests(uint32_t tests, uint32_t *result);
+EMSTATUS
+DMD_testParameterChecks(void);
+EMSTATUS
+DMD_testMemory(uint16_t x, uint16_t y, uint32_t useClipWrite,
+		uint32_t useClipRead, DMD_MemoryError *memoryError);
+EMSTATUS
+DMD_testMemory2(uint16_t x, uint16_t y, uint32_t useClipWrite);
+EMSTATUS
+DMD_testDeviceCode(void);
+EMSTATUS
+DMD_testColors(uint32_t delay);
+EMSTATUS
+DMD_testClipping(void);
+EMSTATUS
+DMD_runTests(uint32_t tests, uint32_t *result);
 /** @endcond */
 
 /** @} (end addtogroup dmd) */

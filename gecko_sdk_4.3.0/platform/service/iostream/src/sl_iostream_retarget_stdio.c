@@ -38,15 +38,24 @@
 #include "em_device.h"
 #include "sl_assert.h"
 
-int _close(int file);
-void _exit(int status);
-int _fstat(int file, struct stat *st);
-int _getpid(void);
-int _isatty(int file);
-int _kill(int pid, int sig);
-int _lseek(int file, int ptr, int dir);
-int _read(int file, char *ptr, int len);
-int _write(int file, const char *ptr, int len);
+int
+_close(int file);
+void
+_exit(int status);
+int
+_fstat(int file, struct stat *st);
+int
+_getpid(void);
+int
+_isatty(int file);
+int
+_kill(int pid, int sig);
+int
+_lseek(int file, int ptr, int dir);
+int
+_read(int file, char *ptr, int len);
+int
+_write(int file, const char *ptr, int len);
 
 /**************************************************************************//**
  * Close a file.
@@ -57,8 +66,8 @@ int _write(int file, const char *ptr, int len);
  *****************************************************************************/
 int _close(int file)
 {
-  (void) file;
-  return 0;
+	(void) file;
+	return 0;
 }
 
 /**************************************************************************//**
@@ -69,9 +78,10 @@ int _close(int file)
  *****************************************************************************/
 void _exit(int status)
 {
-  (void) status;
-  while (1) {
-  }                 // Hang here forever...
+	(void) status;
+	while (1)
+	{
+	}                 // Hang here forever...
 }
 
 /**************************************************************************//**
@@ -85,9 +95,9 @@ void _exit(int status)
  *****************************************************************************/
 int _fstat(int file, struct stat *st)
 {
-  (void) file;
-  st->st_mode = S_IFCHR;
-  return 0;
+	(void) file;
+	st->st_mode = S_IFCHR;
+	return 0;
 }
 
 /**************************************************************************//**
@@ -97,7 +107,7 @@ int _fstat(int file, struct stat *st)
  *****************************************************************************/
 int _getpid(void)
 {
-  return 1;
+	return 1;
 }
 
 /**************************************************************************//**
@@ -109,8 +119,8 @@ int _getpid(void)
  *****************************************************************************/
 int _isatty(int file)
 {
-  (void) file;
-  return 1;
+	(void) file;
+	return 1;
 }
 
 /**************************************************************************//**
@@ -122,9 +132,9 @@ int _isatty(int file)
  *****************************************************************************/
 int _kill(int pid, int sig)
 {
-  (void)pid;
-  (void)sig;
-  return -1;
+	(void) pid;
+	(void) sig;
+	return -1;
 }
 
 /**************************************************************************//**
@@ -140,10 +150,10 @@ int _kill(int pid, int sig)
  *****************************************************************************/
 int _lseek(int file, int ptr, int dir)
 {
-  (void) file;
-  (void) ptr;
-  (void) dir;
-  return 0;
+	(void) file;
+	(void) ptr;
+	(void) dir;
+	return 0;
 }
 
 /**************************************************************************//**
@@ -159,16 +169,17 @@ int _lseek(int file, int ptr, int dir)
  *****************************************************************************/
 int _read(int file, char *ptr, int len)
 {
-  size_t bytes_read = 0;
+	size_t bytes_read = 0;
 
-  (void)file;
-  sl_iostream_read(SL_IOSTREAM_STDIN, ptr, (size_t)len, &bytes_read);
+	(void) file;
+	sl_iostream_read(SL_IOSTREAM_STDIN, ptr, (size_t) len, &bytes_read);
 
-  if (bytes_read == 0) {
-    return -1;
-  }
+	if (bytes_read == 0)
+	{
+		return -1;
+	}
 
-  return (int)bytes_read;
+	return (int) bytes_read;
 }
 
 /**************************************************************************//**
@@ -184,13 +195,13 @@ int _read(int file, char *ptr, int len)
  *****************************************************************************/
 int _write(int file, const char *ptr, int len)
 {
-  sl_status_t status;
+	sl_status_t status;
 
-  (void)file;
-  status = sl_iostream_write(SL_IOSTREAM_STDOUT, ptr, (size_t)len);
-  EFM_ASSERT(status == SL_STATUS_OK);
+	(void) file;
+	status = sl_iostream_write(SL_IOSTREAM_STDOUT, ptr, (size_t) len);
+	EFM_ASSERT(status == SL_STATUS_OK);
 
-  return len;
+	return len;
 }
 
 #endif /* !defined( __CROSSWORKS_ARM ) && defined( __GNUC__ ) */

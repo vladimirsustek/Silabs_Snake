@@ -95,12 +95,14 @@
  * [4] - DTIFS1 PRS Consumer
  * [5] - DTIFS2 PRS Consumer
  */
-typedef struct {
-  __IOM uint32_t CONSUMER_CH[6];         /**< TIMER PRS consumers. */
+typedef struct
+{
+	__IOM uint32_t CONSUMER_CH[6]; /**< TIMER PRS consumers. */
 } PRS_TIMERn_Consumer_TypeDef;
 
-typedef struct {
-  PRS_TIMERn_Consumer_TypeDef TIMER_CONSUMER[TIMER_COUNT];
+typedef struct
+{
+	PRS_TIMERn_Consumer_TypeDef TIMER_CONSUMER[TIMER_COUNT];
 } PRS_TIMERn_TypeDef;
 
 /**
@@ -123,17 +125,25 @@ typedef struct {
  * @param[in] async
  *   true for asynchronous PRS channel, false for synchronous PRS channel.
  */
-static void timerPrsConfig(TIMER_TypeDef * timer, unsigned int cc, unsigned int prsCh, bool async)
+static void timerPrsConfig(TIMER_TypeDef *timer, unsigned int cc,
+		unsigned int prsCh,
+		bool async)
 {
-  int i = TIMER_DEVICE_ID(timer);
-  volatile PRS_TIMERn_TypeDef * base = (PRS_TIMERn_TypeDef *) &PRS->CONSUMER_TIMER0_CC0;
-  EFM_ASSERT(i != -1);
+	int i = TIMER_DEVICE_ID(timer);
+	volatile PRS_TIMERn_TypeDef *base =
+			(PRS_TIMERn_TypeDef*) &PRS->CONSUMER_TIMER0_CC0;
+	EFM_ASSERT(i != -1);
 
-  if (async) {
-    base->TIMER_CONSUMER[i].CONSUMER_CH[cc] = prsCh << _PRS_CONSUMER_TIMER0_CC0_PRSSEL_SHIFT;
-  } else {
-    base->TIMER_CONSUMER[i].CONSUMER_CH[cc] = prsCh << _PRS_CONSUMER_TIMER0_CC0_SPRSSEL_SHIFT;
-  }
+	if (async)
+	{
+		base->TIMER_CONSUMER[i].CONSUMER_CH[cc] = prsCh
+				<< _PRS_CONSUMER_TIMER0_CC0_PRSSEL_SHIFT;
+	}
+	else
+	{
+		base->TIMER_CONSUMER[i].CONSUMER_CH[cc] = prsCh
+				<< _PRS_CONSUMER_TIMER0_CC0_SPRSSEL_SHIFT;
+	}
 }
 #endif
 
@@ -162,36 +172,38 @@ static void timerPrsConfig(TIMER_TypeDef * timer, unsigned int cc, unsigned int 
  ******************************************************************************/
 void TIMER_Init(TIMER_TypeDef *timer, const TIMER_Init_TypeDef *init)
 {
-  EFM_ASSERT(TIMER_REF_VALID(timer));
-  uint32_t ctrlRegVal = 0;
+	EFM_ASSERT(TIMER_REF_VALID(timer));
+	uint32_t ctrlRegVal = 0;
 
 #if defined (_TIMER_CFG_PRESC_SHIFT)
-  TIMER_SyncWait(timer);
-  timer->EN_CLR = TIMER_EN_EN;
+	TIMER_SyncWait(timer);
+	timer->EN_CLR = TIMER_EN_EN;
 #if defined(_TIMER_EN_DISABLING_MASK)
-  while (timer->EN & _TIMER_EN_DISABLING_MASK) {
-  }
+	while (timer->EN & _TIMER_EN_DISABLING_MASK)
+	{
+	}
 #endif
-  timer->CFG = ((uint32_t)init->prescale << _TIMER_CFG_PRESC_SHIFT)
-               | ((uint32_t)init->clkSel << _TIMER_CFG_CLKSEL_SHIFT)
-               | ((uint32_t)init->mode   << _TIMER_CFG_MODE_SHIFT)
-               | (init->debugRun         ?   TIMER_CFG_DEBUGRUN  : 0)
-               | (init->dmaClrAct        ?   TIMER_CFG_DMACLRACT : 0)
-               | (init->quadModeX4       ?   TIMER_CFG_QDM_X4    : 0)
-               | (init->oneShot          ?   TIMER_CFG_OSMEN     : 0)
-               | (init->sync             ?   TIMER_CFG_SYNC      : 0)
-               | (init->disSyncOut       ?   TIMER_CFG_DISSYNCOUT : 0)
-               | (init->ati              ?   TIMER_CFG_ATI       : 0);
-  timer->EN_SET = TIMER_EN_EN;
+	timer->CFG = ((uint32_t) init->prescale << _TIMER_CFG_PRESC_SHIFT)
+			| ((uint32_t) init->clkSel << _TIMER_CFG_CLKSEL_SHIFT)
+			| ((uint32_t) init->mode << _TIMER_CFG_MODE_SHIFT)
+			| (init->debugRun ? TIMER_CFG_DEBUGRUN : 0)
+			| (init->dmaClrAct ? TIMER_CFG_DMACLRACT : 0)
+			| (init->quadModeX4 ? TIMER_CFG_QDM_X4 : 0)
+			| (init->oneShot ? TIMER_CFG_OSMEN : 0)
+			| (init->sync ? TIMER_CFG_SYNC : 0)
+			| (init->disSyncOut ? TIMER_CFG_DISSYNCOUT : 0)
+			| (init->ati ? TIMER_CFG_ATI : 0);
+	timer->EN_SET = TIMER_EN_EN;
 #endif
 
-  /* Stop the timer if specified to be disabled (doesn't hurt if already stopped). */
-  if (!(init->enable)) {
-    timer->CMD = TIMER_CMD_STOP;
-  }
+	/* Stop the timer if specified to be disabled (doesn't hurt if already stopped). */
+	if (!(init->enable))
+	{
+		timer->CMD = TIMER_CMD_STOP;
+	}
 
-  /* Reset the counter. */
-  timer->CNT = _TIMER_CNT_RESETVALUE;
+	/* Reset the counter. */
+	timer->CNT = _TIMER_CNT_RESETVALUE;
 
 #if defined(_SILICON_LABS_32B_SERIES_0) || defined(_SILICON_LABS_32B_SERIES_1)
   ctrlRegVal = ((uint32_t)init->prescale     << _TIMER_CTRL_PRESC_SHIFT)
@@ -214,17 +226,18 @@ void TIMER_Init(TIMER_TypeDef *timer, const TIMER_Init_TypeDef *init)
 #endif
 
 #else
-  ctrlRegVal = ((uint32_t)init->fallAction   << _TIMER_CTRL_FALLA_SHIFT)
-               | ((uint32_t)init->riseAction << _TIMER_CTRL_RISEA_SHIFT)
-               | (init->count2x              ?   TIMER_CTRL_X2CNT     : 0);
+	ctrlRegVal = ((uint32_t) init->fallAction << _TIMER_CTRL_FALLA_SHIFT)
+			| ((uint32_t) init->riseAction << _TIMER_CTRL_RISEA_SHIFT)
+			| (init->count2x ? TIMER_CTRL_X2CNT : 0);
 #endif
 
-  timer->CTRL = ctrlRegVal;
+	timer->CTRL = ctrlRegVal;
 
-  /* Start the timer if specified to be enabled (doesn't hurt if already started). */
-  if (init->enable) {
-    timer->CMD = TIMER_CMD_START;
-  }
+	/* Start the timer if specified to be enabled (doesn't hurt if already started). */
+	if (init->enable)
+	{
+		timer->CMD = TIMER_CMD_START;
+	}
 }
 
 /***************************************************************************//**
@@ -244,42 +257,45 @@ void TIMER_Init(TIMER_TypeDef *timer, const TIMER_Init_TypeDef *init)
  * @param[in] init
  *   A pointer to the TIMER initialization structure.
  ******************************************************************************/
-void TIMER_InitCC(TIMER_TypeDef *timer,
-                  unsigned int ch,
-                  const TIMER_InitCC_TypeDef *init)
+void TIMER_InitCC(TIMER_TypeDef *timer, unsigned int ch,
+		const TIMER_InitCC_TypeDef *init)
 {
-  EFM_ASSERT(TIMER_REF_VALID(timer));
-  EFM_ASSERT(TIMER_REF_CH_VALIDATE(timer, ch));
+	EFM_ASSERT(TIMER_REF_VALID(timer));
+	EFM_ASSERT(TIMER_REF_CH_VALIDATE(timer, ch));
 
 #if defined (_TIMER_CC_CFG_MASK)
-  TIMER_SyncWait(timer);
-  timer->EN_CLR = TIMER_EN_EN;
+	TIMER_SyncWait(timer);
+	timer->EN_CLR = TIMER_EN_EN;
 #if defined(_TIMER_EN_DISABLING_MASK)
-  while (timer->EN & _TIMER_EN_DISABLING_MASK) {
-  }
+	while (timer->EN & _TIMER_EN_DISABLING_MASK)
+	{
+	}
 #endif
-  timer->CC[ch].CFG =
-    ((uint32_t)init->mode        << _TIMER_CC_CFG_MODE_SHIFT)
-    | (init->filter              ?   TIMER_CC_CFG_FILT_ENABLE : 0)
-    | (init->coist               ?   TIMER_CC_CFG_COIST       : 0)
-    | ((uint32_t)init->prsOutput << _TIMER_CC_CFG_PRSCONF_SHIFT);
+	timer->CC[ch].CFG = ((uint32_t) init->mode << _TIMER_CC_CFG_MODE_SHIFT)
+			| (init->filter ? TIMER_CC_CFG_FILT_ENABLE : 0)
+			| (init->coist ? TIMER_CC_CFG_COIST : 0)
+			| ((uint32_t) init->prsOutput << _TIMER_CC_CFG_PRSCONF_SHIFT);
 
-  if (init->prsInput) {
-    timer->CC[ch].CFG |= (uint32_t)init->prsInputType << _TIMER_CC_CFG_INSEL_SHIFT;
-    bool async = (init->prsInputType != timerPrsInputSync);
-    timerPrsConfig(timer, ch, init->prsSel, async);
-  } else {
-    timer->CC[ch].CFG |= TIMER_CC_CFG_INSEL_PIN;
-  }
-  timer->EN_SET = TIMER_EN_EN;
+	if (init->prsInput)
+	{
+		timer->CC[ch].CFG |= (uint32_t) init->prsInputType
+				<< _TIMER_CC_CFG_INSEL_SHIFT;
+		bool async = (init->prsInputType != timerPrsInputSync);
+		timerPrsConfig(timer, ch, init->prsSel, async);
+	}
+	else
+	{
+		timer->CC[ch].CFG |= TIMER_CC_CFG_INSEL_PIN;
+	}
+	timer->EN_SET = TIMER_EN_EN;
 
-  timer->CC[ch].CTRL =
-    ((uint32_t)init->eventCtrl << _TIMER_CC_CTRL_ICEVCTRL_SHIFT)
-    | ((uint32_t)init->edge    << _TIMER_CC_CTRL_ICEDGE_SHIFT)
-    | ((uint32_t)init->cufoa   << _TIMER_CC_CTRL_CUFOA_SHIFT)
-    | ((uint32_t)init->cofoa   << _TIMER_CC_CTRL_COFOA_SHIFT)
-    | ((uint32_t)init->cmoa    << _TIMER_CC_CTRL_CMOA_SHIFT)
-    | (init->outInvert         ?   TIMER_CC_CTRL_OUTINV : 0);
+	timer->CC[ch].CTRL = ((uint32_t) init->eventCtrl
+			<< _TIMER_CC_CTRL_ICEVCTRL_SHIFT)
+			| ((uint32_t) init->edge << _TIMER_CC_CTRL_ICEDGE_SHIFT)
+			| ((uint32_t) init->cufoa << _TIMER_CC_CTRL_CUFOA_SHIFT)
+			| ((uint32_t) init->cofoa << _TIMER_CC_CTRL_COFOA_SHIFT)
+			| ((uint32_t) init->cmoa << _TIMER_CC_CTRL_CMOA_SHIFT)
+			| (init->outInvert ? TIMER_CC_CTRL_OUTINV : 0);
 #else
   timer->CC[ch].CTRL =
     ((uint32_t)init->eventCtrl   << _TIMER_CC_CTRL_ICEVCTRL_SHIFT)
@@ -313,44 +329,50 @@ void TIMER_InitCC(TIMER_TypeDef *timer,
  ******************************************************************************/
 void TIMER_InitDTI(TIMER_TypeDef *timer, const TIMER_InitDTI_TypeDef *init)
 {
-  EFM_ASSERT(TIMER_SupportsDTI(timer));
+	EFM_ASSERT(TIMER_SupportsDTI(timer));
 
-  /* Make sure the DTI unit is disabled while initializing. */
-  TIMER_EnableDTI(timer, false);
+	/* Make sure the DTI unit is disabled while initializing. */
+	TIMER_EnableDTI(timer, false);
 
 #if defined (_TIMER_DTCFG_MASK)
-  TIMER_SyncWait(timer);
-  timer->EN_CLR = TIMER_EN_EN;
+	TIMER_SyncWait(timer);
+	timer->EN_CLR = TIMER_EN_EN;
 #if defined(_TIMER_EN_DISABLING_MASK)
-  while (timer->EN & _TIMER_EN_DISABLING_MASK) {
-  }
+	while (timer->EN & _TIMER_EN_DISABLING_MASK)
+	{
+	}
 #endif
-  timer->DTCFG = (init->autoRestart       ?   TIMER_DTCFG_DTDAS   : 0)
-                 | (init->enablePrsSource ?   TIMER_DTCFG_DTPRSEN : 0);
-  if (init->enablePrsSource) {
-    timerPrsConfig(timer, TIMER_INPUT_CHANNEL_DTI, init->prsSel, true);
-  }
+	timer->DTCFG = (init->autoRestart ? TIMER_DTCFG_DTDAS : 0)
+			| (init->enablePrsSource ? TIMER_DTCFG_DTPRSEN : 0);
+	if (init->enablePrsSource)
+	{
+		timerPrsConfig(timer, TIMER_INPUT_CHANNEL_DTI, init->prsSel, true);
+	}
 
-  timer->DTTIMECFG =
-    ((uint32_t)init->prescale   << _TIMER_DTTIMECFG_DTPRESC_SHIFT)
-    | ((uint32_t)init->riseTime << _TIMER_DTTIMECFG_DTRISET_SHIFT)
-    | ((uint32_t)init->fallTime << _TIMER_DTTIMECFG_DTFALLT_SHIFT);
+	timer->DTTIMECFG = ((uint32_t) init->prescale
+			<< _TIMER_DTTIMECFG_DTPRESC_SHIFT)
+			| ((uint32_t) init->riseTime << _TIMER_DTTIMECFG_DTRISET_SHIFT)
+			| ((uint32_t) init->fallTime << _TIMER_DTTIMECFG_DTFALLT_SHIFT);
 
-  timer->DTFCFG =
-    (init->enableFaultSourceCoreLockup ?   TIMER_DTFCFG_DTLOCKUPFEN : 0)
-    | (init->enableFaultSourceDebugger ?   TIMER_DTFCFG_DTDBGFEN    : 0)
-    | (init->enableFaultSourcePrsSel0  ?   TIMER_DTFCFG_DTPRS0FEN   : 0)
-    | (init->enableFaultSourcePrsSel1  ?   TIMER_DTFCFG_DTPRS1FEN   : 0)
-    | ((uint32_t)(init->faultAction)   << _TIMER_DTFCFG_DTFA_SHIFT);
+	timer->DTFCFG = (
+			init->enableFaultSourceCoreLockup ? TIMER_DTFCFG_DTLOCKUPFEN : 0)
+			| (init->enableFaultSourceDebugger ? TIMER_DTFCFG_DTDBGFEN : 0)
+			| (init->enableFaultSourcePrsSel0 ? TIMER_DTFCFG_DTPRS0FEN : 0)
+			| (init->enableFaultSourcePrsSel1 ? TIMER_DTFCFG_DTPRS1FEN : 0)
+			| ((uint32_t) (init->faultAction) << _TIMER_DTFCFG_DTFA_SHIFT);
 
-  if (init->enableFaultSourcePrsSel0) {
-    timerPrsConfig(timer, TIMER_INPUT_CHANNEL_DTIFS1, init->faultSourcePrsSel0, true);
-  }
-  if (init->enableFaultSourcePrsSel1) {
-    timerPrsConfig(timer, TIMER_INPUT_CHANNEL_DTIFS2, init->faultSourcePrsSel1, true);
-  }
+	if (init->enableFaultSourcePrsSel0)
+	{
+		timerPrsConfig(timer, TIMER_INPUT_CHANNEL_DTIFS1,
+				init->faultSourcePrsSel0, true);
+	}
+	if (init->enableFaultSourcePrsSel1)
+	{
+		timerPrsConfig(timer, TIMER_INPUT_CHANNEL_DTIFS2,
+				init->faultSourcePrsSel1, true);
+	}
 
-  timer->EN_SET = TIMER_EN_EN;
+	timer->EN_SET = TIMER_EN_EN;
 #endif
 
 #if defined(TIMER_DTCTRL_DTDAS)
@@ -365,8 +387,8 @@ void TIMER_InitDTI(TIMER_TypeDef *timer, const TIMER_InitDTI_TypeDef *init)
 #endif
 
 #if defined (TIMER_DTCFG_DTDAS)
-  timer->DTCTRL = (init->activeLowOut             ? TIMER_DTCTRL_DTIPOL  : 0)
-                  | (init->invertComplementaryOut ? TIMER_DTCTRL_DTCINV  : 0);
+	timer->DTCTRL = (init->activeLowOut ? TIMER_DTCTRL_DTIPOL : 0)
+			| (init->invertComplementaryOut ? TIMER_DTCTRL_DTCINV : 0);
 #endif
 
 #if defined (_TIMER_DTTIME_DTPRESC_SHIFT)
@@ -388,14 +410,14 @@ void TIMER_InitDTI(TIMER_TypeDef *timer, const TIMER_InitDTI_TypeDef *init)
     | ((uint32_t)init->faultSourcePrsSel1 << _TIMER_DTFC_DTPRS1FSEL_SHIFT);
 #endif
 
-  /* Set up the DTOGEN register. */
-  timer->DTOGEN = init->outputsEnableMask;
+	/* Set up the DTOGEN register. */
+	timer->DTOGEN = init->outputsEnableMask;
 
-  /* Clear any previous DTI faults.  */
-  TIMER_ClearDTIFault(timer, TIMER_GetDTIFault(timer));
+	/* Clear any previous DTI faults.  */
+	TIMER_ClearDTIFault(timer, TIMER_GetDTIFault(timer));
 
-  /* Enable/disable before returning. */
-  TIMER_EnableDTI(timer, init->enable);
+	/* Enable/disable before returning. */
+	TIMER_EnableDTI(timer, init->enable);
 }
 #endif
 
@@ -412,50 +434,51 @@ void TIMER_InitDTI(TIMER_TypeDef *timer, const TIMER_InitDTI_TypeDef *init)
  ******************************************************************************/
 void TIMER_Reset(TIMER_TypeDef *timer)
 {
-  int i;
+	int i;
 
-  EFM_ASSERT(TIMER_REF_VALID(timer));
+	EFM_ASSERT(TIMER_REF_VALID(timer));
 
 #if defined(TIMER_EN_EN)
-  timer->EN_SET = TIMER_EN_EN;
+	timer->EN_SET = TIMER_EN_EN;
 #endif
 
-  /* Make sure disabled first, before resetting other registers. */
-  timer->CMD = TIMER_CMD_STOP;
+	/* Make sure disabled first, before resetting other registers. */
+	timer->CMD = TIMER_CMD_STOP;
 
-  timer->CTRL = _TIMER_CTRL_RESETVALUE;
-  timer->IEN  = _TIMER_IEN_RESETVALUE;
+	timer->CTRL = _TIMER_CTRL_RESETVALUE;
+	timer->IEN = _TIMER_IEN_RESETVALUE;
 #if defined (TIMER_HAS_SET_CLEAR)
-  timer->IF_CLR = _TIMER_IF_MASK;
+	timer->IF_CLR = _TIMER_IF_MASK;
 #else
   timer->IFC  = _TIMER_IFC_MASK;
 #endif
-  timer->TOPB = _TIMER_TOPB_RESETVALUE;
-  /* Write TOP after TOPB to invalidate TOPB (clear TIMER_STATUS_TOPBV). */
-  timer->TOP  = _TIMER_TOP_RESETVALUE;
-  timer->CNT  = _TIMER_CNT_RESETVALUE;
-  /* Do not reset the route register, setting should be done independently. */
-  /* Note: The ROUTE register may be locked by the DTLOCK register. */
+	timer->TOPB = _TIMER_TOPB_RESETVALUE;
+	/* Write TOP after TOPB to invalidate TOPB (clear TIMER_STATUS_TOPBV). */
+	timer->TOP = _TIMER_TOP_RESETVALUE;
+	timer->CNT = _TIMER_CNT_RESETVALUE;
+	/* Do not reset the route register, setting should be done independently. */
+	/* Note: The ROUTE register may be locked by the DTLOCK register. */
 
-  for (i = 0; TIMER_REF_CH_VALIDATE(timer, i); i++) {
-    timer->CC[i].CTRL = _TIMER_CC_CTRL_RESETVALUE;
+	for (i = 0; TIMER_REF_CH_VALIDATE(timer, i); i++)
+	{
+		timer->CC[i].CTRL = _TIMER_CC_CTRL_RESETVALUE;
 #if defined (_TIMER_CC_CCV_RESETVALUE) && defined (_TIMER_CC_CCVB_RESETVALUE)
     timer->CC[i].CCV  = _TIMER_CC_CCV_RESETVALUE;
     timer->CC[i].CCVB = _TIMER_CC_CCVB_RESETVALUE;
 #endif
 #if defined (_TIMER_CC_OC_RESETVALUE) && defined (_TIMER_CC_OCB_RESETVALUE) \
     && defined (_TIMER_CC_ICF_RESETVALUE) && defined (_TIMER_CC_ICOF_RESETVALUE)
-    timer->CC[i].OC     = _TIMER_CC_OC_RESETVALUE;
-    timer->CC[i].OCB    = _TIMER_CC_OCB_RESETVALUE;
+		timer->CC[i].OC = _TIMER_CC_OC_RESETVALUE;
+		timer->CC[i].OCB = _TIMER_CC_OCB_RESETVALUE;
 #endif
-  }
+	}
 
-  /* Reset dead time insertion module, which has no effect on timers without DTI. */
+	/* Reset dead time insertion module, which has no effect on timers without DTI. */
 #if defined(_TIMER_DTCFG_MASK)
-  timer->DTLOCK   = TIMER_DTLOCK_DTILOCKKEY_UNLOCK;
-  timer->DTCTRL   = _TIMER_DTCTRL_RESETVALUE;
-  timer->DTOGEN   = _TIMER_DTOGEN_RESETVALUE;
-  timer->DTFAULTC = _TIMER_DTFAULTC_MASK;
+	timer->DTLOCK = TIMER_DTLOCK_DTILOCKKEY_UNLOCK;
+	timer->DTCTRL = _TIMER_DTCTRL_RESETVALUE;
+	timer->DTOGEN = _TIMER_DTOGEN_RESETVALUE;
+	timer->DTFAULTC = _TIMER_DTFAULTC_MASK;
 #elif defined(TIMER_DTLOCK_LOCKKEY_UNLOCK)
   /* Unlock DTI registers first if locked. */
   timer->DTLOCK   = TIMER_DTLOCK_LOCKKEY_UNLOCK;
@@ -467,20 +490,22 @@ void TIMER_Reset(TIMER_TypeDef *timer)
 #endif
 
 #if defined(_TIMER_CFG_MASK)
-  TIMER_SyncWait(timer);
-  /* CFG registers must be reset after the timer is disabled */
-  timer->EN_CLR = TIMER_EN_EN;
+	TIMER_SyncWait(timer);
+	/* CFG registers must be reset after the timer is disabled */
+	timer->EN_CLR = TIMER_EN_EN;
 #if defined(_TIMER_EN_DISABLING_MASK)
-  while (timer->EN & _TIMER_EN_DISABLING_MASK) {
-  }
+	while (timer->EN & _TIMER_EN_DISABLING_MASK)
+	{
+	}
 #endif
-  timer->CFG = _TIMER_CFG_RESETVALUE;
-  for (i = 0; TIMER_REF_CH_VALIDATE(timer, i); i++) {
-    timer->CC[i].CFG = _TIMER_CC_CFG_RESETVALUE;
-  }
-  timer->DTCFG = _TIMER_DTCFG_RESETVALUE;
-  timer->DTFCFG = _TIMER_DTFCFG_RESETVALUE;
-  timer->DTTIMECFG = _TIMER_DTTIMECFG_RESETVALUE;
+	timer->CFG = _TIMER_CFG_RESETVALUE;
+	for (i = 0; TIMER_REF_CH_VALIDATE(timer, i); i++)
+	{
+		timer->CC[i].CFG = _TIMER_CC_CFG_RESETVALUE;
+	}
+	timer->DTCFG = _TIMER_DTCFG_RESETVALUE;
+	timer->DTFCFG = _TIMER_DTFCFG_RESETVALUE;
+	timer->DTTIMECFG = _TIMER_DTTIMECFG_RESETVALUE;
 #endif
 }
 
@@ -490,12 +515,13 @@ void TIMER_Reset(TIMER_TypeDef *timer)
  *
  * @param[in] timer
  */
-void TIMER_SyncWait(TIMER_TypeDef * timer)
+void TIMER_SyncWait(TIMER_TypeDef *timer)
 {
-  while (((timer->EN & TIMER_EN_EN) != 0U)
-         && ((timer->STATUS & TIMER_STATUS_SYNCBUSY) != 0U)) {
-    /* Wait for synchronization to complete */
-  }
+	while (((timer->EN & TIMER_EN_EN) != 0U)
+			&& ((timer->STATUS & TIMER_STATUS_SYNCBUSY) != 0U))
+	{
+		/* Wait for synchronization to complete */
+	}
 }
 #endif
 

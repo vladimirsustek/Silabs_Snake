@@ -126,7 +126,6 @@ extern "C" {
 //
 //  NVIC mask section macro API.
 //
-
 /** Allocate storage for NVIC interrupt masks for use by
  *  CORE_ENTER/EXIT_NVIC() macros. */
 #define CORE_DECLARE_NVIC_STATE       CORE_nvicMask_t nvicState
@@ -203,36 +202,46 @@ extern "C" {
  ******************************************************************************/
 
 /** Storage for NVIC interrupt masks. */
-typedef struct {
-  uint32_t a[CORE_NVIC_REG_WORDS];    /*!< Array of NVIC mask words. */
+typedef struct
+{
+	uint32_t a[CORE_NVIC_REG_WORDS]; /*!< Array of NVIC mask words. */
 } CORE_nvicMask_t;
 
 /*******************************************************************************
  *****************************   PROTOTYPES   **********************************
  ******************************************************************************/
 
-bool  CORE_IrqIsBlocked(IRQn_Type irqN);
+bool
+CORE_IrqIsBlocked(IRQn_Type irqN);
 
-void  CORE_GetNvicEnabledMask(CORE_nvicMask_t *mask);
-bool  CORE_GetNvicMaskDisableState(const CORE_nvicMask_t *mask);
+void
+CORE_GetNvicEnabledMask(CORE_nvicMask_t *mask);
+bool
+CORE_GetNvicMaskDisableState(const CORE_nvicMask_t *mask);
 
-void  CORE_EnterNvicMask(CORE_nvicMask_t *nvicState,
-                         const CORE_nvicMask_t *disable);
-void  CORE_NvicDisableMask(const CORE_nvicMask_t *disable);
-void  CORE_NvicEnableMask(const CORE_nvicMask_t *enable);
-void  CORE_YieldNvicMask(const CORE_nvicMask_t *enable);
-void  CORE_NvicMaskSetIRQ(IRQn_Type irqN, CORE_nvicMask_t *mask);
-void  CORE_NvicMaskClearIRQ(IRQn_Type irqN, CORE_nvicMask_t *mask);
-bool  CORE_NvicIRQDisabled(IRQn_Type irqN);
+void
+CORE_EnterNvicMask(CORE_nvicMask_t *nvicState, const CORE_nvicMask_t *disable);
+void
+CORE_NvicDisableMask(const CORE_nvicMask_t *disable);
+void
+CORE_NvicEnableMask(const CORE_nvicMask_t *enable);
+void
+CORE_YieldNvicMask(const CORE_nvicMask_t *enable);
+void
+CORE_NvicMaskSetIRQ(IRQn_Type irqN, CORE_nvicMask_t *mask);
+void
+CORE_NvicMaskClearIRQ(IRQn_Type irqN, CORE_nvicMask_t *mask);
+bool
+CORE_NvicIRQDisabled(IRQn_Type irqN);
 
-void *CORE_GetNvicRamTableHandler(IRQn_Type irqN);
-void  CORE_SetNvicRamTableHandler(IRQn_Type irqN, void *handler);
-void  CORE_InitNvicVectorTable(uint32_t *sourceTable,
-                               uint32_t sourceSize,
-                               uint32_t *targetTable,
-                               uint32_t targetSize,
-                               void *defaultHandler,
-                               bool overwriteActive);
+void*
+CORE_GetNvicRamTableHandler(IRQn_Type irqN);
+void
+CORE_SetNvicRamTableHandler(IRQn_Type irqN, void *handler);
+void
+CORE_InitNvicVectorTable(uint32_t *sourceTable, uint32_t sourceSize,
+		uint32_t *targetTable, uint32_t targetSize, void *defaultHandler,
+		bool overwriteActive);
 
 #if (SL_EMLIB_CORE_ENABLE_INTERRUPT_DISABLED_TIMING == 1)
 uint32_t CORE_get_max_time_critical_section(void);

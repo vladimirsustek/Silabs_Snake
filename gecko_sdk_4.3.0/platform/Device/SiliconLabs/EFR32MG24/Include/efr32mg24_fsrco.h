@@ -32,9 +32,9 @@
 #define FSRCO_HAS_SET_CLEAR
 
 /**************************************************************************//**
-* @addtogroup Parts
-* @{
-******************************************************************************/
+ * @addtogroup Parts
+ * @{
+ ******************************************************************************/
 /**************************************************************************//**
  * @defgroup EFR32MG24_FSRCO FSRCO
  * @{
@@ -42,14 +42,15 @@
  *****************************************************************************/
 
 /** FSRCO Register Declaration. */
-typedef struct {
-  __IM uint32_t IPVERSION;                      /**< IP Version                                         */
-  uint32_t      RESERVED0[1023U];               /**< Reserved for future use                            */
-  __IM uint32_t IPVERSION_SET;                  /**< IP Version                                         */
-  uint32_t      RESERVED1[1023U];               /**< Reserved for future use                            */
-  __IM uint32_t IPVERSION_CLR;                  /**< IP Version                                         */
-  uint32_t      RESERVED2[1023U];               /**< Reserved for future use                            */
-  __IM uint32_t IPVERSION_TGL;                  /**< IP Version                                         */
+typedef struct
+{
+	__IM uint32_t IPVERSION; /**< IP Version                                         */
+	uint32_t RESERVED0[1023U]; /**< Reserved for future use                            */
+	__IM uint32_t IPVERSION_SET; /**< IP Version                                         */
+	uint32_t RESERVED1[1023U]; /**< Reserved for future use                            */
+	__IM uint32_t IPVERSION_CLR; /**< IP Version                                         */
+	uint32_t RESERVED2[1023U]; /**< Reserved for future use                            */
+	__IM uint32_t IPVERSION_TGL; /**< IP Version                                         */
 } FSRCO_TypeDef;
 /** @} End of group EFR32MG24_FSRCO */
 

@@ -32,9 +32,9 @@
 #define MSC_HAS_SET_CLEAR
 
 /**************************************************************************//**
-* @addtogroup Parts
-* @{
-******************************************************************************/
+ * @addtogroup Parts
+ * @{
+ ******************************************************************************/
 /**************************************************************************//**
  * @defgroup EFR32MG24_MSC MSC
  * @{
@@ -42,138 +42,139 @@
  *****************************************************************************/
 
 /** MSC Register Declaration. */
-typedef struct {
-  __IM uint32_t  IPVERSION;                     /**< IP version ID                                      */
-  __IOM uint32_t READCTRL;                      /**< Read Control Register                              */
-  __IOM uint32_t RDATACTRL;                     /**< Read Data Control Register                         */
-  __IOM uint32_t WRITECTRL;                     /**< Write Control Register                             */
-  __IOM uint32_t WRITECMD;                      /**< Write Command Register                             */
-  __IOM uint32_t ADDRB;                         /**< Page Erase/Write Address Buffer                    */
-  __IOM uint32_t WDATA;                         /**< Write Data Register                                */
-  __IM uint32_t  STATUS;                        /**< Status Register                                    */
-  __IOM uint32_t IF;                            /**< Interrupt Flag Register                            */
-  __IOM uint32_t IEN;                           /**< Interrupt Enable Register                          */
-  uint32_t       RESERVED0[3U];                 /**< Reserved for future use                            */
-  __IM uint32_t  USERDATASIZE;                  /**< User Data Region Size Register                     */
-  __IOM uint32_t CMD;                           /**< Command Register                                   */
-  __IOM uint32_t LOCK;                          /**< Configuration Lock Register                        */
-  __IOM uint32_t MISCLOCKWORD;                  /**< Mass erase and User data page lock word            */
-  uint32_t       RESERVED1[3U];                 /**< Reserved for future use                            */
-  __IOM uint32_t PWRCTRL;                       /**< Power control register                             */
-  uint32_t       RESERVED2[51U];                /**< Reserved for future use                            */
-  __IOM uint32_t PAGELOCK0;                     /**< Main space page 0-31 lock word                     */
-  __IOM uint32_t PAGELOCK1;                     /**< Main space page 32-63 lock word                    */
-  __IOM uint32_t PAGELOCK2;                     /**< Main space page 64-95 lock word                    */
-  __IOM uint32_t PAGELOCK3;                     /**< Main space page 96-127 lock word                   */
-  __IOM uint32_t PAGELOCK4;                     /**< Main space page 128-159 lock word                  */
-  __IOM uint32_t PAGELOCK5;                     /**< Main space page 160-191 lock word                  */
-  uint32_t       RESERVED3[2U];                 /**< Reserved for future use                            */
-  uint32_t       RESERVED4[4U];                 /**< Reserved for future use                            */
-  uint32_t       RESERVED5[4U];                 /**< Reserved for future use                            */
-  uint32_t       RESERVED6[4U];                 /**< Reserved for future use                            */
-  uint32_t       RESERVED7[12U];                /**< Reserved for future use                            */
-  uint32_t       RESERVED8[1U];                 /**< Reserved for future use                            */
-  uint32_t       RESERVED9[8U];                 /**< Reserved for future use                            */
-  uint32_t       RESERVED10[1U];                /**< Reserved for future use                            */
-  uint32_t       RESERVED11[910U];              /**< Reserved for future use                            */
-  __IM uint32_t  IPVERSION_SET;                 /**< IP version ID                                      */
-  __IOM uint32_t READCTRL_SET;                  /**< Read Control Register                              */
-  __IOM uint32_t RDATACTRL_SET;                 /**< Read Data Control Register                         */
-  __IOM uint32_t WRITECTRL_SET;                 /**< Write Control Register                             */
-  __IOM uint32_t WRITECMD_SET;                  /**< Write Command Register                             */
-  __IOM uint32_t ADDRB_SET;                     /**< Page Erase/Write Address Buffer                    */
-  __IOM uint32_t WDATA_SET;                     /**< Write Data Register                                */
-  __IM uint32_t  STATUS_SET;                    /**< Status Register                                    */
-  __IOM uint32_t IF_SET;                        /**< Interrupt Flag Register                            */
-  __IOM uint32_t IEN_SET;                       /**< Interrupt Enable Register                          */
-  uint32_t       RESERVED12[3U];                /**< Reserved for future use                            */
-  __IM uint32_t  USERDATASIZE_SET;              /**< User Data Region Size Register                     */
-  __IOM uint32_t CMD_SET;                       /**< Command Register                                   */
-  __IOM uint32_t LOCK_SET;                      /**< Configuration Lock Register                        */
-  __IOM uint32_t MISCLOCKWORD_SET;              /**< Mass erase and User data page lock word            */
-  uint32_t       RESERVED13[3U];                /**< Reserved for future use                            */
-  __IOM uint32_t PWRCTRL_SET;                   /**< Power control register                             */
-  uint32_t       RESERVED14[51U];               /**< Reserved for future use                            */
-  __IOM uint32_t PAGELOCK0_SET;                 /**< Main space page 0-31 lock word                     */
-  __IOM uint32_t PAGELOCK1_SET;                 /**< Main space page 32-63 lock word                    */
-  __IOM uint32_t PAGELOCK2_SET;                 /**< Main space page 64-95 lock word                    */
-  __IOM uint32_t PAGELOCK3_SET;                 /**< Main space page 96-127 lock word                   */
-  __IOM uint32_t PAGELOCK4_SET;                 /**< Main space page 128-159 lock word                  */
-  __IOM uint32_t PAGELOCK5_SET;                 /**< Main space page 160-191 lock word                  */
-  uint32_t       RESERVED15[2U];                /**< Reserved for future use                            */
-  uint32_t       RESERVED16[4U];                /**< Reserved for future use                            */
-  uint32_t       RESERVED17[4U];                /**< Reserved for future use                            */
-  uint32_t       RESERVED18[4U];                /**< Reserved for future use                            */
-  uint32_t       RESERVED19[12U];               /**< Reserved for future use                            */
-  uint32_t       RESERVED20[1U];                /**< Reserved for future use                            */
-  uint32_t       RESERVED21[8U];                /**< Reserved for future use                            */
-  uint32_t       RESERVED22[1U];                /**< Reserved for future use                            */
-  uint32_t       RESERVED23[910U];              /**< Reserved for future use                            */
-  __IM uint32_t  IPVERSION_CLR;                 /**< IP version ID                                      */
-  __IOM uint32_t READCTRL_CLR;                  /**< Read Control Register                              */
-  __IOM uint32_t RDATACTRL_CLR;                 /**< Read Data Control Register                         */
-  __IOM uint32_t WRITECTRL_CLR;                 /**< Write Control Register                             */
-  __IOM uint32_t WRITECMD_CLR;                  /**< Write Command Register                             */
-  __IOM uint32_t ADDRB_CLR;                     /**< Page Erase/Write Address Buffer                    */
-  __IOM uint32_t WDATA_CLR;                     /**< Write Data Register                                */
-  __IM uint32_t  STATUS_CLR;                    /**< Status Register                                    */
-  __IOM uint32_t IF_CLR;                        /**< Interrupt Flag Register                            */
-  __IOM uint32_t IEN_CLR;                       /**< Interrupt Enable Register                          */
-  uint32_t       RESERVED24[3U];                /**< Reserved for future use                            */
-  __IM uint32_t  USERDATASIZE_CLR;              /**< User Data Region Size Register                     */
-  __IOM uint32_t CMD_CLR;                       /**< Command Register                                   */
-  __IOM uint32_t LOCK_CLR;                      /**< Configuration Lock Register                        */
-  __IOM uint32_t MISCLOCKWORD_CLR;              /**< Mass erase and User data page lock word            */
-  uint32_t       RESERVED25[3U];                /**< Reserved for future use                            */
-  __IOM uint32_t PWRCTRL_CLR;                   /**< Power control register                             */
-  uint32_t       RESERVED26[51U];               /**< Reserved for future use                            */
-  __IOM uint32_t PAGELOCK0_CLR;                 /**< Main space page 0-31 lock word                     */
-  __IOM uint32_t PAGELOCK1_CLR;                 /**< Main space page 32-63 lock word                    */
-  __IOM uint32_t PAGELOCK2_CLR;                 /**< Main space page 64-95 lock word                    */
-  __IOM uint32_t PAGELOCK3_CLR;                 /**< Main space page 96-127 lock word                   */
-  __IOM uint32_t PAGELOCK4_CLR;                 /**< Main space page 128-159 lock word                  */
-  __IOM uint32_t PAGELOCK5_CLR;                 /**< Main space page 160-191 lock word                  */
-  uint32_t       RESERVED27[2U];                /**< Reserved for future use                            */
-  uint32_t       RESERVED28[4U];                /**< Reserved for future use                            */
-  uint32_t       RESERVED29[4U];                /**< Reserved for future use                            */
-  uint32_t       RESERVED30[4U];                /**< Reserved for future use                            */
-  uint32_t       RESERVED31[12U];               /**< Reserved for future use                            */
-  uint32_t       RESERVED32[1U];                /**< Reserved for future use                            */
-  uint32_t       RESERVED33[8U];                /**< Reserved for future use                            */
-  uint32_t       RESERVED34[1U];                /**< Reserved for future use                            */
-  uint32_t       RESERVED35[910U];              /**< Reserved for future use                            */
-  __IM uint32_t  IPVERSION_TGL;                 /**< IP version ID                                      */
-  __IOM uint32_t READCTRL_TGL;                  /**< Read Control Register                              */
-  __IOM uint32_t RDATACTRL_TGL;                 /**< Read Data Control Register                         */
-  __IOM uint32_t WRITECTRL_TGL;                 /**< Write Control Register                             */
-  __IOM uint32_t WRITECMD_TGL;                  /**< Write Command Register                             */
-  __IOM uint32_t ADDRB_TGL;                     /**< Page Erase/Write Address Buffer                    */
-  __IOM uint32_t WDATA_TGL;                     /**< Write Data Register                                */
-  __IM uint32_t  STATUS_TGL;                    /**< Status Register                                    */
-  __IOM uint32_t IF_TGL;                        /**< Interrupt Flag Register                            */
-  __IOM uint32_t IEN_TGL;                       /**< Interrupt Enable Register                          */
-  uint32_t       RESERVED36[3U];                /**< Reserved for future use                            */
-  __IM uint32_t  USERDATASIZE_TGL;              /**< User Data Region Size Register                     */
-  __IOM uint32_t CMD_TGL;                       /**< Command Register                                   */
-  __IOM uint32_t LOCK_TGL;                      /**< Configuration Lock Register                        */
-  __IOM uint32_t MISCLOCKWORD_TGL;              /**< Mass erase and User data page lock word            */
-  uint32_t       RESERVED37[3U];                /**< Reserved for future use                            */
-  __IOM uint32_t PWRCTRL_TGL;                   /**< Power control register                             */
-  uint32_t       RESERVED38[51U];               /**< Reserved for future use                            */
-  __IOM uint32_t PAGELOCK0_TGL;                 /**< Main space page 0-31 lock word                     */
-  __IOM uint32_t PAGELOCK1_TGL;                 /**< Main space page 32-63 lock word                    */
-  __IOM uint32_t PAGELOCK2_TGL;                 /**< Main space page 64-95 lock word                    */
-  __IOM uint32_t PAGELOCK3_TGL;                 /**< Main space page 96-127 lock word                   */
-  __IOM uint32_t PAGELOCK4_TGL;                 /**< Main space page 128-159 lock word                  */
-  __IOM uint32_t PAGELOCK5_TGL;                 /**< Main space page 160-191 lock word                  */
-  uint32_t       RESERVED39[2U];                /**< Reserved for future use                            */
-  uint32_t       RESERVED40[4U];                /**< Reserved for future use                            */
-  uint32_t       RESERVED41[4U];                /**< Reserved for future use                            */
-  uint32_t       RESERVED42[4U];                /**< Reserved for future use                            */
-  uint32_t       RESERVED43[12U];               /**< Reserved for future use                            */
-  uint32_t       RESERVED44[1U];                /**< Reserved for future use                            */
-  uint32_t       RESERVED45[8U];                /**< Reserved for future use                            */
-  uint32_t       RESERVED46[1U];                /**< Reserved for future use                            */
+typedef struct
+{
+	__IM uint32_t IPVERSION; /**< IP version ID                                      */
+	__IOM uint32_t READCTRL; /**< Read Control Register                              */
+	__IOM uint32_t RDATACTRL; /**< Read Data Control Register                         */
+	__IOM uint32_t WRITECTRL; /**< Write Control Register                             */
+	__IOM uint32_t WRITECMD; /**< Write Command Register                             */
+	__IOM uint32_t ADDRB; /**< Page Erase/Write Address Buffer                    */
+	__IOM uint32_t WDATA; /**< Write Data Register                                */
+	__IM uint32_t STATUS; /**< Status Register                                    */
+	__IOM uint32_t IF; /**< Interrupt Flag Register                            */
+	__IOM uint32_t IEN; /**< Interrupt Enable Register                          */
+	uint32_t RESERVED0[3U]; /**< Reserved for future use                            */
+	__IM uint32_t USERDATASIZE; /**< User Data Region Size Register                     */
+	__IOM uint32_t CMD; /**< Command Register                                   */
+	__IOM uint32_t LOCK; /**< Configuration Lock Register                        */
+	__IOM uint32_t MISCLOCKWORD; /**< Mass erase and User data page lock word            */
+	uint32_t RESERVED1[3U]; /**< Reserved for future use                            */
+	__IOM uint32_t PWRCTRL; /**< Power control register                             */
+	uint32_t RESERVED2[51U]; /**< Reserved for future use                            */
+	__IOM uint32_t PAGELOCK0; /**< Main space page 0-31 lock word                     */
+	__IOM uint32_t PAGELOCK1; /**< Main space page 32-63 lock word                    */
+	__IOM uint32_t PAGELOCK2; /**< Main space page 64-95 lock word                    */
+	__IOM uint32_t PAGELOCK3; /**< Main space page 96-127 lock word                   */
+	__IOM uint32_t PAGELOCK4; /**< Main space page 128-159 lock word                  */
+	__IOM uint32_t PAGELOCK5; /**< Main space page 160-191 lock word                  */
+	uint32_t RESERVED3[2U]; /**< Reserved for future use                            */
+	uint32_t RESERVED4[4U]; /**< Reserved for future use                            */
+	uint32_t RESERVED5[4U]; /**< Reserved for future use                            */
+	uint32_t RESERVED6[4U]; /**< Reserved for future use                            */
+	uint32_t RESERVED7[12U]; /**< Reserved for future use                            */
+	uint32_t RESERVED8[1U]; /**< Reserved for future use                            */
+	uint32_t RESERVED9[8U]; /**< Reserved for future use                            */
+	uint32_t RESERVED10[1U]; /**< Reserved for future use                            */
+	uint32_t RESERVED11[910U]; /**< Reserved for future use                            */
+	__IM uint32_t IPVERSION_SET; /**< IP version ID                                      */
+	__IOM uint32_t READCTRL_SET; /**< Read Control Register                              */
+	__IOM uint32_t RDATACTRL_SET; /**< Read Data Control Register                         */
+	__IOM uint32_t WRITECTRL_SET; /**< Write Control Register                             */
+	__IOM uint32_t WRITECMD_SET; /**< Write Command Register                             */
+	__IOM uint32_t ADDRB_SET; /**< Page Erase/Write Address Buffer                    */
+	__IOM uint32_t WDATA_SET; /**< Write Data Register                                */
+	__IM uint32_t STATUS_SET; /**< Status Register                                    */
+	__IOM uint32_t IF_SET; /**< Interrupt Flag Register                            */
+	__IOM uint32_t IEN_SET; /**< Interrupt Enable Register                          */
+	uint32_t RESERVED12[3U]; /**< Reserved for future use                            */
+	__IM uint32_t USERDATASIZE_SET; /**< User Data Region Size Register                     */
+	__IOM uint32_t CMD_SET; /**< Command Register                                   */
+	__IOM uint32_t LOCK_SET; /**< Configuration Lock Register                        */
+	__IOM uint32_t MISCLOCKWORD_SET; /**< Mass erase and User data page lock word            */
+	uint32_t RESERVED13[3U]; /**< Reserved for future use                            */
+	__IOM uint32_t PWRCTRL_SET; /**< Power control register                             */
+	uint32_t RESERVED14[51U]; /**< Reserved for future use                            */
+	__IOM uint32_t PAGELOCK0_SET; /**< Main space page 0-31 lock word                     */
+	__IOM uint32_t PAGELOCK1_SET; /**< Main space page 32-63 lock word                    */
+	__IOM uint32_t PAGELOCK2_SET; /**< Main space page 64-95 lock word                    */
+	__IOM uint32_t PAGELOCK3_SET; /**< Main space page 96-127 lock word                   */
+	__IOM uint32_t PAGELOCK4_SET; /**< Main space page 128-159 lock word                  */
+	__IOM uint32_t PAGELOCK5_SET; /**< Main space page 160-191 lock word                  */
+	uint32_t RESERVED15[2U]; /**< Reserved for future use                            */
+	uint32_t RESERVED16[4U]; /**< Reserved for future use                            */
+	uint32_t RESERVED17[4U]; /**< Reserved for future use                            */
+	uint32_t RESERVED18[4U]; /**< Reserved for future use                            */
+	uint32_t RESERVED19[12U]; /**< Reserved for future use                            */
+	uint32_t RESERVED20[1U]; /**< Reserved for future use                            */
+	uint32_t RESERVED21[8U]; /**< Reserved for future use                            */
+	uint32_t RESERVED22[1U]; /**< Reserved for future use                            */
+	uint32_t RESERVED23[910U]; /**< Reserved for future use                            */
+	__IM uint32_t IPVERSION_CLR; /**< IP version ID                                      */
+	__IOM uint32_t READCTRL_CLR; /**< Read Control Register                              */
+	__IOM uint32_t RDATACTRL_CLR; /**< Read Data Control Register                         */
+	__IOM uint32_t WRITECTRL_CLR; /**< Write Control Register                             */
+	__IOM uint32_t WRITECMD_CLR; /**< Write Command Register                             */
+	__IOM uint32_t ADDRB_CLR; /**< Page Erase/Write Address Buffer                    */
+	__IOM uint32_t WDATA_CLR; /**< Write Data Register                                */
+	__IM uint32_t STATUS_CLR; /**< Status Register                                    */
+	__IOM uint32_t IF_CLR; /**< Interrupt Flag Register                            */
+	__IOM uint32_t IEN_CLR; /**< Interrupt Enable Register                          */
+	uint32_t RESERVED24[3U]; /**< Reserved for future use                            */
+	__IM uint32_t USERDATASIZE_CLR; /**< User Data Region Size Register                     */
+	__IOM uint32_t CMD_CLR; /**< Command Register                                   */
+	__IOM uint32_t LOCK_CLR; /**< Configuration Lock Register                        */
+	__IOM uint32_t MISCLOCKWORD_CLR; /**< Mass erase and User data page lock word            */
+	uint32_t RESERVED25[3U]; /**< Reserved for future use                            */
+	__IOM uint32_t PWRCTRL_CLR; /**< Power control register                             */
+	uint32_t RESERVED26[51U]; /**< Reserved for future use                            */
+	__IOM uint32_t PAGELOCK0_CLR; /**< Main space page 0-31 lock word                     */
+	__IOM uint32_t PAGELOCK1_CLR; /**< Main space page 32-63 lock word                    */
+	__IOM uint32_t PAGELOCK2_CLR; /**< Main space page 64-95 lock word                    */
+	__IOM uint32_t PAGELOCK3_CLR; /**< Main space page 96-127 lock word                   */
+	__IOM uint32_t PAGELOCK4_CLR; /**< Main space page 128-159 lock word                  */
+	__IOM uint32_t PAGELOCK5_CLR; /**< Main space page 160-191 lock word                  */
+	uint32_t RESERVED27[2U]; /**< Reserved for future use                            */
+	uint32_t RESERVED28[4U]; /**< Reserved for future use                            */
+	uint32_t RESERVED29[4U]; /**< Reserved for future use                            */
+	uint32_t RESERVED30[4U]; /**< Reserved for future use                            */
+	uint32_t RESERVED31[12U]; /**< Reserved for future use                            */
+	uint32_t RESERVED32[1U]; /**< Reserved for future use                            */
+	uint32_t RESERVED33[8U]; /**< Reserved for future use                            */
+	uint32_t RESERVED34[1U]; /**< Reserved for future use                            */
+	uint32_t RESERVED35[910U]; /**< Reserved for future use                            */
+	__IM uint32_t IPVERSION_TGL; /**< IP version ID                                      */
+	__IOM uint32_t READCTRL_TGL; /**< Read Control Register                              */
+	__IOM uint32_t RDATACTRL_TGL; /**< Read Data Control Register                         */
+	__IOM uint32_t WRITECTRL_TGL; /**< Write Control Register                             */
+	__IOM uint32_t WRITECMD_TGL; /**< Write Command Register                             */
+	__IOM uint32_t ADDRB_TGL; /**< Page Erase/Write Address Buffer                    */
+	__IOM uint32_t WDATA_TGL; /**< Write Data Register                                */
+	__IM uint32_t STATUS_TGL; /**< Status Register                                    */
+	__IOM uint32_t IF_TGL; /**< Interrupt Flag Register                            */
+	__IOM uint32_t IEN_TGL; /**< Interrupt Enable Register                          */
+	uint32_t RESERVED36[3U]; /**< Reserved for future use                            */
+	__IM uint32_t USERDATASIZE_TGL; /**< User Data Region Size Register                     */
+	__IOM uint32_t CMD_TGL; /**< Command Register                                   */
+	__IOM uint32_t LOCK_TGL; /**< Configuration Lock Register                        */
+	__IOM uint32_t MISCLOCKWORD_TGL; /**< Mass erase and User data page lock word            */
+	uint32_t RESERVED37[3U]; /**< Reserved for future use                            */
+	__IOM uint32_t PWRCTRL_TGL; /**< Power control register                             */
+	uint32_t RESERVED38[51U]; /**< Reserved for future use                            */
+	__IOM uint32_t PAGELOCK0_TGL; /**< Main space page 0-31 lock word                     */
+	__IOM uint32_t PAGELOCK1_TGL; /**< Main space page 32-63 lock word                    */
+	__IOM uint32_t PAGELOCK2_TGL; /**< Main space page 64-95 lock word                    */
+	__IOM uint32_t PAGELOCK3_TGL; /**< Main space page 96-127 lock word                   */
+	__IOM uint32_t PAGELOCK4_TGL; /**< Main space page 128-159 lock word                  */
+	__IOM uint32_t PAGELOCK5_TGL; /**< Main space page 160-191 lock word                  */
+	uint32_t RESERVED39[2U]; /**< Reserved for future use                            */
+	uint32_t RESERVED40[4U]; /**< Reserved for future use                            */
+	uint32_t RESERVED41[4U]; /**< Reserved for future use                            */
+	uint32_t RESERVED42[4U]; /**< Reserved for future use                            */
+	uint32_t RESERVED43[12U]; /**< Reserved for future use                            */
+	uint32_t RESERVED44[1U]; /**< Reserved for future use                            */
+	uint32_t RESERVED45[8U]; /**< Reserved for future use                            */
+	uint32_t RESERVED46[1U]; /**< Reserved for future use                            */
 } MSC_TypeDef;
 /** @} End of group EFR32MG24_MSC */
 

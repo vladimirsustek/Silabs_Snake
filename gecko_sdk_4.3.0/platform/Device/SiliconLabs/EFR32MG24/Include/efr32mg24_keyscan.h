@@ -32,9 +32,9 @@
 #define KEYSCAN_HAS_SET_CLEAR
 
 /**************************************************************************//**
-* @addtogroup Parts
-* @{
-******************************************************************************/
+ * @addtogroup Parts
+ * @{
+ ******************************************************************************/
 /**************************************************************************//**
  * @defgroup EFR32MG24_KEYSCAN KEYSCAN
  * @{
@@ -42,46 +42,47 @@
  *****************************************************************************/
 
 /** KEYSCAN Register Declaration. */
-typedef struct {
-  __IM uint32_t  IPVERSION;                     /**< IPVERSION                                          */
-  __IOM uint32_t EN;                            /**< Enable                                             */
-  __IOM uint32_t SWRST;                         /**< Software Reset                                     */
-  __IOM uint32_t CFG;                           /**< Config                                             */
-  __IOM uint32_t CMD;                           /**< Command                                            */
-  __IOM uint32_t DELAY;                         /**< Delay                                              */
-  __IM uint32_t  STATUS;                        /**< Status                                             */
-  __IOM uint32_t IF;                            /**< Interrupt Flags                                    */
-  __IOM uint32_t IEN;                           /**< Interrupt Enables                                  */
-  uint32_t       RESERVED0[1015U];              /**< Reserved for future use                            */
-  __IM uint32_t  IPVERSION_SET;                 /**< IPVERSION                                          */
-  __IOM uint32_t EN_SET;                        /**< Enable                                             */
-  __IOM uint32_t SWRST_SET;                     /**< Software Reset                                     */
-  __IOM uint32_t CFG_SET;                       /**< Config                                             */
-  __IOM uint32_t CMD_SET;                       /**< Command                                            */
-  __IOM uint32_t DELAY_SET;                     /**< Delay                                              */
-  __IM uint32_t  STATUS_SET;                    /**< Status                                             */
-  __IOM uint32_t IF_SET;                        /**< Interrupt Flags                                    */
-  __IOM uint32_t IEN_SET;                       /**< Interrupt Enables                                  */
-  uint32_t       RESERVED1[1015U];              /**< Reserved for future use                            */
-  __IM uint32_t  IPVERSION_CLR;                 /**< IPVERSION                                          */
-  __IOM uint32_t EN_CLR;                        /**< Enable                                             */
-  __IOM uint32_t SWRST_CLR;                     /**< Software Reset                                     */
-  __IOM uint32_t CFG_CLR;                       /**< Config                                             */
-  __IOM uint32_t CMD_CLR;                       /**< Command                                            */
-  __IOM uint32_t DELAY_CLR;                     /**< Delay                                              */
-  __IM uint32_t  STATUS_CLR;                    /**< Status                                             */
-  __IOM uint32_t IF_CLR;                        /**< Interrupt Flags                                    */
-  __IOM uint32_t IEN_CLR;                       /**< Interrupt Enables                                  */
-  uint32_t       RESERVED2[1015U];              /**< Reserved for future use                            */
-  __IM uint32_t  IPVERSION_TGL;                 /**< IPVERSION                                          */
-  __IOM uint32_t EN_TGL;                        /**< Enable                                             */
-  __IOM uint32_t SWRST_TGL;                     /**< Software Reset                                     */
-  __IOM uint32_t CFG_TGL;                       /**< Config                                             */
-  __IOM uint32_t CMD_TGL;                       /**< Command                                            */
-  __IOM uint32_t DELAY_TGL;                     /**< Delay                                              */
-  __IM uint32_t  STATUS_TGL;                    /**< Status                                             */
-  __IOM uint32_t IF_TGL;                        /**< Interrupt Flags                                    */
-  __IOM uint32_t IEN_TGL;                       /**< Interrupt Enables                                  */
+typedef struct
+{
+	__IM uint32_t IPVERSION; /**< IPVERSION                                          */
+	__IOM uint32_t EN; /**< Enable                                             */
+	__IOM uint32_t SWRST; /**< Software Reset                                     */
+	__IOM uint32_t CFG; /**< Config                                             */
+	__IOM uint32_t CMD; /**< Command                                            */
+	__IOM uint32_t DELAY; /**< Delay                                              */
+	__IM uint32_t STATUS; /**< Status                                             */
+	__IOM uint32_t IF; /**< Interrupt Flags                                    */
+	__IOM uint32_t IEN; /**< Interrupt Enables                                  */
+	uint32_t RESERVED0[1015U]; /**< Reserved for future use                            */
+	__IM uint32_t IPVERSION_SET; /**< IPVERSION                                          */
+	__IOM uint32_t EN_SET; /**< Enable                                             */
+	__IOM uint32_t SWRST_SET; /**< Software Reset                                     */
+	__IOM uint32_t CFG_SET; /**< Config                                             */
+	__IOM uint32_t CMD_SET; /**< Command                                            */
+	__IOM uint32_t DELAY_SET; /**< Delay                                              */
+	__IM uint32_t STATUS_SET; /**< Status                                             */
+	__IOM uint32_t IF_SET; /**< Interrupt Flags                                    */
+	__IOM uint32_t IEN_SET; /**< Interrupt Enables                                  */
+	uint32_t RESERVED1[1015U]; /**< Reserved for future use                            */
+	__IM uint32_t IPVERSION_CLR; /**< IPVERSION                                          */
+	__IOM uint32_t EN_CLR; /**< Enable                                             */
+	__IOM uint32_t SWRST_CLR; /**< Software Reset                                     */
+	__IOM uint32_t CFG_CLR; /**< Config                                             */
+	__IOM uint32_t CMD_CLR; /**< Command                                            */
+	__IOM uint32_t DELAY_CLR; /**< Delay                                              */
+	__IM uint32_t STATUS_CLR; /**< Status                                             */
+	__IOM uint32_t IF_CLR; /**< Interrupt Flags                                    */
+	__IOM uint32_t IEN_CLR; /**< Interrupt Enables                                  */
+	uint32_t RESERVED2[1015U]; /**< Reserved for future use                            */
+	__IM uint32_t IPVERSION_TGL; /**< IPVERSION                                          */
+	__IOM uint32_t EN_TGL; /**< Enable                                             */
+	__IOM uint32_t SWRST_TGL; /**< Software Reset                                     */
+	__IOM uint32_t CFG_TGL; /**< Config                                             */
+	__IOM uint32_t CMD_TGL; /**< Command                                            */
+	__IOM uint32_t DELAY_TGL; /**< Delay                                              */
+	__IM uint32_t STATUS_TGL; /**< Status                                             */
+	__IOM uint32_t IF_TGL; /**< Interrupt Flags                                    */
+	__IOM uint32_t IEN_TGL; /**< Interrupt Enables                                  */
 } KEYSCAN_TypeDef;
 /** @} End of group EFR32MG24_KEYSCAN */
 

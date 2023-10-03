@@ -107,56 +107,59 @@
 static void IADC_disable(IADC_TypeDef *iadc)
 {
 #if defined(IADC_STATUS_SYNCBUSY)
-  while ((iadc->STATUS & IADC_STATUS_SYNCBUSY) != 0U) {
-    // Wait for synchronization to finish before disable
-  }
+	while ((iadc->STATUS & IADC_STATUS_SYNCBUSY) != 0U)
+	{
+		// Wait for synchronization to finish before disable
+	}
 #endif
-  iadc->EN_CLR = IADC_EN_EN;
+	iadc->EN_CLR = IADC_EN_EN;
 #if defined(_IADC_EN_DISABLING_MASK)
-  while (IADC0->EN & _IADC_EN_DISABLING_MASK) {
-  }
+	while (IADC0->EN & _IADC_EN_DISABLING_MASK)
+	{
+	}
 #endif
 }
 
 static void IADC_enable(IADC_TypeDef *iadc)
 {
-  iadc->EN_SET = IADC_EN_EN;
+	iadc->EN_SET = IADC_EN_EN;
 }
 
 static IADC_Result_t IADC_ConvertRawDataToResult(uint32_t rawData,
-                                                 IADC_Alignment_t alignment)
+		IADC_Alignment_t alignment)
 {
-  IADC_Result_t result;
+	IADC_Result_t result;
 
-  switch (alignment) {
-    case iadcAlignRight12:
+	switch (alignment)
+	{
+	case iadcAlignRight12:
 #if defined(IADC_SINGLEFIFOCFG_ALIGNMENT_RIGHT16)
-    case iadcAlignRight16:
+	case iadcAlignRight16:
 #endif
 #if defined(IADC_SINGLEFIFOCFG_ALIGNMENT_RIGHT20)
-    case iadcAlignRight20:
+	case iadcAlignRight20:
 #endif
-      // Mask out ID and replace with sign extension
-      result.data = (rawData & 0x00FFFFFFUL)
-                    | ((rawData & 0x00800000UL) != 0x0UL ? 0xFF000000UL : 0x0UL);
-      // Mask out data and shift down
-      result.id   = (uint8_t)((rawData & 0xFF000000UL) >> 24);
-      break;
+		// Mask out ID and replace with sign extension
+		result.data = (rawData & 0x00FFFFFFUL)
+				| ((rawData & 0x00800000UL) != 0x0UL ? 0xFF000000UL : 0x0UL);
+		// Mask out data and shift down
+		result.id = (uint8_t) ((rawData & 0xFF000000UL) >> 24);
+		break;
 
-    case iadcAlignLeft12:
+	case iadcAlignLeft12:
 #if defined(IADC_SINGLEFIFOCFG_ALIGNMENT_RIGHT16)
-    case iadcAlignLeft16:
+	case iadcAlignLeft16:
 #endif
 #if defined(IADC_SINGLEFIFOCFG_ALIGNMENT_RIGHT20)
-    case iadcAlignLeft20:
+	case iadcAlignLeft20:
 #endif
-      result.data = rawData & 0xFFFFFF00UL;
-      result.id   = (uint8_t)(rawData & 0x000000FFUL);
-      break;
-    default:
-      break;
-  }
-  return result;
+		result.data = rawData & 0xFFFFFF00UL;
+		result.id = (uint8_t) (rawData & 0x000000FFUL);
+		break;
+	default:
+		break;
+	}
+	return result;
 }
 
 /** @endcond */
@@ -186,303 +189,404 @@ static IADC_Result_t IADC_ConvertRawDataToResult(uint32_t rawData,
  * @param[in] allConfigs
  *   Pointer to structure holding all configs.
  ******************************************************************************/
-void IADC_init(IADC_TypeDef *iadc,
-               const IADC_Init_t *init,
-               const IADC_AllConfigs_t *allConfigs)
+void IADC_init(IADC_TypeDef *iadc, const IADC_Init_t *init,
+		const IADC_AllConfigs_t *allConfigs)
 {
-  uint32_t tmp;
-  uint32_t config;
-  uint16_t wantedPrescale;
-  uint8_t srcClkPrescale;
-  uint32_t adcClkPrescale;
-  uint8_t timebase;
-  unsigned uiAnaGain;
-  uint16_t uiGainCAna;
-  IADC_CfgAdcMode_t adcMode;
+	uint32_t tmp;
+	uint32_t config;
+	uint16_t wantedPrescale;
+	uint8_t srcClkPrescale;
+	uint32_t adcClkPrescale;
+	uint8_t timebase;
+	unsigned uiAnaGain;
+	uint16_t uiGainCAna;
+	IADC_CfgAdcMode_t adcMode;
 #if defined(_IADC_CFG_ADCMODE_HIGHACCURACY)
-  float anaGain;
-  int anaGainRound;
-  float offsetAna;
-  float offset2;
-  int offsetLong;
-  int offsetAna1HiAccInt;
-  uint8_t osrValue;
-  float offsetAnaBase;
-  float gainSysHiAcc;
-  float refVoltage = 0;
-  // Over sampling ratio for high accuracy conversions
-  const float osrHiAcc[6] = { 16.0, 32.0, 64.0, 92.0, 128.0, 256.0 };
+	float anaGain;
+	int anaGainRound;
+	float offsetAna;
+	float offset2;
+	int offsetLong;
+	int offsetAna1HiAccInt;
+	uint8_t osrValue;
+	float offsetAnaBase;
+	float gainSysHiAcc;
+	float refVoltage = 0;
+	// Over sampling ratio for high accuracy conversions
+	const float osrHiAcc[6] =
+	{ 16.0, 32.0, 64.0, 92.0, 128.0, 256.0 };
 #endif
 
-  EFM_ASSERT(IADC_REF_VALID(iadc));
+	EFM_ASSERT(IADC_REF_VALID(iadc));
 
-  // Calculate min allowed SRC_CLK prescaler setting
-  srcClkPrescale = IADC_calcSrcClkPrescale(iadc, IADC_CLK_MAX_FREQ, 0);
+	// Calculate min allowed SRC_CLK prescaler setting
+	srcClkPrescale = IADC_calcSrcClkPrescale(iadc, IADC_CLK_MAX_FREQ, 0);
 
-  wantedPrescale = init->srcClkPrescale;
-  // Use wanted SRC_CLK prescaler setting instead if it is high enough
-  if (wantedPrescale >= srcClkPrescale) {
-    srcClkPrescale = wantedPrescale;
-  }
+	wantedPrescale = init->srcClkPrescale;
+	// Use wanted SRC_CLK prescaler setting instead if it is high enough
+	if (wantedPrescale >= srcClkPrescale)
+	{
+		srcClkPrescale = wantedPrescale;
+	}
 
-  IADC_disable(iadc);
+	IADC_disable(iadc);
 
-  timebase = init->timebase;
-  if (timebase == 0) {
-    // CLK_SRC_ADC is derived from CLK_CMU_ADC, and must be no faster than 40 MHz. Therefore we set
-    // srcClkFreq's original value to CLK_CMU_ADC before evaluating the prescaling conditions.
-    uint32_t srcClkFreq = CMU_ClockFreqGet(cmuClock_IADC0);
-    // If srcClkFreq is greater than 40MHz, then divide by the prescaler HSCLKRATE to obtain valid frequency
-    if (srcClkFreq >= IADC_CLK_MAX_FREQ) {
-      srcClkFreq = srcClkFreq / srcClkPrescale;
-    }
-    // Calculate timebase based on CMU_IADCCLKCTRL
-    timebase = IADC_calcTimebase(iadc, srcClkFreq);
-  }
+	timebase = init->timebase;
+	if (timebase == 0)
+	{
+		// CLK_SRC_ADC is derived from CLK_CMU_ADC, and must be no faster than 40 MHz. Therefore we set
+		// srcClkFreq's original value to CLK_CMU_ADC before evaluating the prescaling conditions.
+		uint32_t srcClkFreq = CMU_ClockFreqGet(cmuClock_IADC0);
+		// If srcClkFreq is greater than 40MHz, then divide by the prescaler HSCLKRATE to obtain valid frequency
+		if (srcClkFreq >= IADC_CLK_MAX_FREQ)
+		{
+			srcClkFreq = srcClkFreq / srcClkPrescale;
+		}
+		// Calculate timebase based on CMU_IADCCLKCTRL
+		timebase = IADC_calcTimebase(iadc, srcClkFreq);
+	}
 
-  tmp = (((uint32_t)(init->warmup) << _IADC_CTRL_WARMUPMODE_SHIFT)
-         & _IADC_CTRL_WARMUPMODE_MASK)
-        | (((uint32_t)(timebase) << _IADC_CTRL_TIMEBASE_SHIFT)
-           & _IADC_CTRL_TIMEBASE_MASK)
-        | (((uint32_t)(srcClkPrescale) << _IADC_CTRL_HSCLKRATE_SHIFT)
-           & _IADC_CTRL_HSCLKRATE_MASK);
+	tmp = (((uint32_t) (init->warmup) << _IADC_CTRL_WARMUPMODE_SHIFT)
+			& _IADC_CTRL_WARMUPMODE_MASK)
+			| (((uint32_t) (timebase) << _IADC_CTRL_TIMEBASE_SHIFT)
+					& _IADC_CTRL_TIMEBASE_MASK)
+			| (((uint32_t) (srcClkPrescale) << _IADC_CTRL_HSCLKRATE_SHIFT)
+					& _IADC_CTRL_HSCLKRATE_MASK);
 
-  if (init->iadcClkSuspend0) {
-    tmp |= IADC_CTRL_ADCCLKSUSPEND0;
-  }
-  if (init->iadcClkSuspend1) {
-    tmp |= IADC_CTRL_ADCCLKSUSPEND1;
-  }
-  if (init->debugHalt) {
-    tmp |= IADC_CTRL_DBGHALT;
-  }
-  iadc->CTRL = tmp;
+	if (init->iadcClkSuspend0)
+	{
+		tmp |= IADC_CTRL_ADCCLKSUSPEND0;
+	}
+	if (init->iadcClkSuspend1)
+	{
+		tmp |= IADC_CTRL_ADCCLKSUSPEND1;
+	}
+	if (init->debugHalt)
+	{
+		tmp |= IADC_CTRL_DBGHALT;
+	}
+	iadc->CTRL = tmp;
 
-  iadc->TIMER = ((uint32_t) (init->timerCycles) << _IADC_TIMER_TIMER_SHIFT)
-                & _IADC_TIMER_TIMER_MASK;
+	iadc->TIMER = ((uint32_t) (init->timerCycles) << _IADC_TIMER_TIMER_SHIFT)
+			& _IADC_TIMER_TIMER_MASK;
 
-  iadc->CMPTHR = (((uint32_t) (init->greaterThanEqualThres) << _IADC_CMPTHR_ADGT_SHIFT)
-                  & _IADC_CMPTHR_ADGT_MASK)
-                 | (((uint32_t) (init->lessThanEqualThres) << _IADC_CMPTHR_ADLT_SHIFT)
-                    & _IADC_CMPTHR_ADLT_MASK);
+	iadc->CMPTHR =
+			(((uint32_t) (init->greaterThanEqualThres)
+					<< _IADC_CMPTHR_ADGT_SHIFT) & _IADC_CMPTHR_ADGT_MASK)
+					| (((uint32_t) (init->lessThanEqualThres)
+							<< _IADC_CMPTHR_ADLT_SHIFT) & _IADC_CMPTHR_ADLT_MASK);
 
-  // Write configurations
-  for (config = 0; config < IADC_CONFIGNUM(iadc); config++) {
-    // Find min allowed ADC_CLK prescaler setting for given mode
-    adcMode = allConfigs->configs[config].adcMode;
-    wantedPrescale = allConfigs->configs[config].adcClkPrescale;
-    adcClkPrescale = IADC_calcAdcClkPrescale(iadc,
-                                             IADC_ANA_CLK_MAX_FREQ(adcMode),
-                                             0,
-                                             adcMode,
-                                             srcClkPrescale);
+	// Write configurations
+	for (config = 0; config < IADC_CONFIGNUM(iadc); config++)
+	{
+		// Find min allowed ADC_CLK prescaler setting for given mode
+		adcMode = allConfigs->configs[config].adcMode;
+		wantedPrescale = allConfigs->configs[config].adcClkPrescale;
+		adcClkPrescale = IADC_calcAdcClkPrescale(iadc,
+				IADC_ANA_CLK_MAX_FREQ(adcMode), 0, adcMode, srcClkPrescale);
 
-    // Use wanted ADC_CLK prescaler setting instead if it is high enough
-    adcClkPrescale = SL_MAX(adcClkPrescale, wantedPrescale);
+		// Use wanted ADC_CLK prescaler setting instead if it is high enough
+		adcClkPrescale = SL_MAX(adcClkPrescale, wantedPrescale);
 
-    tmp = iadc->CFG[config].CFG & ~(_IADC_CFG_ADCMODE_MASK | _IADC_CFG_OSRHS_MASK
-                                    | _IADC_CFG_ANALOGGAIN_MASK | _IADC_CFG_REFSEL_MASK
+		tmp = iadc->CFG[config].CFG
+				& ~(_IADC_CFG_ADCMODE_MASK | _IADC_CFG_OSRHS_MASK
+						| _IADC_CFG_ANALOGGAIN_MASK | _IADC_CFG_REFSEL_MASK
 #if defined(_IADC_CFG_DIGAVG_MASK)
-                                    | _IADC_CFG_DIGAVG_MASK
+						| _IADC_CFG_DIGAVG_MASK
 #endif
-                                    | _IADC_CFG_TWOSCOMPL_MASK
+						| _IADC_CFG_TWOSCOMPL_MASK
 #if defined(_IADC_CFG_ADCMODE_HIGHACCURACY)
-                                    | _IADC_CFG_OSRHA_MASK
+						| _IADC_CFG_OSRHA_MASK
 #endif
-                                    );
-    iadc->CFG[config].CFG = tmp
-                            | (((uint32_t)(adcMode) << _IADC_CFG_ADCMODE_SHIFT) & _IADC_CFG_ADCMODE_MASK)
-                            | (((uint32_t)(allConfigs->configs[config].osrHighSpeed) << _IADC_CFG_OSRHS_SHIFT)
-                               & _IADC_CFG_OSRHS_MASK)
+				);
+		iadc->CFG[config].CFG =
+				tmp
+						| (((uint32_t) (adcMode) << _IADC_CFG_ADCMODE_SHIFT)
+								& _IADC_CFG_ADCMODE_MASK)
+						| (((uint32_t) (allConfigs->configs[config].osrHighSpeed)
+								<< _IADC_CFG_OSRHS_SHIFT) & _IADC_CFG_OSRHS_MASK)
 #if defined(_IADC_CFG_ADCMODE_HIGHACCURACY)
-                            | (((uint32_t)(allConfigs->configs[config].osrHighAccuracy) << _IADC_CFG_OSRHA_SHIFT)
-                               & _IADC_CFG_OSRHA_MASK)
+						| (((uint32_t) (allConfigs->configs[config].osrHighAccuracy)
+								<< _IADC_CFG_OSRHA_SHIFT) & _IADC_CFG_OSRHA_MASK)
 #endif
-                            | (((uint32_t)(allConfigs->configs[config].analogGain) << _IADC_CFG_ANALOGGAIN_SHIFT)
-                               & _IADC_CFG_ANALOGGAIN_MASK)
-                            | (((uint32_t)(allConfigs->configs[config].reference) << _IADC_CFG_REFSEL_SHIFT)
-                               & _IADC_CFG_REFSEL_MASK)
+						| (((uint32_t) (allConfigs->configs[config].analogGain)
+								<< _IADC_CFG_ANALOGGAIN_SHIFT)
+								& _IADC_CFG_ANALOGGAIN_MASK)
+						| (((uint32_t) (allConfigs->configs[config].reference)
+								<< _IADC_CFG_REFSEL_SHIFT)
+								& _IADC_CFG_REFSEL_MASK)
 #if defined(_IADC_CFG_DIGAVG_MASK)
-                            | (((uint32_t)(allConfigs->configs[config].digAvg) << _IADC_CFG_DIGAVG_SHIFT)
-                               & _IADC_CFG_DIGAVG_MASK)
+						| (((uint32_t) (allConfigs->configs[config].digAvg)
+								<< _IADC_CFG_DIGAVG_SHIFT)
+								& _IADC_CFG_DIGAVG_MASK)
 #endif
-                            | (((uint32_t)(allConfigs->configs[config].twosComplement) << _IADC_CFG_TWOSCOMPL_SHIFT)
-                               & _IADC_CFG_TWOSCOMPL_MASK);
+						| (((uint32_t) (allConfigs->configs[config].twosComplement)
+								<< _IADC_CFG_TWOSCOMPL_SHIFT)
+								& _IADC_CFG_TWOSCOMPL_MASK);
 
-    uiAnaGain = (iadc->CFG[config].CFG & _IADC_CFG_ANALOGGAIN_MASK) >> _IADC_CFG_ANALOGGAIN_SHIFT;
-    switch (uiAnaGain) {
+		uiAnaGain = (iadc->CFG[config].CFG & _IADC_CFG_ANALOGGAIN_MASK)
+				>> _IADC_CFG_ANALOGGAIN_SHIFT;
+		switch (uiAnaGain)
+		{
 #if defined(_IADC_CFG_ANALOGGAIN_ANAGAIN0P25)
       case iadcCfgAnalogGain0P25x: // 0.25x
 #endif
-      case iadcCfgAnalogGain0P5x: // 0.5x
-      case iadcCfgAnalogGain1x: // 1x
-        uiGainCAna = (uint16_t)((DEVINFO->IADC0GAIN0 & _DEVINFO_IADC0GAIN0_GAINCANA1_MASK) >> _DEVINFO_IADC0GAIN0_GAINCANA1_SHIFT);
-        break;
-      case iadcCfgAnalogGain2x: // 2x
-        uiGainCAna = (uint16_t)((DEVINFO->IADC0GAIN0 & _DEVINFO_IADC0GAIN0_GAINCANA2_MASK) >> _DEVINFO_IADC0GAIN0_GAINCANA2_SHIFT);
-        break;
-      case iadcCfgAnalogGain3x: // 3x
-        uiGainCAna = (uint16_t)((DEVINFO->IADC0GAIN1 & _DEVINFO_IADC0GAIN1_GAINCANA3_MASK) >> _DEVINFO_IADC0GAIN1_GAINCANA3_SHIFT);
-        break;
-      case iadcCfgAnalogGain4x: // 4x
-        uiGainCAna = (uint16_t)((DEVINFO->IADC0GAIN1 & _DEVINFO_IADC0GAIN1_GAINCANA4_MASK) >> _DEVINFO_IADC0GAIN1_GAINCANA4_SHIFT);
-        break;
-      default: // 1x
-        uiGainCAna = (uint16_t)((DEVINFO->IADC0GAIN0 & _DEVINFO_IADC0GAIN0_GAINCANA1_MASK) >> _DEVINFO_IADC0GAIN0_GAINCANA1_SHIFT);
-        break;
-    }
+		case iadcCfgAnalogGain0P5x: // 0.5x
+		case iadcCfgAnalogGain1x: // 1x
+			uiGainCAna = (uint16_t) ((DEVINFO->IADC0GAIN0
+					& _DEVINFO_IADC0GAIN0_GAINCANA1_MASK)
+					>> _DEVINFO_IADC0GAIN0_GAINCANA1_SHIFT);
+			break;
+		case iadcCfgAnalogGain2x: // 2x
+			uiGainCAna = (uint16_t) ((DEVINFO->IADC0GAIN0
+					& _DEVINFO_IADC0GAIN0_GAINCANA2_MASK)
+					>> _DEVINFO_IADC0GAIN0_GAINCANA2_SHIFT);
+			break;
+		case iadcCfgAnalogGain3x: // 3x
+			uiGainCAna = (uint16_t) ((DEVINFO->IADC0GAIN1
+					& _DEVINFO_IADC0GAIN1_GAINCANA3_MASK)
+					>> _DEVINFO_IADC0GAIN1_GAINCANA3_SHIFT);
+			break;
+		case iadcCfgAnalogGain4x: // 4x
+			uiGainCAna = (uint16_t) ((DEVINFO->IADC0GAIN1
+					& _DEVINFO_IADC0GAIN1_GAINCANA4_MASK)
+					>> _DEVINFO_IADC0GAIN1_GAINCANA4_SHIFT);
+			break;
+		default: // 1x
+			uiGainCAna = (uint16_t) ((DEVINFO->IADC0GAIN0
+					& _DEVINFO_IADC0GAIN0_GAINCANA1_MASK)
+					>> _DEVINFO_IADC0GAIN0_GAINCANA1_SHIFT);
+			break;
+		}
 
-    // Gain and offset correction is applied according to adcMode and oversampling rate.
-    switch (adcMode) {
-      float offset;
-      uint32_t scale;
-      int iOffset, iOsr;
-      case iadcCfgModeNormal:
+		// Gain and offset correction is applied according to adcMode and oversampling rate.
+		switch (adcMode)
+		{
+		float offset;
+		uint32_t scale;
+		int iOffset, iOsr;
+	case iadcCfgModeNormal:
 #if defined(_IADC_CFG_ADCMODE_HIGHSPEED)
-      case iadcCfgModeHighSpeed:
+	case iadcCfgModeHighSpeed:
 #endif
-        offset = 0.0f;
-        uiAnaGain = (iadc->CFG[config].CFG & _IADC_CFG_ANALOGGAIN_MASK) >> _IADC_CFG_ANALOGGAIN_SHIFT;
-        if ((uiAnaGain == _IADC_CFG_ANALOGGAIN_ANAGAIN0P5) || (uiAnaGain == _IADC_CFG_ANALOGGAIN_ANAGAIN1)) {
-          uiGainCAna = (uint16_t)(DEVINFO->IADC0GAIN0 & _DEVINFO_IADC0GAIN0_GAINCANA1_MASK);
-        } else if (uiAnaGain == _IADC_CFG_ANALOGGAIN_ANAGAIN2) {
-          uiGainCAna = (uint16_t)(DEVINFO->IADC0GAIN0 >> _DEVINFO_IADC0GAIN0_GAINCANA2_SHIFT);
-          if (adcMode == iadcCfgModeNormal) {
-            offset = (int16_t)(DEVINFO->IADC0NORMALOFFSETCAL0 >> _DEVINFO_IADC0NORMALOFFSETCAL0_OFFSETANA2NORM_SHIFT);
-          } else {
-            offset = (int16_t)(DEVINFO->IADC0HISPDOFFSETCAL0 >> _DEVINFO_IADC0HISPDOFFSETCAL0_OFFSETANA2HISPD_SHIFT);
-          }
-        } else if (uiAnaGain == _IADC_CFG_ANALOGGAIN_ANAGAIN3) {
-          uiGainCAna = (uint16_t)(DEVINFO->IADC0GAIN1 & _DEVINFO_IADC0GAIN1_GAINCANA3_MASK);
-          if (adcMode == iadcCfgModeNormal) {
-            offset = (int16_t)(DEVINFO->IADC0NORMALOFFSETCAL0 >> _DEVINFO_IADC0NORMALOFFSETCAL0_OFFSETANA2NORM_SHIFT) * 2;
-          } else {
-            offset = (int16_t)(DEVINFO->IADC0HISPDOFFSETCAL0 >> _DEVINFO_IADC0HISPDOFFSETCAL0_OFFSETANA2HISPD_SHIFT) * 2;
-          }
-        } else {
-          uiGainCAna = (uint16_t)(DEVINFO->IADC0GAIN1 >> _DEVINFO_IADC0GAIN1_GAINCANA4_SHIFT);
-          if (adcMode == iadcCfgModeNormal) {
-            offset = (int16_t)(DEVINFO->IADC0NORMALOFFSETCAL0 >> _DEVINFO_IADC0NORMALOFFSETCAL0_OFFSETANA2NORM_SHIFT) * 3;
-          } else {
-            offset = (int16_t)(DEVINFO->IADC0HISPDOFFSETCAL0 >> _DEVINFO_IADC0HISPDOFFSETCAL0_OFFSETANA2HISPD_SHIFT) * 3;
-          }
-        }
+		offset = 0.0f;
+		uiAnaGain = (iadc->CFG[config].CFG & _IADC_CFG_ANALOGGAIN_MASK)
+				>> _IADC_CFG_ANALOGGAIN_SHIFT;
+		if ((uiAnaGain == _IADC_CFG_ANALOGGAIN_ANAGAIN0P5)
+				|| (uiAnaGain == _IADC_CFG_ANALOGGAIN_ANAGAIN1))
+		{
+			uiGainCAna = (uint16_t) (DEVINFO->IADC0GAIN0
+					& _DEVINFO_IADC0GAIN0_GAINCANA1_MASK);
+		}
+		else if (uiAnaGain == _IADC_CFG_ANALOGGAIN_ANAGAIN2)
+		{
+			uiGainCAna = (uint16_t) (DEVINFO->IADC0GAIN0
+					>> _DEVINFO_IADC0GAIN0_GAINCANA2_SHIFT);
+			if (adcMode == iadcCfgModeNormal)
+			{
+				offset = (int16_t) (DEVINFO->IADC0NORMALOFFSETCAL0
+						>> _DEVINFO_IADC0NORMALOFFSETCAL0_OFFSETANA2NORM_SHIFT);
+			}
+			else
+			{
+				offset = (int16_t) (DEVINFO->IADC0HISPDOFFSETCAL0
+						>> _DEVINFO_IADC0HISPDOFFSETCAL0_OFFSETANA2HISPD_SHIFT);
+			}
+		}
+		else if (uiAnaGain == _IADC_CFG_ANALOGGAIN_ANAGAIN3)
+		{
+			uiGainCAna = (uint16_t) (DEVINFO->IADC0GAIN1
+					& _DEVINFO_IADC0GAIN1_GAINCANA3_MASK);
+			if (adcMode == iadcCfgModeNormal)
+			{
+				offset = (int16_t) (DEVINFO->IADC0NORMALOFFSETCAL0
+						>> _DEVINFO_IADC0NORMALOFFSETCAL0_OFFSETANA2NORM_SHIFT)
+						* 2;
+			}
+			else
+			{
+				offset = (int16_t) (DEVINFO->IADC0HISPDOFFSETCAL0
+						>> _DEVINFO_IADC0HISPDOFFSETCAL0_OFFSETANA2HISPD_SHIFT)
+						* 2;
+			}
+		}
+		else
+		{
+			uiGainCAna = (uint16_t) (DEVINFO->IADC0GAIN1
+					>> _DEVINFO_IADC0GAIN1_GAINCANA4_SHIFT);
+			if (adcMode == iadcCfgModeNormal)
+			{
+				offset = (int16_t) (DEVINFO->IADC0NORMALOFFSETCAL0
+						>> _DEVINFO_IADC0NORMALOFFSETCAL0_OFFSETANA2NORM_SHIFT)
+						* 3;
+			}
+			else
+			{
+				offset = (int16_t) (DEVINFO->IADC0HISPDOFFSETCAL0
+						>> _DEVINFO_IADC0HISPDOFFSETCAL0_OFFSETANA2HISPD_SHIFT)
+						* 3;
+			}
+		}
 
-        // Set correct gain correction bitfields in scale variable.
-        tmp = (uint32_t)uiGainCAna & 0x9FFFU;
-        scale = tmp << _IADC_SCALE_GAIN13LSB_SHIFT;
-        if ((tmp & 0x8000U) != 0U) {
-          scale |= IADC_SCALE_GAIN3MSB;
-        }
+		// Set correct gain correction bitfields in scale variable.
+		tmp = (uint32_t) uiGainCAna & 0x9FFFU;
+		scale = tmp << _IADC_SCALE_GAIN13LSB_SHIFT;
+		if ((tmp & 0x8000U) != 0U)
+		{
+			scale |= IADC_SCALE_GAIN3MSB;
+		}
 
-        // Adjust offset according to selected OSR.
-        iOsr = 1U << (((iadc->CFG[config].CFG & _IADC_CFG_OSRHS_MASK) >> _IADC_CFG_OSRHS_SHIFT) + 1U);
-        if (iOsr == 2) {
-          if (adcMode == iadcCfgModeNormal) {
-            offset += (int16_t)(DEVINFO->IADC0NORMALOFFSETCAL0 & _DEVINFO_IADC0NORMALOFFSETCAL0_OFFSETANA1NORM_MASK);
-          } else {
-            offset += (int16_t)(DEVINFO->IADC0HISPDOFFSETCAL0 & _DEVINFO_IADC0HISPDOFFSETCAL0_OFFSETANA1HISPD_MASK);
-          }
-        } else {
-          if (adcMode == iadcCfgModeNormal) {
-            offset = (int16_t)(DEVINFO->IADC0NORMALOFFSETCAL1 & _DEVINFO_IADC0NORMALOFFSETCAL1_OFFSETANA3NORM_MASK) - offset;
-          } else {
-            offset += (int16_t)(DEVINFO->IADC0HISPDOFFSETCAL1 & _DEVINFO_IADC0HISPDOFFSETCAL1_OFFSETANA3HISPD_MASK) - offset;
-          }
-          offset /= iOsr / 2.0f;
-          offset += (int16_t)(DEVINFO->IADC0OFFSETCAL0 & _DEVINFO_IADC0OFFSETCAL0_OFFSETANABASE_MASK);
-        }
+		// Adjust offset according to selected OSR.
+		iOsr = 1U
+				<< (((iadc->CFG[config].CFG & _IADC_CFG_OSRHS_MASK)
+						>> _IADC_CFG_OSRHS_SHIFT) + 1U);
+		if (iOsr == 2)
+		{
+			if (adcMode == iadcCfgModeNormal)
+			{
+				offset += (int16_t) (DEVINFO->IADC0NORMALOFFSETCAL0
+						& _DEVINFO_IADC0NORMALOFFSETCAL0_OFFSETANA1NORM_MASK);
+			}
+			else
+			{
+				offset += (int16_t) (DEVINFO->IADC0HISPDOFFSETCAL0
+						& _DEVINFO_IADC0HISPDOFFSETCAL0_OFFSETANA1HISPD_MASK);
+			}
+		}
+		else
+		{
+			if (adcMode == iadcCfgModeNormal)
+			{
+				offset = (int16_t) (DEVINFO->IADC0NORMALOFFSETCAL1
+						& _DEVINFO_IADC0NORMALOFFSETCAL1_OFFSETANA3NORM_MASK)
+						- offset;
+			}
+			else
+			{
+				offset += (int16_t) (DEVINFO->IADC0HISPDOFFSETCAL1
+						& _DEVINFO_IADC0HISPDOFFSETCAL1_OFFSETANA3HISPD_MASK)
+						- offset;
+			}
+			offset /= iOsr / 2.0f;
+			offset += (int16_t) (DEVINFO->IADC0OFFSETCAL0
+					& _DEVINFO_IADC0OFFSETCAL0_OFFSETANABASE_MASK);
+		}
 
-        // Compensate offset according to selected reference voltage.
-        if (allConfigs->configs[config].reference == iadcCfgReferenceInt1V2) {
-          // Internal reference voltage (VBGR) depends on the chip revision.
-          offset *= 1.25f / (IADC_getReferenceVoltage(allConfigs->configs[config].reference) / 1000.0f);
-        } else {
-          offset *= 1.25f / (allConfigs->configs[config].vRef / 1000.0f);
-        }
+		// Compensate offset according to selected reference voltage.
+		if (allConfigs->configs[config].reference == iadcCfgReferenceInt1V2)
+		{
+			// Internal reference voltage (VBGR) depends on the chip revision.
+			offset *= 1.25f
+					/ (IADC_getReferenceVoltage(
+							allConfigs->configs[config].reference) / 1000.0f);
+		}
+		else
+		{
+			offset *= 1.25f / (allConfigs->configs[config].vRef / 1000.0f);
+		}
 
-        // Compensate offset for systematic offset.
-        offset = (offset * 4.0f) + (640.0f * (256.0f / iOsr));
+		// Compensate offset for systematic offset.
+		offset = (offset * 4.0f) + (640.0f * (256.0f / iOsr));
 
-        // Apply gain error correction.
-        if (scale != 0x80000000U) {
-          offset = (uiGainCAna / 32768.0f) * (offset + 524288.0f) - 524288.0f;
-        }
+		// Apply gain error correction.
+		if (scale != 0x80000000U)
+		{
+			offset = (uiGainCAna / 32768.0f) * (offset + 524288.0f) - 524288.0f;
+		}
 
-        iOffset = IADC_ROUND_D2I(-offset);
-        // We only have 18 bits available for OFFSET in SCALE register.
-        // OFFSET is a 2nd complement number.
-        if (iOffset > 131071) {         // Positive overflow at 0x0001FFFF ?
-          scale |= 0x1FFFFU;
-        } else if (iOffset < -131072) { // Negative overflow at 0xFFFE0000 ?
-          scale |= 0x20000U;
-        } else {
-          scale |= (uint32_t)iOffset & 0x3FFFFU;
-        }
-        iadc->CFG[config].SCALE = scale;
-        break;
+		iOffset = IADC_ROUND_D2I(-offset);
+		// We only have 18 bits available for OFFSET in SCALE register.
+		// OFFSET is a 2nd complement number.
+		if (iOffset > 131071)
+		{         // Positive overflow at 0x0001FFFF ?
+			scale |= 0x1FFFFU;
+		}
+		else if (iOffset < -131072)
+		{ // Negative overflow at 0xFFFE0000 ?
+			scale |= 0x20000U;
+		}
+		else
+		{
+			scale |= (uint32_t) iOffset & 0x3FFFFU;
+		}
+		iadc->CFG[config].SCALE = scale;
+		break;
 
 #if defined(_IADC_CFG_ADCMODE_HIGHACCURACY)
-      case iadcCfgModeHighAccuracy:
-        // Get reference voltage in volts
-        refVoltage = IADC_getReferenceVoltage(allConfigs->configs[config].reference) / 1000.0f;
+	case iadcCfgModeHighAccuracy:
+		// Get reference voltage in volts
+		refVoltage = IADC_getReferenceVoltage(
+				allConfigs->configs[config].reference) / 1000.0f;
 
-        // Get OSR from config register
-        osrValue = (iadc->CFG[config].CFG & _IADC_CFG_OSRHA_MASK) >> _IADC_CFG_OSRHA_SHIFT;
+		// Get OSR from config register
+		osrValue = (iadc->CFG[config].CFG & _IADC_CFG_OSRHA_MASK)
+				>> _IADC_CFG_OSRHA_SHIFT;
 
-        // 1. Calculate gain correction
-        if ((uint32_t)osrHiAcc[osrValue] == 92U) {
-          // for OSR = 92, gainSysHiAcc = 0.957457
-          gainSysHiAcc = 0.957457;
-        } else {
-          // for OSR != 92, gainSysHiAcc = OSR/(OSR + 1)
-          gainSysHiAcc = osrHiAcc[osrValue] / (osrHiAcc[osrValue] + 1.0f);
-        }
-        anaGain = (float) uiGainCAna / 32768.0f * gainSysHiAcc;
-        anaGainRound =  IADC_ROUND_D2I(32768.0f * anaGain);
-        IADC0->CFG[config].SCALE &= ~_IADC_SCALE_MASK;
+		// 1. Calculate gain correction
+		if ((uint32_t) osrHiAcc[osrValue] == 92U)
+		{
+			// for OSR = 92, gainSysHiAcc = 0.957457
+			gainSysHiAcc = 0.957457;
+		}
+		else
+		{
+			// for OSR != 92, gainSysHiAcc = OSR/(OSR + 1)
+			gainSysHiAcc = osrHiAcc[osrValue] / (osrHiAcc[osrValue] + 1.0f);
+		}
+		anaGain = (float) uiGainCAna / 32768.0f * gainSysHiAcc;
+		anaGainRound = IADC_ROUND_D2I(32768.0f * anaGain);
+		IADC0->CFG[config].SCALE &= ~_IADC_SCALE_MASK;
 
-        // Write GAIN3MSB
-        if ((uint32_t)anaGainRound & 0x8000) {
-          IADC0->CFG[config].SCALE |= IADC_SCALE_GAIN3MSB_GAIN100;
-        } else {
-          IADC0->CFG[config].SCALE |= IADC_SCALE_GAIN3MSB_GAIN011;
-        }
-        // Write GAIN13LSB
-        IADC0->CFG[config].SCALE |= ((uint32_t)anaGainRound & 0x1FFF) << _IADC_SCALE_GAIN13LSB_SHIFT;
+		// Write GAIN3MSB
+		if ((uint32_t) anaGainRound & 0x8000)
+		{
+			IADC0->CFG[config].SCALE |= IADC_SCALE_GAIN3MSB_GAIN100;
+		}
+		else
+		{
+			IADC0->CFG[config].SCALE |= IADC_SCALE_GAIN3MSB_GAIN011;
+		}
+		// Write GAIN13LSB
+		IADC0->CFG[config].SCALE |= ((uint32_t) anaGainRound & 0x1FFF)
+				<< _IADC_SCALE_GAIN13LSB_SHIFT;
 
-        // Get offset value for high accuracy mode from DEVINFO
-        offsetAna1HiAccInt = (uint16_t)(DEVINFO->IADC0OFFSETCAL0 & _DEVINFO_IADC0OFFSETCAL0_OFFSETANA1HIACC_MASK)
-                             >> _DEVINFO_IADC0OFFSETCAL0_OFFSETANA1HIACC_SHIFT;
+		// Get offset value for high accuracy mode from DEVINFO
+		offsetAna1HiAccInt = (uint16_t) (DEVINFO->IADC0OFFSETCAL0
+				& _DEVINFO_IADC0OFFSETCAL0_OFFSETANA1HIACC_MASK)
+				>> _DEVINFO_IADC0OFFSETCAL0_OFFSETANA1HIACC_SHIFT;
 
-        // 2. OSR adjustment
-        // Get offset from DEVINFO
-        offsetAnaBase = (int16_t)(DEVINFO->IADC0OFFSETCAL0 & _DEVINFO_IADC0OFFSETCAL0_OFFSETANABASE_MASK)
-                        >> _DEVINFO_IADC0OFFSETCAL0_OFFSETANABASE_SHIFT;
-        // 1 << osrValue is the same as pow(2, osrValue)
-        offsetAna = offsetAnaBase + (offsetAna1HiAccInt) / (1 << osrValue);
+		// 2. OSR adjustment
+		// Get offset from DEVINFO
+		offsetAnaBase = (int16_t) (DEVINFO->IADC0OFFSETCAL0
+				& _DEVINFO_IADC0OFFSETCAL0_OFFSETANABASE_MASK)
+				>> _DEVINFO_IADC0OFFSETCAL0_OFFSETANABASE_SHIFT;
+		// 1 << osrValue is the same as pow(2, osrValue)
+		offsetAna = offsetAnaBase + (offsetAna1HiAccInt) / (1 << osrValue);
 
-        // 3. Reference voltage adjustment
-        offsetAna = (offsetAna) * (1.25f / refVoltage);
+		// 3. Reference voltage adjustment
+		offsetAna = (offsetAna) * (1.25f / refVoltage);
 
-        // 4. Calculate final offset
-        offset2 = 262144.0f / osrHiAcc[osrValue] / (osrHiAcc[osrValue] + 1.0f) + offsetAna * 4.0f + 524288.0f;
-        offset2 = (uiGainCAna / 32768.0f * (-1.0f)) * offset2 + 524288.0f;
-        offsetLong = IADC_ROUND_D2I(offset2);
+		// 4. Calculate final offset
+		offset2 = 262144.0f / osrHiAcc[osrValue] / (osrHiAcc[osrValue] + 1.0f)
+				+ offsetAna * 4.0f + 524288.0f;
+		offset2 = (uiGainCAna / 32768.0f * (-1.0f)) * offset2 + 524288.0f;
+		offsetLong = IADC_ROUND_D2I(offset2);
 
-        // 5. Write offset to scale register
-        IADC0->CFG[config].SCALE |= (uint32_t)(offsetLong & _IADC_SCALE_OFFSET_MASK);
-        break;
+		// 5. Write offset to scale register
+		IADC0->CFG[config].SCALE |= (uint32_t) (offsetLong
+				& _IADC_SCALE_OFFSET_MASK);
+		break;
 #endif
-      default:
-        // Mode not supported.
-        EFM_ASSERT(false);
-        break;
-    }
-    iadc->CFG[config].SCHED = ((adcClkPrescale << _IADC_SCHED_PRESCALE_SHIFT)
-                               & _IADC_SCHED_PRESCALE_MASK);
-  }
-  IADC_enable(iadc);
+	default:
+		// Mode not supported.
+		EFM_ASSERT(false);
+		break;
+		}
+		iadc->CFG[config].SCHED =
+				((adcClkPrescale << _IADC_SCHED_PRESCALE_SHIFT)
+						& _IADC_SCHED_PRESCALE_MASK);
+	}
+	IADC_enable(iadc);
 }
 
 /***************************************************************************//**
@@ -508,60 +612,71 @@ void IADC_init(IADC_TypeDef *iadc,
  * @param[in] scanTable
  *   Pointer to IADC scan table structure.
  ******************************************************************************/
-void IADC_initScan(IADC_TypeDef *iadc,
-                   const IADC_InitScan_t *init,
-                   const IADC_ScanTable_t *scanTable)
+void IADC_initScan(IADC_TypeDef *iadc, const IADC_InitScan_t *init,
+		const IADC_ScanTable_t *scanTable)
 {
-  uint32_t i;
-  uint32_t tmp;
-  EFM_ASSERT(IADC_REF_VALID(iadc));
+	uint32_t i;
+	uint32_t tmp;
+	EFM_ASSERT(IADC_REF_VALID(iadc));
 #if defined(_SILICON_LABS_32B_SERIES_2_CONFIG_3)
   // Errata IADC_E305. Makes sure that DVL is equal or less than 7 entries.
   EFM_ASSERT(init->dataValidLevel <= iadcFifoCfgDvl7);
 #endif
 
-  IADC_disable(iadc);
+	IADC_disable(iadc);
 
-  iadc->SCANFIFOCFG = (((uint32_t) (init->alignment) << _IADC_SCANFIFOCFG_ALIGNMENT_SHIFT)
-                       & _IADC_SCANFIFOCFG_ALIGNMENT_MASK)
-                      | (init->showId ? IADC_SCANFIFOCFG_SHOWID : 0UL)
-                      | (((uint32_t) (init->dataValidLevel) << _IADC_SCANFIFOCFG_DVL_SHIFT)
-                         & _IADC_SCANFIFOCFG_DVL_MASK)
-                      | (init->fifoDmaWakeup ? IADC_SCANFIFOCFG_DMAWUFIFOSCAN : 0UL);
+	iadc->SCANFIFOCFG =
+			(((uint32_t) (init->alignment) << _IADC_SCANFIFOCFG_ALIGNMENT_SHIFT)
+					& _IADC_SCANFIFOCFG_ALIGNMENT_MASK)
+					| (init->showId ? IADC_SCANFIFOCFG_SHOWID : 0UL)
+					| (((uint32_t) (init->dataValidLevel)
+							<< _IADC_SCANFIFOCFG_DVL_SHIFT)
+							& _IADC_SCANFIFOCFG_DVL_MASK)
+					| (init->fifoDmaWakeup ?
+							IADC_SCANFIFOCFG_DMAWUFIFOSCAN : 0UL);
 
-  // Clear bitfields for scan conversion in IADCn->TRIGGER and set new values
-  iadc->TRIGGER = (iadc->TRIGGER & ~(_IADC_TRIGGER_SCANTRIGSEL_MASK
-                                     | _IADC_TRIGGER_SCANTRIGACTION_MASK))
-                  | (((uint32_t) (init->triggerSelect) << _IADC_TRIGGER_SCANTRIGSEL_SHIFT)
-                     & _IADC_TRIGGER_SCANTRIGSEL_MASK)
-                  | (((uint32_t) (init->triggerAction) << _IADC_TRIGGER_SCANTRIGACTION_SHIFT)
-                     & _IADC_TRIGGER_SCANTRIGACTION_MASK);
+// Clear bitfields for scan conversion in IADCn->TRIGGER and set new values
+	iadc->TRIGGER = (iadc->TRIGGER
+			& ~(_IADC_TRIGGER_SCANTRIGSEL_MASK
+					| _IADC_TRIGGER_SCANTRIGACTION_MASK))
+			| (((uint32_t) (init->triggerSelect)
+					<< _IADC_TRIGGER_SCANTRIGSEL_SHIFT)
+					& _IADC_TRIGGER_SCANTRIGSEL_MASK)
+			| (((uint32_t) (init->triggerAction)
+					<< _IADC_TRIGGER_SCANTRIGACTION_SHIFT)
+					& _IADC_TRIGGER_SCANTRIGACTION_MASK);
 
-  // Write scan table
-  for (i = 0; i < IADC_SCANENTRIES(iadc); i++) {
-    iadc->SCANTABLE[i].SCAN = (((uint32_t) (scanTable->entries[i].negInput) << _IADC_SCAN_PINNEG_SHIFT)
-                               & (_IADC_SCAN_PORTNEG_MASK | _IADC_SCAN_PINNEG_MASK))
-                              | (((uint32_t) (scanTable->entries[i].posInput) << _IADC_SCAN_PINPOS_SHIFT)
-                                 & (_IADC_SCAN_PORTPOS_MASK | _IADC_SCAN_PINPOS_MASK))
-                              | (((uint32_t) (scanTable->entries[i].configId) << _IADC_SCAN_CFG_SHIFT)
-                                 & _IADC_SCAN_CFG_MASK)
-                              | (scanTable->entries[i].compare ? IADC_SCAN_CMP : 0UL);
-  }
+// Write scan table
+	for (i = 0; i < IADC_SCANENTRIES(iadc); i++)
+	{
+		iadc->SCANTABLE[i].SCAN = (((uint32_t) (scanTable->entries[i].negInput)
+				<< _IADC_SCAN_PINNEG_SHIFT)
+				& (_IADC_SCAN_PORTNEG_MASK | _IADC_SCAN_PINNEG_MASK))
+				| (((uint32_t) (scanTable->entries[i].posInput)
+						<< _IADC_SCAN_PINPOS_SHIFT)
+						& (_IADC_SCAN_PORTPOS_MASK | _IADC_SCAN_PINPOS_MASK))
+				| (((uint32_t) (scanTable->entries[i].configId)
+						<< _IADC_SCAN_CFG_SHIFT) & _IADC_SCAN_CFG_MASK)
+				| (scanTable->entries[i].compare ? IADC_SCAN_CMP : 0UL);
+	}
 
-  IADC_enable(iadc);
+	IADC_enable(iadc);
 
-  // Set scan mask
-  tmp = 0;
-  for (i = 0; i < IADC_SCANENTRIES(iadc); i++) {
-    if (scanTable->entries[i].includeInScan) {
-      tmp |= (1UL << i) << _IADC_MASKREQ_MASKREQ_SHIFT;
-    }
-  }
-  iadc->MASKREQ = tmp;
+// Set scan mask
+	tmp = 0;
+	for (i = 0; i < IADC_SCANENTRIES(iadc); i++)
+	{
+		if (scanTable->entries[i].includeInScan)
+		{
+			tmp |= (1UL << i) << _IADC_MASKREQ_MASKREQ_SHIFT;
+		}
+	}
+	iadc->MASKREQ = tmp;
 
-  if (init->start) {
-    IADC_command(iadc, iadcCmdStartScan);
-  }
+	if (init->start)
+	{
+		IADC_command(iadc, iadcCmdStartScan);
+	}
 }
 
 /***************************************************************************//**
@@ -587,41 +702,46 @@ void IADC_initScan(IADC_TypeDef *iadc,
  * @param[in] input
  *   Pointer to IADC single input selection initialization structure.
  ******************************************************************************/
-void IADC_initSingle(IADC_TypeDef *iadc,
-                     const IADC_InitSingle_t *init,
-                     const IADC_SingleInput_t *input)
+void IADC_initSingle(IADC_TypeDef *iadc, const IADC_InitSingle_t *init,
+		const IADC_SingleInput_t *input)
 {
-  EFM_ASSERT(IADC_REF_VALID(iadc));
+	EFM_ASSERT(IADC_REF_VALID(iadc));
 #if defined(_SILICON_LABS_32B_SERIES_2_CONFIG_3)
   // Errata IADC_E305. Makes sure that DVL is equal or less than 7 entries.
   EFM_ASSERT(init->dataValidLevel <= iadcFifoCfgDvl7);
 #endif
-  IADC_disable(iadc);
+	IADC_disable(iadc);
 
-  iadc->SINGLEFIFOCFG = (((uint32_t) (init->alignment) << _IADC_SINGLEFIFOCFG_ALIGNMENT_SHIFT)
-                         & _IADC_SINGLEFIFOCFG_ALIGNMENT_MASK)
-                        | (init->showId ? IADC_SINGLEFIFOCFG_SHOWID : 0UL)
-                        | (((uint32_t) (init->dataValidLevel) << _IADC_SINGLEFIFOCFG_DVL_SHIFT)
-                           & _IADC_SINGLEFIFOCFG_DVL_MASK)
-                        | (init->fifoDmaWakeup ? IADC_SINGLEFIFOCFG_DMAWUFIFOSINGLE : 0UL);
+	iadc->SINGLEFIFOCFG = (((uint32_t) (init->alignment)
+			<< _IADC_SINGLEFIFOCFG_ALIGNMENT_SHIFT)
+			& _IADC_SINGLEFIFOCFG_ALIGNMENT_MASK)
+			| (init->showId ? IADC_SINGLEFIFOCFG_SHOWID : 0UL)
+			| (((uint32_t) (init->dataValidLevel)
+					<< _IADC_SINGLEFIFOCFG_DVL_SHIFT)
+					& _IADC_SINGLEFIFOCFG_DVL_MASK)
+			| (init->fifoDmaWakeup ? IADC_SINGLEFIFOCFG_DMAWUFIFOSINGLE : 0UL);
 
-  // Clear bitfields for single conversion in IADCn->TRIGGER and set new values
-  iadc->TRIGGER = (iadc->TRIGGER & ~(_IADC_TRIGGER_SINGLETRIGSEL_MASK
-                                     | _IADC_TRIGGER_SINGLETRIGACTION_MASK
-                                     | _IADC_TRIGGER_SINGLETAILGATE_MASK))
-                  | (((uint32_t) (init->triggerSelect) << _IADC_TRIGGER_SINGLETRIGSEL_SHIFT)
-                     & _IADC_TRIGGER_SINGLETRIGSEL_MASK)
-                  | (((uint32_t) (init->triggerAction) << _IADC_TRIGGER_SINGLETRIGACTION_SHIFT)
-                     & _IADC_TRIGGER_SINGLETRIGACTION_MASK)
-                  | (init->singleTailgate ? IADC_TRIGGER_SINGLETAILGATE : 0UL);
+// Clear bitfields for single conversion in IADCn->TRIGGER and set new values
+	iadc->TRIGGER = (iadc->TRIGGER
+			& ~(_IADC_TRIGGER_SINGLETRIGSEL_MASK
+					| _IADC_TRIGGER_SINGLETRIGACTION_MASK
+					| _IADC_TRIGGER_SINGLETAILGATE_MASK))
+			| (((uint32_t) (init->triggerSelect)
+					<< _IADC_TRIGGER_SINGLETRIGSEL_SHIFT)
+					& _IADC_TRIGGER_SINGLETRIGSEL_MASK)
+			| (((uint32_t) (init->triggerAction)
+					<< _IADC_TRIGGER_SINGLETRIGACTION_SHIFT)
+					& _IADC_TRIGGER_SINGLETRIGACTION_MASK)
+			| (init->singleTailgate ? IADC_TRIGGER_SINGLETAILGATE : 0UL);
 
-  IADC_updateSingleInput(iadc, input);
+	IADC_updateSingleInput(iadc, input);
 
-  IADC_enable(iadc);
+	IADC_enable(iadc);
 
-  if (init->start) {
-    IADC_command(iadc, iadcCmdStartSingle);
-  }
+	if (init->start)
+	{
+		IADC_command(iadc, iadcCmdStartSingle);
+	}
 }
 
 /***************************************************************************//**
@@ -642,30 +762,30 @@ void IADC_initSingle(IADC_TypeDef *iadc,
  * @param[in] input
  *   Pointer to single input selection structure.
  ******************************************************************************/
-void IADC_updateSingleInput(IADC_TypeDef *iadc,
-                            const IADC_SingleInput_t *input)
+void IADC_updateSingleInput(IADC_TypeDef *iadc, const IADC_SingleInput_t *input)
 {
-  bool enabled;
+	bool enabled;
 
-  EFM_ASSERT(IADC_REF_VALID(iadc));
+	EFM_ASSERT(IADC_REF_VALID(iadc));
 
-  enabled = (iadc->EN & IADC_EN_EN) != 0UL;
+	enabled = (iadc->EN & IADC_EN_EN) != 0UL;
 
-  // IADCn->SINGLE has WSYNC type and can only be written while enabled
-  IADC_enable(iadc);
+// IADCn->SINGLE has WSYNC type and can only be written while enabled
+	IADC_enable(iadc);
 
-  iadc->SINGLE = (((uint32_t) (input->negInput) << _IADC_SINGLE_PINNEG_SHIFT)
-                  & (_IADC_SINGLE_PORTNEG_MASK | _IADC_SINGLE_PINNEG_MASK))
-                 | (((uint32_t) (input->posInput) << _IADC_SINGLE_PINPOS_SHIFT)
-                    & (_IADC_SINGLE_PORTPOS_MASK | _IADC_SINGLE_PINPOS_MASK))
-                 | (((uint32_t) (input->configId) << _IADC_SINGLE_CFG_SHIFT)
-                    & _IADC_SINGLE_CFG_MASK)
-                 | (input->compare ? IADC_SINGLE_CMP : 0UL);
+	iadc->SINGLE = (((uint32_t) (input->negInput) << _IADC_SINGLE_PINNEG_SHIFT)
+			& (_IADC_SINGLE_PORTNEG_MASK | _IADC_SINGLE_PINNEG_MASK))
+			| (((uint32_t) (input->posInput) << _IADC_SINGLE_PINPOS_SHIFT)
+					& (_IADC_SINGLE_PORTPOS_MASK | _IADC_SINGLE_PINPOS_MASK))
+			| (((uint32_t) (input->configId) << _IADC_SINGLE_CFG_SHIFT)
+					& _IADC_SINGLE_CFG_MASK)
+			| (input->compare ? IADC_SINGLE_CMP : 0UL);
 
-  // Restore enabled state
-  if (!enabled) {
-    IADC_disable(iadc);
-  }
+// Restore enabled state
+	if (!enabled)
+	{
+		IADC_disable(iadc);
+	}
 }
 
 /***************************************************************************//**
@@ -685,24 +805,25 @@ void IADC_updateSingleInput(IADC_TypeDef *iadc,
  ******************************************************************************/
 void IADC_setScanMask(IADC_TypeDef *iadc, uint32_t mask)
 {
-  bool enabled;
+	bool enabled;
 
-  EFM_ASSERT(IADC_REF_VALID(iadc));
+	EFM_ASSERT(IADC_REF_VALID(iadc));
 
-  EFM_ASSERT(mask <= ((1UL << IADC_SCANENTRIES(iadc)) - 1UL));
+	EFM_ASSERT(mask <= ((1UL << IADC_SCANENTRIES(iadc)) - 1UL));
 
-  enabled = (iadc->EN & IADC_EN_EN) != 0UL;
+	enabled = (iadc->EN & IADC_EN_EN) != 0UL;
 
-  // IADC must be enabled to update scan table mask
-  IADC_enable(iadc);
+// IADC must be enabled to update scan table mask
+	IADC_enable(iadc);
 
-  iadc->MASKREQ = (mask << _IADC_MASKREQ_MASKREQ_SHIFT)
-                  & _IADC_MASKREQ_MASKREQ_MASK;
+	iadc->MASKREQ = (mask << _IADC_MASKREQ_MASKREQ_SHIFT)
+			& _IADC_MASKREQ_MASKREQ_MASK;
 
-  // Restore enabled state
-  if (!enabled) {
-    IADC_disable(iadc);
-  }
+// Restore enabled state
+	if (!enabled)
+	{
+		IADC_disable(iadc);
+	}
 }
 
 /***************************************************************************//**
@@ -725,41 +846,47 @@ void IADC_setScanMask(IADC_TypeDef *iadc, uint32_t mask)
  * @param[in] entry
  *   Pointer to scan table entry structure.
  ******************************************************************************/
-void IADC_updateScanEntry(IADC_TypeDef *iadc,
-                          uint8_t id,
-                          IADC_ScanTableEntry_t *entry)
+void IADC_updateScanEntry(IADC_TypeDef *iadc, uint8_t id,
+		IADC_ScanTableEntry_t *entry)
 {
-  bool enabled;
+	bool enabled;
 
-  EFM_ASSERT(IADC_REF_VALID(iadc));
+	EFM_ASSERT(IADC_REF_VALID(iadc));
 
-  enabled = (iadc->EN & IADC_EN_EN) != 0UL;
+	enabled = (iadc->EN & IADC_EN_EN) != 0UL;
 
-  // IADC must be disabled to update scan table
-  IADC_disable(iadc);
+// IADC must be disabled to update scan table
+	IADC_disable(iadc);
 
-  // Update entry in scan table
-  iadc->SCANTABLE[id].SCAN = (((uint32_t) (entry->negInput) << _IADC_SCAN_PINNEG_SHIFT)
-                              & (_IADC_SCAN_PORTNEG_MASK | _IADC_SCAN_PINNEG_MASK))
-                             | (((uint32_t) (entry->posInput) << _IADC_SCAN_PINPOS_SHIFT)
-                                & (_IADC_SCAN_PORTPOS_MASK | _IADC_SCAN_PINPOS_MASK))
-                             | (((uint32_t) (entry->configId) << _IADC_SCAN_CFG_SHIFT)
-                                & _IADC_SCAN_CFG_MASK)
-                             | (entry->compare ? IADC_SCAN_CMP : 0UL);
+// Update entry in scan table
+	iadc->SCANTABLE[id].SCAN = (((uint32_t) (entry->negInput)
+			<< _IADC_SCAN_PINNEG_SHIFT)
+			& (_IADC_SCAN_PORTNEG_MASK | _IADC_SCAN_PINNEG_MASK))
+			| (((uint32_t) (entry->posInput) << _IADC_SCAN_PINPOS_SHIFT)
+					& (_IADC_SCAN_PORTPOS_MASK | _IADC_SCAN_PINPOS_MASK))
+			| (((uint32_t) (entry->configId) << _IADC_SCAN_CFG_SHIFT)
+					& _IADC_SCAN_CFG_MASK)
+			| (entry->compare ? IADC_SCAN_CMP : 0UL);
 
-  // IADC must be enabled to update scan table mask
-  IADC_enable(iadc);
+// IADC must be enabled to update scan table mask
+	IADC_enable(iadc);
 
-  if (entry->includeInScan) {
-    iadc->MASKREQ_SET = (1UL << (id & 0x1FUL)) << _IADC_MASKREQ_MASKREQ_SHIFT;
-  } else {
-    iadc->MASKREQ_CLR = (1UL << (id & 0x1FUL)) << _IADC_MASKREQ_MASKREQ_SHIFT;
-  }
+	if (entry->includeInScan)
+	{
+		iadc->MASKREQ_SET = (1UL << (id & 0x1FUL))
+				<< _IADC_MASKREQ_MASKREQ_SHIFT;
+	}
+	else
+	{
+		iadc->MASKREQ_CLR = (1UL << (id & 0x1FUL))
+				<< _IADC_MASKREQ_MASKREQ_SHIFT;
+	}
 
-  // Restore enabled state
-  if (!enabled) {
-    IADC_disable(iadc);
-  }
+// Restore enabled state
+	if (!enabled)
+	{
+		IADC_disable(iadc);
+	}
 }
 
 /***************************************************************************//**
@@ -771,76 +898,83 @@ void IADC_updateScanEntry(IADC_TypeDef *iadc,
  ******************************************************************************/
 void IADC_reset(IADC_TypeDef *iadc)
 {
-  uint32_t i;
-  EFM_ASSERT(IADC_REF_VALID(iadc));
+	uint32_t i;
+	EFM_ASSERT(IADC_REF_VALID(iadc));
 
-  // Write all WSYNC registers to reset value while enabled
-  IADC_enable(iadc);
+// Write all WSYNC registers to reset value while enabled
+	IADC_enable(iadc);
 
-  // Stop conversions and timer, before resetting other registers.
-  iadc->CMD = IADC_CMD_SINGLESTOP | IADC_CMD_SCANSTOP | IADC_CMD_TIMERDIS;
+// Stop conversions and timer, before resetting other registers.
+	iadc->CMD = IADC_CMD_SINGLESTOP | IADC_CMD_SCANSTOP | IADC_CMD_TIMERDIS;
 
-  // Wait for all IADC operations to stop
-  while ((iadc->STATUS & (IADC_STATUS_CONVERTING
-                          | IADC_STATUS_SCANQUEUEPENDING
-                          | IADC_STATUS_SINGLEQUEUEPENDING
-                          | IADC_STATUS_TIMERACTIVE))
-         != 0UL) {
-  }
+// Wait for all IADC operations to stop
+	while ((iadc->STATUS
+			& (IADC_STATUS_CONVERTING | IADC_STATUS_SCANQUEUEPENDING
+					| IADC_STATUS_SINGLEQUEUEPENDING | IADC_STATUS_TIMERACTIVE))
+			!= 0UL)
+	{
+	}
 
-  // Reset all WSYNC registers
-  iadc->MASKREQ = _IADC_MASKREQ_RESETVALUE;
-  iadc->SINGLE  = _IADC_SINGLE_RESETVALUE;
+// Reset all WSYNC registers
+	iadc->MASKREQ = _IADC_MASKREQ_RESETVALUE;
+	iadc->SINGLE = _IADC_SINGLE_RESETVALUE;
 
-  // Wait for SINGLE and MASQREQ writes to propagate to working registers
-  while ((iadc->STATUS & (IADC_STATUS_MASKREQWRITEPENDING
-                          | IADC_STATUS_SINGLEWRITEPENDING))
-         != 0UL) {
-  }
+// Wait for SINGLE and MASQREQ writes to propagate to working registers
+	while ((iadc->STATUS
+			& (IADC_STATUS_MASKREQWRITEPENDING | IADC_STATUS_SINGLEWRITEPENDING))
+			!= 0UL)
+	{
+	}
 
-  // Pull from FIFOs until they are empty
+// Pull from FIFOs until they are empty
 
-  // Errata IADC_E305: Check SINGLEFIFOSTAT to make sure that SINGLEFIFO is getting emptied in case
-  // where STATUS register is incorrect.
-  while (((iadc->STATUS & IADC_STATUS_SINGLEFIFODV) != 0UL) || (iadc->SINGLEFIFOSTAT > 0)) {
-    (void) IADC_pullSingleFifoData(iadc);
-  }
+// Errata IADC_E305: Check SINGLEFIFOSTAT to make sure that SINGLEFIFO is getting emptied in case
+// where STATUS register is incorrect.
+	while (((iadc->STATUS & IADC_STATUS_SINGLEFIFODV) != 0UL)
+			|| (iadc->SINGLEFIFOSTAT > 0))
+	{
+		(void) IADC_pullSingleFifoData(iadc);
+	}
 
-  // Errata IADC_E305: check SCANFIFOSTAT to make sure that SCANFIFO is getting emptied in case
-  // where STATUS register is incorrect.
-  while (((iadc->STATUS & IADC_STATUS_SCANFIFODV) != 0UL) || (iadc->SCANFIFOSTAT > 0)) {
-    (void) IADC_pullScanFifoData(iadc);
-  }
+// Errata IADC_E305: check SCANFIFOSTAT to make sure that SCANFIFO is getting emptied in case
+// where STATUS register is incorrect.
+	while (((iadc->STATUS & IADC_STATUS_SCANFIFODV) != 0UL)
+			|| (iadc->SCANFIFOSTAT > 0))
+	{
+		(void) IADC_pullScanFifoData(iadc);
+	}
 
-  // Read data registers to clear data valid flags
-  (void) IADC_readSingleData(iadc);
-  (void) IADC_readScanData(iadc);
+// Read data registers to clear data valid flags
+	(void) IADC_readSingleData(iadc);
+	(void) IADC_readScanData(iadc);
 
-  // Write all WSTATIC registers to reset value while disabled
-  IADC_disable(iadc);
+// Write all WSTATIC registers to reset value while disabled
+	IADC_disable(iadc);
 
-  // Reset all WSTATIC registers
-  iadc->CTRL            = _IADC_CTRL_RESETVALUE;
-  iadc->TIMER           = _IADC_TIMER_RESETVALUE;
-  iadc->TRIGGER         = _IADC_TRIGGER_RESETVALUE;
+// Reset all WSTATIC registers
+	iadc->CTRL = _IADC_CTRL_RESETVALUE;
+	iadc->TIMER = _IADC_TIMER_RESETVALUE;
+	iadc->TRIGGER = _IADC_TRIGGER_RESETVALUE;
 
-  iadc->CMPTHR          = _IADC_CMPTHR_RESETVALUE;
-  iadc->SINGLEFIFOCFG   = _IADC_SINGLEFIFOCFG_RESETVALUE;
-  iadc->SCANFIFOCFG     = _IADC_SCANFIFOCFG_RESETVALUE;
+	iadc->CMPTHR = _IADC_CMPTHR_RESETVALUE;
+	iadc->SINGLEFIFOCFG = _IADC_SINGLEFIFOCFG_RESETVALUE;
+	iadc->SCANFIFOCFG = _IADC_SCANFIFOCFG_RESETVALUE;
 
-  for (i = 0; i < IADC_CONFIGNUM(iadc); i++) {
-    iadc->CFG[i].CFG    = _IADC_CFG_RESETVALUE;
-    iadc->CFG[i].SCALE  = _IADC_SCALE_RESETVALUE;
-    iadc->CFG[i].SCHED  = _IADC_SCHED_RESETVALUE;
-  }
+	for (i = 0; i < IADC_CONFIGNUM(iadc); i++)
+	{
+		iadc->CFG[i].CFG = _IADC_CFG_RESETVALUE;
+		iadc->CFG[i].SCALE = _IADC_SCALE_RESETVALUE;
+		iadc->CFG[i].SCHED = _IADC_SCHED_RESETVALUE;
+	}
 
-  for (i = 0; i < IADC_SCANENTRIES(iadc); i++) {
-    iadc->SCANTABLE[i].SCAN = _IADC_SCAN_RESETVALUE;
-  }
+	for (i = 0; i < IADC_SCANENTRIES(iadc); i++)
+	{
+		iadc->SCANTABLE[i].SCAN = _IADC_SCAN_RESETVALUE;
+	}
 
-  // Clear interrupt flags and disable interrupts
-  IADC_clearInt(iadc, _IADC_IF_MASK);
-  IADC_disableInt(iadc, _IADC_IEN_MASK);
+// Clear interrupt flags and disable interrupts
+	IADC_clearInt(iadc, _IADC_IF_MASK);
+	IADC_disableInt(iadc, _IADC_IEN_MASK);
 }
 
 /***************************************************************************//**
@@ -858,36 +992,41 @@ void IADC_reset(IADC_TypeDef *iadc)
  ******************************************************************************/
 uint8_t IADC_calcTimebase(IADC_TypeDef *iadc, uint32_t srcClkFreq)
 {
-  EFM_ASSERT(IADC_REF_VALID(iadc));
+	EFM_ASSERT(IADC_REF_VALID(iadc));
 
-  if (srcClkFreq == 0UL) {
-    // CLK_SRC_ADC is derived from CLK_CMU_ADC, and must be no faster than 40 MHz. Therefore we set
-    // srcClkFreq's original value to CLK_CMU_ADC before evaluating the prescaling conditions.
-    srcClkFreq = CMU_ClockFreqGet(cmuClock_IADC0);
+	if (srcClkFreq == 0UL)
+	{
+		// CLK_SRC_ADC is derived from CLK_CMU_ADC, and must be no faster than 40 MHz. Therefore we set
+		// srcClkFreq's original value to CLK_CMU_ADC before evaluating the prescaling conditions.
+		srcClkFreq = CMU_ClockFreqGet(cmuClock_IADC0);
 
-    // Just in case, make sure we get non-zero frequency for below calculation
-    if (srcClkFreq == 0UL) {
-      srcClkFreq = 1;
-    }
-    // If srcClkFreq is greater than 40MHz, then divide by the prescaler HSCLKRATE
-    if (srcClkFreq > IADC_CLK_MAX_FREQ) {
-      uint32_t prescaler = (uint32_t)(IADC0->CTRL & _IADC_CTRL_HSCLKRATE_MASK) >> _IADC_CTRL_HSCLKRATE_SHIFT;
-      srcClkFreq /= (prescaler + 1);
-    }
-  }
+		// Just in case, make sure we get non-zero frequency for below calculation
+		if (srcClkFreq == 0UL)
+		{
+			srcClkFreq = 1;
+		}
+		// If srcClkFreq is greater than 40MHz, then divide by the prescaler HSCLKRATE
+		if (srcClkFreq > IADC_CLK_MAX_FREQ)
+		{
+			uint32_t prescaler = (uint32_t) (IADC0->CTRL
+					& _IADC_CTRL_HSCLKRATE_MASK) >> _IADC_CTRL_HSCLKRATE_SHIFT;
+			srcClkFreq /= (prescaler + 1);
+		}
+	}
 
-  // Determine number of ADCCLK cycle >= 1us
-  srcClkFreq += 999999UL;
-  srcClkFreq /= 1000000UL;
+// Determine number of ADCCLK cycle >= 1us
+	srcClkFreq += 999999UL;
+	srcClkFreq /= 1000000UL;
 
-  // Convert to N+1 format
-  srcClkFreq -= 1UL;
+// Convert to N+1 format
+	srcClkFreq -= 1UL;
 
-  // Limit to max allowed register setting
-  srcClkFreq = SL_MIN(srcClkFreq, (_IADC_CTRL_TIMEBASE_MASK >> _IADC_CTRL_TIMEBASE_SHIFT));
+// Limit to max allowed register setting
+	srcClkFreq = SL_MIN(srcClkFreq,
+			(_IADC_CTRL_TIMEBASE_MASK >> _IADC_CTRL_TIMEBASE_SHIFT));
 
-  // Return timebase value
-  return (uint8_t) srcClkFreq;
+// Return timebase value
+	return (uint8_t) srcClkFreq;
 }
 
 /***************************************************************************//**
@@ -911,34 +1050,36 @@ uint8_t IADC_calcTimebase(IADC_TypeDef *iadc, uint32_t srcClkFreq)
  *   Divider value to use for IADC in order to achieve a high speed clock value
  *   <= @p srcClkFreq.
  ******************************************************************************/
-uint8_t IADC_calcSrcClkPrescale(IADC_TypeDef *iadc,
-                                uint32_t srcClkFreq,
-                                uint32_t cmuClkFreq)
+uint8_t IADC_calcSrcClkPrescale(IADC_TypeDef *iadc, uint32_t srcClkFreq,
+		uint32_t cmuClkFreq)
 {
-  uint32_t ret;
+	uint32_t ret;
 
-  EFM_ASSERT(IADC_REF_VALID(iadc));
-  EFM_ASSERT(srcClkFreq);
+	EFM_ASSERT(IADC_REF_VALID(iadc));
+	EFM_ASSERT(srcClkFreq);
 
-  // Make sure wanted CLK_SRC_ADC clock is below max allowed frequency
-  srcClkFreq = SL_MIN(srcClkFreq, IADC_CLK_MAX_FREQ);
+// Make sure wanted CLK_SRC_ADC clock is below max allowed frequency
+	srcClkFreq = SL_MIN(srcClkFreq, IADC_CLK_MAX_FREQ);
 
-  // Use current CLK_CMU_ADC frequency?
-  if (cmuClkFreq == 0UL) {
-    cmuClkFreq = CMU_ClockFreqGet(IADC_CMU_CLOCK(iadc));
-  }
+// Use current CLK_CMU_ADC frequency?
+	if (cmuClkFreq == 0UL)
+	{
+		cmuClkFreq = CMU_ClockFreqGet(IADC_CMU_CLOCK(iadc));
+	}
 
-  ret = (cmuClkFreq + srcClkFreq - 1UL) / srcClkFreq;
-  if (ret != 0UL) {
-    ret--;
-  }
+	ret = (cmuClkFreq + srcClkFreq - 1UL) / srcClkFreq;
+	if (ret != 0UL)
+	{
+		ret--;
+	}
 
-  // Limit to max allowed register setting
-  if (ret > _IADC_CTRL_HSCLKRATE_DIV4) {
-    ret = _IADC_CTRL_HSCLKRATE_DIV4;
-  }
+// Limit to max allowed register setting
+	if (ret > _IADC_CTRL_HSCLKRATE_DIV4)
+	{
+		ret = _IADC_CTRL_HSCLKRATE_DIV4;
+	}
 
-  return (uint8_t)ret;
+	return (uint8_t) ret;
 }
 
 /***************************************************************************//**
@@ -966,43 +1107,46 @@ uint8_t IADC_calcSrcClkPrescale(IADC_TypeDef *iadc,
  *   Divider value to use for IADC in order to achieve a ADC_CLK frequency
  *   <= @p adcClkFreq.
  ******************************************************************************/
-uint32_t IADC_calcAdcClkPrescale(IADC_TypeDef *iadc,
-                                 uint32_t adcClkFreq,
-                                 uint32_t cmuClkFreq,
-                                 IADC_CfgAdcMode_t adcMode,
-                                 uint8_t srcClkPrescaler)
+uint32_t IADC_calcAdcClkPrescale(IADC_TypeDef *iadc, uint32_t adcClkFreq,
+		uint32_t cmuClkFreq, IADC_CfgAdcMode_t adcMode, uint8_t srcClkPrescaler)
 {
-  uint32_t ret;
-  uint32_t resFreq;
+	uint32_t ret;
+	uint32_t resFreq;
 
-  EFM_ASSERT(IADC_REF_VALID(iadc));
-  EFM_ASSERT(adcClkFreq);
+	EFM_ASSERT(IADC_REF_VALID(iadc));
+	EFM_ASSERT(adcClkFreq);
 
-  // Make sure wanted analog clock is below max allowed frequency for the given
-  // mode.
-  if (adcClkFreq > IADC_ANA_CLK_MAX_FREQ(adcMode)) {
-    adcClkFreq = IADC_ANA_CLK_MAX_FREQ(adcMode);
-  }
+// Make sure wanted analog clock is below max allowed frequency for the given
+// mode.
+	if (adcClkFreq > IADC_ANA_CLK_MAX_FREQ(adcMode))
+	{
+		adcClkFreq = IADC_ANA_CLK_MAX_FREQ(adcMode);
+	}
 
-  // Use current CLK_CMU_ADC frequency?
-  if (cmuClkFreq == 0UL) {
-    resFreq = CMU_ClockFreqGet(IADC_CMU_CLOCK(iadc));
-  } else {
-    resFreq = cmuClkFreq;
-  }
+// Use current CLK_CMU_ADC frequency?
+	if (cmuClkFreq == 0UL)
+	{
+		resFreq = CMU_ClockFreqGet(IADC_CMU_CLOCK(iadc));
+	}
+	else
+	{
+		resFreq = cmuClkFreq;
+	}
 
-  // Apply CLK_SRC_ADC prescaler
-  resFreq /= srcClkPrescaler + 1UL;
+// Apply CLK_SRC_ADC prescaler
+	resFreq /= srcClkPrescaler + 1UL;
 
-  ret = (resFreq + adcClkFreq - 1UL) / adcClkFreq;
-  if (ret != 0UL) {
-    ret--;
-  }
+	ret = (resFreq + adcClkFreq - 1UL) / adcClkFreq;
+	if (ret != 0UL)
+	{
+		ret--;
+	}
 
-  // Limit to max allowed register setting
-  ret = SL_MIN(ret, (_IADC_SCHED_PRESCALE_MASK >> _IADC_SCHED_PRESCALE_SHIFT));
+// Limit to max allowed register setting
+	ret = SL_MIN(ret,
+			(_IADC_SCHED_PRESCALE_MASK >> _IADC_SCHED_PRESCALE_SHIFT));
 
-  return (uint16_t)ret;
+	return (uint16_t) ret;
 }
 
 /***************************************************************************//**
@@ -1021,10 +1165,11 @@ uint32_t IADC_calcAdcClkPrescale(IADC_TypeDef *iadc,
  ******************************************************************************/
 IADC_Result_t IADC_pullSingleFifoResult(IADC_TypeDef *iadc)
 {
-  uint32_t alignment = (iadc->SINGLEFIFOCFG & _IADC_SINGLEFIFOCFG_ALIGNMENT_MASK)
-                       >> _IADC_SINGLEFIFOCFG_ALIGNMENT_SHIFT;
-  return IADC_ConvertRawDataToResult(iadc->SINGLEFIFODATA,
-                                     (IADC_Alignment_t) alignment);
+	uint32_t alignment = (iadc->SINGLEFIFOCFG
+			& _IADC_SINGLEFIFOCFG_ALIGNMENT_MASK)
+			>> _IADC_SINGLEFIFOCFG_ALIGNMENT_SHIFT;
+	return IADC_ConvertRawDataToResult(iadc->SINGLEFIFODATA,
+			(IADC_Alignment_t) alignment);
 }
 
 /***************************************************************************//**
@@ -1044,10 +1189,11 @@ IADC_Result_t IADC_pullSingleFifoResult(IADC_TypeDef *iadc)
  ******************************************************************************/
 IADC_Result_t IADC_readSingleResult(IADC_TypeDef *iadc)
 {
-  uint32_t alignment = (iadc->SINGLEFIFOCFG & _IADC_SINGLEFIFOCFG_ALIGNMENT_MASK)
-                       >> _IADC_SINGLEFIFOCFG_ALIGNMENT_SHIFT;
-  return IADC_ConvertRawDataToResult(iadc->SINGLEDATA,
-                                     (IADC_Alignment_t) alignment);
+	uint32_t alignment = (iadc->SINGLEFIFOCFG
+			& _IADC_SINGLEFIFOCFG_ALIGNMENT_MASK)
+			>> _IADC_SINGLEFIFOCFG_ALIGNMENT_SHIFT;
+	return IADC_ConvertRawDataToResult(iadc->SINGLEDATA,
+			(IADC_Alignment_t) alignment);
 }
 
 /***************************************************************************//**
@@ -1066,10 +1212,10 @@ IADC_Result_t IADC_readSingleResult(IADC_TypeDef *iadc)
  ******************************************************************************/
 IADC_Result_t IADC_pullScanFifoResult(IADC_TypeDef *iadc)
 {
-  uint32_t alignment = (iadc->SCANFIFOCFG & _IADC_SCANFIFOCFG_ALIGNMENT_MASK)
-                       >> _IADC_SCANFIFOCFG_ALIGNMENT_SHIFT;
-  return IADC_ConvertRawDataToResult(iadc->SCANFIFODATA,
-                                     (IADC_Alignment_t) alignment);
+	uint32_t alignment = (iadc->SCANFIFOCFG & _IADC_SCANFIFOCFG_ALIGNMENT_MASK)
+			>> _IADC_SCANFIFOCFG_ALIGNMENT_SHIFT;
+	return IADC_ConvertRawDataToResult(iadc->SCANFIFODATA,
+			(IADC_Alignment_t) alignment);
 }
 
 /***************************************************************************//**
@@ -1089,10 +1235,10 @@ IADC_Result_t IADC_pullScanFifoResult(IADC_TypeDef *iadc)
  ******************************************************************************/
 IADC_Result_t IADC_readScanResult(IADC_TypeDef *iadc)
 {
-  uint32_t alignment = (iadc->SCANFIFOCFG & _IADC_SCANFIFOCFG_ALIGNMENT_MASK)
-                       >> _IADC_SCANFIFOCFG_ALIGNMENT_SHIFT;
-  return IADC_ConvertRawDataToResult(iadc->SCANDATA,
-                                     (IADC_Alignment_t) alignment);
+	uint32_t alignment = (iadc->SCANFIFOCFG & _IADC_SCANFIFOCFG_ALIGNMENT_MASK)
+			>> _IADC_SCANFIFOCFG_ALIGNMENT_SHIFT;
+	return IADC_ConvertRawDataToResult(iadc->SCANDATA,
+			(IADC_Alignment_t) alignment);
 }
 
 /***************************************************************************//**
@@ -1107,12 +1253,13 @@ IADC_Result_t IADC_readScanResult(IADC_TypeDef *iadc)
  ******************************************************************************/
 uint32_t IADC_getReferenceVoltage(IADC_CfgReference_t reference)
 {
-  uint32_t refVoltage = 0;
-  // Get chip revision
-  SYSTEM_ChipRevision_TypeDef chipRev;
-  SYSTEM_ChipRevisionGet(&chipRev);
-  switch (reference) {
-    case iadcCfgReferenceInt1V2:
+	uint32_t refVoltage = 0;
+// Get chip revision
+	SYSTEM_ChipRevision_TypeDef chipRev;
+	SYSTEM_ChipRevisionGet(&chipRev);
+	switch (reference)
+	{
+	case iadcCfgReferenceInt1V2:
 #if defined(_SILICON_LABS_32B_SERIES_2_CONFIG_1)
       if (chipRev.major == 1UL) {
         refVoltage = 1210;
@@ -1120,23 +1267,23 @@ uint32_t IADC_getReferenceVoltage(IADC_CfgReference_t reference)
         refVoltage = 1180;
       }
 #else
-      refVoltage = 1210;
+		refVoltage = 1210;
 #endif
-      break;
-    case iadcCfgReferenceExt1V25:
-      refVoltage = 1250;
-      break;
+		break;
+	case iadcCfgReferenceExt1V25:
+		refVoltage = 1250;
+		break;
 #if defined(_IADC_CFG_REFSEL_VREF2P5)
-    case iadcCfgReferenceExt2V5:
-      refVoltage = 2500;
-      break;
+	case iadcCfgReferenceExt2V5:
+		refVoltage = 2500;
+		break;
 #endif
-    case iadcCfgReferenceVddx:
-      refVoltage = 3000;
-      break;
-    case iadcCfgReferenceVddX0P8Buf:
-      refVoltage = 2400;
-      break;
+	case iadcCfgReferenceVddx:
+		refVoltage = 3000;
+		break;
+	case iadcCfgReferenceVddX0P8Buf:
+		refVoltage = 2400;
+		break;
 #if defined(_IADC_CFG_REFSEL_VREFBUF)
     case iadcCfgReferenceBuf:
       refVoltage = 12500;
@@ -1147,12 +1294,12 @@ uint32_t IADC_getReferenceVoltage(IADC_CfgReference_t reference)
       refVoltage = 1000;
       break;
 #endif
-    default:
-      EFM_ASSERT(false);
-      break;
-  }
+	default:
+		EFM_ASSERT(false);
+		break;
+	}
 
-  return refVoltage;
+	return refVoltage;
 }
 
 /** @} (end addtogroup iadc) */

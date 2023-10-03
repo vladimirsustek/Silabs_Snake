@@ -32,9 +32,9 @@
 #define BURAM_HAS_SET_CLEAR
 
 /**************************************************************************//**
-* @addtogroup Parts
-* @{
-******************************************************************************/
+ * @addtogroup Parts
+ * @{
+ ******************************************************************************/
 /**************************************************************************//**
  * @defgroup EFR32MG24_BURAM BURAM
  * @{
@@ -42,19 +42,21 @@
  *****************************************************************************/
 
 /** BURAM RET Register Group Declaration. */
-typedef struct {
-  __IOM uint32_t REG;                                /**< Retention Register                                 */
+typedef struct
+{
+	__IOM uint32_t REG; /**< Retention Register                                 */
 } BURAM_RET_TypeDef;
 
 /** BURAM Register Declaration. */
-typedef struct {
-  BURAM_RET_TypeDef RET[32U];                   /**< RetentionReg                                       */
-  uint32_t          RESERVED0[992U];            /**< Reserved for future use                            */
-  BURAM_RET_TypeDef RET_SET[32U];               /**< RetentionReg                                       */
-  uint32_t          RESERVED1[992U];            /**< Reserved for future use                            */
-  BURAM_RET_TypeDef RET_CLR[32U];               /**< RetentionReg                                       */
-  uint32_t          RESERVED2[992U];            /**< Reserved for future use                            */
-  BURAM_RET_TypeDef RET_TGL[32U];               /**< RetentionReg                                       */
+typedef struct
+{
+	BURAM_RET_TypeDef RET[32U]; /**< RetentionReg                                       */
+	uint32_t RESERVED0[992U]; /**< Reserved for future use                            */
+	BURAM_RET_TypeDef RET_SET[32U]; /**< RetentionReg                                       */
+	uint32_t RESERVED1[992U]; /**< Reserved for future use                            */
+	BURAM_RET_TypeDef RET_CLR[32U]; /**< RetentionReg                                       */
+	uint32_t RESERVED2[992U]; /**< Reserved for future use                            */
+	BURAM_RET_TypeDef RET_TGL[32U]; /**< RetentionReg                                       */
 } BURAM_TypeDef;
 /** @} End of group EFR32MG24_BURAM */
 

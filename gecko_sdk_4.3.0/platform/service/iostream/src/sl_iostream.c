@@ -59,13 +59,10 @@
 static sli_task_register_id_t sli_task_register_id = TASK_REGISTER_ID_INVALID;
 static sl_iostream_t  *sli_iostream_system_default = NULL;
 #endif
-static sl_iostream_t  *sli_iostream_default = NULL;
+static sl_iostream_t *sli_iostream_default = NULL;
 
-sl_iostream_t sl_iostream_null = {
-  .write   = NULL,
-  .read    = NULL,
-  .context = NULL
-};
+sl_iostream_t sl_iostream_null =
+{ .write = NULL, .read = NULL, .context = NULL };
 
 /*******************************************************************************
  *********************   LOCAL FUNCTION PROTOTYPES   ***************************
@@ -83,15 +80,15 @@ static void stream_putchar(char character,
 /***************************************************************************//**
  * Registers default IO stream to be used
  ******************************************************************************/
-sl_status_t sl_iostream_set_default(sl_iostream_t  *stream)
+sl_status_t sl_iostream_set_default(sl_iostream_t *stream)
 {
 #if defined(SL_CATALOG_KERNEL_PRESENT)
   sli_task_register_id_t reg_id;
   sl_status_t status;
 #endif
-  CORE_DECLARE_IRQ_STATE;
+	CORE_DECLARE_IRQ_STATE;
 
-  CORE_ENTER_CRITICAL();
+	CORE_ENTER_CRITICAL();
 #if defined(SL_CATALOG_KERNEL_PRESENT)
   if (osThreadGetId() != NULL) {
     reg_id = sli_task_register_id;
@@ -102,8 +99,8 @@ sl_status_t sl_iostream_set_default(sl_iostream_t  *stream)
     }
   }
 #endif
-  sli_iostream_default = stream;
-  CORE_EXIT_CRITICAL();
+	sli_iostream_default = stream;
+	CORE_EXIT_CRITICAL();
 
 #if defined(SL_CATALOG_KERNEL_PRESENT)
   if (osThreadGetId() != NULL) {
@@ -112,27 +109,28 @@ sl_status_t sl_iostream_set_default(sl_iostream_t  *stream)
   }
 #endif
 
-  return SL_STATUS_OK;
+	return SL_STATUS_OK;
 }
 
 /***************************************************************************//**
  * Get default IO stream configured
  ******************************************************************************/
-sl_iostream_t *sl_iostream_get_default(void)
+sl_iostream_t*
+sl_iostream_get_default(void)
 {
 #if defined(SL_CATALOG_KERNEL_PRESENT)
   sl_status_t status;
   sli_task_register_id_t reg_id;
 #endif
-  sl_iostream_t *stream = NULL;
-  CORE_DECLARE_IRQ_STATE;
+	sl_iostream_t *stream = NULL;
+	CORE_DECLARE_IRQ_STATE;
 
-  CORE_ENTER_CRITICAL();
+	CORE_ENTER_CRITICAL();
 #if defined(SL_CATALOG_KERNEL_PRESENT)
   reg_id = sli_task_register_id;
 #endif
-  stream = sli_iostream_default;
-  CORE_EXIT_CRITICAL();
+	stream = sli_iostream_default;
+	CORE_EXIT_CRITICAL();
 
 #if defined(SL_CATALOG_KERNEL_PRESENT)
   if (osThreadGetId() != NULL) {
@@ -152,7 +150,7 @@ sl_iostream_t *sl_iostream_get_default(void)
   }
 #endif
 
-  return stream;
+	return stream;
 }
 
 /***************************************************************************//**
@@ -174,78 +172,81 @@ sl_status_t sl_iostream_set_system_default(sl_iostream_t *stream)
 /***************************************************************************//**
  * Stream write implementation
  ******************************************************************************/
-sl_status_t  sl_iostream_write(sl_iostream_t *stream,
-                               const void *buffer,
-                               size_t buffer_length)
+sl_status_t sl_iostream_write(sl_iostream_t *stream, const void *buffer,
+		size_t buffer_length)
 {
-  if (stream == SL_IOSTREAM_STDOUT) {
-    stream = sl_iostream_get_default();
-  }
+	if (stream == SL_IOSTREAM_STDOUT)
+	{
+		stream = sl_iostream_get_default();
+	}
 
-  if ((stream != NULL) && (stream->write != NULL)) {
-    return stream->write(stream->context, buffer, buffer_length);
-  } else {
-    return SL_STATUS_INVALID_CONFIGURATION;
-  }
+	if ((stream != NULL) && (stream->write != NULL))
+	{
+		return stream->write(stream->context, buffer, buffer_length);
+	}
+	else
+	{
+		return SL_STATUS_INVALID_CONFIGURATION;
+	}
 }
 
 /***************************************************************************//**
  * Stream read implementation
  ******************************************************************************/
-sl_status_t sl_iostream_read(sl_iostream_t *stream,
-                             void *buffer,
-                             size_t buffer_length,
-                             size_t *bytes_read)
+sl_status_t sl_iostream_read(sl_iostream_t *stream, void *buffer,
+		size_t buffer_length, size_t *bytes_read)
 {
-  size_t   size;
-  size_t  *read_size = &size;
+	size_t size;
+	size_t *read_size = &size;
 
-  if (stream == SL_IOSTREAM_STDIN) {
-    stream = sl_iostream_get_default();
-  }
+	if (stream == SL_IOSTREAM_STDIN)
+	{
+		stream = sl_iostream_get_default();
+	}
 
-  if (bytes_read != NULL) {
-    read_size = bytes_read;
-  }
+	if (bytes_read != NULL)
+	{
+		read_size = bytes_read;
+	}
 
-  if ((stream != NULL) && (stream->read != NULL)) {
-    return stream->read(stream->context, buffer, buffer_length, read_size);
-  } else {
-    return SL_STATUS_INVALID_CONFIGURATION;
-  }
+	if ((stream != NULL) && (stream->read != NULL))
+	{
+		return stream->read(stream->context, buffer, buffer_length, read_size);
+	}
+	else
+	{
+		return SL_STATUS_INVALID_CONFIGURATION;
+	}
 }
 
 /***************************************************************************//**
  * Stream putchar implementation
  ******************************************************************************/
-sl_status_t sl_iostream_putchar(sl_iostream_t *stream,
-                                char c)
+sl_status_t sl_iostream_putchar(sl_iostream_t *stream, char c)
 {
-  return sl_iostream_write(stream, &c, 1);
+	return sl_iostream_write(stream, &c, 1);
 }
 
 /***************************************************************************//**
  * Stream getchar implementation
  ******************************************************************************/
-sl_status_t sl_iostream_getchar(sl_iostream_t *stream,
-                                char *c)
+sl_status_t sl_iostream_getchar(sl_iostream_t *stream, char *c)
 {
-  return sl_iostream_read(stream, c, 1, NULL);
+	return sl_iostream_read(stream, c, 1, NULL);
 }
 
 /***************************************************************************//**
  * Stream vprintf implementation
  ******************************************************************************/
-sl_status_t sl_iostream_vprintf(sl_iostream_t *stream,
-                                const char *format,
-                                va_list argp)
+sl_status_t sl_iostream_vprintf(sl_iostream_t *stream, const char *format,
+		va_list argp)
 {
 #if !defined(SL_CATALOG_PRINTF_PRESENT)
-  sl_iostream_t *default_stream;
+	sl_iostream_t *default_stream;
 #endif
-  sl_iostream_t *output_stream = stream;
-  sl_status_t status = SL_STATUS_OK;
-  int ret;
+	sl_iostream_t *output_stream = stream;
+	sl_status_t status = SL_STATUS_OK;
+	int ret;
 
 #if defined(SL_CATALOG_PRINTF_PRESENT)
   if (output_stream == SL_IOSTREAM_STDOUT) {
@@ -253,41 +254,45 @@ sl_status_t sl_iostream_vprintf(sl_iostream_t *stream,
   }
   ret = vfctprintf(stream_putchar, output_stream, format, argp);
 #else
-  if (output_stream == SL_IOSTREAM_STDOUT) {
-    default_stream = sl_iostream_get_default();
-    output_stream = default_stream;
-  } else {
-    default_stream = sl_iostream_get_default();
-    if (default_stream != output_stream) {
-      sl_iostream_set_default(output_stream);
-    }
-  }
+	if (output_stream == SL_IOSTREAM_STDOUT)
+	{
+		default_stream = sl_iostream_get_default();
+		output_stream = default_stream;
+	}
+	else
+	{
+		default_stream = sl_iostream_get_default();
+		if (default_stream != output_stream)
+		{
+			sl_iostream_set_default(output_stream);
+		}
+	}
 
-  ret = vprintf(format, argp);
-  if (default_stream != output_stream) {
-    sl_iostream_set_default(default_stream);
-  }
+	ret = vprintf(format, argp);
+	if (default_stream != output_stream)
+	{
+		sl_iostream_set_default(default_stream);
+	}
 #endif
-  if (ret <= 0) {
-    status = SL_STATUS_OBJECT_WRITE;
-  }
+	if (ret <= 0)
+	{
+		status = SL_STATUS_OBJECT_WRITE;
+	}
 
-  return status;
+	return status;
 }
 
 /***************************************************************************//**
  * Stream printf implementation
  ******************************************************************************/
-sl_status_t sl_iostream_printf(sl_iostream_t *stream,
-                               const char *format,
-                               ...)
+sl_status_t sl_iostream_printf(sl_iostream_t *stream, const char *format, ...)
 {
-  sl_status_t status;
-  va_list argp;
-  va_start(argp, format);
-  status = sl_iostream_vprintf(stream, format, argp);
-  va_end(argp);
-  return status;
+	sl_status_t status;
+	va_list argp;
+	va_start(argp, format);
+	status = sl_iostream_vprintf(stream, format, argp);
+	va_end(argp);
+	return status;
 }
 
 /***************************************************************************//**

@@ -48,7 +48,8 @@ extern "C" {
  * @return
  *   description of the region reserved for the c stack.
  ******************************************************************************/
-sl_memory_region_t sl_memory_get_stack_region(void);
+sl_memory_region_t
+sl_memory_get_stack_region(void);
 
 /***************************************************************************//**
  * @brief
@@ -57,7 +58,8 @@ sl_memory_region_t sl_memory_get_stack_region(void);
  * @return
  *   description of the region reserved for the c heap.
  ******************************************************************************/
-sl_memory_region_t sl_memory_get_heap_region(void);
+sl_memory_region_t
+sl_memory_get_heap_region(void);
 
 /** @} end linker */
 

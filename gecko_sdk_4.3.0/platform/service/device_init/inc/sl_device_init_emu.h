@@ -75,7 +75,8 @@ extern "C" {
  * @return Status code
  * @retval SL_STATUS_OK EMU initialized successfully
  */
-sl_status_t sl_device_init_emu(void);
+sl_status_t
+sl_device_init_emu(void);
 
 /**
  * @} device_init_emu

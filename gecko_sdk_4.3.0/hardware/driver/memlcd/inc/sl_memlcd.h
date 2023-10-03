@@ -64,16 +64,17 @@ extern "C" {
 /**
  * General memory LCD data structure.
  */
-typedef struct sl_memlcd_t {
-  unsigned short width;       ///< Display pixel width
-  unsigned short height;      ///< Display pixel height
-  uint8_t bpp;                ///< Bits per pixel
-  uint8_t color_mode;         ///< Color mode
-  int spi_freq;               ///< SPI clock frequency
-  uint8_t extcomin_freq;      ///< Extcomin pin toggle frequency
-  uint8_t setup_us;           ///< SPI CS setup time
-  uint8_t hold_us;            ///< SPI CS hold time
-  void *custom_data;          ///< Custom LCD's data
+typedef struct sl_memlcd_t
+{
+	unsigned short width;       ///< Display pixel width
+	unsigned short height;      ///< Display pixel height
+	uint8_t bpp;                ///< Bits per pixel
+	uint8_t color_mode;         ///< Color mode
+	int spi_freq;               ///< SPI clock frequency
+	uint8_t extcomin_freq;      ///< Extcomin pin toggle frequency
+	uint8_t setup_us;           ///< SPI CS setup time
+	uint8_t hold_us;            ///< SPI CS hold time
+	void *custom_data;          ///< Custom LCD's data
 } sl_memlcd_t;
 
 /**************************************************************************//**
@@ -90,7 +91,8 @@ typedef struct sl_memlcd_t {
  * @return
  *   status code of the operation.
  *****************************************************************************/
-sl_status_t sl_memlcd_configure(struct sl_memlcd_t *device);
+sl_status_t
+sl_memlcd_configure(struct sl_memlcd_t *device);
 
 /**************************************************************************//**
  * @brief
@@ -112,7 +114,8 @@ sl_status_t sl_memlcd_configure(struct sl_memlcd_t *device);
  * @return
  *   status code of the operation.
  *****************************************************************************/
-sl_status_t sl_memlcd_power_on(const struct sl_memlcd_t *device, bool on);
+sl_status_t
+sl_memlcd_power_on(const struct sl_memlcd_t *device, bool on);
 
 /**************************************************************************//**
  * @brief
@@ -124,7 +127,8 @@ sl_status_t sl_memlcd_power_on(const struct sl_memlcd_t *device, bool on);
  * @return
  *   SL_STATUS_OK if there are no errors.
  *****************************************************************************/
-sl_status_t sl_memlcd_clear(const struct sl_memlcd_t *device);
+sl_status_t
+sl_memlcd_clear(const struct sl_memlcd_t *device);
 
 /**************************************************************************//**
  * @brief
@@ -146,10 +150,9 @@ sl_status_t sl_memlcd_clear(const struct sl_memlcd_t *device);
  * @return
  *   SL_STATUS_OK if there are no errors.
  *****************************************************************************/
-sl_status_t sl_memlcd_draw(const struct sl_memlcd_t *device,
-                           const void *data,
-                           unsigned int row_start,
-                           unsigned int row_count);
+sl_status_t
+sl_memlcd_draw(const struct sl_memlcd_t *device, const void *data,
+		unsigned int row_start, unsigned int row_count);
 
 /**************************************************************************//**
  * @brief
@@ -165,7 +168,8 @@ sl_status_t sl_memlcd_draw(const struct sl_memlcd_t *device,
  * @return
  *   status code of the operation.
  *****************************************************************************/
-sl_status_t sl_memlcd_refresh(const struct sl_memlcd_t *device);
+sl_status_t
+sl_memlcd_refresh(const struct sl_memlcd_t *device);
 
 /**************************************************************************//**
  * @brief
@@ -175,7 +179,8 @@ sl_status_t sl_memlcd_refresh(const struct sl_memlcd_t *device);
  *   Pointer to a memory LCD structure or NULL if no memory LCD is initialized
  *   yet.
  *****************************************************************************/
-const sl_memlcd_t *sl_memlcd_get(void);
+const sl_memlcd_t*
+sl_memlcd_get(void);
 
 /** @} (end group memlcd) */
 

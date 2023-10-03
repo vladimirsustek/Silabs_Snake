@@ -40,14 +40,15 @@
 #include "sl_mx25_flash_shutdown.h"
 #endif
 
-void sl_board_default_init(void);
+void
+sl_board_default_init(void);
 
 void sl_board_init(void)
 {
-  CMU_ClockEnable(cmuClock_GPIO, true);
+	CMU_ClockEnable(cmuClock_GPIO, true);
 
-  // Errata fixes and default pin states
-  sl_board_default_init();
+	// Errata fixes and default pin states
+	sl_board_default_init();
 
 #if defined(SL_BOARD_ENABLE_SENSOR_RHT) && SL_BOARD_ENABLE_SENSOR_RHT
   sl_board_enable_sensor(SL_BOARD_SENSOR_RHT);
@@ -84,13 +85,13 @@ void sl_board_init(void)
 
 #if (defined(SL_CATALOG_MX25_FLASH_SHUTDOWN_USART_PRESENT) || defined(SL_CATALOG_MX25_FLASH_SHUTDOWN_EUSART_PRESENT)) && \
     defined(SL_BOARD_DISABLE_MEMORY_SPI) && SL_BOARD_DISABLE_MEMORY_SPI
-  sl_mx25_flash_shutdown();
+	sl_mx25_flash_shutdown();
 #endif
 }
 
 void sl_board_preinit(void)
 {
-  CMU_ClockEnable(cmuClock_GPIO, true);
+	CMU_ClockEnable(cmuClock_GPIO, true);
 
 #if defined(SL_BOARD_ENABLE_OSCILLATOR_TCXO) && SL_BOARD_ENABLE_OSCILLATOR_TCXO
   sl_board_enable_oscillator(SL_BOARD_OSCILLATOR_TCXO);

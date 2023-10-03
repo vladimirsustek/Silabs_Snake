@@ -47,7 +47,8 @@ extern "C" {
  * features, in addition to performing necessary board errata fixes and setting
  * default pin states.
  ******************************************************************************/
-void sl_board_init(void);
+void
+sl_board_init(void);
 
 /***************************************************************************//**
  * @brief Initialize board features that are required at early boot.
@@ -55,7 +56,8 @@ void sl_board_init(void);
  * Certain board features such as external oscillators may need to be powered
  * before core device features, such as the clock tree, are configured.
  ******************************************************************************/
-void sl_board_preinit(void);
+void
+sl_board_preinit(void);
 /** @} */
 
 #ifdef __cplusplus

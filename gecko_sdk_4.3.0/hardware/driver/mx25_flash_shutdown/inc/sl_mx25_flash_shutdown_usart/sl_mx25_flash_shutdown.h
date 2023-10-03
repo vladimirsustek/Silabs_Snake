@@ -55,7 +55,8 @@ extern "C" {
  * the deep power-down instruction, which sets the device to minimal
  * power consumption. The SPI communication is disabled to free the USART.
  ******************************************************************************/
-void sl_mx25_flash_shutdown(void);
+void
+sl_mx25_flash_shutdown(void);
 
 /**@}*/
 

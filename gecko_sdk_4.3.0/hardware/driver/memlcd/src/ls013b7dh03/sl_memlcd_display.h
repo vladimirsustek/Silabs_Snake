@@ -60,7 +60,8 @@ extern "C" {
  *   If all operations completed sucessfully SL_STATUS_OK is returned. On
  *   failure a different status code is returned specifying the error.
  *****************************************************************************/
-sl_status_t sl_memlcd_init(void);
+sl_status_t
+sl_memlcd_init(void);
 
 #ifdef __cplusplus
 }

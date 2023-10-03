@@ -44,26 +44,32 @@ extern "C" {
  ******************************************************************************/
 
 /// Board Sensor Type
-SL_ENUM_GENERIC(sl_board_sensor_t, int) {
-  SL_BOARD_SENSOR_RHT           = (1UL << 0UL),     ///< Relative Humidity and Temperature Sensor
-  SL_BOARD_SENSOR_LIGHT         = (1UL << 1UL),     ///< UV Index and Ambient Light Sensor
-  SL_BOARD_SENSOR_PRESSURE      = (1UL << 2UL),     ///< Barometric Pressure Sensor
-  SL_BOARD_SENSOR_HALL          = (1UL << 3UL),     ///< Hall Effect Sensor
-  SL_BOARD_SENSOR_GAS           = (1UL << 4UL),     ///< Gas Sensor
-  SL_BOARD_SENSOR_IMU           = (1UL << 5UL),     ///< Inertial Measurement Unit (Accelerometer/Gyroscope)
-  SL_BOARD_SENSOR_MICROPHONE    = (1UL << 6UL),     ///< Microphone
-};
+SL_ENUM_GENERIC(sl_board_sensor_t, int)
+{
+SL_BOARD_SENSOR_RHT = (1UL << 0UL), ///< Relative Humidity and Temperature Sensor
+SL_BOARD_SENSOR_LIGHT = (1UL << 1UL),///< UV Index and Ambient Light Sensor
+SL_BOARD_SENSOR_PRESSURE = (1UL << 2UL),///< Barometric Pressure Sensor
+SL_BOARD_SENSOR_HALL = (1UL << 3UL),///< Hall Effect Sensor
+SL_BOARD_SENSOR_GAS = (1UL << 4UL),///< Gas Sensor
+SL_BOARD_SENSOR_IMU = (1UL << 5UL),///< Inertial Measurement Unit (Accelerometer/Gyroscope)
+SL_BOARD_SENSOR_MICROPHONE = (1UL << 6UL),///< Microphone
+}
+;
 
 /// Board Memory Type
-SL_ENUM_GENERIC(sl_board_memory_t, int) {
-  SL_BOARD_MEMORY_SDCARD        = (1UL << 0UL),     ///< SD Card
-  SL_BOARD_MEMORY_QSPI          = (1UL << 1UL),     ///< Quad SPI Flash
-};
+SL_ENUM_GENERIC(sl_board_memory_t, int)
+{
+SL_BOARD_MEMORY_SDCARD = (1UL << 0UL),     ///< SD Card
+SL_BOARD_MEMORY_QSPI = (1UL << 1UL),///< Quad SPI Flash
+}
+;
 
 /// Board Oscillator Type
-SL_ENUM_GENERIC(sl_board_oscillator_t, int) {
-  SL_BOARD_OSCILLATOR_TCXO      = (1UL << 0UL),     ///< TCXO
-};
+SL_ENUM_GENERIC(sl_board_oscillator_t, int)
+{
+SL_BOARD_OSCILLATOR_TCXO = (1UL << 0UL),     ///< TCXO
+}
+;
 
 /***************************************************************************//**
  * @brief Configure Virtual COM UART.
@@ -74,7 +80,8 @@ SL_ENUM_GENERIC(sl_board_oscillator_t, int) {
  * @retval SL_STATUS_NOT_AVAILABLE VCOM control is not available on this board
  * @retval SL_STATUS_NOT_SUPPORTED VCOM enabled was not configured
  ******************************************************************************/
-sl_status_t sl_board_configure_vcom(void);
+sl_status_t
+sl_board_configure_vcom(void);
 
 /***************************************************************************//**
  * @brief Enable Virtual COM UART.
@@ -84,7 +91,8 @@ sl_status_t sl_board_configure_vcom(void);
  * @retval SL_STATUS_FAIL Enabling VCOM failed
  * @retval SL_STATUS_NOT_AVAILABLE VCOM control is not available on this board
  ******************************************************************************/
-sl_status_t sl_board_enable_vcom(void);
+sl_status_t
+sl_board_enable_vcom(void);
 
 /***************************************************************************//**
  * @brief Disable Virtual COM UART.
@@ -94,7 +102,8 @@ sl_status_t sl_board_enable_vcom(void);
  * @retval SL_STATUS_FAIL Disabling VCOM failed
  * @retval SL_STATUS_NOT_AVAILABLE VCOM control is not available on this board
  ******************************************************************************/
-sl_status_t sl_board_disable_vcom(void);
+sl_status_t
+sl_board_disable_vcom(void);
 
 /***************************************************************************//**
  * @brief Enable a sensor.
@@ -117,7 +126,8 @@ sl_status_t sl_board_disable_vcom(void);
  * @retval SL_STATUS_FAIL Enabling sensor failed
  * @retval SL_STATUS_NOT_AVAILABLE Sensor control is not available on this board
  ******************************************************************************/
-sl_status_t sl_board_enable_sensor(sl_board_sensor_t sensor);
+sl_status_t
+sl_board_enable_sensor(sl_board_sensor_t sensor);
 
 /***************************************************************************//**
  * @brief Disable a sensor.
@@ -140,7 +150,8 @@ sl_status_t sl_board_enable_sensor(sl_board_sensor_t sensor);
  * @retval SL_STATUS_FAIL Disabling sensor failed
  * @retval SL_STATUS_NOT_AVAILABLE Sensor control is not available on this board
  ******************************************************************************/
-sl_status_t sl_board_disable_sensor(sl_board_sensor_t sensor);
+sl_status_t
+sl_board_disable_sensor(sl_board_sensor_t sensor);
 
 /***************************************************************************//**
  * @brief Enable display.
@@ -150,7 +161,8 @@ sl_status_t sl_board_disable_sensor(sl_board_sensor_t sensor);
  * @retval SL_STATUS_FAIL Enabling display failed
  * @retval SL_STATUS_NOT_AVAILABLE Display control is not available on this board
  ******************************************************************************/
-sl_status_t sl_board_enable_display(void);
+sl_status_t
+sl_board_enable_display(void);
 
 /***************************************************************************//**
  * @brief Disable display.
@@ -160,7 +172,8 @@ sl_status_t sl_board_enable_display(void);
  * @retval SL_STATUS_FAIL Disabling display failed
  * @retval SL_STATUS_NOT_AVAILABLE Display control is not available on this board
  ******************************************************************************/
-sl_status_t sl_board_disable_display(void);
+sl_status_t
+sl_board_disable_display(void);
 
 /***************************************************************************//**
  * @brief Enable memory.
@@ -172,7 +185,8 @@ sl_status_t sl_board_disable_display(void);
  * @retval SL_STATUS_FAIL Enabling memory failed
  * @retval SL_STATUS_NOT_AVAILABLE Memory control is not available on this board
  ******************************************************************************/
-sl_status_t sl_board_enable_memory(sl_board_memory_t memory);
+sl_status_t
+sl_board_enable_memory(sl_board_memory_t memory);
 
 /***************************************************************************//**
  * @brief Disable memory.
@@ -184,7 +198,8 @@ sl_status_t sl_board_enable_memory(sl_board_memory_t memory);
  * @retval SL_STATUS_FAIL Disabling memory failed
  * @retval SL_STATUS_NOT_AVAILABLE Memory control is not available on this board
  ******************************************************************************/
-sl_status_t sl_board_disable_memory(sl_board_memory_t memory);
+sl_status_t
+sl_board_disable_memory(sl_board_memory_t memory);
 
 /***************************************************************************//**
  * @brief Enable an oscillator.
@@ -196,7 +211,8 @@ sl_status_t sl_board_disable_memory(sl_board_memory_t memory);
  * @retval SL_STATUS_FAIL Enabling oscillator failed
  * @retval SL_STATUS_NOT_AVAILABLE Oscillator control is not available on this board
  ******************************************************************************/
-sl_status_t sl_board_enable_oscillator(sl_board_oscillator_t oscillator);
+sl_status_t
+sl_board_enable_oscillator(sl_board_oscillator_t oscillator);
 
 /***************************************************************************//**
  * @brief Disable a oscillator.
@@ -208,7 +224,8 @@ sl_status_t sl_board_enable_oscillator(sl_board_oscillator_t oscillator);
  * @retval SL_STATUS_FAIL Disabling oscillator failed
  * @retval SL_STATUS_NOT_AVAILABLE Oscillator control is not available on this board
  ******************************************************************************/
-sl_status_t sl_board_disable_oscillator(sl_board_oscillator_t oscillator);
+sl_status_t
+sl_board_disable_oscillator(sl_board_oscillator_t oscillator);
 
 /** @} */
 

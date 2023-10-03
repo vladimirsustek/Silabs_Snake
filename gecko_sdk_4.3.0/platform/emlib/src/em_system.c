@@ -69,18 +69,21 @@
 void SYSTEM_ChipRevisionGet(SYSTEM_ChipRevision_TypeDef *rev)
 {
 #if defined(_SYSCFG_CHIPREV_FAMILY_MASK) || defined(_SYSCFG_CHIPREV_PARTNUMBER_MASK)
-  /* On series-2 (and higher) the revision info is in the SYSCFG->CHIPREV register. */
+	/* On series-2 (and higher) the revision info is in the SYSCFG->CHIPREV register. */
 #if defined(CMU_CLKEN0_SYSCFG)
-  CMU->CLKEN0_SET = CMU_CLKEN0_SYSCFG;
+	CMU->CLKEN0_SET = CMU_CLKEN0_SYSCFG;
 #endif
-  uint32_t chiprev = SYSCFG_readChipRev();
+	uint32_t chiprev = SYSCFG_readChipRev();
 #if defined(_SYSCFG_CHIPREV_PARTNUMBER_MASK)
   rev->partNumber = ((chiprev & SYSCFG_CHIPREV_PARTNUMBER1) >> 5) | (chiprev & SYSCFG_CHIPREV_PARTNUMBER0);
 #else
-  rev->family = (chiprev & _SYSCFG_CHIPREV_FAMILY_MASK) >> _SYSCFG_CHIPREV_FAMILY_SHIFT;
+	rev->family = (chiprev & _SYSCFG_CHIPREV_FAMILY_MASK)
+			>> _SYSCFG_CHIPREV_FAMILY_SHIFT;
 #endif
-  rev->major  = (chiprev & _SYSCFG_CHIPREV_MAJOR_MASK)  >> _SYSCFG_CHIPREV_MAJOR_SHIFT;
-  rev->minor  = (chiprev & _SYSCFG_CHIPREV_MINOR_MASK)  >> _SYSCFG_CHIPREV_MINOR_SHIFT;
+	rev->major = (chiprev & _SYSCFG_CHIPREV_MAJOR_MASK)
+			>> _SYSCFG_CHIPREV_MAJOR_SHIFT;
+	rev->minor = (chiprev & _SYSCFG_CHIPREV_MINOR_MASK)
+			>> _SYSCFG_CHIPREV_MINOR_SHIFT;
 #else
   uint8_t tmp;
 
@@ -120,33 +123,37 @@ void SYSTEM_ChipRevisionGet(SYSTEM_ChipRevision_TypeDef *rev)
  * @return
  *    True if a calibration value exists, false otherwise.
  ******************************************************************************/
-bool SYSTEM_GetCalibrationValue(volatile uint32_t *regAddress)
+bool
+SYSTEM_GetCalibrationValue(volatile uint32_t *regAddress)
 {
-  SYSTEM_CalAddrVal_TypeDef * p, * end;
+	SYSTEM_CalAddrVal_TypeDef *p, *end;
 
-  uint32_t s_regAddress = (uint32_t)regAddress;
-  s_regAddress = s_regAddress & CONVERT_NS_TO_S;
+	uint32_t s_regAddress = (uint32_t) regAddress;
+	s_regAddress = s_regAddress & CONVERT_NS_TO_S;
 
 #if defined(MSC_FLASH_CHIPCONFIG_MEM_BASE)
-  p   = (SYSTEM_CalAddrVal_TypeDef *)MSC_FLASH_CHIPCONFIG_MEM_BASE;
-  end = (SYSTEM_CalAddrVal_TypeDef *)MSC_FLASH_CHIPCONFIG_MEM_END;
+	p = (SYSTEM_CalAddrVal_TypeDef*) MSC_FLASH_CHIPCONFIG_MEM_BASE;
+	end = (SYSTEM_CalAddrVal_TypeDef*) MSC_FLASH_CHIPCONFIG_MEM_END;
 #else
   p   = (SYSTEM_CalAddrVal_TypeDef *)(DEVINFO_BASE & 0xFFFFF000U);
   end = (SYSTEM_CalAddrVal_TypeDef *)DEVINFO_BASE;
 #endif
 
-  for (; p < end; p++) {
-    if (p->address == 0) {
-      /* p->address == 0 marks the end of the table */
-      return false;
-    }
-    if (p->address == s_regAddress) {
-      *regAddress = p->calValue;
-      return true;
-    }
-  }
-  /* Nothing found for regAddress. */
-  return false;
+	for (; p < end; p++)
+	{
+		if (p->address == 0)
+		{
+			/* p->address == 0 marks the end of the table */
+			return false;
+		}
+		if (p->address == s_regAddress)
+		{
+			*regAddress = p->calValue;
+			return true;
+		}
+	}
+	/* Nothing found for regAddress. */
+	return false;
 }
 
 /***************************************************************************//**
@@ -164,46 +171,47 @@ bool SYSTEM_GetCalibrationValue(volatile uint32_t *regAddress)
  ******************************************************************************/
 SYSTEM_SecurityCapability_TypeDef SYSTEM_GetSecurityCapability(void)
 {
-  SYSTEM_SecurityCapability_TypeDef sc;
+	SYSTEM_SecurityCapability_TypeDef sc;
 
 #if (_SILICON_LABS_32B_SERIES == 0)
   sc = securityCapabilityNA;
 #elif (_SILICON_LABS_32B_SERIES == 1)
   sc = securityCapabilityBasic;
 #else
-  sc = securityCapabilityUnknown;
+	sc = securityCapabilityUnknown;
 #endif
 
 #if (_SILICON_LABS_32B_SERIES == 2)
-  uint16_t mcuFeatureSetMajor;
-  uint16_t deviceNumber;
-  deviceNumber = SYSTEM_GetPartNumber();
-  mcuFeatureSetMajor = 'A' + (deviceNumber / 1000);
+	uint16_t mcuFeatureSetMajor;
+	uint16_t deviceNumber;
+	deviceNumber = SYSTEM_GetPartNumber();
+	mcuFeatureSetMajor = 'A' + (deviceNumber / 1000);
 #if defined(_SILICON_LABS_32B_SERIES_2_CONFIG_2)
   // override feature set since BRD4182A Rev A00 -> rev B02 are marked "A"
   mcuFeatureSetMajor = 'C';
 #endif
 
-  switch (mcuFeatureSetMajor) {
-    case 'A':
-      sc = securityCapabilitySE;
-      break;
+	switch (mcuFeatureSetMajor)
+	{
+	case 'A':
+		sc = securityCapabilitySE;
+		break;
 
-    case 'B':
-      sc = securityCapabilityVault;
-      break;
+	case 'B':
+		sc = securityCapabilityVault;
+		break;
 
-    case 'C':
-      sc = securityCapabilityRoT;
-      break;
+	case 'C':
+		sc = securityCapabilityRoT;
+		break;
 
-    default:
-      sc = securityCapabilityUnknown;
-      break;
-  }
+	default:
+		sc = securityCapabilityUnknown;
+		break;
+	}
 #endif
 
-  return sc;
+	return sc;
 }
 
 /***************************************************************************//**
@@ -216,8 +224,8 @@ SYSTEM_SecurityCapability_TypeDef SYSTEM_GetSecurityCapability(void)
 uint64_t SYSTEM_GetUnique(void)
 {
 #if defined (_DEVINFO_EUI64H_MASK)
-  uint32_t tmp = DEVINFO->EUI64L;
-  return (uint64_t)((uint64_t)DEVINFO->EUI64H << 32) | tmp;
+	uint32_t tmp = DEVINFO->EUI64L;
+	return (uint64_t) ((uint64_t) DEVINFO->EUI64H << 32) | tmp;
 #elif defined(_DEVINFO_UNIQUEH_MASK)
   uint32_t tmp = DEVINFO->UNIQUEL;
   return (uint64_t)((uint64_t)DEVINFO->UNIQUEH << 32) | tmp;
@@ -239,8 +247,8 @@ uint8_t SYSTEM_GetProdRev(void)
   return (uint8_t)((DEVINFO->PART & _DEVINFO_PART_PROD_REV_MASK)
                    >> _DEVINFO_PART_PROD_REV_SHIFT);
 #elif defined (_DEVINFO_INFO_PRODREV_MASK)
-  return (uint8_t)((DEVINFO->INFO & _DEVINFO_INFO_PRODREV_MASK)
-                   >> _DEVINFO_INFO_PRODREV_SHIFT);
+	return (uint8_t) ((DEVINFO->INFO & _DEVINFO_INFO_PRODREV_MASK)
+			>> _DEVINFO_INFO_PRODREV_SHIFT);
 #else
 #error (em_system.c): Location of production revision is not defined.
 #endif
@@ -258,7 +266,7 @@ uint8_t SYSTEM_GetProdRev(void)
  ******************************************************************************/
 uint32_t SYSTEM_GetSRAMBaseAddress(void)
 {
-  return (uint32_t)SRAM_BASE;
+	return (uint32_t) SRAM_BASE;
 }
 
 /***************************************************************************//**
@@ -275,7 +283,7 @@ uint32_t SYSTEM_GetSRAMBaseAddress(void)
  ******************************************************************************/
 uint16_t SYSTEM_GetSRAMSize(void)
 {
-  uint16_t sizekb;
+	uint16_t sizekb;
 
 #if defined(_EFM32_GECKO_FAMILY)
   /* Early Gecko devices had a bug where SRAM and Flash size were swapped. */
@@ -284,15 +292,15 @@ uint16_t SYSTEM_GetSRAMSize(void)
              >> _DEVINFO_MSIZE_FLASH_SHIFT;
   }
 #endif
-  sizekb = (uint16_t)((DEVINFO->MSIZE & _DEVINFO_MSIZE_SRAM_MASK)
-                      >> _DEVINFO_MSIZE_SRAM_SHIFT);
+	sizekb = (uint16_t) ((DEVINFO->MSIZE & _DEVINFO_MSIZE_SRAM_MASK)
+			>> _DEVINFO_MSIZE_SRAM_SHIFT);
 
 #if defined(_SILICON_LABS_GECKO_INTERNAL_SDID_80) && defined(_EFR_DEVICE)
   /* Do not include EFR32xG1 RAMH. */
   sizekb--;
 #endif
 
-  return sizekb;
+	return sizekb;
 }
 
 /***************************************************************************//**
@@ -316,8 +324,8 @@ uint16_t SYSTEM_GetFlashSize(void)
            >> _DEVINFO_MSIZE_SRAM_SHIFT;
   }
 #endif
-  return (uint16_t)((DEVINFO->MSIZE & _DEVINFO_MSIZE_FLASH_MASK)
-                    >> _DEVINFO_MSIZE_FLASH_SHIFT);
+	return (uint16_t) ((DEVINFO->MSIZE & _DEVINFO_MSIZE_FLASH_MASK)
+			>> _DEVINFO_MSIZE_FLASH_SHIFT);
 }
 
 /***************************************************************************//**
@@ -334,7 +342,7 @@ uint16_t SYSTEM_GetFlashSize(void)
  ******************************************************************************/
 uint32_t SYSTEM_GetFlashPageSize(void)
 {
-  uint32_t tmp;
+	uint32_t tmp;
 
 #if defined(_SILICON_LABS_32B_SERIES_0)
 
@@ -352,8 +360,8 @@ uint32_t SYSTEM_GetFlashPageSize(void)
 #endif
 
 #if defined(_DEVINFO_MEMINFO_FLASHPAGESIZE_MASK)
-  tmp = (DEVINFO->MEMINFO & _DEVINFO_MEMINFO_FLASHPAGESIZE_MASK)
-        >> _DEVINFO_MEMINFO_FLASHPAGESIZE_SHIFT;
+	tmp = (DEVINFO->MEMINFO & _DEVINFO_MEMINFO_FLASHPAGESIZE_MASK)
+			>> _DEVINFO_MEMINFO_FLASHPAGESIZE_SHIFT;
 #elif defined(_DEVINFO_MEMINFO_FLASH_PAGE_SIZE_MASK)
   tmp = (DEVINFO->MEMINFO & _DEVINFO_MEMINFO_FLASH_PAGE_SIZE_MASK)
         >> _DEVINFO_MEMINFO_FLASH_PAGE_SIZE_SHIFT;
@@ -361,7 +369,7 @@ uint32_t SYSTEM_GetFlashPageSize(void)
 #error (em_system.c): Location of flash page size is not defined.
 #endif
 
-  return 1UL << ((tmp + 10UL) & 0x1FUL);
+	return 1UL << ((tmp + 10UL) & 0x1FUL);
 }
 
 /***************************************************************************//**
@@ -374,8 +382,8 @@ uint32_t SYSTEM_GetFlashPageSize(void)
 uint16_t SYSTEM_GetPartNumber(void)
 {
 #if defined(_DEVINFO_PART_DEVICENUM_MASK)
-  return (uint16_t)((DEVINFO->PART & _DEVINFO_PART_DEVICENUM_MASK)
-                    >> _DEVINFO_PART_DEVICENUM_SHIFT);
+	return (uint16_t) ((DEVINFO->PART & _DEVINFO_PART_DEVICENUM_MASK)
+			>> _DEVINFO_PART_DEVICENUM_SHIFT);
 #elif defined(_DEVINFO_PART_DEVICE_NUMBER_MASK)
   return (uint16_t)((DEVINFO->PART & _DEVINFO_PART_DEVICE_NUMBER_MASK)
                     >> _DEVINFO_PART_DEVICE_NUMBER_SHIFT);
@@ -397,8 +405,8 @@ uint8_t SYSTEM_GetCalibrationTemperature(void)
   return (uint8_t)((DEVINFO->CAL & _DEVINFO_CAL_TEMP_MASK)
                    >> _DEVINFO_CAL_TEMP_SHIFT);
 #elif defined(_DEVINFO_CALTEMP_TEMP_MASK)
-  return (uint8_t)((DEVINFO->CALTEMP & _DEVINFO_CALTEMP_TEMP_MASK)
-                   >> _DEVINFO_CALTEMP_TEMP_SHIFT);
+	return (uint8_t) ((DEVINFO->CALTEMP & _DEVINFO_CALTEMP_TEMP_MASK)
+			>> _DEVINFO_CALTEMP_TEMP_SHIFT);
 #else
 #error (em_system.c): Location of calibration temperature is not defined.
 #endif
@@ -421,9 +429,8 @@ uint8_t SYSTEM_GetCalibrationTemperature(void)
 SYSTEM_PartFamily_TypeDef SYSTEM_GetFamily(void)
 {
 #if defined(_DEVINFO_PART_FAMILY_MASK)
-  return (SYSTEM_PartFamily_TypeDef)
-         ((uint32_t)((DEVINFO->PART & (_DEVINFO_PART_FAMILY_MASK
-                                       | _DEVINFO_PART_FAMILYNUM_MASK))));
+	return (SYSTEM_PartFamily_TypeDef) ((uint32_t) ((DEVINFO->PART
+			& (_DEVINFO_PART_FAMILY_MASK | _DEVINFO_PART_FAMILYNUM_MASK))));
 #elif defined(_DEVINFO_PART_DEVICE_FAMILY_MASK)
   return (SYSTEM_PartFamily_TypeDef)
          ((uint32_t)((DEVINFO->PART & _DEVINFO_PART_DEVICE_FAMILY_MASK)

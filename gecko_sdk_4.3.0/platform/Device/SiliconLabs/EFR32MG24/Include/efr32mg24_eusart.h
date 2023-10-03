@@ -32,9 +32,9 @@
 #define EUSART_HAS_SET_CLEAR
 
 /**************************************************************************//**
-* @addtogroup Parts
-* @{
-******************************************************************************/
+ * @addtogroup Parts
+ * @{
+ ******************************************************************************/
 /**************************************************************************//**
  * @defgroup EFR32MG24_EUSART EUSART
  * @{
@@ -42,110 +42,111 @@
  *****************************************************************************/
 
 /** EUSART Register Declaration. */
-typedef struct {
-  __IM uint32_t  IPVERSION;                     /**< IP version ID                                      */
-  __IOM uint32_t EN;                            /**< Enable Register                                    */
-  __IOM uint32_t CFG0;                          /**< Configuration 0 Register                           */
-  __IOM uint32_t CFG1;                          /**< Configuration 1 Register                           */
-  __IOM uint32_t CFG2;                          /**< Configuration 2 Register                           */
-  __IOM uint32_t FRAMECFG;                      /**< Frame Format Register                              */
-  __IOM uint32_t DTXDATCFG;                     /**< Default TX DATA Register                           */
-  __IOM uint32_t IRHFCFG;                       /**< HF IrDA Mod Config Register                        */
-  __IOM uint32_t IRLFCFG;                       /**< LF IrDA Pulse Config Register                      */
-  __IOM uint32_t TIMINGCFG;                     /**< Timing Register                                    */
-  __IOM uint32_t STARTFRAMECFG;                 /**< Start Frame Register                               */
-  __IOM uint32_t SIGFRAMECFG;                   /**< Signal Frame Register                              */
-  __IOM uint32_t CLKDIV;                        /**< Clock Divider Register                             */
-  __IOM uint32_t TRIGCTRL;                      /**< Trigger Control Register                           */
-  __IOM uint32_t CMD;                           /**< Command Register                                   */
-  __IM uint32_t  RXDATA;                        /**< RX Data Register                                   */
-  __IM uint32_t  RXDATAP;                       /**< RX Data Peek Register                              */
-  __IOM uint32_t TXDATA;                        /**< TX Data Register                                   */
-  __IM uint32_t  STATUS;                        /**< Status Register                                    */
-  __IOM uint32_t IF;                            /**< Interrupt Flag Register                            */
-  __IOM uint32_t IEN;                           /**< Interrupt Enable Register                          */
-  __IM uint32_t  SYNCBUSY;                      /**< Synchronization Busy Register                      */
-  __IOM uint32_t DALICFG;                       /**< DALI Config Register                               */
-  uint32_t       RESERVED0[41U];                /**< Reserved for future use                            */
-  uint32_t       RESERVED1[1U];                 /**< Reserved for future use                            */
-  uint32_t       RESERVED2[959U];               /**< Reserved for future use                            */
-  __IM uint32_t  IPVERSION_SET;                 /**< IP version ID                                      */
-  __IOM uint32_t EN_SET;                        /**< Enable Register                                    */
-  __IOM uint32_t CFG0_SET;                      /**< Configuration 0 Register                           */
-  __IOM uint32_t CFG1_SET;                      /**< Configuration 1 Register                           */
-  __IOM uint32_t CFG2_SET;                      /**< Configuration 2 Register                           */
-  __IOM uint32_t FRAMECFG_SET;                  /**< Frame Format Register                              */
-  __IOM uint32_t DTXDATCFG_SET;                 /**< Default TX DATA Register                           */
-  __IOM uint32_t IRHFCFG_SET;                   /**< HF IrDA Mod Config Register                        */
-  __IOM uint32_t IRLFCFG_SET;                   /**< LF IrDA Pulse Config Register                      */
-  __IOM uint32_t TIMINGCFG_SET;                 /**< Timing Register                                    */
-  __IOM uint32_t STARTFRAMECFG_SET;             /**< Start Frame Register                               */
-  __IOM uint32_t SIGFRAMECFG_SET;               /**< Signal Frame Register                              */
-  __IOM uint32_t CLKDIV_SET;                    /**< Clock Divider Register                             */
-  __IOM uint32_t TRIGCTRL_SET;                  /**< Trigger Control Register                           */
-  __IOM uint32_t CMD_SET;                       /**< Command Register                                   */
-  __IM uint32_t  RXDATA_SET;                    /**< RX Data Register                                   */
-  __IM uint32_t  RXDATAP_SET;                   /**< RX Data Peek Register                              */
-  __IOM uint32_t TXDATA_SET;                    /**< TX Data Register                                   */
-  __IM uint32_t  STATUS_SET;                    /**< Status Register                                    */
-  __IOM uint32_t IF_SET;                        /**< Interrupt Flag Register                            */
-  __IOM uint32_t IEN_SET;                       /**< Interrupt Enable Register                          */
-  __IM uint32_t  SYNCBUSY_SET;                  /**< Synchronization Busy Register                      */
-  __IOM uint32_t DALICFG_SET;                   /**< DALI Config Register                               */
-  uint32_t       RESERVED3[41U];                /**< Reserved for future use                            */
-  uint32_t       RESERVED4[1U];                 /**< Reserved for future use                            */
-  uint32_t       RESERVED5[959U];               /**< Reserved for future use                            */
-  __IM uint32_t  IPVERSION_CLR;                 /**< IP version ID                                      */
-  __IOM uint32_t EN_CLR;                        /**< Enable Register                                    */
-  __IOM uint32_t CFG0_CLR;                      /**< Configuration 0 Register                           */
-  __IOM uint32_t CFG1_CLR;                      /**< Configuration 1 Register                           */
-  __IOM uint32_t CFG2_CLR;                      /**< Configuration 2 Register                           */
-  __IOM uint32_t FRAMECFG_CLR;                  /**< Frame Format Register                              */
-  __IOM uint32_t DTXDATCFG_CLR;                 /**< Default TX DATA Register                           */
-  __IOM uint32_t IRHFCFG_CLR;                   /**< HF IrDA Mod Config Register                        */
-  __IOM uint32_t IRLFCFG_CLR;                   /**< LF IrDA Pulse Config Register                      */
-  __IOM uint32_t TIMINGCFG_CLR;                 /**< Timing Register                                    */
-  __IOM uint32_t STARTFRAMECFG_CLR;             /**< Start Frame Register                               */
-  __IOM uint32_t SIGFRAMECFG_CLR;               /**< Signal Frame Register                              */
-  __IOM uint32_t CLKDIV_CLR;                    /**< Clock Divider Register                             */
-  __IOM uint32_t TRIGCTRL_CLR;                  /**< Trigger Control Register                           */
-  __IOM uint32_t CMD_CLR;                       /**< Command Register                                   */
-  __IM uint32_t  RXDATA_CLR;                    /**< RX Data Register                                   */
-  __IM uint32_t  RXDATAP_CLR;                   /**< RX Data Peek Register                              */
-  __IOM uint32_t TXDATA_CLR;                    /**< TX Data Register                                   */
-  __IM uint32_t  STATUS_CLR;                    /**< Status Register                                    */
-  __IOM uint32_t IF_CLR;                        /**< Interrupt Flag Register                            */
-  __IOM uint32_t IEN_CLR;                       /**< Interrupt Enable Register                          */
-  __IM uint32_t  SYNCBUSY_CLR;                  /**< Synchronization Busy Register                      */
-  __IOM uint32_t DALICFG_CLR;                   /**< DALI Config Register                               */
-  uint32_t       RESERVED6[41U];                /**< Reserved for future use                            */
-  uint32_t       RESERVED7[1U];                 /**< Reserved for future use                            */
-  uint32_t       RESERVED8[959U];               /**< Reserved for future use                            */
-  __IM uint32_t  IPVERSION_TGL;                 /**< IP version ID                                      */
-  __IOM uint32_t EN_TGL;                        /**< Enable Register                                    */
-  __IOM uint32_t CFG0_TGL;                      /**< Configuration 0 Register                           */
-  __IOM uint32_t CFG1_TGL;                      /**< Configuration 1 Register                           */
-  __IOM uint32_t CFG2_TGL;                      /**< Configuration 2 Register                           */
-  __IOM uint32_t FRAMECFG_TGL;                  /**< Frame Format Register                              */
-  __IOM uint32_t DTXDATCFG_TGL;                 /**< Default TX DATA Register                           */
-  __IOM uint32_t IRHFCFG_TGL;                   /**< HF IrDA Mod Config Register                        */
-  __IOM uint32_t IRLFCFG_TGL;                   /**< LF IrDA Pulse Config Register                      */
-  __IOM uint32_t TIMINGCFG_TGL;                 /**< Timing Register                                    */
-  __IOM uint32_t STARTFRAMECFG_TGL;             /**< Start Frame Register                               */
-  __IOM uint32_t SIGFRAMECFG_TGL;               /**< Signal Frame Register                              */
-  __IOM uint32_t CLKDIV_TGL;                    /**< Clock Divider Register                             */
-  __IOM uint32_t TRIGCTRL_TGL;                  /**< Trigger Control Register                           */
-  __IOM uint32_t CMD_TGL;                       /**< Command Register                                   */
-  __IM uint32_t  RXDATA_TGL;                    /**< RX Data Register                                   */
-  __IM uint32_t  RXDATAP_TGL;                   /**< RX Data Peek Register                              */
-  __IOM uint32_t TXDATA_TGL;                    /**< TX Data Register                                   */
-  __IM uint32_t  STATUS_TGL;                    /**< Status Register                                    */
-  __IOM uint32_t IF_TGL;                        /**< Interrupt Flag Register                            */
-  __IOM uint32_t IEN_TGL;                       /**< Interrupt Enable Register                          */
-  __IM uint32_t  SYNCBUSY_TGL;                  /**< Synchronization Busy Register                      */
-  __IOM uint32_t DALICFG_TGL;                   /**< DALI Config Register                               */
-  uint32_t       RESERVED9[41U];                /**< Reserved for future use                            */
-  uint32_t       RESERVED10[1U];                /**< Reserved for future use                            */
+typedef struct
+{
+	__IM uint32_t IPVERSION; /**< IP version ID                                      */
+	__IOM uint32_t EN; /**< Enable Register                                    */
+	__IOM uint32_t CFG0; /**< Configuration 0 Register                           */
+	__IOM uint32_t CFG1; /**< Configuration 1 Register                           */
+	__IOM uint32_t CFG2; /**< Configuration 2 Register                           */
+	__IOM uint32_t FRAMECFG; /**< Frame Format Register                              */
+	__IOM uint32_t DTXDATCFG; /**< Default TX DATA Register                           */
+	__IOM uint32_t IRHFCFG; /**< HF IrDA Mod Config Register                        */
+	__IOM uint32_t IRLFCFG; /**< LF IrDA Pulse Config Register                      */
+	__IOM uint32_t TIMINGCFG; /**< Timing Register                                    */
+	__IOM uint32_t STARTFRAMECFG; /**< Start Frame Register                               */
+	__IOM uint32_t SIGFRAMECFG; /**< Signal Frame Register                              */
+	__IOM uint32_t CLKDIV; /**< Clock Divider Register                             */
+	__IOM uint32_t TRIGCTRL; /**< Trigger Control Register                           */
+	__IOM uint32_t CMD; /**< Command Register                                   */
+	__IM uint32_t RXDATA; /**< RX Data Register                                   */
+	__IM uint32_t RXDATAP; /**< RX Data Peek Register                              */
+	__IOM uint32_t TXDATA; /**< TX Data Register                                   */
+	__IM uint32_t STATUS; /**< Status Register                                    */
+	__IOM uint32_t IF; /**< Interrupt Flag Register                            */
+	__IOM uint32_t IEN; /**< Interrupt Enable Register                          */
+	__IM uint32_t SYNCBUSY; /**< Synchronization Busy Register                      */
+	__IOM uint32_t DALICFG; /**< DALI Config Register                               */
+	uint32_t RESERVED0[41U]; /**< Reserved for future use                            */
+	uint32_t RESERVED1[1U]; /**< Reserved for future use                            */
+	uint32_t RESERVED2[959U]; /**< Reserved for future use                            */
+	__IM uint32_t IPVERSION_SET; /**< IP version ID                                      */
+	__IOM uint32_t EN_SET; /**< Enable Register                                    */
+	__IOM uint32_t CFG0_SET; /**< Configuration 0 Register                           */
+	__IOM uint32_t CFG1_SET; /**< Configuration 1 Register                           */
+	__IOM uint32_t CFG2_SET; /**< Configuration 2 Register                           */
+	__IOM uint32_t FRAMECFG_SET; /**< Frame Format Register                              */
+	__IOM uint32_t DTXDATCFG_SET; /**< Default TX DATA Register                           */
+	__IOM uint32_t IRHFCFG_SET; /**< HF IrDA Mod Config Register                        */
+	__IOM uint32_t IRLFCFG_SET; /**< LF IrDA Pulse Config Register                      */
+	__IOM uint32_t TIMINGCFG_SET; /**< Timing Register                                    */
+	__IOM uint32_t STARTFRAMECFG_SET; /**< Start Frame Register                               */
+	__IOM uint32_t SIGFRAMECFG_SET; /**< Signal Frame Register                              */
+	__IOM uint32_t CLKDIV_SET; /**< Clock Divider Register                             */
+	__IOM uint32_t TRIGCTRL_SET; /**< Trigger Control Register                           */
+	__IOM uint32_t CMD_SET; /**< Command Register                                   */
+	__IM uint32_t RXDATA_SET; /**< RX Data Register                                   */
+	__IM uint32_t RXDATAP_SET; /**< RX Data Peek Register                              */
+	__IOM uint32_t TXDATA_SET; /**< TX Data Register                                   */
+	__IM uint32_t STATUS_SET; /**< Status Register                                    */
+	__IOM uint32_t IF_SET; /**< Interrupt Flag Register                            */
+	__IOM uint32_t IEN_SET; /**< Interrupt Enable Register                          */
+	__IM uint32_t SYNCBUSY_SET; /**< Synchronization Busy Register                      */
+	__IOM uint32_t DALICFG_SET; /**< DALI Config Register                               */
+	uint32_t RESERVED3[41U]; /**< Reserved for future use                            */
+	uint32_t RESERVED4[1U]; /**< Reserved for future use                            */
+	uint32_t RESERVED5[959U]; /**< Reserved for future use                            */
+	__IM uint32_t IPVERSION_CLR; /**< IP version ID                                      */
+	__IOM uint32_t EN_CLR; /**< Enable Register                                    */
+	__IOM uint32_t CFG0_CLR; /**< Configuration 0 Register                           */
+	__IOM uint32_t CFG1_CLR; /**< Configuration 1 Register                           */
+	__IOM uint32_t CFG2_CLR; /**< Configuration 2 Register                           */
+	__IOM uint32_t FRAMECFG_CLR; /**< Frame Format Register                              */
+	__IOM uint32_t DTXDATCFG_CLR; /**< Default TX DATA Register                           */
+	__IOM uint32_t IRHFCFG_CLR; /**< HF IrDA Mod Config Register                        */
+	__IOM uint32_t IRLFCFG_CLR; /**< LF IrDA Pulse Config Register                      */
+	__IOM uint32_t TIMINGCFG_CLR; /**< Timing Register                                    */
+	__IOM uint32_t STARTFRAMECFG_CLR; /**< Start Frame Register                               */
+	__IOM uint32_t SIGFRAMECFG_CLR; /**< Signal Frame Register                              */
+	__IOM uint32_t CLKDIV_CLR; /**< Clock Divider Register                             */
+	__IOM uint32_t TRIGCTRL_CLR; /**< Trigger Control Register                           */
+	__IOM uint32_t CMD_CLR; /**< Command Register                                   */
+	__IM uint32_t RXDATA_CLR; /**< RX Data Register                                   */
+	__IM uint32_t RXDATAP_CLR; /**< RX Data Peek Register                              */
+	__IOM uint32_t TXDATA_CLR; /**< TX Data Register                                   */
+	__IM uint32_t STATUS_CLR; /**< Status Register                                    */
+	__IOM uint32_t IF_CLR; /**< Interrupt Flag Register                            */
+	__IOM uint32_t IEN_CLR; /**< Interrupt Enable Register                          */
+	__IM uint32_t SYNCBUSY_CLR; /**< Synchronization Busy Register                      */
+	__IOM uint32_t DALICFG_CLR; /**< DALI Config Register                               */
+	uint32_t RESERVED6[41U]; /**< Reserved for future use                            */
+	uint32_t RESERVED7[1U]; /**< Reserved for future use                            */
+	uint32_t RESERVED8[959U]; /**< Reserved for future use                            */
+	__IM uint32_t IPVERSION_TGL; /**< IP version ID                                      */
+	__IOM uint32_t EN_TGL; /**< Enable Register                                    */
+	__IOM uint32_t CFG0_TGL; /**< Configuration 0 Register                           */
+	__IOM uint32_t CFG1_TGL; /**< Configuration 1 Register                           */
+	__IOM uint32_t CFG2_TGL; /**< Configuration 2 Register                           */
+	__IOM uint32_t FRAMECFG_TGL; /**< Frame Format Register                              */
+	__IOM uint32_t DTXDATCFG_TGL; /**< Default TX DATA Register                           */
+	__IOM uint32_t IRHFCFG_TGL; /**< HF IrDA Mod Config Register                        */
+	__IOM uint32_t IRLFCFG_TGL; /**< LF IrDA Pulse Config Register                      */
+	__IOM uint32_t TIMINGCFG_TGL; /**< Timing Register                                    */
+	__IOM uint32_t STARTFRAMECFG_TGL; /**< Start Frame Register                               */
+	__IOM uint32_t SIGFRAMECFG_TGL; /**< Signal Frame Register                              */
+	__IOM uint32_t CLKDIV_TGL; /**< Clock Divider Register                             */
+	__IOM uint32_t TRIGCTRL_TGL; /**< Trigger Control Register                           */
+	__IOM uint32_t CMD_TGL; /**< Command Register                                   */
+	__IM uint32_t RXDATA_TGL; /**< RX Data Register                                   */
+	__IM uint32_t RXDATAP_TGL; /**< RX Data Peek Register                              */
+	__IOM uint32_t TXDATA_TGL; /**< TX Data Register                                   */
+	__IM uint32_t STATUS_TGL; /**< Status Register                                    */
+	__IOM uint32_t IF_TGL; /**< Interrupt Flag Register                            */
+	__IOM uint32_t IEN_TGL; /**< Interrupt Enable Register                          */
+	__IM uint32_t SYNCBUSY_TGL; /**< Synchronization Busy Register                      */
+	__IOM uint32_t DALICFG_TGL; /**< DALI Config Register                               */
+	uint32_t RESERVED9[41U]; /**< Reserved for future use                            */
+	uint32_t RESERVED10[1U]; /**< Reserved for future use                            */
 } EUSART_TypeDef;
 /** @} End of group EFR32MG24_EUSART */
 

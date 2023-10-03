@@ -111,38 +111,38 @@ struct __BMP_Header
 __packed struct __BMP_Header
 #endif
 {
-  /** Magic identifier: "BM" (for bmp files)*/
-  uint16_t magic;
-  /** Size of the bmp file in bytes */
-  uint32_t fileSize;
-  /** Reserved 1 */
-  uint16_t reserved1;
-  /** Reserved 2 */
-  uint16_t reserved2;
-  /** Data offset relative to the start of the bmp data */
-  uint32_t dataOffset;
-  /** Header size in bytes */
-  uint32_t headerSize;
-  /** Width of bmp */
-  uint32_t width;
-  /** Height of bmp */
-  uint32_t height;
-  /** Color planes */
-  uint16_t colorPlanes;
-  /** Color depth */
-  uint16_t bitsPerPixel;
-  /** Compression type */
-  uint32_t compressionType;
-  /** Size of raw BMP data */
-  uint32_t imageDataSize;
-  /** Horizontal resolution (pixels per meter) */
-  uint32_t hPixelsPerMeter;
-  /** Vertical resolution (pixels per meter) */
-  uint32_t vPixelsPerMeter;
-  /** Number of color indices in the color table that are actually used by the bitmap */
-  uint32_t colorsUsed;
-  /** Number of color indices that are required for displaying the bitmap */
-  uint32_t colorsRequired;
+	/** Magic identifier: "BM" (for bmp files)*/
+	uint16_t magic;
+	/** Size of the bmp file in bytes */
+	uint32_t fileSize;
+	/** Reserved 1 */
+	uint16_t reserved1;
+	/** Reserved 2 */
+	uint16_t reserved2;
+	/** Data offset relative to the start of the bmp data */
+	uint32_t dataOffset;
+	/** Header size in bytes */
+	uint32_t headerSize;
+	/** Width of bmp */
+	uint32_t width;
+	/** Height of bmp */
+	uint32_t height;
+	/** Color planes */
+	uint16_t colorPlanes;
+	/** Color depth */
+	uint16_t bitsPerPixel;
+	/** Compression type */
+	uint32_t compressionType;
+	/** Size of raw BMP data */
+	uint32_t imageDataSize;
+	/** Horizontal resolution (pixels per meter) */
+	uint32_t hPixelsPerMeter;
+	/** Vertical resolution (pixels per meter) */
+	uint32_t vPixelsPerMeter;
+	/** Number of color indices in the color table that are actually used by the bitmap */
+	uint32_t colorsUsed;
+	/** Number of color indices that are required for displaying the bitmap */
+	uint32_t colorsRequired;
 #if defined (__GNUC__)
 } __attribute__ ((__packed__));
 #else
@@ -150,44 +150,59 @@ __packed struct __BMP_Header
 #endif
 
 /** @brief BMP Module header structure. */
-typedef struct __BMP_Header   BMP_Header;
+typedef struct __BMP_Header BMP_Header;
 
 /** @brief BMP palette structure to hold palette pointer and size
  */
-typedef struct __BMP_Palette{
-  /** Palette data pointer */
-  uint8_t  *data;
-  /** Size of palette data */
-  uint32_t size;
+typedef struct __BMP_Palette
+{
+	/** Palette data pointer */
+	uint8_t *data;
+	/** Size of palette data */
+	uint32_t size;
 } BMP_Palette;
 
 /** @brief BMP Data type structure to hold information about the bmp data returned
  */
-typedef struct __BMP_DataType{
-  /** Color depth of the data returned from function. */
-  uint16_t bitsPerPixel;
-  /** Compression type */
-  uint32_t compressionType;
-  /** Byte length of returned data */
-  uint32_t size;
-  /** Marks whether this data is at the end of the current row. endOfRow == 1, if end of row is reached. endOfRow == 0, if there is still unread data left in the row */
-  uint32_t endOfRow;
+typedef struct __BMP_DataType
+{
+	/** Color depth of the data returned from function. */
+	uint16_t bitsPerPixel;
+	/** Compression type */
+	uint32_t compressionType;
+	/** Byte length of returned data */
+	uint32_t size;
+	/** Marks whether this data is at the end of the current row. endOfRow == 1, if end of row is reached. endOfRow == 0, if there is still unread data left in the row */
+	uint32_t endOfRow;
 } BMP_DataType;
 
 /* Module prototypes */
-EMSTATUS BMP_init(uint8_t *palette, uint32_t paletteSize, EMSTATUS (*fp)(uint8_t buffer[], uint32_t bufLength, uint32_t bytesToRead));
-EMSTATUS BMP_reset(void);
-EMSTATUS BMP_readRgbData(uint8_t buffer[], uint32_t bufLength, uint32_t *pixelsRead);
-EMSTATUS BMP_readRawData(BMP_DataType *dataType, uint8_t buffer[], uint32_t bufLength);
+EMSTATUS
+BMP_init(uint8_t *palette, uint32_t paletteSize,
+		EMSTATUS (*fp)(uint8_t buffer[], uint32_t bufLength,
+				uint32_t bytesToRead));
+EMSTATUS
+BMP_reset(void);
+EMSTATUS
+BMP_readRgbData(uint8_t buffer[], uint32_t bufLength, uint32_t *pixelsRead);
+EMSTATUS
+BMP_readRawData(BMP_DataType *dataType, uint8_t buffer[], uint32_t bufLength);
 
 /* Accessor functions */
-int32_t BMP_getWidth(void);
-int32_t BMP_getHeight(void);
-int16_t BMP_getBitsPerPixel(void);
-int32_t BMP_getCompressionType(void);
-int32_t BMP_getImageDataSize(void);
-int32_t BMP_getDataOffset(void);
-int32_t BMP_getFileSize(void);
+int32_t
+BMP_getWidth(void);
+int32_t
+BMP_getHeight(void);
+int16_t
+BMP_getBitsPerPixel(void);
+int32_t
+BMP_getCompressionType(void);
+int32_t
+BMP_getImageDataSize(void);
+int32_t
+BMP_getDataOffset(void);
+int32_t
+BMP_getFileSize(void);
 
 /** @} (end addtogroup bmp) */
 /** @} (end addtogroup glib) */

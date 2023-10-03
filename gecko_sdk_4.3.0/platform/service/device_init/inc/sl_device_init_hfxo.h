@@ -70,7 +70,8 @@
  * @return Status code
  * @retval SL_STATUS_OK HFXO started successfully
  */
-sl_status_t sl_device_init_hfxo(void);
+sl_status_t
+sl_device_init_hfxo(void);
 
 /**
  * @} device_init_hfxo

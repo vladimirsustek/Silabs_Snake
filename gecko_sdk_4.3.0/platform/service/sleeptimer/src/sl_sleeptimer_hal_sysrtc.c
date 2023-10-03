@@ -55,43 +55,44 @@ static bool cc_disabled = true;
 
 static bool cc1_disabled = true;
 
-__STATIC_INLINE uint32_t get_time_diff(uint32_t a,
-                                       uint32_t b);
+__STATIC_INLINE uint32_t
+get_time_diff(uint32_t a, uint32_t b);
 
 /******************************************************************************
  * Initializes SYSRTC sleep timer.
  *****************************************************************************/
 void sleeptimer_hal_init_timer(void)
 {
-  sl_sysrtc_config_t sysrtc_config = SYSRTC_CONFIG_DEFAULT;
-  sl_sysrtc_group_config_t group_config = SYSRTC_GROUP_CONFIG_DEFAULT;
-  const sl_sysrtc_group_channel_compare_config_t group_compare_channel_config = SYSRTC_GROUP_CHANNEL_COMPARE_CONFIG_EARLY_WAKEUP;
+	sl_sysrtc_config_t sysrtc_config = SYSRTC_CONFIG_DEFAULT;
+	sl_sysrtc_group_config_t group_config = SYSRTC_GROUP_CONFIG_DEFAULT;
+	const sl_sysrtc_group_channel_compare_config_t group_compare_channel_config =
+	SYSRTC_GROUP_CHANNEL_COMPARE_CONFIG_EARLY_WAKEUP;
 
-  CMU_ClockEnable(cmuClock_SYSRTC, true);
+	CMU_ClockEnable(cmuClock_SYSRTC, true);
 
 #if (SL_SLEEPTIMER_DEBUGRUN == 1)
   sysrtc_config.enable_debug_run = true;
 #endif
 
-  sl_sysrtc_init(&sysrtc_config);
+	sl_sysrtc_init(&sysrtc_config);
 
-  group_config.compare_channel0_enable = false;
-  group_config.compare_channel1_enable = false;
-  group_config.p_compare_channel1_config = &group_compare_channel_config;
-  sl_sysrtc_init_group(0u, &group_config);
+	group_config.compare_channel0_enable = false;
+	group_config.compare_channel1_enable = false;
+	group_config.p_compare_channel1_config = &group_compare_channel_config;
+	sl_sysrtc_init_group(0u, &group_config);
 
-  sl_sysrtc_disable_group_interrupts(0u, _SYSRTC_GRP0_IEN_MASK);
-  sl_sysrtc_clear_group_interrupts(0u, _SYSRTC_GRP0_IF_MASK);
-  sl_sysrtc_enable();
-  sl_sysrtc_set_counter(0u);
+	sl_sysrtc_disable_group_interrupts(0u, _SYSRTC_GRP0_IEN_MASK);
+	sl_sysrtc_clear_group_interrupts(0u, _SYSRTC_GRP0_IF_MASK);
+	sl_sysrtc_enable();
+	sl_sysrtc_set_counter(0u);
 
-  NVIC_ClearPendingIRQ(SYSRTC_APP_IRQn);
-  NVIC_EnableIRQ(SYSRTC_APP_IRQn);
+	NVIC_ClearPendingIRQ(SYSRTC_APP_IRQn);
+	NVIC_EnableIRQ(SYSRTC_APP_IRQn);
 
-  // Initialize PRS to start HFXO for early wakeup
-  CMU_ClockEnable(cmuClock_PRS, true);
-  PRS_ConnectSignal(1UL, prsTypeAsync, prsSignalSYSRTC0_GRP0OUT1);
-  PRS_ConnectConsumer(1UL, prsTypeAsync, prsConsumerHFXO0_OSCREQ);
+	// Initialize PRS to start HFXO for early wakeup
+	CMU_ClockEnable(cmuClock_PRS, true);
+	PRS_ConnectSignal(1UL, prsTypeAsync, prsSignalSYSRTC0_GRP0OUT1);
+	PRS_ConnectConsumer(1UL, prsTypeAsync, prsConsumerHFXO0_OSCREQ);
 }
 
 /******************************************************************************
@@ -99,7 +100,7 @@ void sleeptimer_hal_init_timer(void)
  *****************************************************************************/
 uint32_t sleeptimer_hal_get_counter(void)
 {
-  return sl_sysrtc_get_counter();
+	return sl_sysrtc_get_counter();
 }
 
 /******************************************************************************
@@ -107,7 +108,7 @@ uint32_t sleeptimer_hal_get_counter(void)
  *****************************************************************************/
 uint32_t sleeptimer_hal_get_compare(void)
 {
-  return sl_sysrtc_get_group_compare_channel_value(0u, 0u);
+	return sl_sysrtc_get_group_compare_channel_value(0u, 0u);
 }
 
 /******************************************************************************
@@ -120,33 +121,36 @@ uint32_t sleeptimer_hal_get_compare(void)
  *****************************************************************************/
 void sleeptimer_hal_set_compare(uint32_t value)
 {
-  CORE_DECLARE_IRQ_STATE;
-  uint32_t counter;
-  uint32_t compare;
-  uint32_t compare_value = value;
+	CORE_DECLARE_IRQ_STATE;
+	uint32_t counter;
+	uint32_t compare;
+	uint32_t compare_value = value;
 
-  CORE_ENTER_CRITICAL();
-  counter = sleeptimer_hal_get_counter();
-  compare = sleeptimer_hal_get_compare();
+	CORE_ENTER_CRITICAL();
+	counter = sleeptimer_hal_get_counter();
+	compare = sleeptimer_hal_get_compare();
 
-  if (((sl_sysrtc_get_group_interrupts(0u) & SYSRTC_GRP0_IEN_CMP0) != 0)
-      || get_time_diff(compare, counter) > SLEEPTIMER_COMPARE_MIN_DIFF
-      || compare == counter) {
-    // Add margin if necessary
-    if (get_time_diff(compare_value, counter) < SLEEPTIMER_COMPARE_MIN_DIFF) {
-      compare_value = counter + SLEEPTIMER_COMPARE_MIN_DIFF;
-    }
-    compare_value %= SLEEPTIMER_TMR_WIDTH;
+	if (((sl_sysrtc_get_group_interrupts(0u) & SYSRTC_GRP0_IEN_CMP0) != 0)
+			|| get_time_diff(compare, counter) > SLEEPTIMER_COMPARE_MIN_DIFF
+			|| compare == counter)
+	{
+		// Add margin if necessary
+		if (get_time_diff(compare_value, counter) < SLEEPTIMER_COMPARE_MIN_DIFF)
+		{
+			compare_value = counter + SLEEPTIMER_COMPARE_MIN_DIFF;
+		}
+		compare_value %= SLEEPTIMER_TMR_WIDTH;
 
-    sl_sysrtc_set_group_compare_channel_value(0u, 0u, compare_value - 1);
-    sleeptimer_hal_enable_int(SLEEPTIMER_EVENT_COMP);
-  }
-  CORE_EXIT_CRITICAL();
+		sl_sysrtc_set_group_compare_channel_value(0u, 0u, compare_value - 1);
+		sleeptimer_hal_enable_int(SLEEPTIMER_EVENT_COMP);
+	}
+	CORE_EXIT_CRITICAL();
 
-  if (cc_disabled) {
-    SYSRTC0->GRP0_CTRL |= SYSRTC_GRP0_CTRL_CMP0EN;
-    cc_disabled = false;
-  }
+	if (cc_disabled)
+	{
+		SYSRTC0->GRP0_CTRL |= SYSRTC_GRP0_CTRL_CMP0EN;
+		cc_disabled = false;
+	}
 }
 
 /*******************************************************************************
@@ -159,35 +163,37 @@ void sleeptimer_hal_set_compare(uint32_t value)
  ******************************************************************************/
 void sleeptimer_hal_set_compare_prs_hfxo_startup(int32_t value)
 {
-  CORE_DECLARE_IRQ_STATE;
-  uint32_t counter;
-  uint32_t compare_value;
+	CORE_DECLARE_IRQ_STATE;
+	uint32_t counter;
+	uint32_t compare_value;
 
-  CORE_ENTER_CRITICAL();
+	CORE_ENTER_CRITICAL();
 
-  counter = sleeptimer_hal_get_counter();
+	counter = sleeptimer_hal_get_counter();
 
-  compare_value = value + counter;
+	compare_value = value + counter;
 
-  // Add margin if necessary
-  if (get_time_diff(compare_value, counter) < SLEEPTIMER_COMPARE_MIN_DIFF) {
-    compare_value = counter + SLEEPTIMER_COMPARE_MIN_DIFF;
-  }
+	// Add margin if necessary
+	if (get_time_diff(compare_value, counter) < SLEEPTIMER_COMPARE_MIN_DIFF)
+	{
+		compare_value = counter + SLEEPTIMER_COMPARE_MIN_DIFF;
+	}
 
 #if !defined(SL_CATALOG_POWER_MANAGER_NO_DEEPSLEEP_PRESENT) && defined(SL_CATALOG_POWER_MANAGER_PRESENT)
   sli_hfxo_prs_manager_begin_startup_measurement(compare_value);
 #endif
 
-  compare_value %= SLEEPTIMER_TMR_WIDTH;
+	compare_value %= SLEEPTIMER_TMR_WIDTH;
 
-  sl_sysrtc_set_group_compare_channel_value(0u, 1u, compare_value - 1);
+	sl_sysrtc_set_group_compare_channel_value(0u, 1u, compare_value - 1);
 
-  CORE_EXIT_CRITICAL();
+	CORE_EXIT_CRITICAL();
 
-  if (cc1_disabled) {
-    SYSRTC0->GRP0_CTRL |= SYSRTC_GRP0_CTRL_CMP1EN;
-    cc1_disabled = false;
-  }
+	if (cc1_disabled)
+	{
+		SYSRTC0->GRP0_CTRL |= SYSRTC_GRP0_CTRL_CMP1EN;
+		cc1_disabled = false;
+	}
 }
 
 /******************************************************************************
@@ -195,17 +201,19 @@ void sleeptimer_hal_set_compare_prs_hfxo_startup(int32_t value)
  *****************************************************************************/
 void sleeptimer_hal_enable_int(uint8_t local_flag)
 {
-  uint32_t sysrtc_ien = 0u;
+	uint32_t sysrtc_ien = 0u;
 
-  if (local_flag & SLEEPTIMER_EVENT_OF) {
-    sysrtc_ien |= SYSRTC_GRP0_IEN_OVF;
-  }
+	if (local_flag & SLEEPTIMER_EVENT_OF)
+	{
+		sysrtc_ien |= SYSRTC_GRP0_IEN_OVF;
+	}
 
-  if (local_flag & SLEEPTIMER_EVENT_COMP) {
-    sysrtc_ien |= SYSRTC_GRP0_IEN_CMP0;
-  }
+	if (local_flag & SLEEPTIMER_EVENT_COMP)
+	{
+		sysrtc_ien |= SYSRTC_GRP0_IEN_CMP0;
+	}
 
-  sl_sysrtc_enable_group_interrupts(0u, sysrtc_ien);
+	sl_sysrtc_enable_group_interrupts(0u, sysrtc_ien);
 }
 
 /******************************************************************************
@@ -213,20 +221,22 @@ void sleeptimer_hal_enable_int(uint8_t local_flag)
  *****************************************************************************/
 void sleeptimer_hal_disable_int(uint8_t local_flag)
 {
-  uint32_t sysrtc_int_dis = 0u;
+	uint32_t sysrtc_int_dis = 0u;
 
-  if (local_flag & SLEEPTIMER_EVENT_OF) {
-    sysrtc_int_dis |= SYSRTC_GRP0_IEN_OVF;
-  }
+	if (local_flag & SLEEPTIMER_EVENT_OF)
+	{
+		sysrtc_int_dis |= SYSRTC_GRP0_IEN_OVF;
+	}
 
-  if (local_flag & SLEEPTIMER_EVENT_COMP) {
-    sysrtc_int_dis |= SYSRTC_GRP0_IEN_CMP0;
+	if (local_flag & SLEEPTIMER_EVENT_COMP)
+	{
+		sysrtc_int_dis |= SYSRTC_GRP0_IEN_CMP0;
 
-    cc_disabled = true;
-    SYSRTC0->GRP0_CTRL &= ~_SYSRTC_GRP0_CTRL_CMP0EN_MASK;
-  }
+		cc_disabled = true;
+		SYSRTC0->GRP0_CTRL &= ~_SYSRTC_GRP0_CTRL_CMP0EN_MASK;
+	}
 
-  sl_sysrtc_disable_group_interrupts(0u, sysrtc_int_dis);
+	sl_sysrtc_disable_group_interrupts(0u, sysrtc_int_dis);
 }
 
 /*******************************************************************************
@@ -234,9 +244,10 @@ void sleeptimer_hal_disable_int(uint8_t local_flag)
  ******************************************************************************/
 void sleeptimer_hal_set_int(uint8_t local_flag)
 {
-  if (local_flag & SLEEPTIMER_EVENT_COMP) {
-    SYSRTC0->GRP0_IF_SET = SYSRTC_GRP0_IF_CMP0;
-  }
+	if (local_flag & SLEEPTIMER_EVENT_COMP)
+	{
+		SYSRTC0->GRP0_IF_SET = SYSRTC_GRP0_IF_CMP0;
+	}
 }
 
 /******************************************************************************
@@ -244,25 +255,27 @@ void sleeptimer_hal_set_int(uint8_t local_flag)
  *
  * Note: This function must be called with interrupts disabled.
  *****************************************************************************/
-bool sli_sleeptimer_hal_is_int_status_set(uint8_t local_flag)
+bool
+sli_sleeptimer_hal_is_int_status_set(uint8_t local_flag)
 {
-  bool int_is_set = false;
-  uint32_t irq_flag = sl_sysrtc_get_group_interrupts(0u);
+	bool int_is_set = false;
+	uint32_t irq_flag = sl_sysrtc_get_group_interrupts(0u);
 
-  switch (local_flag) {
-    case SLEEPTIMER_EVENT_COMP:
-      int_is_set = ((irq_flag & SYSRTC_GRP0_IF_CMP0) == SYSRTC_GRP0_IF_CMP0);
-      break;
+	switch (local_flag)
+	{
+	case SLEEPTIMER_EVENT_COMP:
+		int_is_set = ((irq_flag & SYSRTC_GRP0_IF_CMP0) == SYSRTC_GRP0_IF_CMP0);
+		break;
 
-    case SLEEPTIMER_EVENT_OF:
-      int_is_set = ((irq_flag & SYSRTC_GRP0_IF_OVF) == SYSRTC_GRP0_IF_OVF);
-      break;
+	case SLEEPTIMER_EVENT_OF:
+		int_is_set = ((irq_flag & SYSRTC_GRP0_IF_OVF) == SYSRTC_GRP0_IF_OVF);
+		break;
 
-    default:
-      break;
-  }
+	default:
+		break;
+	}
 
-  return int_is_set;
+	return int_is_set;
 }
 
 /*******************************************************************************
@@ -270,25 +283,28 @@ bool sli_sleeptimer_hal_is_int_status_set(uint8_t local_flag)
  ******************************************************************************/
 void SYSRTC_APP_IRQHandler(void)
 {
-  CORE_DECLARE_IRQ_STATE;
-  uint8_t local_flag = 0;
-  uint32_t irq_flag;
+	CORE_DECLARE_IRQ_STATE;
+	uint8_t local_flag = 0;
+	uint32_t irq_flag;
 
-  CORE_ENTER_ATOMIC();
-  irq_flag = sl_sysrtc_get_group_interrupts(0u);
+	CORE_ENTER_ATOMIC();
+	irq_flag = sl_sysrtc_get_group_interrupts(0u);
 
-  if (irq_flag & SYSRTC_GRP0_IF_OVF) {
-    local_flag |= SLEEPTIMER_EVENT_OF;
-  }
+	if (irq_flag & SYSRTC_GRP0_IF_OVF)
+	{
+		local_flag |= SLEEPTIMER_EVENT_OF;
+	}
 
-  if (irq_flag & SYSRTC_GRP0_IF_CMP0) {
-    local_flag |= SLEEPTIMER_EVENT_COMP;
-  }
-  sl_sysrtc_clear_group_interrupts(0u, irq_flag & (SYSRTC_GRP0_IF_OVF | SYSRTC_GRP0_IF_CMP0));
+	if (irq_flag & SYSRTC_GRP0_IF_CMP0)
+	{
+		local_flag |= SLEEPTIMER_EVENT_COMP;
+	}
+	sl_sysrtc_clear_group_interrupts(0u,
+			irq_flag & (SYSRTC_GRP0_IF_OVF | SYSRTC_GRP0_IF_CMP0));
 
-  process_timer_irq(local_flag);
+	process_timer_irq(local_flag);
 
-  CORE_EXIT_ATOMIC();
+	CORE_EXIT_ATOMIC();
 }
 
 /*******************************************************************************
@@ -296,7 +312,7 @@ void SYSRTC_APP_IRQHandler(void)
  ******************************************************************************/
 uint32_t sleeptimer_hal_get_timer_frequency(void)
 {
-  return (CMU_ClockFreqGet(cmuClock_SYSRTC));
+	return (CMU_ClockFreqGet(cmuClock_SYSRTC));
 }
 
 /*******************************************************************************
@@ -307,10 +323,9 @@ uint32_t sleeptimer_hal_get_timer_frequency(void)
  *
  * @return Time difference.
  ******************************************************************************/
-__STATIC_INLINE uint32_t get_time_diff(uint32_t a,
-                                       uint32_t b)
+__STATIC_INLINE uint32_t get_time_diff(uint32_t a, uint32_t b)
 {
-  return (a - b);
+	return (a - b);
 }
 
 /*******************************************************************************
@@ -323,7 +338,7 @@ __STATIC_INLINE uint32_t get_time_diff(uint32_t a,
  ******************************************************************************/
 uint16_t sleeptimer_hal_get_clock_accuracy(void)
 {
-  return CMU_LF_ClockPrecisionGet(cmuClock_SYSRTC);
+	return CMU_LF_ClockPrecisionGet(cmuClock_SYSRTC);
 }
 
 /***************************************************************************//**

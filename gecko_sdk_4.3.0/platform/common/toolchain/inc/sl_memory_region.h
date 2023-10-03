@@ -39,9 +39,10 @@
  ******************************************************************************/
 
 /** Memory region structure. */
-typedef struct sl_memory_region_t {
-  void * addr; ///< Pointer to the beginning of the memory region. Can be NULL.
-  size_t size; ///< Size of this memory region.
+typedef struct sl_memory_region_t
+{
+	void *addr; ///< Pointer to the beginning of the memory region. Can be NULL.
+	size_t size; ///< Size of this memory region.
 } sl_memory_region_t;
 
 /** @} end linker */

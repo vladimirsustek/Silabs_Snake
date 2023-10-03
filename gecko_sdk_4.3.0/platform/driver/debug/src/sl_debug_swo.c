@@ -13,13 +13,13 @@
 
 sl_status_t sl_debug_swo_init(void)
 {
-  uint32_t freq = 0.0f;
-  uint16_t cyctap = 0U;
-  uint16_t postpreset = 0U;
+	uint32_t freq = 0.0f;
+	uint16_t cyctap = 0U;
+	uint16_t postpreset = 0U;
 
 #if _SILICON_LABS_32B_SERIES <= 2
-  unsigned int location = 0U;
-  CMU_ClockEnable(cmuClock_GPIO, true);
+	unsigned int location = 0U;
+	CMU_ClockEnable(cmuClock_GPIO, true);
 
 #if defined(_GPIO_ROUTE_SWOPEN_MASK)
   // Series 0
@@ -30,162 +30,171 @@ sl_status_t sl_debug_swo_init(void)
   location = SL_DEBUG_SWV_LOC;
   GPIO_PinModeSet(SL_DEBUG_SWV_PORT, SL_DEBUG_SWV_PIN, gpioModePushPull, 1);
 #elif defined(GPIO_SWV_PORT)
-  // Series 2
-  // SWO location is not configurable
-  GPIO_PinModeSet((GPIO_Port_TypeDef)GPIO_SWV_PORT, GPIO_SWV_PIN, gpioModePushPull, 1);
+	// Series 2
+	// SWO location is not configurable
+	GPIO_PinModeSet((GPIO_Port_TypeDef) GPIO_SWV_PORT, GPIO_SWV_PIN,
+			gpioModePushPull, 1);
 #endif
 
-  // Set SWO location
-  GPIO_DbgLocationSet(location);
+	// Set SWO location
+	GPIO_DbgLocationSet(location);
 
-  // Enable SWO pin
-  GPIO_DbgSWOEnable(true);
+	// Enable SWO pin
+	GPIO_DbgSWOEnable(true);
 #endif
 
 #if _SILICON_LABS_32B_SERIES < 2
-  // Enable debug clock
-  CMU_OscillatorEnable(cmuOsc_AUXHFRCO, true, true);
+	// Enable debug clock
+	CMU_OscillatorEnable(cmuOsc_AUXHFRCO, true, true);
 
-  // Get debug clock frequency
-  freq = CMU_ClockFreqGet(cmuClock_DBG);
+	// Get debug clock frequency
+	freq = CMU_ClockFreqGet(cmuClock_DBG);
 #elif _SILICON_LABS_32B_SERIES == 2
 
 #if defined(_CMU_TRACECLKCTRL_CLKSEL_MASK)
 #if defined(_CMU_TRACECLKCTRL_CLKSEL_HFRCOEM23)
 #if defined(CMU_CLKEN0_HFRCOEM23)
-  CMU->CLKEN0_SET = CMU_CLKEN0_HFRCOEM23;
+	CMU->CLKEN0_SET = CMU_CLKEN0_HFRCOEM23;
 #endif
-  // Select HFRCOEM23 as source for TRACECLK
-  CMU_CLOCK_SELECT_SET(TRACECLK, HFRCOEM23);
+	// Select HFRCOEM23 as source for TRACECLK
+	CMU_CLOCK_SELECT_SET(TRACECLK, HFRCOEM23);
 #elif defined(_CMU_TRACECLKCTRL_CLKSEL_SYSCLK)
   // Select SYSCLK as source for TRACECLK
   CMU_CLOCK_SELECT_SET(TRACECLK, SYSCLK);
 #endif
 #endif
 
-  freq = CMU_ClockFreqGet(cmuClock_TRACECLK);
+	freq = CMU_ClockFreqGet(cmuClock_TRACECLK);
 #endif
 
-  // Enable trace in core debug
-  CoreDebug->DHCSR |= CoreDebug_DHCSR_C_DEBUGEN_Msk;
-  CoreDebug->DEMCR |= CoreDebug_DEMCR_TRCENA_Msk;
-  //Tap the cyctap and postpreset based on the selected interval
+	// Enable trace in core debug
+	CoreDebug->DHCSR |= CoreDebug_DHCSR_C_DEBUGEN_Msk;
+	CoreDebug->DEMCR |= CoreDebug_DEMCR_TRCENA_Msk;
+	//Tap the cyctap and postpreset based on the selected interval
 #ifdef SL_DEBUG_SWO_SAMPLE_INTERVAL
-  if (SL_DEBUG_SWO_SAMPLE_INTERVAL <= 960) {
-    cyctap = 0;
-    postpreset = (SL_DEBUG_SWO_SAMPLE_INTERVAL / 64);
-  } else {
-    cyctap = 1;
-    postpreset = (SL_DEBUG_SWO_SAMPLE_INTERVAL / 1024);
-  }
+	if (SL_DEBUG_SWO_SAMPLE_INTERVAL <= 960)
+	{
+		cyctap = 0;
+		postpreset = (SL_DEBUG_SWO_SAMPLE_INTERVAL / 64);
+	}
+	else
+	{
+		cyctap = 1;
+		postpreset = (SL_DEBUG_SWO_SAMPLE_INTERVAL / 1024);
+	}
 #else
-  cyctap = 1;
-  postpreset = 0xF;
+	cyctap = 1;
+	postpreset = 0xF;
 #endif
-  // Enable PC and IRQ sampling output
-  DWT->CTRL = ((4UL << DWT_CTRL_NUMCOMP_Pos)        // Number of comparators. Hardwired to 4.
-               | (SL_DEBUG_SWO_SAMPLE_IRQ << DWT_CTRL_EXCTRCENA_Pos)  // Interrupt events
-               | (SL_DEBUG_SWO_SAMPLE_PC << DWT_CTRL_PCSAMPLENA_Pos)  // PC sample events
-               | (cyctap << DWT_CTRL_CYCTAP_Pos)       // Tap cycle counter at bit 10 (vs bit 6 if 0)
-               | (0xFUL << DWT_CTRL_POSTINIT_Pos)   // Post-tap counter
-               | (postpreset << DWT_CTRL_POSTPRESET_Pos) // Post-tap counter reload value
-               | (1UL << DWT_CTRL_CYCCNTENA_Pos));  // Enable cycle counter
-  // Set TPIU prescaler for the current debug clock frequency. ACPR value is div - 1.
-  TPI->ACPR = ((freq + (SL_DEBUG_SWO_FREQ / 2)) / SL_DEBUG_SWO_FREQ) - 1UL;
+	// Enable PC and IRQ sampling output
+	DWT->CTRL = ((4UL << DWT_CTRL_NUMCOMP_Pos) // Number of comparators. Hardwired to 4.
+	| (SL_DEBUG_SWO_SAMPLE_IRQ << DWT_CTRL_EXCTRCENA_Pos)  // Interrupt events
+			| (SL_DEBUG_SWO_SAMPLE_PC << DWT_CTRL_PCSAMPLENA_Pos) // PC sample events
+			| (cyctap << DWT_CTRL_CYCTAP_Pos) // Tap cycle counter at bit 10 (vs bit 6 if 0)
+			| (0xFUL << DWT_CTRL_POSTINIT_Pos)   // Post-tap counter
+			| (postpreset << DWT_CTRL_POSTPRESET_Pos) // Post-tap counter reload value
+			| (1UL << DWT_CTRL_CYCCNTENA_Pos));  // Enable cycle counter
+	// Set TPIU prescaler for the current debug clock frequency. ACPR value is div - 1.
+	TPI->ACPR = ((freq + (SL_DEBUG_SWO_FREQ / 2)) / SL_DEBUG_SWO_FREQ) - 1UL;
 
-  // Set protocol to NRZ
-  TPI->SPPR = 2UL;
+	// Set protocol to NRZ
+	TPI->SPPR = 2UL;
 
-  // Disable continuous formatting
-  TPI->FFCR = TPI_FFCR_TrigIn_Msk;
+	// Disable continuous formatting
+	TPI->FFCR = TPI_FFCR_TrigIn_Msk;
 
-  // Unlock ITM and output data
-  ITM->LAR = 0xC5ACCE55UL;
-  // CMSIS bitfield naming is inconsistent - 16U maps to
-  // ITM_TCR_TraceBusID_Pos (v7M) or ITM_TCR_TRACEBUSID_Pos (v8M)
-  ITM->TCR = ((1UL << 16U)
-              | (1UL << ITM_TCR_DWTENA_Pos)
-              | (1UL << ITM_TCR_ITMENA_Pos));
+	// Unlock ITM and output data
+	ITM->LAR = 0xC5ACCE55UL;
+	// CMSIS bitfield naming is inconsistent - 16U maps to
+	// ITM_TCR_TraceBusID_Pos (v7M) or ITM_TCR_TRACEBUSID_Pos (v8M)
+	ITM->TCR = ((1UL << 16U) | (1UL << ITM_TCR_DWTENA_Pos)
+			| (1UL << ITM_TCR_ITMENA_Pos));
 
-  // Send data on the SWO channel. This avoids corrupting data
-  // sent on the SWO channel shortly after initialization.
-  ITM->TER |= (1UL << 8);
-  ITM->PORT[8].u8 = 0xFF;
-  ITM->TER &= ~(1UL << 8);
+	// Send data on the SWO channel. This avoids corrupting data
+	// sent on the SWO channel shortly after initialization.
+	ITM->TER |= (1UL << 8);
+	ITM->PORT[8].u8 = 0xFF;
+	ITM->TER &= ~(1UL << 8);
 
-  return SL_STATUS_OK;
+	return SL_STATUS_OK;
 }
 
 sl_status_t sl_debug_swo_enable_itm(uint32_t channel)
 {
-  ITM->TER |= (1UL << channel);
-  return SL_STATUS_OK;
+	ITM->TER |= (1UL << channel);
+	return SL_STATUS_OK;
 }
 
 sl_status_t sl_debug_swo_disable_itm(uint32_t channel)
 {
-  ITM->TER &= ~(1UL << channel);
-  return SL_STATUS_OK;
+	ITM->TER &= ~(1UL << channel);
+	return SL_STATUS_OK;
 }
 
 sl_status_t sl_debug_swo_write_u8(uint32_t channel, uint8_t byte)
 {
-  if (ITM->TCR & ITM_TCR_ITMENA_Msk) {
-    do {
-      // Some versions of JLink (erroneously) disable SWO when debug connections
-      // are closed. Re-enabling trace works around this.
-      CoreDebug->DEMCR |= CoreDebug_DEMCR_TRCENA_Msk;
+	if (ITM->TCR & ITM_TCR_ITMENA_Msk)
+	{
+		do
+		{
+			// Some versions of JLink (erroneously) disable SWO when debug connections
+			// are closed. Re-enabling trace works around this.
+			CoreDebug->DEMCR |= CoreDebug_DEMCR_TRCENA_Msk;
 
-      // Ensure ITM channel is enabled
-      ITM->TER |= (1UL << channel);
-    } while (ITM->PORT[channel].u32 == 0);
+			// Ensure ITM channel is enabled
+			ITM->TER |= (1UL << channel);
+		} while (ITM->PORT[channel].u32 == 0);
 
-    ITM->PORT[channel].u8 = byte;
+		ITM->PORT[channel].u8 = byte;
 
-    return SL_STATUS_OK;
-  }
+		return SL_STATUS_OK;
+	}
 
-  return SL_STATUS_NOT_INITIALIZED;
+	return SL_STATUS_NOT_INITIALIZED;
 }
 
 sl_status_t sl_debug_swo_write_u16(uint32_t channel, uint16_t half_word)
 {
-  if (ITM->TCR & ITM_TCR_ITMENA_Msk) {
-    do {
-      // Some versions of JLink (erroneously) disable SWO when debug connections
-      // are closed. Re-enabling trace works around this.
-      CoreDebug->DEMCR |= CoreDebug_DEMCR_TRCENA_Msk;
+	if (ITM->TCR & ITM_TCR_ITMENA_Msk)
+	{
+		do
+		{
+			// Some versions of JLink (erroneously) disable SWO when debug connections
+			// are closed. Re-enabling trace works around this.
+			CoreDebug->DEMCR |= CoreDebug_DEMCR_TRCENA_Msk;
 
-      // Ensure ITM channel is enabled
-      ITM->TER |= (1UL << channel);
-    } while (ITM->PORT[channel].u32 == 0);
+			// Ensure ITM channel is enabled
+			ITM->TER |= (1UL << channel);
+		} while (ITM->PORT[channel].u32 == 0);
 
-    ITM->PORT[channel].u16 = half_word;
+		ITM->PORT[channel].u16 = half_word;
 
-    return SL_STATUS_OK;
-  }
+		return SL_STATUS_OK;
+	}
 
-  return SL_STATUS_NOT_INITIALIZED;
+	return SL_STATUS_NOT_INITIALIZED;
 }
 
 sl_status_t sl_debug_swo_write_u32(uint32_t channel, uint32_t word)
 {
-  if (ITM->TCR & ITM_TCR_ITMENA_Msk) {
-    do {
-      // Some versions of JLink (erroneously) disable SWO when debug connections
-      // are closed. Re-enabling trace works around this.
-      CoreDebug->DEMCR |= CoreDebug_DEMCR_TRCENA_Msk;
+	if (ITM->TCR & ITM_TCR_ITMENA_Msk)
+	{
+		do
+		{
+			// Some versions of JLink (erroneously) disable SWO when debug connections
+			// are closed. Re-enabling trace works around this.
+			CoreDebug->DEMCR |= CoreDebug_DEMCR_TRCENA_Msk;
 
-      // Ensure ITM channel is enabled
-      ITM->TER |= (1UL << channel);
-    } while (ITM->PORT[channel].u32 == 0);
+			// Ensure ITM channel is enabled
+			ITM->TER |= (1UL << channel);
+		} while (ITM->PORT[channel].u32 == 0);
 
-    ITM->PORT[channel].u32 = word;
+		ITM->PORT[channel].u32 = word;
 
-    return SL_STATUS_OK;
-  }
+		return SL_STATUS_OK;
+	}
 
-  return SL_STATUS_NOT_INITIALIZED;
+	return SL_STATUS_NOT_INITIALIZED;
 }
 
 #else // __CORTEX_M

@@ -71,28 +71,32 @@ extern "C" {
 // Data Types
 
 /// @brief Enumeration representing the PTI Modes
-SL_ENUM(COS_PtiMode_t) {
-  /** ONEWIRE mode. */
-  COS_CONFIG_PTI_MODE_ONEWIRE,
-  /** TWOWIRE mode. */
-  COS_CONFIG_PTI_MODE_TWOWIRE,
-  /** UART mode. */
-  COS_CONFIG_PTI_MODE_EFRUART,
-  /** SPI mode. */
-  COS_CONFIG_PTI_MODE_EFRSPI,
-  /** Mode count. */
-  COS_CONFIG_PTI_MODE_COUNT
-};
+SL_ENUM(COS_PtiMode_t)
+{
+	/** ONEWIRE mode. */
+	COS_CONFIG_PTI_MODE_ONEWIRE,
+	/** TWOWIRE mode. */
+	COS_CONFIG_PTI_MODE_TWOWIRE,
+	/** UART mode. */
+	COS_CONFIG_PTI_MODE_EFRUART,
+	/** SPI mode. */
+	COS_CONFIG_PTI_MODE_EFRSPI,
+	/** Mode count. */
+	COS_CONFIG_PTI_MODE_COUNT
+}
+;
 
 /// @brief Enumeration representing the PTI Interfaces
-SL_ENUM(COS_PtiInterface_t) {
-  /** PTI INTERFACE 0. */
-  COS_CONFIG_PTI_INTERFACE_0,
-  /** PTI INTERFACE 1. */
-  COS_CONFIG_PTI_INTERFACE_1,
-  /** Interface count. */
-  COS_CONFIG_PTI_INTERFACE_COUNT
-};
+SL_ENUM(COS_PtiInterface_t)
+{
+	/** PTI INTERFACE 0. */
+	COS_CONFIG_PTI_INTERFACE_0,
+	/** PTI INTERFACE 1. */
+	COS_CONFIG_PTI_INTERFACE_1,
+	/** Interface count. */
+	COS_CONFIG_PTI_INTERFACE_COUNT
+}
+;
 
 // -----------------------------------------------------------------------------
 // Prototypes
@@ -100,9 +104,10 @@ SL_ENUM(COS_PtiInterface_t) {
 /***************************************************************************//**
  * Initialize the SWO ITM 8 and initiates VCOM/PTI SWO writes.
  ******************************************************************************/
-void sl_cos_send_config(void);
+void
+sl_cos_send_config(void);
 
- /***************************************************************************//**
+/***************************************************************************//**
  * Custom API, to be used by other software component to write the
  * structured VCOM data on SWO ITM channel 8
  * The following Custom API take Baud rate, Flow Control as an input that should be
@@ -114,8 +119,8 @@ void sl_cos_send_config(void);
  *
  * @param[in] flow_control   Flow Control value that has to be set over bit_30 and bit_31.
  ******************************************************************************/
-void sl_cos_config_vcom(uint32_t baudrate,
-                        uint8_t flow_control);
+void
+sl_cos_config_vcom(uint32_t baudrate, uint8_t flow_control);
 
 /***************************************************************************//**
  * Custom API, to be used by other software component to write the
@@ -134,9 +139,9 @@ void sl_cos_config_vcom(uint32_t baudrate,
  *                           Interface value that has to be set over bit_30 and bit_31.
  * @return  config
  ******************************************************************************/
-void sl_cos_config_pti(uint32_t baudrate,
-                       COS_PtiMode_t mode,
-                       COS_PtiInterface_t interface);
+void
+sl_cos_config_pti(uint32_t baudrate, COS_PtiMode_t mode,
+		COS_PtiInterface_t interface);
 
 /** @} (end addtogroup cos) */
 

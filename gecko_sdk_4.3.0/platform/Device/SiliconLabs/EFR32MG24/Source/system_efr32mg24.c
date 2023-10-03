@@ -144,50 +144,51 @@ extern const tVectorEntry __VECTOR_TABLE[16 + EXT_IRQ_COUNT];
 void SystemInit(void)
 {
 #if defined (__VTOR_PRESENT) && (__VTOR_PRESENT == 1U)
-  SCB->VTOR = (uint32_t) (&__VECTOR_TABLE[0]);
+	SCB->VTOR = (uint32_t) (&__VECTOR_TABLE[0]);
 #endif
 
 #if defined(UNALIGNED_SUPPORT_DISABLE)
-  SCB->CCR |= SCB_CCR_UNALIGN_TRP_Msk;
+	SCB->CCR |= SCB_CCR_UNALIGN_TRP_Msk;
 #endif
 
 #if (__FPU_PRESENT == 1)
-  SCB->CPACR |= ((3U << 10U * 2U)           /* set CP10 Full Access */
-                 | (3U << 11U * 2U));       /* set CP11 Full Access */
+	SCB->CPACR |= ((3U << 10U * 2U) /* set CP10 Full Access */
+	| (3U << 11U * 2U)); /* set CP11 Full Access */
 #endif
 
-/* Secure app takes care of moving between the security states.
- * SL_TRUSTZONE_SECURE MACRO is for secure access.
- * SL_TRUSTZONE_NONSECURE MACRO is for non-secure access.
- * When both the MACROS are not defined, during start-up below code makes sure
- * that all the peripherals are accessed from non-secure address except SMU,
- * as SMU is used to configure the trustzone state of the system. */
+	/* Secure app takes care of moving between the security states.
+	 * SL_TRUSTZONE_SECURE MACRO is for secure access.
+	 * SL_TRUSTZONE_NONSECURE MACRO is for non-secure access.
+	 * When both the MACROS are not defined, during start-up below code makes sure
+	 * that all the peripherals are accessed from non-secure address except SMU,
+	 * as SMU is used to configure the trustzone state of the system. */
 #if !defined(SL_TRUSTZONE_SECURE) && !defined(SL_TRUSTZONE_NONSECURE) \
   && defined(__TZ_PRESENT)
-  CMU->CLKEN1_SET = CMU_CLKEN1_SMU;
+	CMU->CLKEN1_SET = CMU_CLKEN1_SMU;
 
-  /* config SMU to Secure and other peripherals to Non-Secure. */
-  SMU->PPUSATD0_CLR = _SMU_PPUSATD0_MASK;
+	/* config SMU to Secure and other peripherals to Non-Secure. */
+	SMU->PPUSATD0_CLR = _SMU_PPUSATD0_MASK;
 #if defined (SEMAILBOX_PRESENT)
-  SMU->PPUSATD1_CLR = (_SMU_PPUSATD1_MASK & (~SMU_PPUSATD1_SMU & ~SMU_PPUSATD1_SEMAILBOX));
+	SMU->PPUSATD1_CLR = (_SMU_PPUSATD1_MASK
+			& (~SMU_PPUSATD1_SMU & ~SMU_PPUSATD1_SEMAILBOX));
 #else
-  SMU->PPUSATD1_CLR = (_SMU_PPUSATD1_MASK & ~SMU_PPUSATD1_SMU);
+	SMU->PPUSATD1_CLR = (_SMU_PPUSATD1_MASK & ~SMU_PPUSATD1_SMU);
 #endif
 
-  /* SAU treats all accesses as non-secure */
+	/* SAU treats all accesses as non-secure */
 #if defined(__ARM_FEATURE_CMSE) && (__ARM_FEATURE_CMSE == 3U)
-  SAU->CTRL = SAU_CTRL_ALLNS_Msk;
-  __DSB();
-  __ISB();
+	SAU->CTRL = SAU_CTRL_ALLNS_Msk;
+	__DSB();
+	__ISB();
 #else
-  #error "The startup code requires access to the CMSE toolchain extension to set proper SAU settings."
+#error "The startup code requires access to the CMSE toolchain extension to set proper SAU settings."
 #endif /* __ARM_FEATURE_CMSE */
 
-/* Clear and Enable the SMU PPUSEC and BMPUSEC interrupt. */
-  NVIC_ClearPendingIRQ(SMU_SECURE_IRQn);
-  SMU->IF_CLR = SMU_IF_PPUSEC | SMU_IF_BMPUSEC;
-  NVIC_EnableIRQ(SMU_SECURE_IRQn);
-  SMU->IEN = SMU_IEN_PPUSEC | SMU_IEN_BMPUSEC;
+	/* Clear and Enable the SMU PPUSEC and BMPUSEC interrupt. */
+	NVIC_ClearPendingIRQ(SMU_SECURE_IRQn);
+	SMU->IF_CLR = SMU_IF_PPUSEC | SMU_IF_BMPUSEC;
+	NVIC_EnableIRQ(SMU_SECURE_IRQn);
+	SMU->IEN = SMU_IEN_PPUSEC | SMU_IEN_BMPUSEC;
 #endif /*SL_TRUSTZONE_SECURE */
 }
 
@@ -205,7 +206,7 @@ void SystemInit(void)
 uint32_t SystemHFRCODPLLClockGet(void)
 {
 #if !defined(SYSTEM_NO_STATIC_MEMORY)
-  return SystemHFRCODPLLClock;
+	return SystemHFRCODPLLClock;
 #else
   uint32_t ret = 0UL;
 
@@ -297,7 +298,7 @@ uint32_t SystemHFRCODPLLClockGet(void)
 void SystemHFRCODPLLClockSet(uint32_t freq)
 {
 #if !defined(SYSTEM_NO_STATIC_MEMORY)
-  SystemHFRCODPLLClock = freq;
+	SystemHFRCODPLLClock = freq;
 #else
   (void) freq; /* Unused parameter */
 #endif
@@ -320,22 +321,23 @@ void SystemHFRCODPLLClockSet(uint32_t freq)
  ******************************************************************************/
 uint32_t SystemSYSCLKGet(void)
 {
-  uint32_t ret = 0U;
+	uint32_t ret = 0U;
 
-  /* Find clock source */
-  switch (CMU->SYSCLKCTRL & _CMU_SYSCLKCTRL_CLKSEL_MASK) {
-    case _CMU_SYSCLKCTRL_CLKSEL_HFRCODPLL:
-      ret = SystemHFRCODPLLClockGet();
-      break;
+	/* Find clock source */
+	switch (CMU->SYSCLKCTRL & _CMU_SYSCLKCTRL_CLKSEL_MASK)
+	{
+	case _CMU_SYSCLKCTRL_CLKSEL_HFRCODPLL:
+		ret = SystemHFRCODPLLClockGet();
+		break;
 
 #if (HFXO_FREQ > 0U)
-    case _CMU_SYSCLKCTRL_CLKSEL_HFXO:
+	case _CMU_SYSCLKCTRL_CLKSEL_HFXO:
 #if defined(SYSTEM_NO_STATIC_MEMORY)
       ret = HFXO_FREQ;
 #else
-      ret = SystemHFXOClock;
+		ret = SystemHFXOClock;
 #endif
-      break;
+		break;
 #endif
 
 #if (CLKIN0_FREQ > 0U)
@@ -344,16 +346,17 @@ uint32_t SystemSYSCLKGet(void)
       break;
 #endif
 
-    case _CMU_SYSCLKCTRL_CLKSEL_FSRCO:
-      ret = FSRCO_FREQ;
-      break;
+	case _CMU_SYSCLKCTRL_CLKSEL_FSRCO:
+		ret = FSRCO_FREQ;
+		break;
 
-    default:
-      /* Unknown clock source. */
-      while (1) {
-      }
-  }
-  return ret;
+	default:
+		/* Unknown clock source. */
+		while (1)
+		{
+		}
+	}
+	return ret;
 }
 
 /***************************************************************************//**
@@ -376,21 +379,21 @@ uint32_t SystemSYSCLKGet(void)
  ******************************************************************************/
 uint32_t SystemHCLKGet(void)
 {
-  uint32_t presc, ret;
+	uint32_t presc, ret;
 
-  ret = SystemSYSCLKGet();
+	ret = SystemSYSCLKGet();
 
-  presc = (CMU->SYSCLKCTRL & _CMU_SYSCLKCTRL_HCLKPRESC_MASK)
-          >> _CMU_SYSCLKCTRL_HCLKPRESC_SHIFT;
+	presc = (CMU->SYSCLKCTRL & _CMU_SYSCLKCTRL_HCLKPRESC_MASK)
+			>> _CMU_SYSCLKCTRL_HCLKPRESC_SHIFT;
 
-  ret /= presc + 1U;
+	ret /= presc + 1U;
 
 #if !defined(SYSTEM_NO_STATIC_MEMORY)
-  /* Keep CMSIS system clock variable up-to-date */
-  SystemCoreClock = ret;
+	/* Keep CMSIS system clock variable up-to-date */
+	SystemCoreClock = ret;
 #endif
 
-  return ret;
+	return ret;
 }
 
 /***************************************************************************//**
@@ -406,8 +409,7 @@ uint32_t SystemHCLKGet(void)
  ******************************************************************************/
 uint32_t SystemMaxCoreClockGet(void)
 {
-  return(HFRCODPLL_MAX_FREQ > HFXO_FREQ \
-         ? HFRCODPLL_MAX_FREQ : HFXO_FREQ);
+	return (HFRCODPLL_MAX_FREQ > HFXO_FREQ ? HFRCODPLL_MAX_FREQ : HFXO_FREQ);
 }
 
 /**************************************************************************//**
@@ -423,12 +425,12 @@ uint32_t SystemMaxCoreClockGet(void)
  *****************************************************************************/
 uint32_t SystemHFXOClockGet(void)
 {
-  /* The external crystal oscillator is not present if HFXO_FREQ==0 */
+	/* The external crystal oscillator is not present if HFXO_FREQ==0 */
 #if (HFXO_FREQ > 0U)
 #if defined(SYSTEM_NO_STATIC_MEMORY)
   return HFXO_FREQ;
 #else
-  return SystemHFXOClock;
+	return SystemHFXOClock;
 #endif
 #else
   return 0U;
@@ -453,16 +455,17 @@ uint32_t SystemHFXOClockGet(void)
  *****************************************************************************/
 void SystemHFXOClockSet(uint32_t freq)
 {
-  /* External crystal oscillator present? */
+	/* External crystal oscillator present? */
 #if (HFXO_FREQ > 0) && !defined(SYSTEM_NO_STATIC_MEMORY)
-  SystemHFXOClock = freq;
+	SystemHFXOClock = freq;
 
-  /* Update core clock frequency if HFXO is used to clock core */
-  if ((CMU->SYSCLKCTRL & _CMU_SYSCLKCTRL_CLKSEL_MASK)
-      == _CMU_SYSCLKCTRL_CLKSEL_HFXO) {
-    /* This function will update the global variable */
-    SystemHCLKGet();
-  }
+	/* Update core clock frequency if HFXO is used to clock core */
+	if ((CMU->SYSCLKCTRL & _CMU_SYSCLKCTRL_CLKSEL_MASK)
+			== _CMU_SYSCLKCTRL_CLKSEL_HFXO)
+	{
+		/* This function will update the global variable */
+		SystemHCLKGet();
+	}
 #else
   (void) freq; /* Unused parameter */
 #endif
@@ -481,7 +484,7 @@ void SystemHFXOClockSet(uint32_t freq)
  *****************************************************************************/
 uint32_t SystemCLKIN0Get(void)
 {
-  return CLKIN0_FREQ;
+	return CLKIN0_FREQ;
 }
 
 /**************************************************************************//**
@@ -497,7 +500,7 @@ uint32_t SystemCLKIN0Get(void)
  *****************************************************************************/
 uint32_t SystemFSRCOClockGet(void)
 {
-  return FSRCO_FREQ;
+	return FSRCO_FREQ;
 }
 
 /**************************************************************************//**
@@ -513,59 +516,61 @@ uint32_t SystemFSRCOClockGet(void)
  *****************************************************************************/
 uint32_t SystemHFRCOEM23ClockGet(void)
 {
-  uint32_t ret = 0UL;
+	uint32_t ret = 0UL;
 
-  /* Get oscillator frequency band */
-  switch ((HFRCOEM23->CAL & _HFRCO_CAL_FREQRANGE_MASK)
-          >> _HFRCO_CAL_FREQRANGE_SHIFT) {
-    case 0:
-      switch (HFRCOEM23->CAL & _HFRCO_CAL_CLKDIV_MASK) {
-        case HFRCO_CAL_CLKDIV_DIV1:
-          ret = 4000000UL;
-          break;
+	/* Get oscillator frequency band */
+	switch ((HFRCOEM23->CAL & _HFRCO_CAL_FREQRANGE_MASK)
+			>> _HFRCO_CAL_FREQRANGE_SHIFT)
+	{
+	case 0:
+		switch (HFRCOEM23->CAL & _HFRCO_CAL_CLKDIV_MASK)
+		{
+		case HFRCO_CAL_CLKDIV_DIV1:
+			ret = 4000000UL;
+			break;
 
-        case HFRCO_CAL_CLKDIV_DIV2:
-          ret = 2000000UL;
-          break;
+		case HFRCO_CAL_CLKDIV_DIV2:
+			ret = 2000000UL;
+			break;
 
-        case HFRCO_CAL_CLKDIV_DIV4:
-          ret = 1000000UL;
-          break;
+		case HFRCO_CAL_CLKDIV_DIV4:
+			ret = 1000000UL;
+			break;
 
-        default:
-          ret = 0UL;
-          break;
-      }
-      break;
+		default:
+			ret = 0UL;
+			break;
+		}
+		break;
 
-    case 6:
-      ret = 13000000UL;
-      break;
+	case 6:
+		ret = 13000000UL;
+		break;
 
-    case 7:
-      ret = 16000000UL;
-      break;
+	case 7:
+		ret = 16000000UL;
+		break;
 
-    case 8:
-      ret = 19000000UL;
-      break;
+	case 8:
+		ret = 19000000UL;
+		break;
 
-    case 10:
-      ret = 26000000UL;
-      break;
+	case 10:
+		ret = 26000000UL;
+		break;
 
-    case 11:
-      ret = 32000000UL;
-      break;
+	case 11:
+		ret = 32000000UL;
+		break;
 
-    case 12:
-      ret = 40000000UL;
-      break;
+	case 12:
+		ret = 40000000UL;
+		break;
 
-    default:
-      break;
-  }
-  return ret;
+	default:
+		break;
+	}
+	return ret;
 }
 
 /**************************************************************************//**
@@ -581,7 +586,7 @@ uint32_t SystemHFRCOEM23ClockGet(void)
  *****************************************************************************/
 uint32_t SystemLFRCOClockGet(void)
 {
-  return LFRCO_FREQ;
+	return LFRCO_FREQ;
 }
 
 /**************************************************************************//**
@@ -597,8 +602,8 @@ uint32_t SystemLFRCOClockGet(void)
  *****************************************************************************/
 uint32_t SystemULFRCOClockGet(void)
 {
-  /* The ULFRCO frequency is not tuned, and can be very inaccurate */
-  return ULFRCO_FREQ;
+	/* The ULFRCO frequency is not tuned, and can be very inaccurate */
+	return ULFRCO_FREQ;
 }
 
 /**************************************************************************//**
@@ -614,12 +619,12 @@ uint32_t SystemULFRCOClockGet(void)
  *****************************************************************************/
 uint32_t SystemLFXOClockGet(void)
 {
-  /* External crystal present? */
+	/* External crystal present? */
 #if (LFXO_FREQ > 0U)
 #if defined(SYSTEM_NO_STATIC_MEMORY)
   return LFXO_FREQ;
 #else
-  return SystemLFXOClock;
+	return SystemLFXOClock;
 #endif
 #else
   return 0U;
@@ -644,9 +649,9 @@ uint32_t SystemLFXOClockGet(void)
  *****************************************************************************/
 void SystemLFXOClockSet(uint32_t freq)
 {
-  /* External crystal oscillator present? */
+	/* External crystal oscillator present? */
 #if (LFXO_FREQ > 0U) && !defined(SYSTEM_NO_STATIC_MEMORY)
-  SystemLFXOClock = freq;
+	SystemLFXOClock = freq;
 #else
   (void) freq; /* Unused parameter */
 #endif

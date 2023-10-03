@@ -46,18 +46,19 @@ extern "C" {
  * @addtogroup memlcd
  * @{
  ******************************************************************************/
-typedef struct {
-  EUSART_TypeDef *eusart;
-  CMU_Clock_TypeDef clock;
-  uint8_t mosi_port;
-  uint8_t mosi_pin;
-  uint8_t miso_port;
-  uint8_t miso_pin;
-  uint8_t sclk_port;
-  uint8_t sclk_pin;
-  uint8_t mosi_loc;
-  uint8_t miso_loc;
-  uint8_t clk_loc;
+typedef struct
+{
+	EUSART_TypeDef *eusart;
+	CMU_Clock_TypeDef clock;
+	uint8_t mosi_port;
+	uint8_t mosi_pin;
+	uint8_t miso_port;
+	uint8_t miso_pin;
+	uint8_t sclk_port;
+	uint8_t sclk_pin;
+	uint8_t mosi_loc;
+	uint8_t miso_loc;
+	uint8_t clk_loc;
 } sli_memlcd_spi_handle_t;
 
 /***************************************************************************//**
@@ -78,7 +79,9 @@ typedef struct {
  *   If all operations completed sucessfully SL_STATUS_OK is returned. On
  *   failure a different status code is returned specifying the error.
  *****************************************************************************/
-sl_status_t sli_memlcd_spi_init(sli_memlcd_spi_handle_t *handle, int bitrate, EUSART_ClockMode_TypeDef mode);
+sl_status_t
+sli_memlcd_spi_init(sli_memlcd_spi_handle_t *handle, int bitrate,
+		EUSART_ClockMode_TypeDef mode);
 
 /***************************************************************************//**
  * @brief
@@ -96,7 +99,8 @@ sl_status_t sli_memlcd_spi_init(sli_memlcd_spi_handle_t *handle, int bitrate, EU
  *   If all operations completed sucessfully SL_STATUS_OK is returned. On
  *   failure a different status code is returned specifying the error.
  *****************************************************************************/
-sl_status_t sli_memlcd_spi_shutdown(sli_memlcd_spi_handle_t *handle);
+sl_status_t
+sli_memlcd_spi_shutdown(sli_memlcd_spi_handle_t *handle);
 
 /***************************************************************************//**
  * @brief
@@ -115,7 +119,9 @@ sl_status_t sli_memlcd_spi_shutdown(sli_memlcd_spi_handle_t *handle);
  *   If all operations completed sucessfully SL_STATUS_OK is returned. On
  *   failure a different status code is returned specifying the error.
  *****************************************************************************/
-sl_status_t sli_memlcd_spi_tx(sli_memlcd_spi_handle_t *handle, const void *data, unsigned len);
+sl_status_t
+sli_memlcd_spi_tx(sli_memlcd_spi_handle_t *handle, const void *data,
+		unsigned len);
 
 /***************************************************************************//**
  * @brief
@@ -124,7 +130,8 @@ sl_status_t sli_memlcd_spi_tx(sli_memlcd_spi_handle_t *handle, const void *data,
  * @param[in] handle
  *   Handle to the SPI interface.
  *****************************************************************************/
-void sli_memlcd_spi_wait(sli_memlcd_spi_handle_t *handle);
+void
+sli_memlcd_spi_wait(sli_memlcd_spi_handle_t *handle);
 
 /***************************************************************************//**
  * @brief
@@ -133,7 +140,8 @@ void sli_memlcd_spi_wait(sli_memlcd_spi_handle_t *handle);
  * @param[in] handle
  *   Handle to the SPI interface.
  *****************************************************************************/
-void sli_memlcd_spi_rx_flush(sli_memlcd_spi_handle_t *handle);
+void
+sli_memlcd_spi_rx_flush(sli_memlcd_spi_handle_t *handle);
 
 /***************************************************************************//**
  * @brief
@@ -142,7 +150,8 @@ void sli_memlcd_spi_rx_flush(sli_memlcd_spi_handle_t *handle);
  * @param[in] handle
  *   Handle to the SPI interface.
  *****************************************************************************/
-sl_status_t sli_memlcd_spi_exit_em23(sli_memlcd_spi_handle_t *handle);
+sl_status_t
+sli_memlcd_spi_exit_em23(sli_memlcd_spi_handle_t *handle);
 
 /***************************************************************************//**
  * @brief
@@ -151,7 +160,8 @@ sl_status_t sli_memlcd_spi_exit_em23(sli_memlcd_spi_handle_t *handle);
  * @param[in] handle
  *   Handle to the SPI interface.
  *****************************************************************************/
-sl_status_t sli_memlcd_spi_enter_em23(sli_memlcd_spi_handle_t *handle);
+sl_status_t
+sli_memlcd_spi_enter_em23(sli_memlcd_spi_handle_t *handle);
 
 /** @} */
 #ifdef __cplusplus

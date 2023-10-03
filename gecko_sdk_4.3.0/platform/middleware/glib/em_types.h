@@ -33,6 +33,6 @@
 
 #include <stdint.h>
 
-typedef uint32_t   EMSTATUS;
+typedef uint32_t EMSTATUS;
 
 #endif

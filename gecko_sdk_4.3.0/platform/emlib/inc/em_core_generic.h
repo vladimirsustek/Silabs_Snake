@@ -67,7 +67,6 @@ extern "C" {
 //
 //  CRITICAL section macro API.
 //
-
 /** Allocate storage for PRIMASK or BASEPRI value for use by
  *  CORE_ENTER/EXIT_ATOMIC() and CORE_ENTER/EXIT_CRITICAL() macros. */
 #define CORE_DECLARE_IRQ_STATE        CORE_irqState_t irqState
@@ -149,20 +148,32 @@ typedef uint32_t CORE_irqState_t;
  *****************************   PROTOTYPES   **********************************
  ******************************************************************************/
 
-void CORE_CriticalDisableIrq(void);
-void CORE_CriticalEnableIrq(void);
-void CORE_ExitCritical(CORE_irqState_t irqState);
-void CORE_YieldCritical(void);
-CORE_irqState_t CORE_EnterCritical(void);
+void
+CORE_CriticalDisableIrq(void);
+void
+CORE_CriticalEnableIrq(void);
+void
+CORE_ExitCritical(CORE_irqState_t irqState);
+void
+CORE_YieldCritical(void);
+CORE_irqState_t
+CORE_EnterCritical(void);
 
-void  CORE_AtomicDisableIrq(void);
-void  CORE_AtomicEnableIrq(void);
-void  CORE_ExitAtomic(CORE_irqState_t irqState);
-void  CORE_YieldAtomic(void);
-CORE_irqState_t CORE_EnterAtomic(void);
+void
+CORE_AtomicDisableIrq(void);
+void
+CORE_AtomicEnableIrq(void);
+void
+CORE_ExitAtomic(CORE_irqState_t irqState);
+void
+CORE_YieldAtomic(void);
+CORE_irqState_t
+CORE_EnterAtomic(void);
 
-bool  CORE_InIrqContext(void);
-bool  CORE_IrqIsDisabled(void);
+bool
+CORE_InIrqContext(void);
+bool
+CORE_IrqIsDisabled(void);
 
 #ifdef __cplusplus
 }

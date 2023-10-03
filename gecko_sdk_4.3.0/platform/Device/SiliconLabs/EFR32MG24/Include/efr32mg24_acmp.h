@@ -32,9 +32,9 @@
 #define ACMP_HAS_SET_CLEAR
 
 /**************************************************************************//**
-* @addtogroup Parts
-* @{
-******************************************************************************/
+ * @addtogroup Parts
+ * @{
+ ******************************************************************************/
 /**************************************************************************//**
  * @defgroup EFR32MG24_ACMP ACMP
  * @{
@@ -42,50 +42,51 @@
  *****************************************************************************/
 
 /** ACMP Register Declaration. */
-typedef struct {
-  __IM uint32_t  IPVERSION;                     /**< IP version ID                                      */
-  __IOM uint32_t EN;                            /**< ACMP enable                                        */
-  __IOM uint32_t SWRST;                         /**< Software reset                                     */
-  __IOM uint32_t CFG;                           /**< Configuration register                             */
-  __IOM uint32_t CTRL;                          /**< Control Register                                   */
-  __IOM uint32_t INPUTCTRL;                     /**< Input Control Register                             */
-  __IM uint32_t  STATUS;                        /**< Status Register                                    */
-  __IOM uint32_t IF;                            /**< Interrupt Flag Register                            */
-  __IOM uint32_t IEN;                           /**< Interrupt Enable Register                          */
-  __IM uint32_t  SYNCBUSY;                      /**< Syncbusy                                           */
-  uint32_t       RESERVED0[1014U];              /**< Reserved for future use                            */
-  __IM uint32_t  IPVERSION_SET;                 /**< IP version ID                                      */
-  __IOM uint32_t EN_SET;                        /**< ACMP enable                                        */
-  __IOM uint32_t SWRST_SET;                     /**< Software reset                                     */
-  __IOM uint32_t CFG_SET;                       /**< Configuration register                             */
-  __IOM uint32_t CTRL_SET;                      /**< Control Register                                   */
-  __IOM uint32_t INPUTCTRL_SET;                 /**< Input Control Register                             */
-  __IM uint32_t  STATUS_SET;                    /**< Status Register                                    */
-  __IOM uint32_t IF_SET;                        /**< Interrupt Flag Register                            */
-  __IOM uint32_t IEN_SET;                       /**< Interrupt Enable Register                          */
-  __IM uint32_t  SYNCBUSY_SET;                  /**< Syncbusy                                           */
-  uint32_t       RESERVED1[1014U];              /**< Reserved for future use                            */
-  __IM uint32_t  IPVERSION_CLR;                 /**< IP version ID                                      */
-  __IOM uint32_t EN_CLR;                        /**< ACMP enable                                        */
-  __IOM uint32_t SWRST_CLR;                     /**< Software reset                                     */
-  __IOM uint32_t CFG_CLR;                       /**< Configuration register                             */
-  __IOM uint32_t CTRL_CLR;                      /**< Control Register                                   */
-  __IOM uint32_t INPUTCTRL_CLR;                 /**< Input Control Register                             */
-  __IM uint32_t  STATUS_CLR;                    /**< Status Register                                    */
-  __IOM uint32_t IF_CLR;                        /**< Interrupt Flag Register                            */
-  __IOM uint32_t IEN_CLR;                       /**< Interrupt Enable Register                          */
-  __IM uint32_t  SYNCBUSY_CLR;                  /**< Syncbusy                                           */
-  uint32_t       RESERVED2[1014U];              /**< Reserved for future use                            */
-  __IM uint32_t  IPVERSION_TGL;                 /**< IP version ID                                      */
-  __IOM uint32_t EN_TGL;                        /**< ACMP enable                                        */
-  __IOM uint32_t SWRST_TGL;                     /**< Software reset                                     */
-  __IOM uint32_t CFG_TGL;                       /**< Configuration register                             */
-  __IOM uint32_t CTRL_TGL;                      /**< Control Register                                   */
-  __IOM uint32_t INPUTCTRL_TGL;                 /**< Input Control Register                             */
-  __IM uint32_t  STATUS_TGL;                    /**< Status Register                                    */
-  __IOM uint32_t IF_TGL;                        /**< Interrupt Flag Register                            */
-  __IOM uint32_t IEN_TGL;                       /**< Interrupt Enable Register                          */
-  __IM uint32_t  SYNCBUSY_TGL;                  /**< Syncbusy                                           */
+typedef struct
+{
+	__IM uint32_t IPVERSION; /**< IP version ID                                      */
+	__IOM uint32_t EN; /**< ACMP enable                                        */
+	__IOM uint32_t SWRST; /**< Software reset                                     */
+	__IOM uint32_t CFG; /**< Configuration register                             */
+	__IOM uint32_t CTRL; /**< Control Register                                   */
+	__IOM uint32_t INPUTCTRL; /**< Input Control Register                             */
+	__IM uint32_t STATUS; /**< Status Register                                    */
+	__IOM uint32_t IF; /**< Interrupt Flag Register                            */
+	__IOM uint32_t IEN; /**< Interrupt Enable Register                          */
+	__IM uint32_t SYNCBUSY; /**< Syncbusy                                           */
+	uint32_t RESERVED0[1014U]; /**< Reserved for future use                            */
+	__IM uint32_t IPVERSION_SET; /**< IP version ID                                      */
+	__IOM uint32_t EN_SET; /**< ACMP enable                                        */
+	__IOM uint32_t SWRST_SET; /**< Software reset                                     */
+	__IOM uint32_t CFG_SET; /**< Configuration register                             */
+	__IOM uint32_t CTRL_SET; /**< Control Register                                   */
+	__IOM uint32_t INPUTCTRL_SET; /**< Input Control Register                             */
+	__IM uint32_t STATUS_SET; /**< Status Register                                    */
+	__IOM uint32_t IF_SET; /**< Interrupt Flag Register                            */
+	__IOM uint32_t IEN_SET; /**< Interrupt Enable Register                          */
+	__IM uint32_t SYNCBUSY_SET; /**< Syncbusy                                           */
+	uint32_t RESERVED1[1014U]; /**< Reserved for future use                            */
+	__IM uint32_t IPVERSION_CLR; /**< IP version ID                                      */
+	__IOM uint32_t EN_CLR; /**< ACMP enable                                        */
+	__IOM uint32_t SWRST_CLR; /**< Software reset                                     */
+	__IOM uint32_t CFG_CLR; /**< Configuration register                             */
+	__IOM uint32_t CTRL_CLR; /**< Control Register                                   */
+	__IOM uint32_t INPUTCTRL_CLR; /**< Input Control Register                             */
+	__IM uint32_t STATUS_CLR; /**< Status Register                                    */
+	__IOM uint32_t IF_CLR; /**< Interrupt Flag Register                            */
+	__IOM uint32_t IEN_CLR; /**< Interrupt Enable Register                          */
+	__IM uint32_t SYNCBUSY_CLR; /**< Syncbusy                                           */
+	uint32_t RESERVED2[1014U]; /**< Reserved for future use                            */
+	__IM uint32_t IPVERSION_TGL; /**< IP version ID                                      */
+	__IOM uint32_t EN_TGL; /**< ACMP enable                                        */
+	__IOM uint32_t SWRST_TGL; /**< Software reset                                     */
+	__IOM uint32_t CFG_TGL; /**< Configuration register                             */
+	__IOM uint32_t CTRL_TGL; /**< Control Register                                   */
+	__IOM uint32_t INPUTCTRL_TGL; /**< Input Control Register                             */
+	__IM uint32_t STATUS_TGL; /**< Status Register                                    */
+	__IOM uint32_t IF_TGL; /**< Interrupt Flag Register                            */
+	__IOM uint32_t IEN_TGL; /**< Interrupt Enable Register                          */
+	__IM uint32_t SYNCBUSY_TGL; /**< Syncbusy                                           */
 } ACMP_TypeDef;
 /** @} End of group EFR32MG24_ACMP */
 

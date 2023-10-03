@@ -47,10 +47,8 @@ extern "C" {
 
 // -----------------------------------------------------------------------------
 // Defines
-
 // -----------------------------------------------------------------------------
 // Prototypes
-
 /*******************************************************************************
  * @brief
  *  Copy a string into a buffer.
@@ -66,7 +64,8 @@ extern "C" {
  *
  * @param[in] src       Source string.
  ******************************************************************************/
-void sl_strcpy_s(char *dst, size_t dst_size, const char *src);
+void
+sl_strcpy_s(char *dst, size_t dst_size, const char *src);
 
 /*******************************************************************************
  * @brief
@@ -83,7 +82,8 @@ void sl_strcpy_s(char *dst, size_t dst_size, const char *src);
  *
  * @param[in] src       Source string.
  ******************************************************************************/
-void sl_strcat_s(char *dst, size_t dst_size, const char *src);
+void
+sl_strcat_s(char *dst, size_t dst_size, const char *src);
 
 /*******************************************************************************
  * @brief
@@ -93,7 +93,8 @@ void sl_strcat_s(char *dst, size_t dst_size, const char *src);
  *
  * @return              String lenght.
  ******************************************************************************/
-size_t sl_strlen(char *str);
+size_t
+sl_strlen(char *str);
 
 /*******************************************************************************
  * @brief
@@ -105,7 +106,8 @@ size_t sl_strlen(char *str);
  *
  * @return              String lenght.
  ******************************************************************************/
-size_t sl_strnlen(char *str, size_t max_len);
+size_t
+sl_strnlen(char *str, size_t max_len);
 
 /*******************************************************************************
  * @brief
@@ -115,7 +117,8 @@ size_t sl_strnlen(char *str, size_t max_len);
  *
  * @return              true if string is empty or null, else return false.
  ******************************************************************************/
-bool sl_str_is_empty(const char *str);
+bool
+sl_str_is_empty(const char *str);
 
 /*******************************************************************************
  * @brief
@@ -128,7 +131,8 @@ bool sl_str_is_empty(const char *str);
  * @return              An integer greater than, or less than 0 if the strings
  *                      are not equal. 0 if the strings are equal.
  ******************************************************************************/
-int sl_strcasecmp(char const *a, char const *b);
+int
+sl_strcasecmp(char const *a, char const *b);
 
 /*******************************************************************************
  * @brief
@@ -144,7 +148,8 @@ int sl_strcasecmp(char const *a, char const *b);
  *                      if it was found.
  *                      NULL if no character was found.
  ******************************************************************************/
-void* sl_memrchr(void const *buff, char c, size_t buff_len);
+void*
+sl_memrchr(void const *buff, char c, size_t buff_len);
 
 /** @} (end addtogroup string) */
 

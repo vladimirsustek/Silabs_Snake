@@ -31,20 +31,21 @@
 #define GPIO_PORT_H
 
 /**************************************************************************//**
-* @addtogroup Parts
-* @{
-******************************************************************************/
+ * @addtogroup Parts
+ * @{
+ ******************************************************************************/
 /**************************************************************************//**
  * @brief EFR32MG24 GPIO PORT
  *****************************************************************************/
-typedef struct {
-  __IOM uint32_t CTRL;                          /**< Port control            */
-  __IOM uint32_t MODEL;                         /**< mode low                */
-  uint32_t       RESERVED0[1];                  /**< Reserved for future use */
-  __IOM uint32_t MODEH;                         /**< mode high               */
-  __IOM uint32_t DOUT;                          /**< data out                */
-  __IM uint32_t  DIN;                           /**< data in                 */
-  uint32_t       RESERVED1[6];                  /**< Reserved for future use */
+typedef struct
+{
+	__IOM uint32_t CTRL; /**< Port control            */
+	__IOM uint32_t MODEL; /**< mode low                */
+	uint32_t RESERVED0[1]; /**< Reserved for future use */
+	__IOM uint32_t MODEH; /**< mode high               */
+	__IOM uint32_t DOUT; /**< data out                */
+	__IM uint32_t DIN; /**< data in                 */
+	uint32_t RESERVED1[6]; /**< Reserved for future use */
 } GPIO_PORT_TypeDef;
 
 /* Bit fields for GPIO_P CTRL */

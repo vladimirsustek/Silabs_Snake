@@ -67,7 +67,8 @@
  * @return Status code
  * @retval SL_STATUS_OK LFXO initialized successfully
  */
-sl_status_t sl_device_init_lfxo(void);
+sl_status_t
+sl_device_init_lfxo(void);
 
 /**
  * @} device_init_lfxo

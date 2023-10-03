@@ -32,9 +32,9 @@
 #define SYSRTC_HAS_SET_CLEAR
 
 /**************************************************************************//**
-* @addtogroup Parts
-* @{
-******************************************************************************/
+ * @addtogroup Parts
+ * @{
+ ******************************************************************************/
 /**************************************************************************//**
  * @defgroup EFR32MG24_SYSRTC SYSRTC
  * @{
@@ -42,102 +42,103 @@
  *****************************************************************************/
 
 /** SYSRTC Register Declaration. */
-typedef struct {
-  __IM uint32_t  IPVERSION;                     /**< IP VERSION                                         */
-  __IOM uint32_t EN;                            /**< Module Enable Register                             */
-  __IOM uint32_t SWRST;                         /**< Software Reset Register                            */
-  __IOM uint32_t CFG;                           /**< Configuration Register                             */
-  __IOM uint32_t CMD;                           /**< Command Register                                   */
-  __IM uint32_t  STATUS;                        /**< Status register                                    */
-  __IOM uint32_t CNT;                           /**< Counter Value Register                             */
-  __IM uint32_t  SYNCBUSY;                      /**< Synchronization Busy Register                      */
-  __IOM uint32_t LOCK;                          /**< Configuration Lock Register                        */
-  uint32_t       RESERVED0[3U];                 /**< Reserved for future use                            */
-  uint32_t       RESERVED1[1U];                 /**< Reserved for future use                            */
-  uint32_t       RESERVED2[3U];                 /**< Reserved for future use                            */
-  __IOM uint32_t GRP0_IF;                       /**< Group Interrupt Flags                              */
-  __IOM uint32_t GRP0_IEN;                      /**< Group Interrupt Enables                            */
-  __IOM uint32_t GRP0_CTRL;                     /**< Group Control Register                             */
-  __IOM uint32_t GRP0_CMP0VALUE;                /**< Compare 0 Value Register                           */
-  __IOM uint32_t GRP0_CMP1VALUE;                /**< Compare 1 Value Register                           */
-  __IM uint32_t  GRP0_CAP0VALUE;                /**< Capture 0 Value Register                           */
-  __IM uint32_t  GRP0_SYNCBUSY;                 /**< Synchronization busy Register                      */
-  uint32_t       RESERVED3[1U];                 /**< Reserved for future use                            */
-  uint32_t       RESERVED4[1U];                 /**< Reserved for future use                            */
-  uint32_t       RESERVED5[7U];                 /**< Reserved for future use                            */
-  uint32_t       RESERVED6[1U];                 /**< Reserved for future use                            */
-  uint32_t       RESERVED7[991U];               /**< Reserved for future use                            */
-  __IM uint32_t  IPVERSION_SET;                 /**< IP VERSION                                         */
-  __IOM uint32_t EN_SET;                        /**< Module Enable Register                             */
-  __IOM uint32_t SWRST_SET;                     /**< Software Reset Register                            */
-  __IOM uint32_t CFG_SET;                       /**< Configuration Register                             */
-  __IOM uint32_t CMD_SET;                       /**< Command Register                                   */
-  __IM uint32_t  STATUS_SET;                    /**< Status register                                    */
-  __IOM uint32_t CNT_SET;                       /**< Counter Value Register                             */
-  __IM uint32_t  SYNCBUSY_SET;                  /**< Synchronization Busy Register                      */
-  __IOM uint32_t LOCK_SET;                      /**< Configuration Lock Register                        */
-  uint32_t       RESERVED8[3U];                 /**< Reserved for future use                            */
-  uint32_t       RESERVED9[1U];                 /**< Reserved for future use                            */
-  uint32_t       RESERVED10[3U];                /**< Reserved for future use                            */
-  __IOM uint32_t GRP0_IF_SET;                   /**< Group Interrupt Flags                              */
-  __IOM uint32_t GRP0_IEN_SET;                  /**< Group Interrupt Enables                            */
-  __IOM uint32_t GRP0_CTRL_SET;                 /**< Group Control Register                             */
-  __IOM uint32_t GRP0_CMP0VALUE_SET;            /**< Compare 0 Value Register                           */
-  __IOM uint32_t GRP0_CMP1VALUE_SET;            /**< Compare 1 Value Register                           */
-  __IM uint32_t  GRP0_CAP0VALUE_SET;            /**< Capture 0 Value Register                           */
-  __IM uint32_t  GRP0_SYNCBUSY_SET;             /**< Synchronization busy Register                      */
-  uint32_t       RESERVED11[1U];                /**< Reserved for future use                            */
-  uint32_t       RESERVED12[1U];                /**< Reserved for future use                            */
-  uint32_t       RESERVED13[7U];                /**< Reserved for future use                            */
-  uint32_t       RESERVED14[1U];                /**< Reserved for future use                            */
-  uint32_t       RESERVED15[991U];              /**< Reserved for future use                            */
-  __IM uint32_t  IPVERSION_CLR;                 /**< IP VERSION                                         */
-  __IOM uint32_t EN_CLR;                        /**< Module Enable Register                             */
-  __IOM uint32_t SWRST_CLR;                     /**< Software Reset Register                            */
-  __IOM uint32_t CFG_CLR;                       /**< Configuration Register                             */
-  __IOM uint32_t CMD_CLR;                       /**< Command Register                                   */
-  __IM uint32_t  STATUS_CLR;                    /**< Status register                                    */
-  __IOM uint32_t CNT_CLR;                       /**< Counter Value Register                             */
-  __IM uint32_t  SYNCBUSY_CLR;                  /**< Synchronization Busy Register                      */
-  __IOM uint32_t LOCK_CLR;                      /**< Configuration Lock Register                        */
-  uint32_t       RESERVED16[3U];                /**< Reserved for future use                            */
-  uint32_t       RESERVED17[1U];                /**< Reserved for future use                            */
-  uint32_t       RESERVED18[3U];                /**< Reserved for future use                            */
-  __IOM uint32_t GRP0_IF_CLR;                   /**< Group Interrupt Flags                              */
-  __IOM uint32_t GRP0_IEN_CLR;                  /**< Group Interrupt Enables                            */
-  __IOM uint32_t GRP0_CTRL_CLR;                 /**< Group Control Register                             */
-  __IOM uint32_t GRP0_CMP0VALUE_CLR;            /**< Compare 0 Value Register                           */
-  __IOM uint32_t GRP0_CMP1VALUE_CLR;            /**< Compare 1 Value Register                           */
-  __IM uint32_t  GRP0_CAP0VALUE_CLR;            /**< Capture 0 Value Register                           */
-  __IM uint32_t  GRP0_SYNCBUSY_CLR;             /**< Synchronization busy Register                      */
-  uint32_t       RESERVED19[1U];                /**< Reserved for future use                            */
-  uint32_t       RESERVED20[1U];                /**< Reserved for future use                            */
-  uint32_t       RESERVED21[7U];                /**< Reserved for future use                            */
-  uint32_t       RESERVED22[1U];                /**< Reserved for future use                            */
-  uint32_t       RESERVED23[991U];              /**< Reserved for future use                            */
-  __IM uint32_t  IPVERSION_TGL;                 /**< IP VERSION                                         */
-  __IOM uint32_t EN_TGL;                        /**< Module Enable Register                             */
-  __IOM uint32_t SWRST_TGL;                     /**< Software Reset Register                            */
-  __IOM uint32_t CFG_TGL;                       /**< Configuration Register                             */
-  __IOM uint32_t CMD_TGL;                       /**< Command Register                                   */
-  __IM uint32_t  STATUS_TGL;                    /**< Status register                                    */
-  __IOM uint32_t CNT_TGL;                       /**< Counter Value Register                             */
-  __IM uint32_t  SYNCBUSY_TGL;                  /**< Synchronization Busy Register                      */
-  __IOM uint32_t LOCK_TGL;                      /**< Configuration Lock Register                        */
-  uint32_t       RESERVED24[3U];                /**< Reserved for future use                            */
-  uint32_t       RESERVED25[1U];                /**< Reserved for future use                            */
-  uint32_t       RESERVED26[3U];                /**< Reserved for future use                            */
-  __IOM uint32_t GRP0_IF_TGL;                   /**< Group Interrupt Flags                              */
-  __IOM uint32_t GRP0_IEN_TGL;                  /**< Group Interrupt Enables                            */
-  __IOM uint32_t GRP0_CTRL_TGL;                 /**< Group Control Register                             */
-  __IOM uint32_t GRP0_CMP0VALUE_TGL;            /**< Compare 0 Value Register                           */
-  __IOM uint32_t GRP0_CMP1VALUE_TGL;            /**< Compare 1 Value Register                           */
-  __IM uint32_t  GRP0_CAP0VALUE_TGL;            /**< Capture 0 Value Register                           */
-  __IM uint32_t  GRP0_SYNCBUSY_TGL;             /**< Synchronization busy Register                      */
-  uint32_t       RESERVED27[1U];                /**< Reserved for future use                            */
-  uint32_t       RESERVED28[1U];                /**< Reserved for future use                            */
-  uint32_t       RESERVED29[7U];                /**< Reserved for future use                            */
-  uint32_t       RESERVED30[1U];                /**< Reserved for future use                            */
+typedef struct
+{
+	__IM uint32_t IPVERSION; /**< IP VERSION                                         */
+	__IOM uint32_t EN; /**< Module Enable Register                             */
+	__IOM uint32_t SWRST; /**< Software Reset Register                            */
+	__IOM uint32_t CFG; /**< Configuration Register                             */
+	__IOM uint32_t CMD; /**< Command Register                                   */
+	__IM uint32_t STATUS; /**< Status register                                    */
+	__IOM uint32_t CNT; /**< Counter Value Register                             */
+	__IM uint32_t SYNCBUSY; /**< Synchronization Busy Register                      */
+	__IOM uint32_t LOCK; /**< Configuration Lock Register                        */
+	uint32_t RESERVED0[3U]; /**< Reserved for future use                            */
+	uint32_t RESERVED1[1U]; /**< Reserved for future use                            */
+	uint32_t RESERVED2[3U]; /**< Reserved for future use                            */
+	__IOM uint32_t GRP0_IF; /**< Group Interrupt Flags                              */
+	__IOM uint32_t GRP0_IEN; /**< Group Interrupt Enables                            */
+	__IOM uint32_t GRP0_CTRL; /**< Group Control Register                             */
+	__IOM uint32_t GRP0_CMP0VALUE; /**< Compare 0 Value Register                           */
+	__IOM uint32_t GRP0_CMP1VALUE; /**< Compare 1 Value Register                           */
+	__IM uint32_t GRP0_CAP0VALUE; /**< Capture 0 Value Register                           */
+	__IM uint32_t GRP0_SYNCBUSY; /**< Synchronization busy Register                      */
+	uint32_t RESERVED3[1U]; /**< Reserved for future use                            */
+	uint32_t RESERVED4[1U]; /**< Reserved for future use                            */
+	uint32_t RESERVED5[7U]; /**< Reserved for future use                            */
+	uint32_t RESERVED6[1U]; /**< Reserved for future use                            */
+	uint32_t RESERVED7[991U]; /**< Reserved for future use                            */
+	__IM uint32_t IPVERSION_SET; /**< IP VERSION                                         */
+	__IOM uint32_t EN_SET; /**< Module Enable Register                             */
+	__IOM uint32_t SWRST_SET; /**< Software Reset Register                            */
+	__IOM uint32_t CFG_SET; /**< Configuration Register                             */
+	__IOM uint32_t CMD_SET; /**< Command Register                                   */
+	__IM uint32_t STATUS_SET; /**< Status register                                    */
+	__IOM uint32_t CNT_SET; /**< Counter Value Register                             */
+	__IM uint32_t SYNCBUSY_SET; /**< Synchronization Busy Register                      */
+	__IOM uint32_t LOCK_SET; /**< Configuration Lock Register                        */
+	uint32_t RESERVED8[3U]; /**< Reserved for future use                            */
+	uint32_t RESERVED9[1U]; /**< Reserved for future use                            */
+	uint32_t RESERVED10[3U]; /**< Reserved for future use                            */
+	__IOM uint32_t GRP0_IF_SET; /**< Group Interrupt Flags                              */
+	__IOM uint32_t GRP0_IEN_SET; /**< Group Interrupt Enables                            */
+	__IOM uint32_t GRP0_CTRL_SET; /**< Group Control Register                             */
+	__IOM uint32_t GRP0_CMP0VALUE_SET; /**< Compare 0 Value Register                           */
+	__IOM uint32_t GRP0_CMP1VALUE_SET; /**< Compare 1 Value Register                           */
+	__IM uint32_t GRP0_CAP0VALUE_SET; /**< Capture 0 Value Register                           */
+	__IM uint32_t GRP0_SYNCBUSY_SET; /**< Synchronization busy Register                      */
+	uint32_t RESERVED11[1U]; /**< Reserved for future use                            */
+	uint32_t RESERVED12[1U]; /**< Reserved for future use                            */
+	uint32_t RESERVED13[7U]; /**< Reserved for future use                            */
+	uint32_t RESERVED14[1U]; /**< Reserved for future use                            */
+	uint32_t RESERVED15[991U]; /**< Reserved for future use                            */
+	__IM uint32_t IPVERSION_CLR; /**< IP VERSION                                         */
+	__IOM uint32_t EN_CLR; /**< Module Enable Register                             */
+	__IOM uint32_t SWRST_CLR; /**< Software Reset Register                            */
+	__IOM uint32_t CFG_CLR; /**< Configuration Register                             */
+	__IOM uint32_t CMD_CLR; /**< Command Register                                   */
+	__IM uint32_t STATUS_CLR; /**< Status register                                    */
+	__IOM uint32_t CNT_CLR; /**< Counter Value Register                             */
+	__IM uint32_t SYNCBUSY_CLR; /**< Synchronization Busy Register                      */
+	__IOM uint32_t LOCK_CLR; /**< Configuration Lock Register                        */
+	uint32_t RESERVED16[3U]; /**< Reserved for future use                            */
+	uint32_t RESERVED17[1U]; /**< Reserved for future use                            */
+	uint32_t RESERVED18[3U]; /**< Reserved for future use                            */
+	__IOM uint32_t GRP0_IF_CLR; /**< Group Interrupt Flags                              */
+	__IOM uint32_t GRP0_IEN_CLR; /**< Group Interrupt Enables                            */
+	__IOM uint32_t GRP0_CTRL_CLR; /**< Group Control Register                             */
+	__IOM uint32_t GRP0_CMP0VALUE_CLR; /**< Compare 0 Value Register                           */
+	__IOM uint32_t GRP0_CMP1VALUE_CLR; /**< Compare 1 Value Register                           */
+	__IM uint32_t GRP0_CAP0VALUE_CLR; /**< Capture 0 Value Register                           */
+	__IM uint32_t GRP0_SYNCBUSY_CLR; /**< Synchronization busy Register                      */
+	uint32_t RESERVED19[1U]; /**< Reserved for future use                            */
+	uint32_t RESERVED20[1U]; /**< Reserved for future use                            */
+	uint32_t RESERVED21[7U]; /**< Reserved for future use                            */
+	uint32_t RESERVED22[1U]; /**< Reserved for future use                            */
+	uint32_t RESERVED23[991U]; /**< Reserved for future use                            */
+	__IM uint32_t IPVERSION_TGL; /**< IP VERSION                                         */
+	__IOM uint32_t EN_TGL; /**< Module Enable Register                             */
+	__IOM uint32_t SWRST_TGL; /**< Software Reset Register                            */
+	__IOM uint32_t CFG_TGL; /**< Configuration Register                             */
+	__IOM uint32_t CMD_TGL; /**< Command Register                                   */
+	__IM uint32_t STATUS_TGL; /**< Status register                                    */
+	__IOM uint32_t CNT_TGL; /**< Counter Value Register                             */
+	__IM uint32_t SYNCBUSY_TGL; /**< Synchronization Busy Register                      */
+	__IOM uint32_t LOCK_TGL; /**< Configuration Lock Register                        */
+	uint32_t RESERVED24[3U]; /**< Reserved for future use                            */
+	uint32_t RESERVED25[1U]; /**< Reserved for future use                            */
+	uint32_t RESERVED26[3U]; /**< Reserved for future use                            */
+	__IOM uint32_t GRP0_IF_TGL; /**< Group Interrupt Flags                              */
+	__IOM uint32_t GRP0_IEN_TGL; /**< Group Interrupt Enables                            */
+	__IOM uint32_t GRP0_CTRL_TGL; /**< Group Control Register                             */
+	__IOM uint32_t GRP0_CMP0VALUE_TGL; /**< Compare 0 Value Register                           */
+	__IOM uint32_t GRP0_CMP1VALUE_TGL; /**< Compare 1 Value Register                           */
+	__IM uint32_t GRP0_CAP0VALUE_TGL; /**< Capture 0 Value Register                           */
+	__IM uint32_t GRP0_SYNCBUSY_TGL; /**< Synchronization busy Register                      */
+	uint32_t RESERVED27[1U]; /**< Reserved for future use                            */
+	uint32_t RESERVED28[1U]; /**< Reserved for future use                            */
+	uint32_t RESERVED29[7U]; /**< Reserved for future use                            */
+	uint32_t RESERVED30[1U]; /**< Reserved for future use                            */
 } SYSRTC_TypeDef;
 /** @} End of group EFR32MG24_SYSRTC */
 

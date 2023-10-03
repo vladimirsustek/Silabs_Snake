@@ -84,11 +84,25 @@
 /* Number of maximal iterations for randomizer */
 #define FOOD_MAX_ITER		(uint16_t)(10)
 
-typedef enum { UP = 'W', DOWN = 'S', LEFT =  'A', RIGHT = 'D', PAUSE = 'P', QUIT = 'Q' } snake_dir_e;
+typedef enum
+{
+	UP = 'W', DOWN = 'S', LEFT = 'A', RIGHT = 'D', PAUSE = 'P', QUIT = 'Q'
+} snake_dir_e;
 
-typedef enum { FOOD_WAITING, FOOD_PLACED, FOOD_EATEN } foodstate_e;
+typedef enum
+{
+	FOOD_WAITING, FOOD_PLACED, FOOD_EATEN
+} foodstate_e;
 
-typedef enum { GAME_ONGOING, GAME_OVER, GAME_WON } snake_state_e;
+typedef enum
+{
+	GAME_ONGOING, GAME_OVER, GAME_WON
+} snake_state_e;
+
+typedef enum
+{
+	SHOW_TEXT, SHOW_WHOLE_SNAKE, SHOW_SNAKE_MOVE
+} snake_infor_e;
 
 typedef struct coord_tag
 {
@@ -99,10 +113,11 @@ typedef struct coord_tag
 typedef struct snake_tag
 {
 	snake_dir_e direction;
-	coord_t body[SNAKE_MAX_LNG];
+	snake_dir_e prev_direction;
+	coord_t body[SNAKE_MAX_LNG ];
 	uint16_t length;
 	coord_t ghost;
-	uint8_t printWholeSnake;
+	snake_infor_e showmode;
 	snake_state_e state;
 } snake_t;
 
@@ -116,24 +131,41 @@ typedef struct food_tag
 
 /* pointer to function returning uint32_t with uint32_t parameter
  * used for snake_delay as an function called during blocking delay */
-typedef uint32_t fn_t(uint32_t);
+typedef uint32_t
+fn_t(uint32_t);
 
-void platform_drawCell(uint16_t x, uint16_t y);
-void platform_eraseCell(uint16_t x, uint16_t y);
-void platform_drawFood(uint16_t x, uint16_t y);
-void platform_eraseFood(uint16_t x, uint16_t y);
+void
+platform_drawCell(uint16_t x, uint16_t y);
+void
+platform_eraseCell(uint16_t x, uint16_t y);
+void
+platform_drawFood(uint16_t x, uint16_t y);
+void
+platform_eraseFood(uint16_t x, uint16_t y);
 
-void platform_init(void);
-void platform_init_randomizer(void);
-void platform_printXY(uint16_t x, uint16_t y, char symbol);
-uint16_t platform_randomize(void);
-uint16_t platform_msTickGet(void);
-void platform_fatal(void);
-void platform_get_control(snake_t* snake);
-void platform_refresh_hw(void);
-void platform_display_border(void);
-void platform_print_text(char *str, uint16_t length, uint16_t color);
-void platform_snake_set_control(char c);
-void platform_delay(uint32_t Delay, fn_t func);
+void
+platform_init(void);
+void
+platform_init_randomizer(void);
+void
+platform_printXY(uint16_t x, uint16_t y, char symbol);
+uint16_t
+platform_randomize(void);
+uint16_t
+platform_msTickGet(void);
+void
+platform_fatal(void);
+void
+platform_get_control(snake_t *snake);
+void
+platform_refresh_hw(void);
+void
+platform_display_border(void);
+void
+platform_print_text(char *str, uint16_t length, uint16_t color);
+void
+platform_snake_set_control(char c);
+void
+platform_delay(uint32_t Delay, fn_t func);
 
 #endif /* SNAKE_PORT_H_ */

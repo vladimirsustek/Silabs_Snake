@@ -32,9 +32,9 @@
 #define MAILBOX_HAS_SET_CLEAR
 
 /**************************************************************************//**
-* @addtogroup Parts
-* @{
-******************************************************************************/
+ * @addtogroup Parts
+ * @{
+ ******************************************************************************/
 /**************************************************************************//**
  * @defgroup EFR32MG24_MAILBOX MAILBOX
  * @{
@@ -42,31 +42,33 @@
  *****************************************************************************/
 
 /** MAILBOX MSGPTRS Register Group Declaration. */
-typedef struct {
-  __IOM uint32_t MSGPTR;                             /**< Message Pointer                                    */
+typedef struct
+{
+	__IOM uint32_t MSGPTR; /**< Message Pointer                                    */
 } MAILBOX_MSGPTRS_TypeDef;
 
 /** MAILBOX Register Declaration. */
-typedef struct {
-  MAILBOX_MSGPTRS_TypeDef MSGPTRS[4U];          /**< Message Pointers                                   */
-  uint32_t                RESERVED0[12U];       /**< Reserved for future use                            */
-  __IOM uint32_t          IF;                   /**< Interrupt Flag register                            */
-  __IOM uint32_t          IEN;                  /**< Interrupt Enable register                          */
-  uint32_t                RESERVED1[1006U];     /**< Reserved for future use                            */
-  MAILBOX_MSGPTRS_TypeDef MSGPTRS_SET[4U];      /**< Message Pointers                                   */
-  uint32_t                RESERVED2[12U];       /**< Reserved for future use                            */
-  __IOM uint32_t          IF_SET;               /**< Interrupt Flag register                            */
-  __IOM uint32_t          IEN_SET;              /**< Interrupt Enable register                          */
-  uint32_t                RESERVED3[1006U];     /**< Reserved for future use                            */
-  MAILBOX_MSGPTRS_TypeDef MSGPTRS_CLR[4U];      /**< Message Pointers                                   */
-  uint32_t                RESERVED4[12U];       /**< Reserved for future use                            */
-  __IOM uint32_t          IF_CLR;               /**< Interrupt Flag register                            */
-  __IOM uint32_t          IEN_CLR;              /**< Interrupt Enable register                          */
-  uint32_t                RESERVED5[1006U];     /**< Reserved for future use                            */
-  MAILBOX_MSGPTRS_TypeDef MSGPTRS_TGL[4U];      /**< Message Pointers                                   */
-  uint32_t                RESERVED6[12U];       /**< Reserved for future use                            */
-  __IOM uint32_t          IF_TGL;               /**< Interrupt Flag register                            */
-  __IOM uint32_t          IEN_TGL;              /**< Interrupt Enable register                          */
+typedef struct
+{
+	MAILBOX_MSGPTRS_TypeDef MSGPTRS[4U]; /**< Message Pointers                                   */
+	uint32_t RESERVED0[12U]; /**< Reserved for future use                            */
+	__IOM uint32_t IF; /**< Interrupt Flag register                            */
+	__IOM uint32_t IEN; /**< Interrupt Enable register                          */
+	uint32_t RESERVED1[1006U]; /**< Reserved for future use                            */
+	MAILBOX_MSGPTRS_TypeDef MSGPTRS_SET[4U]; /**< Message Pointers                                   */
+	uint32_t RESERVED2[12U]; /**< Reserved for future use                            */
+	__IOM uint32_t IF_SET; /**< Interrupt Flag register                            */
+	__IOM uint32_t IEN_SET; /**< Interrupt Enable register                          */
+	uint32_t RESERVED3[1006U]; /**< Reserved for future use                            */
+	MAILBOX_MSGPTRS_TypeDef MSGPTRS_CLR[4U]; /**< Message Pointers                                   */
+	uint32_t RESERVED4[12U]; /**< Reserved for future use                            */
+	__IOM uint32_t IF_CLR; /**< Interrupt Flag register                            */
+	__IOM uint32_t IEN_CLR; /**< Interrupt Enable register                          */
+	uint32_t RESERVED5[1006U]; /**< Reserved for future use                            */
+	MAILBOX_MSGPTRS_TypeDef MSGPTRS_TGL[4U]; /**< Message Pointers                                   */
+	uint32_t RESERVED6[12U]; /**< Reserved for future use                            */
+	__IOM uint32_t IF_TGL; /**< Interrupt Flag register                            */
+	__IOM uint32_t IEN_TGL; /**< Interrupt Enable register                          */
 } MAILBOX_TypeDef;
 /** @} End of group EFR32MG24_MAILBOX */
 

@@ -48,18 +48,20 @@
  ******************************************************************************/
 void sl_sysrtc_init(const sl_sysrtc_config_t *p_config)
 {
-  // Wait to be ready
-  sl_sysrtc_wait_ready();
+	// Wait to be ready
+	sl_sysrtc_wait_ready();
 
-  if (SYSRTC0->EN == SYSRTC_EN_EN) {
-    // Disable the module
-    sl_sysrtc_disable();
-    // Wait to be ready
-    sl_sysrtc_wait_ready();
-  }
+	if (SYSRTC0->EN == SYSRTC_EN_EN)
+	{
+		// Disable the module
+		sl_sysrtc_disable();
+		// Wait to be ready
+		sl_sysrtc_wait_ready();
+	}
 
-  // Set configuration
-  SYSRTC0->CFG = (p_config->enable_debug_run ? 1UL : 0UL) << _SYSRTC_CFG_DEBUGRUN_SHIFT;
+	// Set configuration
+	SYSRTC0->CFG = (p_config->enable_debug_run ? 1UL : 0UL)
+			<< _SYSRTC_CFG_DEBUGRUN_SHIFT;
 }
 
 /***************************************************************************//**
@@ -67,14 +69,14 @@ void sl_sysrtc_init(const sl_sysrtc_config_t *p_config)
  ******************************************************************************/
 void sl_sysrtc_enable(void)
 {
-  // Wait if disabling
-  sl_sysrtc_wait_ready();
+	// Wait if disabling
+	sl_sysrtc_wait_ready();
 
-  // Enable SYSRTC module
-  SYSRTC0->EN_SET = SYSRTC_EN_EN;
+	// Enable SYSRTC module
+	SYSRTC0->EN_SET = SYSRTC_EN_EN;
 
-  // Start counter
-  SYSRTC0->CMD = SYSRTC_CMD_START;
+	// Start counter
+	SYSRTC0->CMD = SYSRTC_CMD_START;
 }
 
 /***************************************************************************//**
@@ -82,15 +84,16 @@ void sl_sysrtc_enable(void)
  ******************************************************************************/
 void sl_sysrtc_disable(void)
 {
-  if (SYSRTC0->EN != SYSRTC_EN_EN) {
-    return;
-  }
+	if (SYSRTC0->EN != SYSRTC_EN_EN)
+	{
+		return;
+	}
 
-  // Stop counter
-  sl_sysrtc_stop();
+	// Stop counter
+	sl_sysrtc_stop();
 
-  // Disable module
-  SYSRTC0->EN_CLR = SYSRTC_EN_EN;
+	// Disable module
+	SYSRTC0->EN_CLR = SYSRTC_EN_EN;
 }
 
 /***************************************************************************//**
@@ -98,41 +101,54 @@ void sl_sysrtc_disable(void)
  ******************************************************************************/
 void sl_sysrtc_reset(void)
 {
-  // Reset timer
-  SYSRTC0->SWRST = SYSRTC_SWRST_SWRST;
+	// Reset timer
+	SYSRTC0->SWRST = SYSRTC_SWRST_SWRST;
 }
 
 /***************************************************************************//**
  * Initializes the selected SYSRTC group.
  ******************************************************************************/
 void sl_sysrtc_init_group(uint8_t group_number,
-                          sl_sysrtc_group_config_t const *p_group_config)
+		sl_sysrtc_group_config_t const *p_group_config)
 {
-  uint32_t temp = 0;
+	uint32_t temp = 0;
 
-  EFM_ASSERT(SYSRTC_GROUP_VALID(group_number));
+	EFM_ASSERT(SYSRTC_GROUP_VALID(group_number));
 
-  switch (group_number) {
-    case 0:
-      temp = ((p_group_config->compare_channel0_enable ? 1UL : 0UL) << _SYSRTC_GRP0_CTRL_CMP0EN_SHIFT);
-      if (p_group_config->p_compare_channel0_config != NULL) {
-        temp |= ((uint32_t)p_group_config->p_compare_channel0_config->compare_match_out_action << _SYSRTC_GRP0_CTRL_CMP0CMOA_SHIFT);
-      }
+	switch (group_number)
+	{
+	case 0:
+		temp = ((p_group_config->compare_channel0_enable ? 1UL : 0UL)
+				<< _SYSRTC_GRP0_CTRL_CMP0EN_SHIFT);
+		if (p_group_config->p_compare_channel0_config != NULL)
+		{
+			temp |=
+					((uint32_t) p_group_config->p_compare_channel0_config->compare_match_out_action
+							<< _SYSRTC_GRP0_CTRL_CMP0CMOA_SHIFT);
+		}
 
 #ifdef SYSRTC_GRP0_CTRL_CMP1EN
-      temp |= ((p_group_config->compare_channel1_enable ? 1UL : 0UL) << _SYSRTC_GRP0_CTRL_CMP1EN_SHIFT);
-      if (p_group_config->p_compare_channel1_config != NULL) {
-        temp |= ((uint32_t)p_group_config->p_compare_channel1_config->compare_match_out_action << _SYSRTC_GRP0_CTRL_CMP1CMOA_SHIFT);
-      }
+		temp |= ((p_group_config->compare_channel1_enable ? 1UL : 0UL)
+				<< _SYSRTC_GRP0_CTRL_CMP1EN_SHIFT);
+		if (p_group_config->p_compare_channel1_config != NULL)
+		{
+			temp |=
+					((uint32_t) p_group_config->p_compare_channel1_config->compare_match_out_action
+							<< _SYSRTC_GRP0_CTRL_CMP1CMOA_SHIFT);
+		}
 #endif
 #ifdef SYSRTC_GRP0_CTRL_CAP0EN
-      temp |= ((p_group_config->capture_channel0_enable ? 1UL : 0UL) << _SYSRTC_GRP0_CTRL_CAP0EN_SHIFT);
-      if (p_group_config->p_capture_channel0_config != NULL) {
-        temp |= ((uint32_t)p_group_config->p_capture_channel0_config->capture_input_edge << _SYSRTC_GRP0_CTRL_CAP0EDGE_SHIFT);
-      }
+		temp |= ((p_group_config->capture_channel0_enable ? 1UL : 0UL)
+				<< _SYSRTC_GRP0_CTRL_CAP0EN_SHIFT);
+		if (p_group_config->p_capture_channel0_config != NULL)
+		{
+			temp |=
+					((uint32_t) p_group_config->p_capture_channel0_config->capture_input_edge
+							<< _SYSRTC_GRP0_CTRL_CAP0EDGE_SHIFT);
+		}
 #endif
-      SYSRTC0->GRP0_CTRL = temp;
-      break;
+		SYSRTC0->GRP0_CTRL = temp;
+		break;
 
 #if SYSRTC_GROUP_NUMBER > 1
     case 1:
@@ -246,23 +262,23 @@ void sl_sysrtc_init_group(uint8_t group_number,
 #endif
 #endif
 
-    default:
-      EFM_ASSERT(1);
-  }
+	default:
+		EFM_ASSERT(1);
+	}
 }
 
 /***************************************************************************//**
  * Enables one or more SYSRTC interrupts for the given group.
  ******************************************************************************/
-void sl_sysrtc_enable_group_interrupts(uint8_t group_number,
-                                       uint32_t flags)
+void sl_sysrtc_enable_group_interrupts(uint8_t group_number, uint32_t flags)
 {
-  EFM_ASSERT(SYSRTC_GROUP_VALID(group_number));
+	EFM_ASSERT(SYSRTC_GROUP_VALID(group_number));
 
-  switch (group_number) {
-    case 0:
-      SYSRTC0->GRP0_IEN_SET = flags;
-      break;
+	switch (group_number)
+	{
+	case 0:
+		SYSRTC0->GRP0_IEN_SET = flags;
+		break;
 
 #if SYSRTC_GROUP_NUMBER > 1
     case 1:
@@ -306,23 +322,23 @@ void sl_sysrtc_enable_group_interrupts(uint8_t group_number,
 #endif
 #endif
 
-    default:
-      EFM_ASSERT(1);
-  }
+	default:
+		EFM_ASSERT(1);
+	}
 }
 
 /***************************************************************************//**
  * Disables one or more SYSRTC interrupts for the given group.
  ******************************************************************************/
-void sl_sysrtc_disable_group_interrupts(uint8_t group_number,
-                                        uint32_t flags)
+void sl_sysrtc_disable_group_interrupts(uint8_t group_number, uint32_t flags)
 {
-  EFM_ASSERT(SYSRTC_GROUP_VALID(group_number));
+	EFM_ASSERT(SYSRTC_GROUP_VALID(group_number));
 
-  switch (group_number) {
-    case 0:
-      SYSRTC0->GRP0_IEN_CLR = flags;
-      break;
+	switch (group_number)
+	{
+	case 0:
+		SYSRTC0->GRP0_IEN_CLR = flags;
+		break;
 
 #if SYSRTC_GROUP_NUMBER > 1
     case 1:
@@ -366,23 +382,23 @@ void sl_sysrtc_disable_group_interrupts(uint8_t group_number,
 #endif
 #endif
 
-    default:
-      EFM_ASSERT(1);
-  }
+	default:
+		EFM_ASSERT(1);
+	}
 }
 
 /***************************************************************************//**
  * Clears one or more pending SYSRTC interrupts for the given group.
  ******************************************************************************/
-void sl_sysrtc_clear_group_interrupts(uint8_t group_number,
-                                      uint32_t flags)
+void sl_sysrtc_clear_group_interrupts(uint8_t group_number, uint32_t flags)
 {
-  EFM_ASSERT(SYSRTC_GROUP_VALID(group_number));
+	EFM_ASSERT(SYSRTC_GROUP_VALID(group_number));
 
-  switch (group_number) {
-    case 0:
-      SYSRTC0->GRP0_IF_CLR = flags;
-      break;
+	switch (group_number)
+	{
+	case 0:
+		SYSRTC0->GRP0_IF_CLR = flags;
+		break;
 
 #if SYSRTC_GROUP_NUMBER > 1
     case 1:
@@ -426,9 +442,9 @@ void sl_sysrtc_clear_group_interrupts(uint8_t group_number,
 #endif
 #endif
 
-    default:
-      EFM_ASSERT(1);
-  }
+	default:
+		EFM_ASSERT(1);
+	}
 }
 
 /***************************************************************************//**
@@ -436,11 +452,12 @@ void sl_sysrtc_clear_group_interrupts(uint8_t group_number,
  ******************************************************************************/
 uint32_t sl_sysrtc_get_group_interrupts(uint8_t group_number)
 {
-  EFM_ASSERT(SYSRTC_GROUP_VALID(group_number));
+	EFM_ASSERT(SYSRTC_GROUP_VALID(group_number));
 
-  switch (group_number) {
-    case 0:
-      return SYSRTC0->GRP0_IF;
+	switch (group_number)
+	{
+	case 0:
+		return SYSRTC0->GRP0_IF;
 
 #if SYSRTC_GROUP_NUMBER > 1
     case 1:
@@ -477,10 +494,10 @@ uint32_t sl_sysrtc_get_group_interrupts(uint8_t group_number)
 #endif
 #endif
 
-    default:
-      EFM_ASSERT(1);
-      return 0;
-  }
+	default:
+		EFM_ASSERT(1);
+		return 0;
+	}
 }
 
 /***************************************************************************//**
@@ -488,14 +505,15 @@ uint32_t sl_sysrtc_get_group_interrupts(uint8_t group_number)
  ******************************************************************************/
 uint32_t sl_sysrtc_get_group_enabled_interrupts(uint8_t group_number)
 {
-  uint32_t ien = 0;
+	uint32_t ien = 0;
 
-  EFM_ASSERT(SYSRTC_GROUP_VALID(group_number));
+	EFM_ASSERT(SYSRTC_GROUP_VALID(group_number));
 
-  switch (group_number) {
-    case 0:
-      ien = SYSRTC0->GRP0_IEN;
-      return SYSRTC0->GRP0_IF & ien;
+	switch (group_number)
+	{
+	case 0:
+		ien = SYSRTC0->GRP0_IEN;
+		return SYSRTC0->GRP0_IF & ien;
 
 #if SYSRTC_GROUP_NUMBER > 1
     case 1:
@@ -539,24 +557,24 @@ uint32_t sl_sysrtc_get_group_enabled_interrupts(uint8_t group_number)
 #endif
 #endif
 
-    default:
-      EFM_ASSERT(1);
-      return 0;
-  }
+	default:
+		EFM_ASSERT(1);
+		return 0;
+	}
 }
 
 /***************************************************************************//**
  * Sets one or more pending SYSRTC interrupts for the given group from Software.
  ******************************************************************************/
-void sl_sysrtc_set_group_interrupts(uint8_t group_number,
-                                    uint32_t flags)
+void sl_sysrtc_set_group_interrupts(uint8_t group_number, uint32_t flags)
 {
-  EFM_ASSERT(SYSRTC_GROUP_VALID(group_number));
+	EFM_ASSERT(SYSRTC_GROUP_VALID(group_number));
 
-  switch (group_number) {
-    case 0:
-      SYSRTC0->GRP0_IF_SET = flags;
-      break;
+	switch (group_number)
+	{
+	case 0:
+		SYSRTC0->GRP0_IF_SET = flags;
+		break;
 
 #if SYSRTC_GROUP_NUMBER > 1
     case 1:
@@ -600,35 +618,37 @@ void sl_sysrtc_set_group_interrupts(uint8_t group_number,
 #endif
 #endif
 
-    default:
-      EFM_ASSERT(1);
-  }
+	default:
+		EFM_ASSERT(1);
+	}
 }
 
 /***************************************************************************//**
  * Gets SYSRTC compare register value for selected channel of given group.
  ******************************************************************************/
 uint32_t sl_sysrtc_get_group_compare_channel_value(uint8_t group_number,
-                                                   uint8_t channel)
+		uint8_t channel)
 {
-  EFM_ASSERT(SYSRTC_GROUP_VALID(group_number));
+	EFM_ASSERT(SYSRTC_GROUP_VALID(group_number));
 
-  switch (group_number) {
-    case 0:
-      switch (channel) {
-        case 0:
-          return SYSRTC0->GRP0_CMP0VALUE;
+	switch (group_number)
+	{
+	case 0:
+		switch (channel)
+		{
+		case 0:
+			return SYSRTC0->GRP0_CMP0VALUE;
 
 #ifdef SYSRTC_GRP0_CTRL_CMP1EN
-        case 1:
-          return SYSRTC0->GRP0_CMP1VALUE;
+		case 1:
+			return SYSRTC0->GRP0_CMP1VALUE;
 #endif
 
-        default:
-          EFM_ASSERT(1);
-          return 0;
-      }
-      break;
+		default:
+			EFM_ASSERT(1);
+			return 0;
+		}
+		break;
 
 #if SYSRTC_GROUP_NUMBER > 1
     case 1:
@@ -756,38 +776,39 @@ uint32_t sl_sysrtc_get_group_compare_channel_value(uint8_t group_number,
 #endif
 #endif
 
-    default:
-      EFM_ASSERT(1);
-      return 0;
-  }
+	default:
+		EFM_ASSERT(1);
+		return 0;
+	}
 }
 
 /***************************************************************************//**
  * Sets SYSRTC compare register value for selected channel of given group.
  ******************************************************************************/
 void sl_sysrtc_set_group_compare_channel_value(uint8_t group_number,
-                                               uint8_t channel,
-                                               uint32_t value)
+		uint8_t channel, uint32_t value)
 {
-  EFM_ASSERT(SYSRTC_GROUP_VALID(group_number));
+	EFM_ASSERT(SYSRTC_GROUP_VALID(group_number));
 
-  switch (group_number) {
-    case 0:
-      switch (channel) {
-        case 0:
-          SYSRTC0->GRP0_CMP0VALUE = value;
-          break;
+	switch (group_number)
+	{
+	case 0:
+		switch (channel)
+		{
+		case 0:
+			SYSRTC0->GRP0_CMP0VALUE = value;
+			break;
 
 #ifdef SYSRTC_GRP0_CTRL_CMP1EN
-        case 1:
-          SYSRTC0->GRP0_CMP1VALUE = value;
-          break;
+		case 1:
+			SYSRTC0->GRP0_CMP1VALUE = value;
+			break;
 #endif
 
-        default:
-          EFM_ASSERT(1);
-      }
-      break;
+		default:
+			EFM_ASSERT(1);
+		}
+		break;
 
 #if SYSRTC_GROUP_NUMBER > 1
     case 1:
@@ -922,9 +943,9 @@ void sl_sysrtc_set_group_compare_channel_value(uint8_t group_number,
 #endif
 #endif
 
-    default:
-      EFM_ASSERT(1);
-  }
+	default:
+		EFM_ASSERT(1);
+	}
 }
 
 /***************************************************************************//**
@@ -932,12 +953,13 @@ void sl_sysrtc_set_group_compare_channel_value(uint8_t group_number,
  ******************************************************************************/
 uint32_t sl_sysrtc_get_group_capture_channel_value(uint8_t group_number)
 {
-  EFM_ASSERT(SYSRTC_GROUP_VALID(group_number));
+	EFM_ASSERT(SYSRTC_GROUP_VALID(group_number));
 
-  switch (group_number) {
+	switch (group_number)
+	{
 #ifdef SYSRTC_GRP0_CTRL_CAP0EN
-    case 0:
-      return SYSRTC0->GRP0_CAP0VALUE;
+	case 0:
+		return SYSRTC0->GRP0_CAP0VALUE;
 #endif
 
 #if SYSRTC_GROUP_NUMBER > 1
@@ -989,10 +1011,10 @@ uint32_t sl_sysrtc_get_group_capture_channel_value(uint8_t group_number)
 #endif
 #endif
 
-    default:
-      EFM_ASSERT(1);
-      return 0;
-  }
+	default:
+		EFM_ASSERT(1);
+		return 0;
+	}
 }
 
 /** @} (end addtogroup sysrtc) */

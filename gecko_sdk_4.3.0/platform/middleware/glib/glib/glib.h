@@ -227,165 +227,199 @@ extern "C" {
 
 /** @brief Font classes
  */
-typedef enum __GLIB_Font_Class{
-  InvalidFont = 0,  /**< Invalid font. */
-  FullFont,         /**< Characters and numbers font. */
-  NumbersOnlyFont,  /**< Numbers only font. */
+typedef enum __GLIB_Font_Class
+{
+	InvalidFont = 0, /**< Invalid font. */
+	FullFont, /**< Characters and numbers font. */
+	NumbersOnlyFont, /**< Numbers only font. */
 } GLIB_Font_Class;
 
 /** @brief Alignment types
  */
-typedef enum __GLIB_Align{
-  GLIB_ALIGN_LEFT,
-  GLIB_ALIGN_CENTER,
-  GLIB_ALIGN_RIGHT,
+typedef enum __GLIB_Align
+{
+	GLIB_ALIGN_LEFT, GLIB_ALIGN_CENTER, GLIB_ALIGN_RIGHT,
 } GLIB_Align_t;
 
 /** @brief Font definition structure
  */
-typedef struct __GLIB_Font_t{
-  /** Pointer to the pixel map for the font. */
-  void *pFontPixMap;
+typedef struct __GLIB_Font_t
+{
+	/** Pointer to the pixel map for the font. */
+	void *pFontPixMap;
 
-  /** Number of elements in the font pixel map. */
-  uint16_t cntOfMapElements;
+	/** Number of elements in the font pixel map. */
+	uint16_t cntOfMapElements;
 
-  /** Size of each element in the font pixel map. */
-  uint8_t sizeOfMapElement;
+	/** Size of each element in the font pixel map. */
+	uint8_t sizeOfMapElement;
 
-  /** Font row offset. */
-  uint8_t fontRowOffset;
+	/** Font row offset. */
+	uint8_t fontRowOffset;
 
-  /** Width in pixels of each character. */
-  uint8_t fontWidth;
+	/** Width in pixels of each character. */
+	uint8_t fontWidth;
 
-  /** Height in pixels of each character. */
-  uint8_t fontHeight;
+	/** Height in pixels of each character. */
+	uint8_t fontHeight;
 
-  /** Number of pixels between each line in this font. */
-  uint8_t lineSpacing;
+	/** Number of pixels between each line in this font. */
+	uint8_t lineSpacing;
 
-  /** Number of pixels between each character in this font. */
-  uint8_t charSpacing;
+	/** Number of pixels between each character in this font. */
+	uint8_t charSpacing;
 
-  /** The font class is used to tell glib if the font contains numbers only
-   *  or characters and numbers */
-  GLIB_Font_Class fontClass;
+	/** The font class is used to tell glib if the font contains numbers only
+	 *  or characters and numbers */
+	GLIB_Font_Class fontClass;
 } GLIB_Font_t;
 
 /** @brief Rectangle structure
  */
-typedef struct __GLIB_Rectangle_t{
-  /** Minimum x-coordinate */
-  int32_t xMin;
-  /** Minimum y-coordinate */
-  int32_t yMin;
-  /** Maximum x-coordinate */
-  int32_t xMax;
-  /** Maximum y-coordinate */
-  int32_t yMax;
+typedef struct __GLIB_Rectangle_t
+{
+	/** Minimum x-coordinate */
+	int32_t xMin;
+	/** Minimum y-coordinate */
+	int32_t yMin;
+	/** Maximum x-coordinate */
+	int32_t xMax;
+	/** Maximum y-coordinate */
+	int32_t yMax;
 } GLIB_Rectangle_t;
 
 /** @brief GLIB Drawing Context
  *  (Multiple instances of GLIB_Context_t can exist)
  */
-typedef struct __GLIB_Context_t{
-  /** Pointer to the dimensions of the display */
-  const DMD_DisplayGeometry *pDisplayGeometry;
+typedef struct __GLIB_Context_t
+{
+	/** Pointer to the dimensions of the display */
+	const DMD_DisplayGeometry *pDisplayGeometry;
 
-  /** Background color */
-  uint32_t backgroundColor;
+	/** Background color */
+	uint32_t backgroundColor;
 
-  /** Foreground color */
-  uint32_t foregroundColor;
+	/** Foreground color */
+	uint32_t foregroundColor;
 
-  /** Clipping rectangle */
-  GLIB_Rectangle_t clippingRegion;
+	/** Clipping rectangle */
+	GLIB_Rectangle_t clippingRegion;
 
-  /** Font definition */
-  GLIB_Font_t font;
+	/** Font definition */
+	GLIB_Font_t font;
 } GLIB_Context_t;
 
 /* Prototypes for graphics library functions */
-EMSTATUS GLIB_contextInit(GLIB_Context_t *pContext);
+EMSTATUS
+GLIB_contextInit(GLIB_Context_t *pContext);
 
-EMSTATUS GLIB_displayWakeUp(void);
+EMSTATUS
+GLIB_displayWakeUp(void);
 
-EMSTATUS GLIB_displaySleep(void);
+EMSTATUS
+GLIB_displaySleep(void);
 
-EMSTATUS GLIB_clear(GLIB_Context_t *pContext);
+EMSTATUS
+GLIB_clear(GLIB_Context_t *pContext);
 
-EMSTATUS GLIB_clearRegion(const GLIB_Context_t *pContext);
+EMSTATUS
+GLIB_clearRegion(const GLIB_Context_t *pContext);
 
-EMSTATUS GLIB_resetDisplayClippingArea(GLIB_Context_t *pContext);
+EMSTATUS
+GLIB_resetDisplayClippingArea(GLIB_Context_t *pContext);
 
-EMSTATUS GLIB_resetClippingRegion(GLIB_Context_t *pContext);
+EMSTATUS
+GLIB_resetClippingRegion(GLIB_Context_t *pContext);
 
-EMSTATUS GLIB_applyClippingRegion(const GLIB_Context_t *pContext);
+EMSTATUS
+GLIB_applyClippingRegion(const GLIB_Context_t *pContext);
 
-void GLIB_colorTranslate24bpp(uint32_t color, uint8_t *red, uint8_t *green, uint8_t *blue);
+void
+GLIB_colorTranslate24bpp(uint32_t color, uint8_t *red, uint8_t *green,
+		uint8_t *blue);
 
-uint32_t GLIB_rgbColor(uint8_t red, uint8_t green, uint8_t blue);
+uint32_t
+GLIB_rgbColor(uint8_t red, uint8_t green, uint8_t blue);
 
-bool GLIB_rectContainsPoint(const GLIB_Rectangle_t *pRect, int32_t xCenter, int32_t yCenter);
+bool
+GLIB_rectContainsPoint(const GLIB_Rectangle_t *pRect, int32_t xCenter,
+		int32_t yCenter);
 
-void GLIB_normalizeRect(GLIB_Rectangle_t *pRect);
+void
+GLIB_normalizeRect(GLIB_Rectangle_t *pRect);
 
-EMSTATUS GLIB_setClippingRegion(GLIB_Context_t *pContext, const GLIB_Rectangle_t *pRect);
+EMSTATUS
+GLIB_setClippingRegion(GLIB_Context_t *pContext, const GLIB_Rectangle_t *pRect);
 
-EMSTATUS GLIB_drawCircle(GLIB_Context_t *pContext, int32_t x, int32_t y,
-                         uint32_t radius);
+EMSTATUS
+GLIB_drawCircle(GLIB_Context_t *pContext, int32_t x, int32_t y, uint32_t radius);
 
-EMSTATUS GLIB_drawCircleFilled(GLIB_Context_t *pContext, int32_t x, int32_t y,
-                               uint32_t radius);
+EMSTATUS
+GLIB_drawCircleFilled(GLIB_Context_t *pContext, int32_t x, int32_t y,
+		uint32_t radius);
 
-EMSTATUS GLIB_drawPartialCircle(GLIB_Context_t *pContext, int32_t xCenter,
-                                int32_t yCenter, uint32_t radius, uint8_t bitMask);
+EMSTATUS
+GLIB_drawPartialCircle(GLIB_Context_t *pContext, int32_t xCenter,
+		int32_t yCenter, uint32_t radius, uint8_t bitMask);
 
-EMSTATUS GLIB_setFont(GLIB_Context_t *pContext, GLIB_Font_t *pFont);
+EMSTATUS
+GLIB_setFont(GLIB_Context_t *pContext, GLIB_Font_t *pFont);
 
-EMSTATUS GLIB_drawString(GLIB_Context_t *pContext, const char* pString, uint32_t sLength,
-                         int32_t x0, int32_t y0, bool opaque);
+EMSTATUS
+GLIB_drawString(GLIB_Context_t *pContext, const char *pString, uint32_t sLength,
+		int32_t x0, int32_t y0, bool opaque);
 
-EMSTATUS GLIB_drawStringOnLine(GLIB_Context_t *pContext, const char *pString, uint8_t line,
-                               GLIB_Align_t align, int32_t xOffset, int32_t yOffset, bool opaque);
+EMSTATUS
+GLIB_drawStringOnLine(GLIB_Context_t *pContext, const char *pString,
+		uint8_t line, GLIB_Align_t align, int32_t xOffset, int32_t yOffset,
+		bool opaque);
 
-EMSTATUS GLIB_drawChar(GLIB_Context_t *pContext, char myChar, int32_t x,
-                       int32_t y, bool opaque);
+EMSTATUS
+GLIB_drawChar(GLIB_Context_t *pContext, char myChar, int32_t x, int32_t y,
+bool opaque);
 
-EMSTATUS GLIB_drawBitmap(GLIB_Context_t *pContext, int32_t x, int32_t y,
-                         uint32_t width, uint32_t height, const uint8_t *picData);
+EMSTATUS
+GLIB_drawBitmap(GLIB_Context_t *pContext, int32_t x, int32_t y, uint32_t width,
+		uint32_t height, const uint8_t *picData);
 
-void GLIB_invertBitmap(GLIB_Context_t *pContext, uint32_t bitmapSize,
-                       uint8_t *picData);
+void
+GLIB_invertBitmap(GLIB_Context_t *pContext, uint32_t bitmapSize,
+		uint8_t *picData);
 
-EMSTATUS GLIB_drawLine(GLIB_Context_t *pContext, int32_t x1, int32_t y1,
-                       int32_t x2, int32_t y2);
+EMSTATUS
+GLIB_drawLine(GLIB_Context_t *pContext, int32_t x1, int32_t y1, int32_t x2,
+		int32_t y2);
 
-EMSTATUS GLIB_drawLineH(GLIB_Context_t *pContext, int32_t x1, int32_t y1,
-                        int32_t x2);
+EMSTATUS
+GLIB_drawLineH(GLIB_Context_t *pContext, int32_t x1, int32_t y1, int32_t x2);
 
-EMSTATUS GLIB_drawLineV(GLIB_Context_t *pContext, int32_t x1, int32_t y1,
-                        int32_t y2);
+EMSTATUS
+GLIB_drawLineV(GLIB_Context_t *pContext, int32_t x1, int32_t y1, int32_t y2);
 
-EMSTATUS GLIB_drawRect(GLIB_Context_t *pContext, const GLIB_Rectangle_t *pRect);
+EMSTATUS
+GLIB_drawRect(GLIB_Context_t *pContext, const GLIB_Rectangle_t *pRect);
 
-EMSTATUS GLIB_drawRectFilled(GLIB_Context_t *pContext,
-                             const GLIB_Rectangle_t *pRect);
+EMSTATUS
+GLIB_drawRectFilled(GLIB_Context_t *pContext, const GLIB_Rectangle_t *pRect);
 
-EMSTATUS GLIB_drawPolygon(GLIB_Context_t *pContext,
-                          uint32_t numPoints, const int32_t *polyPoints);
+EMSTATUS
+GLIB_drawPolygon(GLIB_Context_t *pContext, uint32_t numPoints,
+		const int32_t *polyPoints);
 
-EMSTATUS GLIB_drawPolygonFilled(GLIB_Context_t *pContext,
-                                uint32_t numPoints, const int32_t *polyPoints);
+EMSTATUS
+GLIB_drawPolygonFilled(GLIB_Context_t *pContext, uint32_t numPoints,
+		const int32_t *polyPoints);
 
-EMSTATUS GLIB_drawPixelRGB(GLIB_Context_t *pContext, int32_t x, int32_t y,
-                           uint8_t red, uint8_t green, uint8_t blue);
+EMSTATUS
+GLIB_drawPixelRGB(GLIB_Context_t *pContext, int32_t x, int32_t y, uint8_t red,
+		uint8_t green, uint8_t blue);
 
-EMSTATUS GLIB_drawPixel(GLIB_Context_t *pContext, int32_t x, int32_t y);
+EMSTATUS
+GLIB_drawPixel(GLIB_Context_t *pContext, int32_t x, int32_t y);
 
-EMSTATUS GLIB_drawPixelColor(GLIB_Context_t *pContext, int32_t x, int32_t y,
-                             uint32_t color);
+EMSTATUS
+GLIB_drawPixelColor(GLIB_Context_t *pContext, int32_t x, int32_t y,
+		uint32_t color);
 
 /* Fonts included in the library */
 #if (SL_GLIB_FONTNORMAL_8X8 == 1)

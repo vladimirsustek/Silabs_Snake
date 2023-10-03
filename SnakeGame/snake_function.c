@@ -71,60 +71,59 @@
 #include "snake_function.h"
 
 /**
-  * @brief  Function to set snake's direction.
-  *
-  * @note   wrapper of th platform_get_control()
-  *
-  * @param snake - pointer to a snake structure
-  * @retval None
-  */
-void snake_control(snake_t* snake)
+ * @brief  Function to set snake's direction.
+ *
+ * @note   wrapper of th platform_get_control()
+ *
+ * @param snake - pointer to a snake structure
+ * @retval None
+ */
+void snake_control(snake_t *snake)
 {
 	platform_get_control(snake);
 }
 
-
 /**
-  * @brief  Complete initialization of needed dependencies.
-  *
-  * @note   wrapper of the platform_init()
-  *
-  * @param None
-  * @retval None
-  */
+ * @brief  Complete initialization of needed dependencies.
+ *
+ * @note   wrapper of the platform_init()
+ *
+ * @param None
+ * @retval None
+ */
 void snake_hw_init(void)
 {
 	platform_init();
 }
 
-
 /**
-  * @brief  Initialization of new snake
-  *
-  * @note   Function fills the structure members to set the snake into initial
-  *         condition with initial direction, length, coords ... and also calls
-  *         the platform_refresh_hw() function is called to "clean screen".
-  *
-  * @param snake - pointer to a snake structure
-  * @param food - pointer to a food structure
-  * @param food - pointer to a game cycle
-  * @retval None
-  */
-void snake_init(snake_t* snake, food_t* food, uint32_t* cycle)
+ * @brief  Initialization of new snake
+ *
+ * @note   Function fills the structure members to set the snake into initial
+ *         condition with initial direction, length, coords ... and also calls
+ *         the platform_refresh_hw() function is called to "clean screen".
+ *
+ * @param snake - pointer to a snake structure
+ * @param food - pointer to a food structure
+ * @param food - pointer to a game cycle
+ * @retval None
+ */
+void snake_init(snake_t *snake, food_t *food, uint32_t *cycle)
 {
 	snake->length = SNAKE_INIT_LNG;
 	snake->direction = PAUSE;
+	snake->prev_direction = RIGHT;
 	snake->state = GAME_ONGOING;
 	snake->ghost.x = INVALID_COORDS;
 	snake->ghost.y = INVALID_COORDS;
-	snake->printWholeSnake = 1;
-	memset(&snake->body[0], 0, SNAKE_MAX_LNG*sizeof(coord_t));
+	snake->showmode = SHOW_TEXT;
+	memset(&snake->body[0], 0, SNAKE_MAX_LNG * sizeof(coord_t));
 
 	*cycle = 0;
 
-  memset(food, 0, sizeof(food_t));
+	memset(food, 0, sizeof(food_t));
 
-	for (int idx = 0; idx < SNAKE_INIT_LNG; idx++)
+	for (int idx = 0; idx < SNAKE_INIT_LNG ; idx++)
 	{
 		snake->body[idx].x = SNAKE_INIT_X_CORD + idx;
 		snake->body[idx].y = SNAKE_INIT_Y_CORD;
@@ -136,17 +135,17 @@ void snake_init(snake_t* snake, food_t* food, uint32_t* cycle)
 }
 
 /**
-  * @brief  Display/Draw a snake
-  *
-  * @note   Function either draws a new snake, or draws a new head (when moves)
-  *         and erases the tail's ghost (optimized to do not draw the whole snake)
-  *
-  * @param snake - pointer to a snake structure
-  * @retval None
-  */
-void snake_display(snake_t*  snake)
+ * @brief  Display/Draw a snake
+ *
+ * @note   Function either draws a new snake, or draws a new head (when moves)
+ *         and erases the tail's ghost (optimized to do not draw the whole snake)
+ *
+ * @param snake - pointer to a snake structure
+ * @retval None
+ */
+void snake_display(snake_t *snake)
 {
-	if (NULL == snake || PAUSE == snake->direction)
+	if (NULL == snake || snake->direction == PAUSE)
 	{
 		return;
 	}
@@ -157,49 +156,53 @@ void snake_display(snake_t*  snake)
 	}
 
 	/* In case of a brand new snake draw complete snake */
-	if(snake->printWholeSnake)
+	if (snake->showmode == SHOW_WHOLE_SNAKE)
 	{
-	  char printStr[20] = {0};
-    sprintf(printStr, "                   ");
+		char printStr[20] =
+		{ 0 };
+		sprintf(printStr, "                   ");
 
-    platform_print_text(printStr, strlen(printStr), 0);
-		snake ->printWholeSnake = 0;
+		platform_print_text(printStr, strlen(printStr), 0);
 		for (int idx = 0; idx < snake->length; idx++)
 		{
 			platform_drawCell(snake->body[idx].x, snake->body[idx].y);
 		}
+		/* From now onwards display new head and erase old tail */
+		snake->showmode = SHOW_SNAKE_MOVE;
+
 	}
 	else
 	{
 		/* In case of move, draw snake's new head */
-		platform_drawCell(snake->body[snake->length - 1].x, snake->body[snake->length - 1].y);
+		platform_drawCell(snake->body[snake->length - 1].x,
+				snake->body[snake->length - 1].y);
 	}
 
 }
 
 /**
-  * @brief  Draw a border within a snake must live
-  *
-  * @note   Once the snake hits the border game is over
-  *
-  * @param None
-  * @retval None
-  */
+ * @brief  Draw a border within a snake must live
+ *
+ * @note   Once the snake hits the border game is over
+ *
+ * @param None
+ * @retval None
+ */
 void snake_diplay_borders(void)
 {
 	platform_display_border();
 }
 
 /**
-  * @brief  Function to implement movement of the snake with crash/won check.
-  *
-  * @note   Snake does not move when is in PAUSE. Otherwise is selected any
-  *         movement case and snake's head coordination are adjusted accordingly.
-  *
-  * @param snake - pointer to a snake structure
-  * @retval None
-  */
-void snake_move(snake_t* snake)
+ * @brief  Function to implement movement of the snake with crash/won check.
+ *
+ * @note   Snake does not move when is in PAUSE. Otherwise is selected any
+ *         movement case and snake's head coordination are adjusted accordingly.
+ *
+ * @param snake - pointer to a snake structure
+ * @retval None
+ */
+void snake_move(snake_t *snake)
 {
 	if (NULL == snake || PAUSE == snake->direction)
 	{
@@ -210,8 +213,8 @@ void snake_move(snake_t* snake)
 	snake->ghost = snake->body[0];
 
 	/* shift the whole array right, override tail (unneeded ghost tail) and make room for a new head*/
-	memcpy(&snake->body[0], &snake->body[1], sizeof(coord_t) * (snake->length - 1));
-
+	memcpy(&snake->body[0], &snake->body[1],
+			sizeof(coord_t) * (snake->length - 1));
 
 	/* According to the direction check whether snake did not hit arena borders,
 	 * then in the for loop check whether snake did not bit itself and finally
@@ -223,74 +226,82 @@ void snake_move(snake_t* snake)
 		if ((snake->body[snake->length - 1].y - 1) == ARENA_MIN_Y - 1) // because 0 is still valid
 		{
 			snake->state = GAME_OVER;
+			snake->showmode = SHOW_TEXT;
 			break;
 		}
 		for (int idx = 0; idx < snake->length; idx++)
 		{
-			if (((snake->body[snake->length - 1].y - 1) == snake->body[idx].y) &&
-				((snake->body[snake->length - 1].x) == snake->body[idx].x))
+			if (((snake->body[snake->length - 1].y - 1) == snake->body[idx].y)
+					&& ((snake->body[snake->length - 1].x) == snake->body[idx].x))
 			{
 				snake->state = GAME_OVER;
+				snake->showmode = SHOW_TEXT;
 			}
 		}
 		snake->body[snake->length - 1].y--;
 	}
-	break;
+		break;
 	case DOWN:
 	{
 		if ((snake->body[snake->length - 1].y + 1) == ARENA_MAX_Y)
 		{
 			snake->state = GAME_OVER;
+			snake->showmode = SHOW_TEXT;
 			break;
 		}
 		for (int idx = 0; idx < snake->length; idx++)
 		{
-			if (((snake->body[snake->length - 1].y + 1) == snake->body[idx].y) &&
-				((snake->body[snake->length - 1].x) == snake->body[idx].x))
+			if (((snake->body[snake->length - 1].y + 1) == snake->body[idx].y)
+					&& ((snake->body[snake->length - 1].x) == snake->body[idx].x))
 			{
 				snake->state = GAME_OVER;
+				snake->showmode = SHOW_TEXT;
 			}
 		}
 
 		snake->body[snake->length - 1].y++;
 	}
-	break;
+		break;
 	case RIGHT:
 	{
 		if ((snake->body[snake->length - 1].x + 1) == ARENA_MAX_X)
 		{
 			snake->state = GAME_OVER;
+			snake->showmode = SHOW_TEXT;
 			break;
 		}
 		for (int idx = 0; idx < snake->length; idx++)
 		{
-			if (((snake->body[snake->length - 1].x + 1) == snake->body[idx].x) &&
-				((snake->body[snake->length - 1].y) == snake->body[idx].y))
+			if (((snake->body[snake->length - 1].x + 1) == snake->body[idx].x)
+					&& ((snake->body[snake->length - 1].y) == snake->body[idx].y))
 			{
 				snake->state = GAME_OVER;
+				snake->showmode = SHOW_TEXT;
 			}
 		}
 		snake->body[snake->length - 1].x++;
 	}
-	break;
+		break;
 	case LEFT:
 	{
 		if ((snake->body[snake->length - 1].x - 1) == ARENA_MIN_X - 1) // because 0 is still valid
 		{
 			snake->state = GAME_OVER;
+			snake->showmode = SHOW_TEXT;
 			break;
 		}
 		for (int idx = 0; idx < snake->length; idx++)
 		{
-			if (((snake->body[snake->length - 1].x - 1) == snake->body[idx].x) &&
-				((snake->body[snake->length - 1].y) == snake->body[idx].y))
+			if (((snake->body[snake->length - 1].x - 1) == snake->body[idx].x)
+					&& ((snake->body[snake->length - 1].y) == snake->body[idx].y))
 			{
 				snake->state = GAME_OVER;
+				snake->showmode = SHOW_TEXT;
 			}
 		}
 		snake->body[snake->length - 1].x--;
 	}
-	break;
+		break;
 	default:
 	{
 	}
@@ -299,21 +310,22 @@ void snake_move(snake_t* snake)
 	if (snake->length == SNAKE_WON_LIMIT)
 	{
 		snake->state = GAME_WON;
+		snake->showmode = SHOW_TEXT;
 	}
 }
 
 /**
-  * @brief  Function to generate a valid foord coordination and place it
-  *
-  * @note   Food is generated by a algorithm to prevent food's placement on the snake
-  *         or behind the allowed borders. Finally, the food is drawn on the display.
-  *
-  * @param snake - pointer to a snake structure
-  * @param snake - pointer to a food structure
-  *
-  * @retval None
-  */
-static uint16_t generate_food(snake_t* snake, food_t *food)
+ * @brief  Function to generate a valid foord coordination and place it
+ *
+ * @note   Food is generated by a algorithm to prevent food's placement on the snake
+ *         or behind the allowed borders. Finally, the food is drawn on the display.
+ *
+ * @param snake - pointer to a snake structure
+ * @param snake - pointer to a food structure
+ *
+ * @retval None
+ */
+static uint16_t generate_food(snake_t *snake, food_t *food)
 {
 	uint16_t isInvalid = 0;
 	uint16_t iter = 0;
@@ -328,13 +340,15 @@ static uint16_t generate_food(snake_t* snake, food_t *food)
 	do
 	{
 		isInvalid = 0;
-		coords.x = (uint16_t)((platform_randomize() % (FOOD_MAX_X - FOOD_MIN_X + 1)) + FOOD_MIN_X);
-		coords.y = (uint16_t)((platform_randomize() % (FOOD_MAX_Y - FOOD_MIN_Y + 1)) + FOOD_MIN_Y);
+		coords.x = (uint16_t) ((platform_randomize()
+				% (FOOD_MAX_X - FOOD_MIN_X + 1)) + FOOD_MIN_X );
+		coords.y = (uint16_t) ((platform_randomize()
+				% (FOOD_MAX_Y - FOOD_MIN_Y + 1)) + FOOD_MIN_Y );
 
 		/* Check validity - can't be part of the snake's body */
 		for (int idx = 0; idx < snake->length; idx++)
 		{
-			if(0 == memcmp(&(snake->body[idx]), &coords, sizeof(coord_t)))
+			if (0 == memcmp(&(snake->body[idx]), &coords, sizeof(coord_t)))
 			{
 				isInvalid = GENERAL_ERROR;
 				break;
@@ -363,22 +377,22 @@ static uint16_t generate_food(snake_t* snake, food_t *food)
 }
 
 /**
-  * @brief  Function to place a new food in the arena
-  *
-  * @note   Function utilizes generate_food() when is "the time" to generate food.
-  *         This means that gPrgCycle % 10 must be reached and also food must be
-  *         already eaten. If there is a not eaten food and time still elapsed, just
-  *         a flag time_elapsed is raised to indicate for next call, that food shall
-  *         be immediately placed.
-  *
-  * @param snake - pointer to a snake structure
-  * @param food - pointer to a food structure
-  * @param cycle - pointer to a cycle
-  * @retval None
-  */
-void snake_place_food(snake_t* snake, food_t* food, uint32_t *cycle)
+ * @brief  Function to place a new food in the arena
+ *
+ * @note   Function utilizes generate_food() when is "the time" to generate food.
+ *         This means that gPrgCycle % 10 must be reached and also food must be
+ *         already eaten. If there is a not eaten food and time still elapsed, just
+ *         a flag time_elapsed is raised to indicate for next call, that food shall
+ *         be immediately placed.
+ *
+ * @param snake - pointer to a snake structure
+ * @param food - pointer to a food structure
+ * @param cycle - pointer to a cycle
+ * @retval None
+ */
+void snake_place_food(snake_t *snake, food_t *food, uint32_t *cycle)
 {
-	if (NULL == snake || NULL == food )
+	if (NULL == snake || NULL == food)
 	{
 		return;
 	}
@@ -417,17 +431,17 @@ void snake_place_food(snake_t* snake, food_t* food, uint32_t *cycle)
 }
 
 /**
-  * @brief  Function to implement a snake grow if already eats a food
-  *
-  * @note   Function checks, whether snake's head really hits the food.
-  *         If so, snake length is increased and the ghost tail becomes
-  *         a part of the body.
-  *
-  *
-  * @param snake - pointer to a snake structure
-  * @retval None
-  */
-void snake_haseaten(snake_t* snake, food_t* food)
+ * @brief  Function to implement a snake grow if already eats a food
+ *
+ * @note   Function checks, whether snake's head really hits the food.
+ *         If so, snake length is increased and the ghost tail becomes
+ *         a part of the body.
+ *
+ *
+ * @param snake - pointer to a snake structure
+ * @retval None
+ */
+void snake_haseaten(snake_t *snake, food_t *food)
 {
 
 	if (NULL == snake || NULL == food || PAUSE == snake->direction)
@@ -436,14 +450,17 @@ void snake_haseaten(snake_t* snake, food_t* food)
 	}
 
 	if ((snake->body[snake->length - 1].x == food->coord.x)
-		&& (snake->body[snake->length - 1].y == food->coord.y))
+			&& (snake->body[snake->length - 1].y == food->coord.y))
 	{
 		/* Needed temporary copy for shifting the whole array into right - for an MCU embedded*/
-		coord_t tempSnake[SNAKE_MAX_LNG] = {0};
-		memcpy(tempSnake, &(snake->body[0]), (size_t)snake->length*sizeof(coord_t));
+		coord_t tempSnake[SNAKE_MAX_LNG ] =
+		{ 0 };
+		memcpy(tempSnake, &(snake->body[0]),
+				(size_t) snake->length * sizeof(coord_t));
 
 		/* Just append the ghost to the end, increment length and disable ghost erase this cycle*/
-		memcpy(&(snake->body[1]), tempSnake, (size_t)snake->length*sizeof(coord_t));
+		memcpy(&(snake->body[1]), tempSnake,
+				(size_t) snake->length * sizeof(coord_t));
 		snake->body[0] = snake->ghost;
 		snake->ghost.x = INVALID_COORDS;
 		snake->ghost.y = INVALID_COORDS;
@@ -453,63 +470,62 @@ void snake_haseaten(snake_t* snake, food_t* food)
 	}
 }
 
-
 /**
-  * @brief  Function to print a snake state/information
-  *
-  * @param snake - pointer to a snake structure
-  * @retval None
-  */
-void snake_inform(snake_t* snake, food_t* food)
+ * @brief  Function to print a snake state/information
+ *
+ * @param snake - pointer to a snake structure
+ * @retval None
+ */
+void snake_inform(snake_t *snake, food_t *food)
 {
-  const uint32_t white = 0;
-	static uint16_t pauseStringAppeared = 0;
-	char printStr[20] = {0};
 
-	if(snake->direction == PAUSE && !pauseStringAppeared)
+	const uint32_t white = 0;
+	char printStr[20] =
+	{ 0 };
+
+	(void) (food);
+
+	if (snake->showmode != SHOW_TEXT)
+	{
+		return;
+	}
+
+	snake->showmode = SHOW_WHOLE_SNAKE;
+
+	if (snake->direction == PAUSE)
 	{
 		sprintf(printStr, "Paused, score %d", snake->length - SNAKE_INIT_LNG);
-		platform_print_text(printStr, strlen(printStr), white);
-		pauseStringAppeared = 1;
 	}
-	if(snake->direction != PAUSE && pauseStringAppeared)
-	{
-		sprintf(printStr, "Paused, score %d", snake->length - SNAKE_INIT_LNG);
-		pauseStringAppeared = 0;
-		platform_print_text(printStr, strlen(printStr), white);
-		snake->printWholeSnake = 1;
-		food->rePrintFood = 1;
-	}
-	if(snake->state == GAME_OVER)
+	if (snake->state == GAME_OVER)
 	{
 		sprintf(printStr, "Crashed, score %d", snake->length - SNAKE_INIT_LNG);
-		platform_print_text(printStr, strlen(printStr), white);
 	}
-	if(snake->state == GAME_WON)
+	if (snake->state == GAME_WON)
 	{
 		sprintf(printStr, "Win, score %d", snake->length - SNAKE_INIT_LNG);
-		platform_print_text(printStr, strlen(printStr), white);
 	}
+	platform_print_text(printStr, strlen(printStr), white);
+
 }
 
 /**
-  * @brief  Function to do a pseudo-blocking delay
-  *
-  * @note  Function does blocking delay based on platform_msTickGet. However,
-  *        during the "waiting loop" MCU periodically process passed function.
-  *        Be careful, what kind of function is passed. It is intended for very
-  *        quick actions e.g. checking received buffers. Passed function can not
-  *        be long in execution time and also must not content any blocking or
-  *        "waiting for event" statement. Basically, maximal execution time of
-  *        the passed function must be 2x smaller then intended Delay time.
-  *        In case, there is no suitable function to be called within this delay,
-  *        simply pass NULL to the pointer and function will behave as blocking delay.
-  *
-  * @param Delay - time in millisecond to be spent in function
-  * @param func - function to be called during time
-  * @retval None
-  */
+ * @brief  Function to do a pseudo-blocking delay
+ *
+ * @note  Function does blocking delay based on platform_msTickGet. However,
+ *        during the "waiting loop" MCU periodically process passed function.
+ *        Be careful, what kind of function is passed. It is intended for very
+ *        quick actions e.g. checking received buffers. Passed function can not
+ *        be long in execution time and also must not content any blocking or
+ *        "waiting for event" statement. Basically, maximal execution time of
+ *        the passed function must be 2x smaller then intended Delay time.
+ *        In case, there is no suitable function to be called within this delay,
+ *        simply pass NULL to the pointer and function will behave as blocking delay.
+ *
+ * @param Delay - time in millisecond to be spent in function
+ * @param func - function to be called during time
+ * @retval None
+ */
 void snake_delay(uint32_t Delay, fn_t func)
 {
-  platform_delay(Delay, func);
+	platform_delay(Delay, func);
 }

@@ -90,38 +90,40 @@ extern "C" {
  * @{
  ******************************************************************************/
 /// @brief Struct representing an I/O Stream EUSART configuration.
-typedef struct {
-  EUSART_TypeDef *eusart;                       ///< Pointer to EUSART peripheral
-  EUSART_HwFlowControl_TypeDef flow_control;    ///< Flow control
-  bool enable_high_frequency;                   ///< enable_high_frequency
-  CMU_Clock_TypeDef clock;                      ///< Peripheral Clock
+typedef struct
+{
+	EUSART_TypeDef *eusart;                    ///< Pointer to EUSART peripheral
+	EUSART_HwFlowControl_TypeDef flow_control;    ///< Flow control
+	bool enable_high_frequency;                   ///< enable_high_frequency
+	CMU_Clock_TypeDef clock;                      ///< Peripheral Clock
 #if defined(EUSART_COUNT)
-  unsigned int port_index;                      ///< Port index for GPIO routing
+	unsigned int port_index;                    ///< Port index for GPIO routing
 #endif
-  GPIO_Port_TypeDef tx_port;                    ///< Transmit port
-  unsigned int tx_pin;                          ///< Transmit pin
-  GPIO_Port_TypeDef rx_port;                    ///< Receive port
-  unsigned int rx_pin;                          ///< Receive pin
-  GPIO_Port_TypeDef cts_port;                   ///< Flow control, CTS port
-  unsigned int cts_pin;                         ///< Flow control, CTS pin
-  GPIO_Port_TypeDef rts_port;                   ///< Flow control, RTS port
-  unsigned int rts_pin;                         ///< Flow control, RTS pin
+	GPIO_Port_TypeDef tx_port;                    ///< Transmit port
+	unsigned int tx_pin;                          ///< Transmit pin
+	GPIO_Port_TypeDef rx_port;                    ///< Receive port
+	unsigned int rx_pin;                          ///< Receive pin
+	GPIO_Port_TypeDef cts_port;                   ///< Flow control, CTS port
+	unsigned int cts_pin;                         ///< Flow control, CTS pin
+	GPIO_Port_TypeDef rts_port;                   ///< Flow control, RTS port
+	unsigned int rts_pin;                         ///< Flow control, RTS pin
 } sl_iostream_eusart_config_t;
 
 /// @brief Struct representing an I/O Stream EUSART context.
-typedef struct {
-  sl_iostream_uart_context_t context;           ///< context
-  EUSART_TypeDef *eusart;                       ///< eusart
-  CMU_Clock_TypeDef clock;                      ///< Peripheral Clock
-  GPIO_Port_TypeDef tx_port;                    ///< Transmit port
-  unsigned int tx_pin;                          ///< Transmit pin
-  GPIO_Port_TypeDef rx_port;                    ///< Receive port
-  unsigned int rx_pin;                          ///< Receive pin
-  GPIO_Port_TypeDef cts_port;                   ///< Flow control, CTS port
-  unsigned int cts_pin;                         ///< Flow control, CTS pin
-  GPIO_Port_TypeDef rts_port;                   ///< Flow control, RTS port
-  unsigned int rts_pin;                         ///< Flow control, RTS pin
-  uint8_t flags;                                ///< Configuration flags
+typedef struct
+{
+	sl_iostream_uart_context_t context;           ///< context
+	EUSART_TypeDef *eusart;                       ///< eusart
+	CMU_Clock_TypeDef clock;                      ///< Peripheral Clock
+	GPIO_Port_TypeDef tx_port;                    ///< Transmit port
+	unsigned int tx_pin;                          ///< Transmit pin
+	GPIO_Port_TypeDef rx_port;                    ///< Receive port
+	unsigned int rx_pin;                          ///< Receive pin
+	GPIO_Port_TypeDef cts_port;                   ///< Flow control, CTS port
+	unsigned int cts_pin;                         ///< Flow control, CTS pin
+	GPIO_Port_TypeDef rts_port;                   ///< Flow control, RTS port
+	unsigned int rts_pin;                         ///< Flow control, RTS pin
+	uint8_t flags;                                ///< Configuration flags
 #if (defined(SL_CATALOG_POWER_MANAGER_PRESENT))
   sl_slist_node_t node;
 #endif
@@ -145,17 +147,18 @@ typedef struct {
  *
  * @return  Status result
  ******************************************************************************/
-sl_status_t sl_iostream_eusart_init(sl_iostream_uart_t *iostream_uart,
-                                    sl_iostream_uart_config_t *uart_config,
-                                    EUSART_UartInit_TypeDef *init,
-                                    sl_iostream_eusart_config_t *eusart_config,
-                                    sl_iostream_eusart_context_t *eusart_context);
+sl_status_t
+sl_iostream_eusart_init(sl_iostream_uart_t *iostream_uart,
+		sl_iostream_uart_config_t *uart_config, EUSART_UartInit_TypeDef *init,
+		sl_iostream_eusart_config_t *eusart_config,
+		sl_iostream_eusart_context_t *eusart_context);
 
 /*******************************************************************************
  * EUSART interrupt handler.
  * @param[in] iostream_uart   I/O Stream UART handle.
  ******************************************************************************/
-void sl_iostream_eusart_irq_handler(sl_iostream_uart_t *iostream_uart);
+void
+sl_iostream_eusart_irq_handler(sl_iostream_uart_t *iostream_uart);
 
 /** @} (end addtogroup iostream_eusart) */
 /** @} (end addtogroup iostream) */

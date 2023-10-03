@@ -32,9 +32,9 @@
 #define DCDC_HAS_SET_CLEAR
 
 /**************************************************************************//**
-* @addtogroup Parts
-* @{
-******************************************************************************/
+ * @addtogroup Parts
+ * @{
+ ******************************************************************************/
 /**************************************************************************//**
  * @defgroup EFR32MG24_DCDC DCDC
  * @{
@@ -42,94 +42,95 @@
  *****************************************************************************/
 
 /** DCDC Register Declaration. */
-typedef struct {
-  __IM uint32_t  IPVERSION;                     /**< IPVERSION                                          */
-  __IOM uint32_t CTRL;                          /**< Control                                            */
-  __IOM uint32_t EM01CTRL0;                     /**< EM01 Control                                       */
-  uint32_t       RESERVED0[1U];                 /**< Reserved for future use                            */
-  __IOM uint32_t EM23CTRL0;                     /**< EM23 Control                                       */
-  uint32_t       RESERVED1[3U];                 /**< Reserved for future use                            */
-  __IOM uint32_t PFMXCTRL;                      /**< PFMX Control Register                              */
-  uint32_t       RESERVED2[1U];                 /**< Reserved for future use                            */
-  __IOM uint32_t IF;                            /**< Interrupt Flags                                    */
-  __IOM uint32_t IEN;                           /**< Interrupt Enable                                   */
-  __IM uint32_t  STATUS;                        /**< Status Register                                    */
-  __IM uint32_t  SYNCBUSY;                      /**< Syncbusy Status Register                           */
-  uint32_t       RESERVED3[2U];                 /**< Reserved for future use                            */
-  __IOM uint32_t LOCK;                          /**< Lock Register                                      */
-  __IM uint32_t  LOCKSTATUS;                    /**< Lock Status Register                               */
-  uint32_t       RESERVED4[2U];                 /**< Reserved for future use                            */
-  uint32_t       RESERVED5[1U];                 /**< Reserved for future use                            */
-  uint32_t       RESERVED6[7U];                 /**< Reserved for future use                            */
-  uint32_t       RESERVED7[1U];                 /**< Reserved for future use                            */
-  uint32_t       RESERVED8[7U];                 /**< Reserved for future use                            */
-  uint32_t       RESERVED9[1U];                 /**< Reserved for future use                            */
-  uint32_t       RESERVED10[987U];              /**< Reserved for future use                            */
-  __IM uint32_t  IPVERSION_SET;                 /**< IPVERSION                                          */
-  __IOM uint32_t CTRL_SET;                      /**< Control                                            */
-  __IOM uint32_t EM01CTRL0_SET;                 /**< EM01 Control                                       */
-  uint32_t       RESERVED11[1U];                /**< Reserved for future use                            */
-  __IOM uint32_t EM23CTRL0_SET;                 /**< EM23 Control                                       */
-  uint32_t       RESERVED12[3U];                /**< Reserved for future use                            */
-  __IOM uint32_t PFMXCTRL_SET;                  /**< PFMX Control Register                              */
-  uint32_t       RESERVED13[1U];                /**< Reserved for future use                            */
-  __IOM uint32_t IF_SET;                        /**< Interrupt Flags                                    */
-  __IOM uint32_t IEN_SET;                       /**< Interrupt Enable                                   */
-  __IM uint32_t  STATUS_SET;                    /**< Status Register                                    */
-  __IM uint32_t  SYNCBUSY_SET;                  /**< Syncbusy Status Register                           */
-  uint32_t       RESERVED14[2U];                /**< Reserved for future use                            */
-  __IOM uint32_t LOCK_SET;                      /**< Lock Register                                      */
-  __IM uint32_t  LOCKSTATUS_SET;                /**< Lock Status Register                               */
-  uint32_t       RESERVED15[2U];                /**< Reserved for future use                            */
-  uint32_t       RESERVED16[1U];                /**< Reserved for future use                            */
-  uint32_t       RESERVED17[7U];                /**< Reserved for future use                            */
-  uint32_t       RESERVED18[1U];                /**< Reserved for future use                            */
-  uint32_t       RESERVED19[7U];                /**< Reserved for future use                            */
-  uint32_t       RESERVED20[1U];                /**< Reserved for future use                            */
-  uint32_t       RESERVED21[987U];              /**< Reserved for future use                            */
-  __IM uint32_t  IPVERSION_CLR;                 /**< IPVERSION                                          */
-  __IOM uint32_t CTRL_CLR;                      /**< Control                                            */
-  __IOM uint32_t EM01CTRL0_CLR;                 /**< EM01 Control                                       */
-  uint32_t       RESERVED22[1U];                /**< Reserved for future use                            */
-  __IOM uint32_t EM23CTRL0_CLR;                 /**< EM23 Control                                       */
-  uint32_t       RESERVED23[3U];                /**< Reserved for future use                            */
-  __IOM uint32_t PFMXCTRL_CLR;                  /**< PFMX Control Register                              */
-  uint32_t       RESERVED24[1U];                /**< Reserved for future use                            */
-  __IOM uint32_t IF_CLR;                        /**< Interrupt Flags                                    */
-  __IOM uint32_t IEN_CLR;                       /**< Interrupt Enable                                   */
-  __IM uint32_t  STATUS_CLR;                    /**< Status Register                                    */
-  __IM uint32_t  SYNCBUSY_CLR;                  /**< Syncbusy Status Register                           */
-  uint32_t       RESERVED25[2U];                /**< Reserved for future use                            */
-  __IOM uint32_t LOCK_CLR;                      /**< Lock Register                                      */
-  __IM uint32_t  LOCKSTATUS_CLR;                /**< Lock Status Register                               */
-  uint32_t       RESERVED26[2U];                /**< Reserved for future use                            */
-  uint32_t       RESERVED27[1U];                /**< Reserved for future use                            */
-  uint32_t       RESERVED28[7U];                /**< Reserved for future use                            */
-  uint32_t       RESERVED29[1U];                /**< Reserved for future use                            */
-  uint32_t       RESERVED30[7U];                /**< Reserved for future use                            */
-  uint32_t       RESERVED31[1U];                /**< Reserved for future use                            */
-  uint32_t       RESERVED32[987U];              /**< Reserved for future use                            */
-  __IM uint32_t  IPVERSION_TGL;                 /**< IPVERSION                                          */
-  __IOM uint32_t CTRL_TGL;                      /**< Control                                            */
-  __IOM uint32_t EM01CTRL0_TGL;                 /**< EM01 Control                                       */
-  uint32_t       RESERVED33[1U];                /**< Reserved for future use                            */
-  __IOM uint32_t EM23CTRL0_TGL;                 /**< EM23 Control                                       */
-  uint32_t       RESERVED34[3U];                /**< Reserved for future use                            */
-  __IOM uint32_t PFMXCTRL_TGL;                  /**< PFMX Control Register                              */
-  uint32_t       RESERVED35[1U];                /**< Reserved for future use                            */
-  __IOM uint32_t IF_TGL;                        /**< Interrupt Flags                                    */
-  __IOM uint32_t IEN_TGL;                       /**< Interrupt Enable                                   */
-  __IM uint32_t  STATUS_TGL;                    /**< Status Register                                    */
-  __IM uint32_t  SYNCBUSY_TGL;                  /**< Syncbusy Status Register                           */
-  uint32_t       RESERVED36[2U];                /**< Reserved for future use                            */
-  __IOM uint32_t LOCK_TGL;                      /**< Lock Register                                      */
-  __IM uint32_t  LOCKSTATUS_TGL;                /**< Lock Status Register                               */
-  uint32_t       RESERVED37[2U];                /**< Reserved for future use                            */
-  uint32_t       RESERVED38[1U];                /**< Reserved for future use                            */
-  uint32_t       RESERVED39[7U];                /**< Reserved for future use                            */
-  uint32_t       RESERVED40[1U];                /**< Reserved for future use                            */
-  uint32_t       RESERVED41[7U];                /**< Reserved for future use                            */
-  uint32_t       RESERVED42[1U];                /**< Reserved for future use                            */
+typedef struct
+{
+	__IM uint32_t IPVERSION; /**< IPVERSION                                          */
+	__IOM uint32_t CTRL; /**< Control                                            */
+	__IOM uint32_t EM01CTRL0; /**< EM01 Control                                       */
+	uint32_t RESERVED0[1U]; /**< Reserved for future use                            */
+	__IOM uint32_t EM23CTRL0; /**< EM23 Control                                       */
+	uint32_t RESERVED1[3U]; /**< Reserved for future use                            */
+	__IOM uint32_t PFMXCTRL; /**< PFMX Control Register                              */
+	uint32_t RESERVED2[1U]; /**< Reserved for future use                            */
+	__IOM uint32_t IF; /**< Interrupt Flags                                    */
+	__IOM uint32_t IEN; /**< Interrupt Enable                                   */
+	__IM uint32_t STATUS; /**< Status Register                                    */
+	__IM uint32_t SYNCBUSY; /**< Syncbusy Status Register                           */
+	uint32_t RESERVED3[2U]; /**< Reserved for future use                            */
+	__IOM uint32_t LOCK; /**< Lock Register                                      */
+	__IM uint32_t LOCKSTATUS; /**< Lock Status Register                               */
+	uint32_t RESERVED4[2U]; /**< Reserved for future use                            */
+	uint32_t RESERVED5[1U]; /**< Reserved for future use                            */
+	uint32_t RESERVED6[7U]; /**< Reserved for future use                            */
+	uint32_t RESERVED7[1U]; /**< Reserved for future use                            */
+	uint32_t RESERVED8[7U]; /**< Reserved for future use                            */
+	uint32_t RESERVED9[1U]; /**< Reserved for future use                            */
+	uint32_t RESERVED10[987U]; /**< Reserved for future use                            */
+	__IM uint32_t IPVERSION_SET; /**< IPVERSION                                          */
+	__IOM uint32_t CTRL_SET; /**< Control                                            */
+	__IOM uint32_t EM01CTRL0_SET; /**< EM01 Control                                       */
+	uint32_t RESERVED11[1U]; /**< Reserved for future use                            */
+	__IOM uint32_t EM23CTRL0_SET; /**< EM23 Control                                       */
+	uint32_t RESERVED12[3U]; /**< Reserved for future use                            */
+	__IOM uint32_t PFMXCTRL_SET; /**< PFMX Control Register                              */
+	uint32_t RESERVED13[1U]; /**< Reserved for future use                            */
+	__IOM uint32_t IF_SET; /**< Interrupt Flags                                    */
+	__IOM uint32_t IEN_SET; /**< Interrupt Enable                                   */
+	__IM uint32_t STATUS_SET; /**< Status Register                                    */
+	__IM uint32_t SYNCBUSY_SET; /**< Syncbusy Status Register                           */
+	uint32_t RESERVED14[2U]; /**< Reserved for future use                            */
+	__IOM uint32_t LOCK_SET; /**< Lock Register                                      */
+	__IM uint32_t LOCKSTATUS_SET; /**< Lock Status Register                               */
+	uint32_t RESERVED15[2U]; /**< Reserved for future use                            */
+	uint32_t RESERVED16[1U]; /**< Reserved for future use                            */
+	uint32_t RESERVED17[7U]; /**< Reserved for future use                            */
+	uint32_t RESERVED18[1U]; /**< Reserved for future use                            */
+	uint32_t RESERVED19[7U]; /**< Reserved for future use                            */
+	uint32_t RESERVED20[1U]; /**< Reserved for future use                            */
+	uint32_t RESERVED21[987U]; /**< Reserved for future use                            */
+	__IM uint32_t IPVERSION_CLR; /**< IPVERSION                                          */
+	__IOM uint32_t CTRL_CLR; /**< Control                                            */
+	__IOM uint32_t EM01CTRL0_CLR; /**< EM01 Control                                       */
+	uint32_t RESERVED22[1U]; /**< Reserved for future use                            */
+	__IOM uint32_t EM23CTRL0_CLR; /**< EM23 Control                                       */
+	uint32_t RESERVED23[3U]; /**< Reserved for future use                            */
+	__IOM uint32_t PFMXCTRL_CLR; /**< PFMX Control Register                              */
+	uint32_t RESERVED24[1U]; /**< Reserved for future use                            */
+	__IOM uint32_t IF_CLR; /**< Interrupt Flags                                    */
+	__IOM uint32_t IEN_CLR; /**< Interrupt Enable                                   */
+	__IM uint32_t STATUS_CLR; /**< Status Register                                    */
+	__IM uint32_t SYNCBUSY_CLR; /**< Syncbusy Status Register                           */
+	uint32_t RESERVED25[2U]; /**< Reserved for future use                            */
+	__IOM uint32_t LOCK_CLR; /**< Lock Register                                      */
+	__IM uint32_t LOCKSTATUS_CLR; /**< Lock Status Register                               */
+	uint32_t RESERVED26[2U]; /**< Reserved for future use                            */
+	uint32_t RESERVED27[1U]; /**< Reserved for future use                            */
+	uint32_t RESERVED28[7U]; /**< Reserved for future use                            */
+	uint32_t RESERVED29[1U]; /**< Reserved for future use                            */
+	uint32_t RESERVED30[7U]; /**< Reserved for future use                            */
+	uint32_t RESERVED31[1U]; /**< Reserved for future use                            */
+	uint32_t RESERVED32[987U]; /**< Reserved for future use                            */
+	__IM uint32_t IPVERSION_TGL; /**< IPVERSION                                          */
+	__IOM uint32_t CTRL_TGL; /**< Control                                            */
+	__IOM uint32_t EM01CTRL0_TGL; /**< EM01 Control                                       */
+	uint32_t RESERVED33[1U]; /**< Reserved for future use                            */
+	__IOM uint32_t EM23CTRL0_TGL; /**< EM23 Control                                       */
+	uint32_t RESERVED34[3U]; /**< Reserved for future use                            */
+	__IOM uint32_t PFMXCTRL_TGL; /**< PFMX Control Register                              */
+	uint32_t RESERVED35[1U]; /**< Reserved for future use                            */
+	__IOM uint32_t IF_TGL; /**< Interrupt Flags                                    */
+	__IOM uint32_t IEN_TGL; /**< Interrupt Enable                                   */
+	__IM uint32_t STATUS_TGL; /**< Status Register                                    */
+	__IM uint32_t SYNCBUSY_TGL; /**< Syncbusy Status Register                           */
+	uint32_t RESERVED36[2U]; /**< Reserved for future use                            */
+	__IOM uint32_t LOCK_TGL; /**< Lock Register                                      */
+	__IM uint32_t LOCKSTATUS_TGL; /**< Lock Status Register                               */
+	uint32_t RESERVED37[2U]; /**< Reserved for future use                            */
+	uint32_t RESERVED38[1U]; /**< Reserved for future use                            */
+	uint32_t RESERVED39[7U]; /**< Reserved for future use                            */
+	uint32_t RESERVED40[1U]; /**< Reserved for future use                            */
+	uint32_t RESERVED41[7U]; /**< Reserved for future use                            */
+	uint32_t RESERVED42[1U]; /**< Reserved for future use                            */
 } DCDC_TypeDef;
 /** @} End of group EFR32MG24_DCDC */
 

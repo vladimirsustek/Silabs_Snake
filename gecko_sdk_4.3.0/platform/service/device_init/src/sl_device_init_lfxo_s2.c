@@ -34,14 +34,14 @@
 
 sl_status_t sl_device_init_lfxo(void)
 {
-  CMU_LFXOInit_TypeDef lfxoInit = CMU_LFXOINIT_DEFAULT;
+	CMU_LFXOInit_TypeDef lfxoInit = CMU_LFXOINIT_DEFAULT;
 
-  lfxoInit.mode = SL_DEVICE_INIT_LFXO_MODE;
-  lfxoInit.capTune = SL_DEVICE_INIT_LFXO_CTUNE;
-  lfxoInit.timeout = SL_DEVICE_INIT_LFXO_TIMEOUT;
+	lfxoInit.mode = SL_DEVICE_INIT_LFXO_MODE;
+	lfxoInit.capTune = SL_DEVICE_INIT_LFXO_CTUNE;
+	lfxoInit.timeout = SL_DEVICE_INIT_LFXO_TIMEOUT;
 
-  CMU_LFXOInit(&lfxoInit);
-  CMU_LFXOPrecisionSet(SL_DEVICE_INIT_LFXO_PRECISION);
+	CMU_LFXOInit(&lfxoInit);
+	CMU_LFXOPrecisionSet(SL_DEVICE_INIT_LFXO_PRECISION);
 
-  return SL_STATUS_OK;
+	return SL_STATUS_OK;
 }

@@ -108,30 +108,38 @@ extern "C" {
 // Data Types
 
 /// @brief Struct representing iostream operations.
-typedef struct {
-  void *context;                                                                                ///< context
-  sl_status_t (*write)(void *context, const void *buffer, size_t buffer_length);                ///< write
-  sl_status_t (*read)(void *context, void *buffer, size_t buffer_length, size_t *bytes_read);   ///< read
+typedef struct
+{
+	void *context;                                                  ///< context
+	sl_status_t
+	(*write)(void *context, const void *buffer, size_t buffer_length); ///< write
+	sl_status_t
+	(*read)(void *context, void *buffer, size_t buffer_length,
+			size_t *bytes_read);   ///< read
 } sl_iostream_t;
 
 /// @brief Enumeration representing the possible types of iostream instances.
-SL_ENUM(sl_iostream_type_t){
-  SL_IOSTREAM_TYPE_SWO = 0,              ///< SWO Instance
-  SL_IOSTREAM_TYPE_RTT = 1,              ///< RTT Instance
-  SL_IOSTREAM_TYPE_UART = 2,             ///< USART Instance
-  SL_IOSTREAM_TYPE_VUART = 3,            ///< Vuart
-  SL_IOSTREAM_TYPE_DEBUG_OUTPUT = 4,     ///< Backchannel output Instance Type
-  SL_IOSTREAM_TYPE_LOOPBACK = 5,         ///< Loopback Instance
-  SL_IOSTREAM_TYPE_UNDEFINED = 6,        ///< Undefined Instance Type
-};
+SL_ENUM(sl_iostream_type_t)
+{
+SL_IOSTREAM_TYPE_SWO = 0,              ///< SWO Instance
+SL_IOSTREAM_TYPE_RTT = 1,///< RTT Instance
+SL_IOSTREAM_TYPE_UART = 2,///< USART Instance
+SL_IOSTREAM_TYPE_VUART = 3,///< Vuart
+SL_IOSTREAM_TYPE_DEBUG_OUTPUT = 4,///< Backchannel output Instance Type
+SL_IOSTREAM_TYPE_LOOPBACK = 5,///< Loopback Instance
+SL_IOSTREAM_TYPE_UNDEFINED = 6,///< Undefined Instance Type
+}
+;
 
 /// @brief Struct representing an I/O Stream instance.
-typedef struct {
-  sl_iostream_t *handle;        ///< iostream instance handle.
-  char *name;                   ///< iostream instance name.
-  sl_iostream_type_t type;      ///< iostream instance type.
-  uint8_t periph_id;            ///< iostream peripheral id.
-  sl_status_t (*init)(void);    ///< iostream instance init function.
+typedef struct
+{
+sl_iostream_t *handle;        ///< iostream instance handle.
+char *name;                   ///< iostream instance name.
+sl_iostream_type_t type;      ///< iostream instance type.
+uint8_t periph_id;            ///< iostream peripheral id.
+sl_status_t
+(*init)(void);    ///< iostream instance init function.
 } sl_iostream_instance_info_t;
 
 /// @cond DO_NOT_INCLUDE_WITH_DOXYGEN
@@ -149,14 +157,16 @@ extern sl_iostream_t sl_iostream_null;
  *
  * @return  Status result
  ******************************************************************************/
-sl_status_t sl_iostream_set_default(sl_iostream_t *stream);
+sl_status_t
+sl_iostream_set_default(sl_iostream_t *stream);
 
 /***************************************************************************//**
  * Get the default I/O Stream configured.
  *
  * @return  Status result
  ******************************************************************************/
-sl_iostream_t *sl_iostream_get_default(void);
+sl_iostream_t*
+sl_iostream_get_default(void);
 
 /***************************************************************************//**
  * Configure the systemwide default stream.
@@ -184,9 +194,9 @@ sl_status_t sl_iostream_set_system_default(sl_iostream_t *stream);
  *
  * @return  Status result
  ******************************************************************************/
-sl_status_t sl_iostream_write(sl_iostream_t *stream,
-                              const void *buffer,
-                              size_t buffer_length);
+sl_status_t
+sl_iostream_write(sl_iostream_t *stream, const void *buffer,
+	size_t buffer_length);
 
 /***************************************************************************//**
  * Get data from a stream.
@@ -203,10 +213,9 @@ sl_status_t sl_iostream_write(sl_iostream_t *stream,
  *
  * @return  Status result
  ******************************************************************************/
-sl_status_t sl_iostream_read(sl_iostream_t *stream,
-                             void *buffer,
-                             size_t buffer_length,
-                             size_t *bytes_read);
+sl_status_t
+sl_iostream_read(sl_iostream_t *stream, void *buffer, size_t buffer_length,
+	size_t *bytes_read);
 
 /***************************************************************************//**
  * Print a character on stream.
@@ -220,8 +229,8 @@ sl_status_t sl_iostream_read(sl_iostream_t *stream,
  *
  * @return  Status result
  ******************************************************************************/
-sl_status_t sl_iostream_putchar(sl_iostream_t *stream,
-                                char c);
+sl_status_t
+sl_iostream_putchar(sl_iostream_t *stream, char c);
 
 /***************************************************************************//**
  * Print a character on stream.
@@ -234,8 +243,8 @@ sl_status_t sl_iostream_putchar(sl_iostream_t *stream,
  *
  * @return  Status result
  ******************************************************************************/
-sl_status_t sl_iostream_getchar(sl_iostream_t *stream,
-                                char *c);
+sl_status_t
+sl_iostream_getchar(sl_iostream_t *stream, char *c);
 
 /***************************************************************************//**
  * Print a formated string on stream.
@@ -251,9 +260,8 @@ sl_status_t sl_iostream_getchar(sl_iostream_t *stream,
  *
  * @return  Status result
  ******************************************************************************/
-sl_status_t sl_iostream_vprintf(sl_iostream_t *stream,
-                                const char *format,
-                                va_list argp);
+sl_status_t
+sl_iostream_vprintf(sl_iostream_t *stream, const char *format, va_list argp);
 
 /***************************************************************************//**
  * Print a formated string on stream.
@@ -271,10 +279,11 @@ sl_status_t sl_iostream_vprintf(sl_iostream_t *stream,
  ******************************************************************************/
 #if defined(__GNUC__)
 __attribute__((format(printf, 2, 3)))
+
+
 #endif
-sl_status_t sl_iostream_printf(sl_iostream_t *stream,
-                               const char *format,
-                               ...);
+sl_status_t
+sl_iostream_printf(sl_iostream_t *stream, const char *format, ...);
 
 /** @} (end addtogroup iostream) */
 

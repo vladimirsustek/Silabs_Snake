@@ -56,7 +56,6 @@
 
 // -----------------------------------------------------------------------------
 // Defines
-
 /// @brief DC/DC Converter Type
 #define SL_DEVICE_INIT_DCDC_TYPE_BUCK  0  ///< Buck Type
 #define SL_DEVICE_INIT_DCDC_TYPE_BOOST 1  ///< Boost Type
@@ -70,7 +69,8 @@
  * @return Status code
  * @retval SL_STATUS_OK DC-DC converter initialized successfully
  */
-sl_status_t sl_device_init_dcdc(void);
+sl_status_t
+sl_device_init_dcdc(void);
 
 /**
  * @} device_init_dcdc

@@ -41,30 +41,31 @@
 #endif
 
 #ifdef __cplusplus
-extern "C" {
+extern "C"
+{
 #endif
 
-/***************************************************************************//**
- * @addtogroup chip CHIP - Chip Errata Workarounds
- * @brief Chip errata workaround APIs
- * @details
- *  API to apply chip errata workarounds at initialization and reset.
- * @{
- ******************************************************************************/
+	/***************************************************************************//**
+	 * @addtogroup chip CHIP - Chip Errata Workarounds
+	 * @brief Chip errata workaround APIs
+	 * @details
+	 *  API to apply chip errata workarounds at initialization and reset.
+	 * @{
+	 ******************************************************************************/
 
-/**************************************************************************//**
- * @brief
- *   Chip initialization routine for revision errata workarounds.
- *
- * @note
- *   This function must be called immediately in main().
- *
- * This initialization function configures the device to a state
- * as similar to later revisions as possible to improve software compatibility
- * with newer parts. See the device-specific errata for details.
- *****************************************************************************/
-__STATIC_INLINE void CHIP_Init(void)
-{
+	/**************************************************************************//**
+	 * @brief
+	 *   Chip initialization routine for revision errata workarounds.
+	 *
+	 * @note
+	 *   This function must be called immediately in main().
+	 *
+	 * This initialization function configures the device to a state
+	 * as similar to later revisions as possible to improve software compatibility
+	 * with newer parts. See the device-specific errata for details.
+	 *****************************************************************************/
+	__STATIC_INLINE void CHIP_Init(void)
+	{
 #if defined(MSC_CACHECMD_INVCACHE)
   MSC->CACHECMD = MSC_CACHECMD_INVCACHE;
 #elif defined(MSC_CMD_INVCACHE)
@@ -285,7 +286,7 @@ __STATIC_INLINE void CHIP_Init(void)
   }
 #endif
 
-/* Charge redist setup (fixed value): LCD->DBGCTRL.CHGRDSTSTR = 1 (reset: 0). */
+		/* Charge redist setup (fixed value): LCD->DBGCTRL.CHGRDSTSTR = 1 (reset: 0). */
 #if defined(_LCD_DISPCTRL_CHGRDST_MASK)
 #if defined(_SILICON_LABS_32B_SERIES_1)
   CMU->HFBUSCLKEN0 |= CMU_HFBUSCLKEN0_LE;
@@ -354,7 +355,7 @@ __STATIC_INLINE void CHIP_Init(void)
   }
 #endif
 
-/* PM-3503 */
+		/* PM-3503 */
 #if defined(_SILICON_LABS_GECKO_INTERNAL_SDID_210)
   {
     bool syscfgClkIsOff = ((CMU->CLKEN0 & CMU_CLKEN0_SYSCFG) == 0);
@@ -389,41 +390,43 @@ __STATIC_INLINE void CHIP_Init(void)
   }
 #endif
 
-/* PM-5163 */
+		/* PM-5163 */
 #if defined(_SILICON_LABS_GECKO_INTERNAL_SDID_215)    \
   && defined(_SILICON_LABS_EFR32_2G4HZ_HP_PA_PRESENT) \
   && (_SILICON_LABS_EFR32_2G4HZ_HP_PA_MAX_OUTPUT_DBM == 20)
-  SYSTEM_ChipRevision_TypeDef chipRev;
-  SYSTEM_ChipRevisionGet(&chipRev);
+		SYSTEM_ChipRevision_TypeDef chipRev;
+		SYSTEM_ChipRevisionGet(&chipRev);
 
-  if (chipRev.major == 0x01 && chipRev.minor == 0x00) {
-    bool hfxo0ClkIsOff = (CMU->CLKEN0 & CMU_CLKEN0_HFXO0) == 0;
-    CMU->CLKEN0_SET = CMU_CLKEN0_HFXO0;
+		if (chipRev.major == 0x01 && chipRev.minor == 0x00)
+		{
+			bool hfxo0ClkIsOff = (CMU->CLKEN0 & CMU_CLKEN0_HFXO0) == 0;
+			CMU->CLKEN0_SET = CMU_CLKEN0_HFXO0;
 
-    *(volatile uint32_t*)(HFXO0_BASE + 0x0034UL) =
-      (*(volatile uint32_t*)(HFXO0_BASE + 0x0034UL) & 0xE3FFFFFFUL)
-      | 0x0C000000UL;
+			*(volatile uint32_t*) (HFXO0_BASE + 0x0034UL) =
+					(*(volatile uint32_t*) (HFXO0_BASE + 0x0034UL)
+							& 0xE3FFFFFFUL) | 0x0C000000UL;
 
-    if (hfxo0ClkIsOff) {
-      CMU->CLKEN0_CLR = CMU_CLKEN0_HFXO0;
-    }
-  }
+			if (hfxo0ClkIsOff)
+			{
+				CMU->CLKEN0_CLR = CMU_CLKEN0_HFXO0;
+			}
+		}
 #endif
-}
+	}
 
-/**************************************************************************//**
- * @brief
- *   Chip reset routine with errata workarounds.
- *
- * @note
- *   This function should be called to reset the chip. It does not return.
- *
- * This function applies any errata workarounds needed to cleanly reset the
- * device and then performs a system reset. See the device-specific errata for
- * details.
- *****************************************************************************/
-__STATIC_INLINE void CHIP_Reset(void)
-{
+	/**************************************************************************//**
+	 * @brief
+	 *   Chip reset routine with errata workarounds.
+	 *
+	 * @note
+	 *   This function should be called to reset the chip. It does not return.
+	 *
+	 * This function applies any errata workarounds needed to cleanly reset the
+	 * device and then performs a system reset. See the device-specific errata for
+	 * details.
+	 *****************************************************************************/
+	__STATIC_INLINE void CHIP_Reset(void)
+	{
 #if defined(_EFR_DEVICE) && defined(_SILICON_LABS_GECKO_INTERNAL_SDID_80)
   /****************************
    * Workaround for errata DCDC_E206.
@@ -448,10 +451,10 @@ __STATIC_INLINE void CHIP_Reset(void)
   }
 #endif
 
-  NVIC_SystemReset();
-}
+		NVIC_SystemReset();
+	}
 
-/** @} (end addtogroup chip) */
+	/** @} (end addtogroup chip) */
 
 #ifdef __cplusplus
 }

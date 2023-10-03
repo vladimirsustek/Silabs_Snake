@@ -65,7 +65,6 @@ static char buffer[BUFSIZE];
  ***************************  LOCAL VARIABLES   ********************************
  ******************************************************************************/
 
-
 void memlcd_app_init(void)
 {
 #ifdef ORIGINAL_DEMO_APPLICATION
@@ -118,26 +117,25 @@ void memlcd_app_init(void)
 
 void app_iostream_eusart_init(void)
 {
-  /* Prevent buffering of output/input.*/
+	/* Prevent buffering of output/input.*/
 #if !defined(__CROSSWORKS_ARM) && defined(__GNUC__)
-  setvbuf(stdout, NULL, _IONBF, 0);   /*Set unbuffered mode for stdout (newlib)*/
-  setvbuf(stdin, NULL, _IONBF, 0);   /*Set unbuffered mode for stdin (newlib)*/
+	setvbuf(stdout, NULL, _IONBF, 0); /*Set unbuffered mode for stdout (newlib)*/
+	setvbuf(stdin, NULL, _IONBF, 0); /*Set unbuffered mode for stdin (newlib)*/
 #endif
 
-  /* Output on vcom usart instance */
-  //const char str1[] = "IOstream EUSART example\r\n\r\n";
-  //sl_iostream_write(sl_iostream_vcom_handle, str1, strlen(str1));
+	/* Output on vcom usart instance */
+	//const char str1[] = "IOstream EUSART example\r\n\r\n";
+	//sl_iostream_write(sl_iostream_vcom_handle, str1, strlen(str1));
+	/* Setting default stream */
+	sl_iostream_set_default(sl_iostream_vcom_handle);
+	//const char str2[] = "This is output on the default stream\r\n";
+	//sl_iostream_write(SL_IOSTREAM_STDOUT, str2, strlen(str2));
 
-  /* Setting default stream */
-  sl_iostream_set_default(sl_iostream_vcom_handle);
-  //const char str2[] = "This is output on the default stream\r\n";
-  //sl_iostream_write(SL_IOSTREAM_STDOUT, str2, strlen(str2));
+	/* Using printf */
+	/* Writing ASCII art to the VCOM iostream */
+	printf("Snake game control upper-case: W A S D P.\r\n");
 
-  /* Using printf */
-  /* Writing ASCII art to the VCOM iostream */
-  printf("Snake game control upper-case: W A S D P.\r\n");
-
-  memlcd_app_init();
+	memlcd_app_init();
 }
 
 /***************************************************************************//**
@@ -145,23 +143,24 @@ void app_iostream_eusart_init(void)
  ******************************************************************************/
 void app_iostream_eusart_process_action(void)
 {
-  int8_t c = 0;
+	int8_t c = 0;
 #ifdef ORIGINAL_DEMO_APPLICATION
   static uint8_t index = 0;
 #endif
-  static bool print_welcome = true;
+	static bool print_welcome = true;
 
-  if (print_welcome) {
-    printf("> ");
-    print_welcome = false;
-  }
+	if (print_welcome)
+	{
+		printf("> ");
+		print_welcome = false;
+	}
 
-  /* Retrieve characters, print local echo and full line back */
-  c = getchar();
-  if(c != -1)
-    {
-      platform_snake_set_control(c);
-    }
+	/* Retrieve characters, print local echo and full line back */
+	c = getchar();
+	if (c != -1)
+	{
+		platform_snake_set_control(c);
+	}
 #ifdef ORIGINAL_DEMO_APPLICATION
   if (c > 0) {
     if (c == '\r' || c == '\n') {

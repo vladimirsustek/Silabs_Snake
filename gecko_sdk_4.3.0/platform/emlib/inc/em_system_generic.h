@@ -47,13 +47,14 @@ extern "C" {
  ******************************************************************************/
 
 /** Family security capability. */
-typedef enum {
-  securityCapabilityUnknown, /**< Unknown security capability. */
-  securityCapabilityNA,      /**< Security capability not applicable. */
-  securityCapabilityBasic,   /**< Basic security capability. */
-  securityCapabilityRoT,     /**< Root of Trust security capability. */
-  securityCapabilitySE,      /**< Secure Element security capability. */
-  securityCapabilityVault    /**< Secure Vault security capability. */
+typedef enum
+{
+	securityCapabilityUnknown, /**< Unknown security capability. */
+	securityCapabilityNA, /**< Security capability not applicable. */
+	securityCapabilityBasic, /**< Basic security capability. */
+	securityCapabilityRoT, /**< Root of Trust security capability. */
+	securityCapabilitySE, /**< Secure Element security capability. */
+	securityCapabilityVault /**< Secure Vault security capability. */
 } SYSTEM_SecurityCapability_TypeDef;
 
 /*******************************************************************************
@@ -61,26 +62,36 @@ typedef enum {
  ******************************************************************************/
 
 /** DEVINFO calibration address/value pair. */
-typedef struct {
-  uint32_t address;                       /**< Peripheral calibration register address. */
-  uint32_t calValue;                      /**< Calibration value for register at address. */
-}
-SYSTEM_CalAddrVal_TypeDef;
+typedef struct
+{
+	uint32_t address; /**< Peripheral calibration register address. */
+	uint32_t calValue; /**< Calibration value for register at address. */
+} SYSTEM_CalAddrVal_TypeDef;
 
 /*******************************************************************************
  *****************************   PROTOTYPES   **********************************
  ******************************************************************************/
 
-bool                              SYSTEM_GetCalibrationValue(volatile uint32_t *regAddress);
-SYSTEM_SecurityCapability_TypeDef SYSTEM_GetSecurityCapability(void);
-uint64_t                          SYSTEM_GetUnique(void);
-uint8_t                           SYSTEM_GetProdRev(void);
-uint32_t                          SYSTEM_GetSRAMBaseAddress(void);
-uint16_t                          SYSTEM_GetSRAMSize(void);
-uint16_t                          SYSTEM_GetFlashSize(void);
-uint32_t                          SYSTEM_GetFlashPageSize(void);
-uint16_t                          SYSTEM_GetPartNumber(void);
-uint8_t                           SYSTEM_GetCalibrationTemperature(void);
+bool
+SYSTEM_GetCalibrationValue(volatile uint32_t *regAddress);
+SYSTEM_SecurityCapability_TypeDef
+SYSTEM_GetSecurityCapability(void);
+uint64_t
+SYSTEM_GetUnique(void);
+uint8_t
+SYSTEM_GetProdRev(void);
+uint32_t
+SYSTEM_GetSRAMBaseAddress(void);
+uint16_t
+SYSTEM_GetSRAMSize(void);
+uint16_t
+SYSTEM_GetFlashSize(void);
+uint32_t
+SYSTEM_GetFlashPageSize(void);
+uint16_t
+SYSTEM_GetPartNumber(void);
+uint8_t
+SYSTEM_GetCalibrationTemperature(void);
 
 /** @} (end addtogroup system) */
 

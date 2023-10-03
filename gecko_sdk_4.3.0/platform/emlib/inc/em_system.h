@@ -54,8 +54,9 @@ extern "C" {
  ******************************************************************************/
 
 /** Family identifiers. */
-typedef enum {
-/* New style family #defines */
+typedef enum
+{
+	/* New style family #defines */
 #if defined(_DEVINFO_PART_DEVICE_FAMILY_EFM32G)
   systemPartFamilyEfm32Gecko   = _DEVINFO_PART_DEVICE_FAMILY_EFM32G,      /**< EFM32 Gecko Device Family. */
 #endif
@@ -252,7 +253,7 @@ typedef enum {
   systemPartFamilyZen28 = DEVINFO_PART_FAMILY_ZG | (28 << _DEVINFO_PART_FAMILYNUM_SHIFT),   /**< EFR32 Zen Gecko Series 2 Config 8 Value Device Family */
   systemPartFamilyEfm32Pearl28 = DEVINFO_PART_FAMILY_PG | (28 << _DEVINFO_PART_FAMILYNUM_SHIFT),  /**< EFM32 Pearl Gecko Series 2 Config 8 Value Device Family */
 #endif
-/* Deprecated family #defines */
+	/* Deprecated family #defines */
 #if defined(_DEVINFO_PART_DEVICE_FAMILY_G)
   systemPartFamilyGecko   = _DEVINFO_PART_DEVICE_FAMILY_G,   /**< Gecko Device Family. */
 #endif
@@ -274,9 +275,9 @@ typedef enum {
 #if defined(_DEVINFO_PART_DEVICE_FAMILY_HG)
   systemPartFamilyHappy   = _DEVINFO_PART_DEVICE_FAMILY_HG,  /**< Happy Gecko Device Family. */
 #endif
-  systemPartFamilyUnknown = 0xFF                             /**< Unknown Device Family.
-                                                                  Family ID is missing
-                                                                  on unprogrammed parts. */
+	systemPartFamilyUnknown = 0xFF /**< Unknown Device Family.
+	 Family ID is missing
+	 on unprogrammed parts. */
 } SYSTEM_PartFamily_TypeDef;
 
 /*******************************************************************************
@@ -284,13 +285,14 @@ typedef enum {
  ******************************************************************************/
 
 /** Chip revision details. */
-typedef struct {
-  uint8_t minor;       /**< Minor revision number. */
-  uint8_t major;       /**< Major revision number. */
+typedef struct
+{
+	uint8_t minor; /**< Minor revision number. */
+	uint8_t major; /**< Major revision number. */
 #if defined(_SYSCFG_CHIPREV_PARTNUMBER_MASK)
   uint16_t partNumber; /**< Device part number.    */
 #else
-  uint8_t family;      /**< Device family number.  */
+	uint8_t family; /**< Device family number.  */
 #endif
 } SYSTEM_ChipRevision_TypeDef;
 
@@ -308,8 +310,10 @@ typedef enum {
  *****************************   PROTOTYPES   **********************************
  ******************************************************************************/
 
-void                      SYSTEM_ChipRevisionGet(SYSTEM_ChipRevision_TypeDef *rev);
-SYSTEM_PartFamily_TypeDef SYSTEM_GetFamily(void);
+void
+SYSTEM_ChipRevisionGet(SYSTEM_ChipRevision_TypeDef *rev);
+SYSTEM_PartFamily_TypeDef
+SYSTEM_GetFamily(void);
 
 #if defined(_DEVINFO_DEVINFOREV_DEVINFOREV_MASK) || defined(_DEVINFO_INFO_DEVINFOREV_MASK)
 /***************************************************************************//**

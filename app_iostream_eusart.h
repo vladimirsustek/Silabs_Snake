@@ -21,11 +21,13 @@
 /***************************************************************************//**
  * Initialize iostream usart
  ******************************************************************************/
-void app_iostream_eusart_init(void);
+void
+app_iostream_eusart_init(void);
 
 /***************************************************************************//**
  * iostream usart ticking function
  ******************************************************************************/
-void app_iostream_eusart_process_action(void);
+void
+app_iostream_eusart_process_action(void);
 
 #endif  // APP_IOSTREAM_EUSART_H

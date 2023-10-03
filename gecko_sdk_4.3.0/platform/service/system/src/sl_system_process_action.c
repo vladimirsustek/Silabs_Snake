@@ -31,8 +31,8 @@
 
 void sl_system_process_action(void)
 {
-  sl_platform_process_action();
-  sl_service_process_action();
-  sl_stack_process_action();
-  sl_internal_app_process_action();
+	sl_platform_process_action();
+	sl_service_process_action();
+	sl_stack_process_action();
+	sl_internal_app_process_action();
 }

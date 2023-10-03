@@ -59,15 +59,15 @@
  ******************************************************************************/
 __STATIC_INLINE uint32_t divToLog2(uint32_t div)
 {
-  uint32_t log2;
+	uint32_t log2;
 
-  /* Prescaler accepts an argument of 128 or less, valid values being 2^n. */
-  EFM_ASSERT((div > 0UL) && (div <= 32768UL));
+	/* Prescaler accepts an argument of 128 or less, valid values being 2^n. */
+	EFM_ASSERT((div > 0UL) && (div <= 32768UL));
 
-  /* Count leading zeroes and "reverse" result, Cortex-M3 intrinsic. */
-  log2 = (31UL - __CLZ(div));
+	/* Count leading zeroes and "reverse" result, Cortex-M3 intrinsic. */
+	log2 = (31UL - __CLZ(div));
 
-  return log2;
+	return log2;
 }
 
 /***************************************************************************//**
@@ -91,10 +91,11 @@ __STATIC_INLINE void regSync(uint32_t mask)
   }
 #endif
 
-  /* Wait for any pending previous write operation to complete */
-  /* in low frequency domain. This is only required for the Gecko Family. */
-  while ((BURTC->SYNCBUSY & mask) != 0U) {
-  }
+	/* Wait for any pending previous write operation to complete */
+	/* in low frequency domain. This is only required for the Gecko Family. */
+	while ((BURTC->SYNCBUSY & mask) != 0U)
+	{
+	}
 }
 /** @endcond */
 
@@ -186,31 +187,36 @@ void BURTC_Init(const BURTC_Init_TypeDef *burtcInit)
     BURTC_FreezeEnable(false);
   }
 #elif defined(_SILICON_LABS_32B_SERIES_2)
-  uint32_t presc;
+	uint32_t presc;
 
-  presc = divToLog2(burtcInit->clkDiv);
+	presc = divToLog2(burtcInit->clkDiv);
 
-  if (BURTC->EN != 0U) {
-    BURTC_SyncWait();
-  }
-  BURTC->EN_CLR = BURTC_EN_EN;
+	if (BURTC->EN != 0U)
+	{
+		BURTC_SyncWait();
+	}
+	BURTC->EN_CLR = BURTC_EN_EN;
 #if defined(_BURTC_SYNCBUSY_EN_MASK)
   regSync(BURTC_SYNCBUSY_EN);
 #elif defined(_BURTC_EN_DISABLING_MASK)
-  while (BURTC->EN & _BURTC_EN_DISABLING_MASK) {
-    /* Wait for disabling to finish */
-  }
+	while (BURTC->EN & _BURTC_EN_DISABLING_MASK)
+	{
+		/* Wait for disabling to finish */
+	}
 #endif
 
-  BURTC->CFG = (presc << _BURTC_CFG_CNTPRESC_SHIFT)
-               | ((burtcInit->compare0Top ? 1UL : 0UL) << _BURTC_CFG_COMPTOP_SHIFT)
-               | ((burtcInit->debugRun ? 1UL : 0UL) << _BURTC_CFG_DEBUGRUN_SHIFT);
-  BURTC->EM4WUEN = ((burtcInit->em4comp ? 1UL : 0UL) << _BURTC_EM4WUEN_COMPEM4WUEN_SHIFT)
-                   | ((burtcInit->em4overflow ? 1UL : 0UL) << _BURTC_EM4WUEN_OFEM4WUEN_SHIFT);
-  BURTC->EN_SET = BURTC_EN_EN;
-  if (burtcInit->start) {
-    BURTC_Start();
-  }
+	BURTC->CFG = (presc << _BURTC_CFG_CNTPRESC_SHIFT)
+			| ((burtcInit->compare0Top ? 1UL : 0UL) << _BURTC_CFG_COMPTOP_SHIFT)
+			| ((burtcInit->debugRun ? 1UL : 0UL) << _BURTC_CFG_DEBUGRUN_SHIFT);
+	BURTC->EM4WUEN = ((burtcInit->em4comp ? 1UL : 0UL)
+			<< _BURTC_EM4WUEN_COMPEM4WUEN_SHIFT)
+			| ((burtcInit->em4overflow ? 1UL : 0UL)
+					<< _BURTC_EM4WUEN_OFEM4WUEN_SHIFT);
+	BURTC->EN_SET = BURTC_EN_EN;
+	if (burtcInit->start)
+	{
+		BURTC_Start();
+	}
 #endif
 }
 
@@ -228,28 +234,34 @@ void BURTC_Enable(bool enable)
   regSync(BURTC_SYNCBUSY_EN);
 #endif
 
-  if ((BURTC->EN == 0U) && !enable) {
-    /* Trying to disable BURTC when it's already disabled */
-    return;
-  }
+	if ((BURTC->EN == 0U) && !enable)
+	{
+		/* Trying to disable BURTC when it's already disabled */
+		return;
+	}
 
-  if (BURTC->EN != 0U) {
-    /* Modifying the enable bit while synchronization is active will BusFault */
-    BURTC_SyncWait();
-  }
+	if (BURTC->EN != 0U)
+	{
+		/* Modifying the enable bit while synchronization is active will BusFault */
+		BURTC_SyncWait();
+	}
 
-  if (enable) {
-    BURTC->EN_SET = BURTC_EN_EN;
-  } else {
-    BURTC_Stop();
-    BURTC_SyncWait(); /* Wait for the stop to synchronize */
-    BURTC->EN_CLR = BURTC_EN_EN;
+	if (enable)
+	{
+		BURTC->EN_SET = BURTC_EN_EN;
+	}
+	else
+	{
+		BURTC_Stop();
+		BURTC_SyncWait(); /* Wait for the stop to synchronize */
+		BURTC->EN_CLR = BURTC_EN_EN;
 #if defined(_BURTC_EN_DISABLING_MASK)
-    while (BURTC->EN & _BURTC_EN_DISABLING_MASK) {
-      /* Wait for disabling to finish */
-    }
+		while (BURTC->EN & _BURTC_EN_DISABLING_MASK)
+		{
+			/* Wait for disabling to finish */
+		}
 #endif
-  }
+	}
 }
 #elif defined(_SILICON_LABS_32B_SERIES_0)
 /***************************************************************************//**
@@ -278,9 +290,9 @@ void BURTC_Enable(bool enable)
  ******************************************************************************/
 void BURTC_CompareSet(unsigned int comp, uint32_t value)
 {
-  (void) comp;  /* Unused parameter when EFM_ASSERT is undefined. */
+	(void) comp; /* Unused parameter when EFM_ASSERT is undefined. */
 
-  EFM_ASSERT(comp == 0U);
+	EFM_ASSERT(comp == 0U);
 
 #if defined(_BURTC_COMP0_MASK)
   /* Modification of COMP0 register requires sync with potential ongoing
@@ -290,12 +302,12 @@ void BURTC_CompareSet(unsigned int comp, uint32_t value)
   /* Configure compare channel 0/. */
   BURTC->COMP0 = value;
 #else
-  /* Wait for last potential write to complete. */
-  regSync(BURTC_SYNCBUSY_COMP);
+	/* Wait for last potential write to complete. */
+	regSync(BURTC_SYNCBUSY_COMP);
 
-  /* Configure compare channel 0 */
-  BURTC->COMP = value;
-  regSync(BURTC_SYNCBUSY_COMP);
+	/* Configure compare channel 0 */
+	BURTC->COMP = value;
+	regSync(BURTC_SYNCBUSY_COMP);
 #endif
 }
 
@@ -308,13 +320,13 @@ void BURTC_CompareSet(unsigned int comp, uint32_t value)
  ******************************************************************************/
 uint32_t BURTC_CompareGet(unsigned int comp)
 {
-  (void) comp;  /* Unused parameter when EFM_ASSERT is undefined. */
+	(void) comp; /* Unused parameter when EFM_ASSERT is undefined. */
 
-  EFM_ASSERT(comp == 0U);
+	EFM_ASSERT(comp == 0U);
 #if defined(_BURTC_COMP0_MASK)
   return BURTC->COMP0;
 #else
-  return BURTC->COMP;
+	return BURTC->COMP;
 #endif
 }
 
@@ -328,9 +340,9 @@ void BURTC_CounterReset(void)
   BUS_RegBitWrite(&BURTC->CTRL, _BURTC_CTRL_RSTEN_SHIFT, 1U);
   BUS_RegBitWrite(&BURTC->CTRL, _BURTC_CTRL_RSTEN_SHIFT, 0U);
 #else
-  BURTC_Stop();
-  BURTC->CNT = 0U;
-  BURTC_Start();
+	BURTC_Stop();
+	BURTC->CNT = 0U;
+	BURTC_Start();
 #endif
 }
 
@@ -352,31 +364,33 @@ void BURTC_Reset(void)
   BUS_RegBitWrite(&RMU->CTRL, _RMU_CTRL_BURSTEN_SHIFT, 1);
   BUS_RegBitWrite(&RMU->CTRL, _RMU_CTRL_BURSTEN_SHIFT, buResetState);
 #elif defined(_SILICON_LABS_32B_SERIES_2)
-  if (BURTC->EN != 0U) {
-    BURTC_SyncWait();
-  }
-  BURTC->EN_SET = BURTC_EN_EN;
-  BURTC_Stop();
-  BURTC->CNT     = 0x0;
-  BURTC->PRECNT  = 0x0;
-  BURTC->COMP    = 0x0;
-  BURTC->EM4WUEN = _BURTC_EM4WUEN_RESETVALUE;
-  BURTC->IEN     = _BURTC_IEN_RESETVALUE;
-  BURTC->IF_CLR  = _BURTC_IF_MASK;
-  /* Wait for all values to synchronize. BusFaults can happen if we don't
-   * do this before the enable bit is cleared. */
-  BURTC_SyncWait();
-  BURTC->EN_CLR  = BURTC_EN_EN;
+	if (BURTC->EN != 0U)
+	{
+		BURTC_SyncWait();
+	}
+	BURTC->EN_SET = BURTC_EN_EN;
+	BURTC_Stop();
+	BURTC->CNT = 0x0;
+	BURTC->PRECNT = 0x0;
+	BURTC->COMP = 0x0;
+	BURTC->EM4WUEN = _BURTC_EM4WUEN_RESETVALUE;
+	BURTC->IEN = _BURTC_IEN_RESETVALUE;
+	BURTC->IF_CLR = _BURTC_IF_MASK;
+	/* Wait for all values to synchronize. BusFaults can happen if we don't
+	 * do this before the enable bit is cleared. */
+	BURTC_SyncWait();
+	BURTC->EN_CLR = BURTC_EN_EN;
 #if defined(_BURTC_SYNCBUSY_EN_MASK)
   while (BURTC->SYNCBUSY != 0U) {
     // Wait for the EN=0 to synchronize
   }
 #elif defined(_BURTC_EN_DISABLING_MASK)
-  while (BURTC->EN & _BURTC_EN_DISABLING_MASK) {
-    /* Wait for disabling to finish */
-  }
+	while (BURTC->EN & _BURTC_EN_DISABLING_MASK)
+	{
+		/* Wait for disabling to finish */
+	}
 #endif
-  BURTC->CFG = _BURTC_CFG_RESETVALUE;
+	BURTC->CFG = _BURTC_CFG_RESETVALUE;
 #endif
 }
 

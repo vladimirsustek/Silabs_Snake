@@ -32,9 +32,9 @@
 #define EMU_HAS_SET_CLEAR
 
 /**************************************************************************//**
-* @addtogroup Parts
-* @{
-******************************************************************************/
+ * @addtogroup Parts
+ * @{
+ ******************************************************************************/
 /**************************************************************************//**
  * @defgroup EFR32MG24_EMU EMU
  * @{
@@ -42,150 +42,151 @@
  *****************************************************************************/
 
 /** EMU Register Declaration. */
-typedef struct {
-  uint32_t       RESERVED0[4U];                 /**< Reserved for future use                            */
-  __IOM uint32_t DECBOD;                        /**< DECOUPLE LVBOD  Control register                   */
-  uint32_t       RESERVED1[3U];                 /**< Reserved for future use                            */
-  __IOM uint32_t BOD3SENSE;                     /**< BOD3SENSE Control register                         */
-  uint32_t       RESERVED2[6U];                 /**< Reserved for future use                            */
-  __IOM uint32_t VREGVDDCMPCTRL;                /**< DC-DC VREGVDD Comparator Control Register          */
-  __IOM uint32_t PD1PARETCTRL;                  /**< PD1 Partial Retention Control                      */
-  uint32_t       RESERVED3[6U];                 /**< Reserved for future use                            */
-  __IM uint32_t  IPVERSION;                     /**< IP Version                                         */
-  __IOM uint32_t LOCK;                          /**< EMU Configuration lock register                    */
-  __IOM uint32_t IF;                            /**< Interrupt Flags                                    */
-  __IOM uint32_t IEN;                           /**< Interrupt Enables                                  */
-  __IOM uint32_t EM4CTRL;                       /**< EM4 Control                                        */
-  __IOM uint32_t CMD;                           /**< EMU Command register                               */
-  __IOM uint32_t CTRL;                          /**< EMU Control register                               */
-  __IOM uint32_t TEMPLIMITS;                    /**< EMU Temperature thresholds                         */
-  uint32_t       RESERVED4[2U];                 /**< Reserved for future use                            */
-  __IM uint32_t  STATUS;                        /**< EMU Status register                                */
-  __IM uint32_t  TEMP;                          /**< Temperature                                        */
-  uint32_t       RESERVED5[1U];                 /**< Reserved for future use                            */
-  __IOM uint32_t RSTCTRL;                       /**< Reset Management Control register                  */
-  __IM uint32_t  RSTCAUSE;                      /**< Reset cause                                        */
-  __IM uint32_t  TAMPERRSTCAUSE;                /**< Tamper Reset cause                                 */
-  uint32_t       RESERVED6[1U];                 /**< Reserved for future use                            */
-  __IOM uint32_t DGIF;                          /**< Interrupt Flags Debug                              */
-  __IOM uint32_t DGIEN;                         /**< Interrupt Enables Debug                            */
-  uint32_t       RESERVED7[6U];                 /**< Reserved for future use                            */
-  uint32_t       RESERVED8[1U];                 /**< Reserved for future use                            */
-  uint32_t       RESERVED9[15U];                /**< Reserved for future use                            */
-  __IOM uint32_t EFPIF;                         /**< EFP Interrupt Register                             */
-  __IOM uint32_t EFPIEN;                        /**< EFP Interrupt Enable Register                      */
-  uint32_t       RESERVED10[14U];               /**< Reserved for future use                            */
-  uint32_t       RESERVED11[1U];                /**< Reserved for future use                            */
-  uint32_t       RESERVED12[18U];               /**< Reserved for future use                            */
-  uint32_t       RESERVED13[1U];                /**< Reserved for future use                            */
-  uint32_t       RESERVED14[924U];              /**< Reserved for future use                            */
-  uint32_t       RESERVED15[4U];                /**< Reserved for future use                            */
-  __IOM uint32_t DECBOD_SET;                    /**< DECOUPLE LVBOD  Control register                   */
-  uint32_t       RESERVED16[3U];                /**< Reserved for future use                            */
-  __IOM uint32_t BOD3SENSE_SET;                 /**< BOD3SENSE Control register                         */
-  uint32_t       RESERVED17[6U];                /**< Reserved for future use                            */
-  __IOM uint32_t VREGVDDCMPCTRL_SET;            /**< DC-DC VREGVDD Comparator Control Register          */
-  __IOM uint32_t PD1PARETCTRL_SET;              /**< PD1 Partial Retention Control                      */
-  uint32_t       RESERVED18[6U];                /**< Reserved for future use                            */
-  __IM uint32_t  IPVERSION_SET;                 /**< IP Version                                         */
-  __IOM uint32_t LOCK_SET;                      /**< EMU Configuration lock register                    */
-  __IOM uint32_t IF_SET;                        /**< Interrupt Flags                                    */
-  __IOM uint32_t IEN_SET;                       /**< Interrupt Enables                                  */
-  __IOM uint32_t EM4CTRL_SET;                   /**< EM4 Control                                        */
-  __IOM uint32_t CMD_SET;                       /**< EMU Command register                               */
-  __IOM uint32_t CTRL_SET;                      /**< EMU Control register                               */
-  __IOM uint32_t TEMPLIMITS_SET;                /**< EMU Temperature thresholds                         */
-  uint32_t       RESERVED19[2U];                /**< Reserved for future use                            */
-  __IM uint32_t  STATUS_SET;                    /**< EMU Status register                                */
-  __IM uint32_t  TEMP_SET;                      /**< Temperature                                        */
-  uint32_t       RESERVED20[1U];                /**< Reserved for future use                            */
-  __IOM uint32_t RSTCTRL_SET;                   /**< Reset Management Control register                  */
-  __IM uint32_t  RSTCAUSE_SET;                  /**< Reset cause                                        */
-  __IM uint32_t  TAMPERRSTCAUSE_SET;            /**< Tamper Reset cause                                 */
-  uint32_t       RESERVED21[1U];                /**< Reserved for future use                            */
-  __IOM uint32_t DGIF_SET;                      /**< Interrupt Flags Debug                              */
-  __IOM uint32_t DGIEN_SET;                     /**< Interrupt Enables Debug                            */
-  uint32_t       RESERVED22[6U];                /**< Reserved for future use                            */
-  uint32_t       RESERVED23[1U];                /**< Reserved for future use                            */
-  uint32_t       RESERVED24[15U];               /**< Reserved for future use                            */
-  __IOM uint32_t EFPIF_SET;                     /**< EFP Interrupt Register                             */
-  __IOM uint32_t EFPIEN_SET;                    /**< EFP Interrupt Enable Register                      */
-  uint32_t       RESERVED25[14U];               /**< Reserved for future use                            */
-  uint32_t       RESERVED26[1U];                /**< Reserved for future use                            */
-  uint32_t       RESERVED27[18U];               /**< Reserved for future use                            */
-  uint32_t       RESERVED28[1U];                /**< Reserved for future use                            */
-  uint32_t       RESERVED29[924U];              /**< Reserved for future use                            */
-  uint32_t       RESERVED30[4U];                /**< Reserved for future use                            */
-  __IOM uint32_t DECBOD_CLR;                    /**< DECOUPLE LVBOD  Control register                   */
-  uint32_t       RESERVED31[3U];                /**< Reserved for future use                            */
-  __IOM uint32_t BOD3SENSE_CLR;                 /**< BOD3SENSE Control register                         */
-  uint32_t       RESERVED32[6U];                /**< Reserved for future use                            */
-  __IOM uint32_t VREGVDDCMPCTRL_CLR;            /**< DC-DC VREGVDD Comparator Control Register          */
-  __IOM uint32_t PD1PARETCTRL_CLR;              /**< PD1 Partial Retention Control                      */
-  uint32_t       RESERVED33[6U];                /**< Reserved for future use                            */
-  __IM uint32_t  IPVERSION_CLR;                 /**< IP Version                                         */
-  __IOM uint32_t LOCK_CLR;                      /**< EMU Configuration lock register                    */
-  __IOM uint32_t IF_CLR;                        /**< Interrupt Flags                                    */
-  __IOM uint32_t IEN_CLR;                       /**< Interrupt Enables                                  */
-  __IOM uint32_t EM4CTRL_CLR;                   /**< EM4 Control                                        */
-  __IOM uint32_t CMD_CLR;                       /**< EMU Command register                               */
-  __IOM uint32_t CTRL_CLR;                      /**< EMU Control register                               */
-  __IOM uint32_t TEMPLIMITS_CLR;                /**< EMU Temperature thresholds                         */
-  uint32_t       RESERVED34[2U];                /**< Reserved for future use                            */
-  __IM uint32_t  STATUS_CLR;                    /**< EMU Status register                                */
-  __IM uint32_t  TEMP_CLR;                      /**< Temperature                                        */
-  uint32_t       RESERVED35[1U];                /**< Reserved for future use                            */
-  __IOM uint32_t RSTCTRL_CLR;                   /**< Reset Management Control register                  */
-  __IM uint32_t  RSTCAUSE_CLR;                  /**< Reset cause                                        */
-  __IM uint32_t  TAMPERRSTCAUSE_CLR;            /**< Tamper Reset cause                                 */
-  uint32_t       RESERVED36[1U];                /**< Reserved for future use                            */
-  __IOM uint32_t DGIF_CLR;                      /**< Interrupt Flags Debug                              */
-  __IOM uint32_t DGIEN_CLR;                     /**< Interrupt Enables Debug                            */
-  uint32_t       RESERVED37[6U];                /**< Reserved for future use                            */
-  uint32_t       RESERVED38[1U];                /**< Reserved for future use                            */
-  uint32_t       RESERVED39[15U];               /**< Reserved for future use                            */
-  __IOM uint32_t EFPIF_CLR;                     /**< EFP Interrupt Register                             */
-  __IOM uint32_t EFPIEN_CLR;                    /**< EFP Interrupt Enable Register                      */
-  uint32_t       RESERVED40[14U];               /**< Reserved for future use                            */
-  uint32_t       RESERVED41[1U];                /**< Reserved for future use                            */
-  uint32_t       RESERVED42[18U];               /**< Reserved for future use                            */
-  uint32_t       RESERVED43[1U];                /**< Reserved for future use                            */
-  uint32_t       RESERVED44[924U];              /**< Reserved for future use                            */
-  uint32_t       RESERVED45[4U];                /**< Reserved for future use                            */
-  __IOM uint32_t DECBOD_TGL;                    /**< DECOUPLE LVBOD  Control register                   */
-  uint32_t       RESERVED46[3U];                /**< Reserved for future use                            */
-  __IOM uint32_t BOD3SENSE_TGL;                 /**< BOD3SENSE Control register                         */
-  uint32_t       RESERVED47[6U];                /**< Reserved for future use                            */
-  __IOM uint32_t VREGVDDCMPCTRL_TGL;            /**< DC-DC VREGVDD Comparator Control Register          */
-  __IOM uint32_t PD1PARETCTRL_TGL;              /**< PD1 Partial Retention Control                      */
-  uint32_t       RESERVED48[6U];                /**< Reserved for future use                            */
-  __IM uint32_t  IPVERSION_TGL;                 /**< IP Version                                         */
-  __IOM uint32_t LOCK_TGL;                      /**< EMU Configuration lock register                    */
-  __IOM uint32_t IF_TGL;                        /**< Interrupt Flags                                    */
-  __IOM uint32_t IEN_TGL;                       /**< Interrupt Enables                                  */
-  __IOM uint32_t EM4CTRL_TGL;                   /**< EM4 Control                                        */
-  __IOM uint32_t CMD_TGL;                       /**< EMU Command register                               */
-  __IOM uint32_t CTRL_TGL;                      /**< EMU Control register                               */
-  __IOM uint32_t TEMPLIMITS_TGL;                /**< EMU Temperature thresholds                         */
-  uint32_t       RESERVED49[2U];                /**< Reserved for future use                            */
-  __IM uint32_t  STATUS_TGL;                    /**< EMU Status register                                */
-  __IM uint32_t  TEMP_TGL;                      /**< Temperature                                        */
-  uint32_t       RESERVED50[1U];                /**< Reserved for future use                            */
-  __IOM uint32_t RSTCTRL_TGL;                   /**< Reset Management Control register                  */
-  __IM uint32_t  RSTCAUSE_TGL;                  /**< Reset cause                                        */
-  __IM uint32_t  TAMPERRSTCAUSE_TGL;            /**< Tamper Reset cause                                 */
-  uint32_t       RESERVED51[1U];                /**< Reserved for future use                            */
-  __IOM uint32_t DGIF_TGL;                      /**< Interrupt Flags Debug                              */
-  __IOM uint32_t DGIEN_TGL;                     /**< Interrupt Enables Debug                            */
-  uint32_t       RESERVED52[6U];                /**< Reserved for future use                            */
-  uint32_t       RESERVED53[1U];                /**< Reserved for future use                            */
-  uint32_t       RESERVED54[15U];               /**< Reserved for future use                            */
-  __IOM uint32_t EFPIF_TGL;                     /**< EFP Interrupt Register                             */
-  __IOM uint32_t EFPIEN_TGL;                    /**< EFP Interrupt Enable Register                      */
-  uint32_t       RESERVED55[14U];               /**< Reserved for future use                            */
-  uint32_t       RESERVED56[1U];                /**< Reserved for future use                            */
-  uint32_t       RESERVED57[18U];               /**< Reserved for future use                            */
-  uint32_t       RESERVED58[1U];                /**< Reserved for future use                            */
+typedef struct
+{
+	uint32_t RESERVED0[4U]; /**< Reserved for future use                            */
+	__IOM uint32_t DECBOD; /**< DECOUPLE LVBOD  Control register                   */
+	uint32_t RESERVED1[3U]; /**< Reserved for future use                            */
+	__IOM uint32_t BOD3SENSE; /**< BOD3SENSE Control register                         */
+	uint32_t RESERVED2[6U]; /**< Reserved for future use                            */
+	__IOM uint32_t VREGVDDCMPCTRL; /**< DC-DC VREGVDD Comparator Control Register          */
+	__IOM uint32_t PD1PARETCTRL; /**< PD1 Partial Retention Control                      */
+	uint32_t RESERVED3[6U]; /**< Reserved for future use                            */
+	__IM uint32_t IPVERSION; /**< IP Version                                         */
+	__IOM uint32_t LOCK; /**< EMU Configuration lock register                    */
+	__IOM uint32_t IF; /**< Interrupt Flags                                    */
+	__IOM uint32_t IEN; /**< Interrupt Enables                                  */
+	__IOM uint32_t EM4CTRL; /**< EM4 Control                                        */
+	__IOM uint32_t CMD; /**< EMU Command register                               */
+	__IOM uint32_t CTRL; /**< EMU Control register                               */
+	__IOM uint32_t TEMPLIMITS; /**< EMU Temperature thresholds                         */
+	uint32_t RESERVED4[2U]; /**< Reserved for future use                            */
+	__IM uint32_t STATUS; /**< EMU Status register                                */
+	__IM uint32_t TEMP; /**< Temperature                                        */
+	uint32_t RESERVED5[1U]; /**< Reserved for future use                            */
+	__IOM uint32_t RSTCTRL; /**< Reset Management Control register                  */
+	__IM uint32_t RSTCAUSE; /**< Reset cause                                        */
+	__IM uint32_t TAMPERRSTCAUSE; /**< Tamper Reset cause                                 */
+	uint32_t RESERVED6[1U]; /**< Reserved for future use                            */
+	__IOM uint32_t DGIF; /**< Interrupt Flags Debug                              */
+	__IOM uint32_t DGIEN; /**< Interrupt Enables Debug                            */
+	uint32_t RESERVED7[6U]; /**< Reserved for future use                            */
+	uint32_t RESERVED8[1U]; /**< Reserved for future use                            */
+	uint32_t RESERVED9[15U]; /**< Reserved for future use                            */
+	__IOM uint32_t EFPIF; /**< EFP Interrupt Register                             */
+	__IOM uint32_t EFPIEN; /**< EFP Interrupt Enable Register                      */
+	uint32_t RESERVED10[14U]; /**< Reserved for future use                            */
+	uint32_t RESERVED11[1U]; /**< Reserved for future use                            */
+	uint32_t RESERVED12[18U]; /**< Reserved for future use                            */
+	uint32_t RESERVED13[1U]; /**< Reserved for future use                            */
+	uint32_t RESERVED14[924U]; /**< Reserved for future use                            */
+	uint32_t RESERVED15[4U]; /**< Reserved for future use                            */
+	__IOM uint32_t DECBOD_SET; /**< DECOUPLE LVBOD  Control register                   */
+	uint32_t RESERVED16[3U]; /**< Reserved for future use                            */
+	__IOM uint32_t BOD3SENSE_SET; /**< BOD3SENSE Control register                         */
+	uint32_t RESERVED17[6U]; /**< Reserved for future use                            */
+	__IOM uint32_t VREGVDDCMPCTRL_SET; /**< DC-DC VREGVDD Comparator Control Register          */
+	__IOM uint32_t PD1PARETCTRL_SET; /**< PD1 Partial Retention Control                      */
+	uint32_t RESERVED18[6U]; /**< Reserved for future use                            */
+	__IM uint32_t IPVERSION_SET; /**< IP Version                                         */
+	__IOM uint32_t LOCK_SET; /**< EMU Configuration lock register                    */
+	__IOM uint32_t IF_SET; /**< Interrupt Flags                                    */
+	__IOM uint32_t IEN_SET; /**< Interrupt Enables                                  */
+	__IOM uint32_t EM4CTRL_SET; /**< EM4 Control                                        */
+	__IOM uint32_t CMD_SET; /**< EMU Command register                               */
+	__IOM uint32_t CTRL_SET; /**< EMU Control register                               */
+	__IOM uint32_t TEMPLIMITS_SET; /**< EMU Temperature thresholds                         */
+	uint32_t RESERVED19[2U]; /**< Reserved for future use                            */
+	__IM uint32_t STATUS_SET; /**< EMU Status register                                */
+	__IM uint32_t TEMP_SET; /**< Temperature                                        */
+	uint32_t RESERVED20[1U]; /**< Reserved for future use                            */
+	__IOM uint32_t RSTCTRL_SET; /**< Reset Management Control register                  */
+	__IM uint32_t RSTCAUSE_SET; /**< Reset cause                                        */
+	__IM uint32_t TAMPERRSTCAUSE_SET; /**< Tamper Reset cause                                 */
+	uint32_t RESERVED21[1U]; /**< Reserved for future use                            */
+	__IOM uint32_t DGIF_SET; /**< Interrupt Flags Debug                              */
+	__IOM uint32_t DGIEN_SET; /**< Interrupt Enables Debug                            */
+	uint32_t RESERVED22[6U]; /**< Reserved for future use                            */
+	uint32_t RESERVED23[1U]; /**< Reserved for future use                            */
+	uint32_t RESERVED24[15U]; /**< Reserved for future use                            */
+	__IOM uint32_t EFPIF_SET; /**< EFP Interrupt Register                             */
+	__IOM uint32_t EFPIEN_SET; /**< EFP Interrupt Enable Register                      */
+	uint32_t RESERVED25[14U]; /**< Reserved for future use                            */
+	uint32_t RESERVED26[1U]; /**< Reserved for future use                            */
+	uint32_t RESERVED27[18U]; /**< Reserved for future use                            */
+	uint32_t RESERVED28[1U]; /**< Reserved for future use                            */
+	uint32_t RESERVED29[924U]; /**< Reserved for future use                            */
+	uint32_t RESERVED30[4U]; /**< Reserved for future use                            */
+	__IOM uint32_t DECBOD_CLR; /**< DECOUPLE LVBOD  Control register                   */
+	uint32_t RESERVED31[3U]; /**< Reserved for future use                            */
+	__IOM uint32_t BOD3SENSE_CLR; /**< BOD3SENSE Control register                         */
+	uint32_t RESERVED32[6U]; /**< Reserved for future use                            */
+	__IOM uint32_t VREGVDDCMPCTRL_CLR; /**< DC-DC VREGVDD Comparator Control Register          */
+	__IOM uint32_t PD1PARETCTRL_CLR; /**< PD1 Partial Retention Control                      */
+	uint32_t RESERVED33[6U]; /**< Reserved for future use                            */
+	__IM uint32_t IPVERSION_CLR; /**< IP Version                                         */
+	__IOM uint32_t LOCK_CLR; /**< EMU Configuration lock register                    */
+	__IOM uint32_t IF_CLR; /**< Interrupt Flags                                    */
+	__IOM uint32_t IEN_CLR; /**< Interrupt Enables                                  */
+	__IOM uint32_t EM4CTRL_CLR; /**< EM4 Control                                        */
+	__IOM uint32_t CMD_CLR; /**< EMU Command register                               */
+	__IOM uint32_t CTRL_CLR; /**< EMU Control register                               */
+	__IOM uint32_t TEMPLIMITS_CLR; /**< EMU Temperature thresholds                         */
+	uint32_t RESERVED34[2U]; /**< Reserved for future use                            */
+	__IM uint32_t STATUS_CLR; /**< EMU Status register                                */
+	__IM uint32_t TEMP_CLR; /**< Temperature                                        */
+	uint32_t RESERVED35[1U]; /**< Reserved for future use                            */
+	__IOM uint32_t RSTCTRL_CLR; /**< Reset Management Control register                  */
+	__IM uint32_t RSTCAUSE_CLR; /**< Reset cause                                        */
+	__IM uint32_t TAMPERRSTCAUSE_CLR; /**< Tamper Reset cause                                 */
+	uint32_t RESERVED36[1U]; /**< Reserved for future use                            */
+	__IOM uint32_t DGIF_CLR; /**< Interrupt Flags Debug                              */
+	__IOM uint32_t DGIEN_CLR; /**< Interrupt Enables Debug                            */
+	uint32_t RESERVED37[6U]; /**< Reserved for future use                            */
+	uint32_t RESERVED38[1U]; /**< Reserved for future use                            */
+	uint32_t RESERVED39[15U]; /**< Reserved for future use                            */
+	__IOM uint32_t EFPIF_CLR; /**< EFP Interrupt Register                             */
+	__IOM uint32_t EFPIEN_CLR; /**< EFP Interrupt Enable Register                      */
+	uint32_t RESERVED40[14U]; /**< Reserved for future use                            */
+	uint32_t RESERVED41[1U]; /**< Reserved for future use                            */
+	uint32_t RESERVED42[18U]; /**< Reserved for future use                            */
+	uint32_t RESERVED43[1U]; /**< Reserved for future use                            */
+	uint32_t RESERVED44[924U]; /**< Reserved for future use                            */
+	uint32_t RESERVED45[4U]; /**< Reserved for future use                            */
+	__IOM uint32_t DECBOD_TGL; /**< DECOUPLE LVBOD  Control register                   */
+	uint32_t RESERVED46[3U]; /**< Reserved for future use                            */
+	__IOM uint32_t BOD3SENSE_TGL; /**< BOD3SENSE Control register                         */
+	uint32_t RESERVED47[6U]; /**< Reserved for future use                            */
+	__IOM uint32_t VREGVDDCMPCTRL_TGL; /**< DC-DC VREGVDD Comparator Control Register          */
+	__IOM uint32_t PD1PARETCTRL_TGL; /**< PD1 Partial Retention Control                      */
+	uint32_t RESERVED48[6U]; /**< Reserved for future use                            */
+	__IM uint32_t IPVERSION_TGL; /**< IP Version                                         */
+	__IOM uint32_t LOCK_TGL; /**< EMU Configuration lock register                    */
+	__IOM uint32_t IF_TGL; /**< Interrupt Flags                                    */
+	__IOM uint32_t IEN_TGL; /**< Interrupt Enables                                  */
+	__IOM uint32_t EM4CTRL_TGL; /**< EM4 Control                                        */
+	__IOM uint32_t CMD_TGL; /**< EMU Command register                               */
+	__IOM uint32_t CTRL_TGL; /**< EMU Control register                               */
+	__IOM uint32_t TEMPLIMITS_TGL; /**< EMU Temperature thresholds                         */
+	uint32_t RESERVED49[2U]; /**< Reserved for future use                            */
+	__IM uint32_t STATUS_TGL; /**< EMU Status register                                */
+	__IM uint32_t TEMP_TGL; /**< Temperature                                        */
+	uint32_t RESERVED50[1U]; /**< Reserved for future use                            */
+	__IOM uint32_t RSTCTRL_TGL; /**< Reset Management Control register                  */
+	__IM uint32_t RSTCAUSE_TGL; /**< Reset cause                                        */
+	__IM uint32_t TAMPERRSTCAUSE_TGL; /**< Tamper Reset cause                                 */
+	uint32_t RESERVED51[1U]; /**< Reserved for future use                            */
+	__IOM uint32_t DGIF_TGL; /**< Interrupt Flags Debug                              */
+	__IOM uint32_t DGIEN_TGL; /**< Interrupt Enables Debug                            */
+	uint32_t RESERVED52[6U]; /**< Reserved for future use                            */
+	uint32_t RESERVED53[1U]; /**< Reserved for future use                            */
+	uint32_t RESERVED54[15U]; /**< Reserved for future use                            */
+	__IOM uint32_t EFPIF_TGL; /**< EFP Interrupt Register                             */
+	__IOM uint32_t EFPIEN_TGL; /**< EFP Interrupt Enable Register                      */
+	uint32_t RESERVED55[14U]; /**< Reserved for future use                            */
+	uint32_t RESERVED56[1U]; /**< Reserved for future use                            */
+	uint32_t RESERVED57[18U]; /**< Reserved for future use                            */
+	uint32_t RESERVED58[1U]; /**< Reserved for future use                            */
 } EMU_TypeDef;
 /** @} End of group EFR32MG24_EMU */
 

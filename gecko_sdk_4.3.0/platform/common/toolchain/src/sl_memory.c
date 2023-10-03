@@ -37,9 +37,9 @@
 static char sl_stack[SL_STACK_SIZE] __attribute__ ((aligned(8), used, section(".stack")));
 
 /* Declare the minimum heap object used with gcc */
-  #if SL_HEAP_SIZE > 0
-static char sl_heap[SL_HEAP_SIZE]   __attribute__ ((aligned(8), used, section(".heap")));
-  #endif
+#if SL_HEAP_SIZE > 0
+static char sl_heap[SL_HEAP_SIZE] __attribute__ ((aligned(8), used, section(".heap")));
+#endif
 
 /*
  * Declare the base and limit of the full heap region used with gcc. To make
@@ -63,24 +63,24 @@ __root char sl_heap[SL_HEAP_SIZE] @ ".heap";
 
 sl_memory_region_t sl_memory_get_stack_region(void)
 {
-  sl_memory_region_t region;
+	sl_memory_region_t region;
 
-  region.addr = &sl_stack;
-  region.size = SL_STACK_SIZE;
-  return region;
+	region.addr = &sl_stack;
+	region.size = SL_STACK_SIZE;
+	return region;
 }
 
 sl_memory_region_t sl_memory_get_heap_region(void)
 {
-  sl_memory_region_t region;
+	sl_memory_region_t region;
 
-  /*
-   * Report the actual heap region which may be larger then the minimum
-   * allocation of SL_HEAP_SIZE bytes
-   */
+	/*
+	 * Report the actual heap region which may be larger then the minimum
+	 * allocation of SL_HEAP_SIZE bytes
+	 */
 #if defined(__GNUC__)
-  region.addr = __HeapBase;
-  region.size = (size_t) ((uintptr_t) __HeapLimit - (uintptr_t) __HeapBase);
+	region.addr = __HeapBase;
+	region.size = (size_t) ((uintptr_t) __HeapLimit - (uintptr_t) __HeapBase);
 
 #elif defined(__ICCARM__)
   region.addr = __section_begin("HEAP");
@@ -88,23 +88,25 @@ sl_memory_region_t sl_memory_get_heap_region(void)
 
 #endif
 
-  return region;
+	return region;
 }
 
 #if defined(__GNUC__)
-__USED void * _sbrk(int incr)
+__USED void*
+_sbrk(int incr)
 {
-  static char *heap_end = __HeapBase;
-  char *prev_heap_end;
+	static char *heap_end = __HeapBase;
+	char *prev_heap_end;
 
-  if ((heap_end + incr) > __HeapLimit) {
-    // Not enough heap
-    return (void *) -1;
-  }
+	if ((heap_end + incr) > __HeapLimit)
+	{
+		// Not enough heap
+		return (void*) -1;
+	}
 
-  prev_heap_end = heap_end;
-  heap_end += incr;
+	prev_heap_end = heap_end;
+	heap_end += incr;
 
-  return prev_heap_end;
+	return prev_heap_end;
 }
 #endif
