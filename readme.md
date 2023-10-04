@@ -1,8 +1,6 @@
-# IOStream EUSART Bare Metal
+# EUSART and Joystick controlled snake game
 
-This example project demonstrates the use of EUSART communication over the virtual COM port (VCOM) in a bare metal environment. The example will echo back any charaters it receives over the serial connection. The VCOM serial port can be used over USB or by connecting to port 4902 if the kit is connected via internet.
+EUSART control over the buttons W A S D P
+Joystick North West South East Click
 
 
-## Requirements
-
-Silicon Labs board with USB port or ethernet port.
