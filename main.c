@@ -27,6 +27,7 @@
 #endif // SL_CATALOG_KERNEL_PRESENT
 
 #include <SnakeGame/snake_game.h>
+#include <sl_sleeptimer.h>
 
 int main(void)
 {
@@ -40,7 +41,6 @@ int main(void)
 	app_init();
 
 	platform_init();
-
 #if defined(SL_CATALOG_KERNEL_PRESENT)
   // Start the kernel. Task(s) created in app_init() will start running.
   sl_system_kernel_start();

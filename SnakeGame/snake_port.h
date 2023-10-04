@@ -161,11 +161,14 @@ void
 platform_refresh_hw(void);
 void
 platform_display_border(void);
-void
-platform_print_text(char *str, uint16_t length, uint16_t color);
-void
-platform_snake_set_control(char c);
+void platform_print_text_line_0(char *str, uint16_t length, uint16_t color);
+void platform_print_text_line_1(char *str, uint16_t length, uint16_t color);
+void platform_snake_set_control(char c);
 void
 platform_delay(uint32_t Delay, fn_t func);
+
+void platform_save_score(uint32_t score);
+
+uint32_t platform_load_score();
 
 #endif /* SNAKE_PORT_H_ */

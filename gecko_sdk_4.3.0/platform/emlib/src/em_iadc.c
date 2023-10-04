@@ -300,7 +300,7 @@ void IADC_init(IADC_TypeDef *iadc, const IADC_Init_t *init,
 #endif
 				);
 		iadc->CFG[config].CFG =
-				tmp
+								tmp
 						| (((uint32_t) (adcMode) << _IADC_CFG_ADCMODE_SHIFT)
 								& _IADC_CFG_ADCMODE_MASK)
 						| (((uint32_t) (allConfigs->configs[config].osrHighSpeed)
@@ -633,7 +633,8 @@ void IADC_initScan(IADC_TypeDef *iadc, const IADC_InitScan_t *init,
 							<< _IADC_SCANFIFOCFG_DVL_SHIFT)
 							& _IADC_SCANFIFOCFG_DVL_MASK)
 					| (init->fifoDmaWakeup ?
-							IADC_SCANFIFOCFG_DMAWUFIFOSCAN : 0UL);
+					IADC_SCANFIFOCFG_DMAWUFIFOSCAN :
+												0UL);
 
 // Clear bitfields for scan conversion in IADCn->TRIGGER and set new values
 	iadc->TRIGGER = (iadc->TRIGGER

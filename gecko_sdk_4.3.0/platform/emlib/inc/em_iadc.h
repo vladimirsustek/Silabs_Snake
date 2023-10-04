@@ -93,8 +93,7 @@ typedef enum
 
 /** IADC negative input selection. */
 typedef enum
-{
-	/** Ground  */
+{	/** Ground  */
 	iadcNegInputGnd = (_IADC_SCAN_PORTNEG_GND
 			<< (_IADC_SCAN_PORTNEG_SHIFT - _IADC_SCAN_PINNEG_SHIFT)) | 1,
 	/** Ground using even mux */

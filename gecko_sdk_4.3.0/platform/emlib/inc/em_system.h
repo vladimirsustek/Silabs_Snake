@@ -55,8 +55,7 @@ extern "C" {
 
 /** Family identifiers. */
 typedef enum
-{
-	/* New style family #defines */
+{	/* New style family #defines */
 #if defined(_DEVINFO_PART_DEVICE_FAMILY_EFM32G)
   systemPartFamilyEfm32Gecko   = _DEVINFO_PART_DEVICE_FAMILY_EFM32G,      /**< EFM32 Gecko Device Family. */
 #endif

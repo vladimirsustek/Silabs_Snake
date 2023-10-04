@@ -173,7 +173,7 @@ EMSTATUS BMP_reset()
 
 	/* Read in header */
 	status = fpReadData((uint8_t*) &bmpHeader, BMP_HEADER_SIZE,
-			BMP_HEADER_SIZE);
+	BMP_HEADER_SIZE);
 	if (status != BMP_OK)
 	{
 		return status;
@@ -747,7 +747,7 @@ static EMSTATUS BMP_readRawDataRLE8(BMP_DataType *dataType, uint8_t buffer[],
 		{
 			/* Read in 2 RLE bytes */
 			status = BMP_readRleData(dataType, localCache,
-					BMP_LOCAL_CACHE_SIZE);
+			BMP_LOCAL_CACHE_SIZE);
 			if (status != BMP_OK)
 			{
 				return status;

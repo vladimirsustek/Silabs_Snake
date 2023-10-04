@@ -832,8 +832,7 @@ typedef enum {
 #if defined(_SILICON_LABS_32B_SERIES_2)
 /** PRS Consumers. */
 typedef enum
-{
-	prsConsumerNone = 0x000, /**< No PRS consumer */
+{	prsConsumerNone = 0x000, /**< No PRS consumer */
 	prsConsumerCMU_CALDN = offsetof(PRS_TypeDef, CONSUMER_CMU_CALDN), /**< CMU calibration down consumer. */
 	prsConsumerCMU_CALUP = offsetof(PRS_TypeDef, CONSUMER_CMU_CALUP), /**< CMU calibration up consumer. */
 #if defined(IADC_PRESENT)

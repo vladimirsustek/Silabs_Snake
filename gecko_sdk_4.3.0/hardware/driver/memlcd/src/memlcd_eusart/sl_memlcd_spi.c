@@ -37,7 +37,7 @@ sl_status_t sli_memlcd_spi_init(sli_memlcd_spi_handle_t *handle, int bitrate,
 {
 	EUSART_SpiInit_TypeDef init = EUSART_SPI_MASTER_INIT_DEFAULT_HF;
 	EUSART_SpiAdvancedInit_TypeDef advancedInit =
-			EUSART_SPI_ADVANCED_INIT_DEFAULT;
+	EUSART_SPI_ADVANCED_INIT_DEFAULT;
 	EUSART_TypeDef *eusart = handle->eusart;
 
 	advancedInit.msbFirst = true;

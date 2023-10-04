@@ -162,11 +162,13 @@ void snake_display(snake_t *snake)
 		{ 0 };
 		sprintf(printStr, "                   ");
 
-		platform_print_text(printStr, strlen(printStr), 0);
+		platform_print_text_line_0(printStr, strlen(printStr), 0);
+		platform_print_text_line_1(printStr, strlen(printStr), 0);
 		for (int idx = 0; idx < snake->length; idx++)
 		{
 			platform_drawCell(snake->body[idx].x, snake->body[idx].y);
 		}
+
 		/* From now onwards display new head and erase old tail */
 		snake->showmode = SHOW_SNAKE_MOVE;
 
@@ -204,7 +206,7 @@ void snake_diplay_borders(void)
  */
 void snake_move(snake_t *snake)
 {
-	if (NULL == snake || PAUSE == snake->direction)
+	if (NULL == snake || PAUSE == snake->direction || GAME_ONGOING != snake->state)
 	{
 		return;
 	}
@@ -480,9 +482,10 @@ void snake_inform(snake_t *snake, food_t *food)
 {
 
 	const uint32_t white = 0;
-	char printStr[20] =
+	char line_0[20] =
 	{ 0 };
-
+	char line_1[20] =
+	{ 0 };
 	(void) (food);
 
 	if (snake->showmode != SHOW_TEXT)
@@ -494,22 +497,27 @@ void snake_inform(snake_t *snake, food_t *food)
 
 	if (snake->direction == PAUSE)
 	{
-		sprintf(printStr, "Paused, score %d", snake->length - SNAKE_INIT_LNG);
+		sprintf(line_0, "Paused, score %d", snake->length - SNAKE_INIT_LNG);
 	}
 	if (snake->state == GAME_OVER)
 	{
-		sprintf(printStr, "Crashed, score %d", snake->length - SNAKE_INIT_LNG);
+		sprintf(line_0, "Crashed, score %d", snake->length - SNAKE_INIT_LNG);
 	}
 	if (snake->state == GAME_WON)
 	{
-		sprintf(printStr, "Win, score %d", snake->length - SNAKE_INIT_LNG);
+		sprintf(line_0, "Win, score %d", snake->length - SNAKE_INIT_LNG);
 	}
-	platform_print_text(printStr, strlen(printStr), white);
+
+	sprintf(line_1, "Best score %ld", snake_load_score());
+
+
+	platform_print_text_line_0(line_0, strlen(line_0), white);
+	platform_print_text_line_1(line_1, strlen(line_1), white);
 
 }
 
 /**
- * @brief  Function to do a pseudo-blocking delay
+ * @brief Function to do a pseudo-blocking delay
  *
  * @note  Function does blocking delay based on platform_msTickGet. However,
  *        during the "waiting loop" MCU periodically process passed function.
@@ -528,4 +536,27 @@ void snake_inform(snake_t *snake, food_t *food)
 void snake_delay(uint32_t Delay, fn_t func)
 {
 	platform_delay(Delay, func);
+}
+
+/**
+ * @brief Store best score to the NVM area (abstracted).
+ *
+ * @note  Function loads best score from the NVM area
+ *        and write only in case the value was overcame.
+ *
+ * @param score - score count
+ */
+void snake_save_score(uint32_t score)
+{
+	platform_save_score(score);
+}
+
+/**
+ * @brief Get best score from the NVM area (abstracted).
+ *
+ * @return score - score count
+ */
+uint32_t snake_load_score()
+{
+	return platform_load_score();
 }

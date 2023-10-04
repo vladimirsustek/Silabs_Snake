@@ -281,6 +281,7 @@ sl_iostream_vprintf(sl_iostream_t *stream, const char *format, va_list argp);
 __attribute__((format(printf, 2, 3)))
 
 
+
 #endif
 sl_status_t
 sl_iostream_printf(sl_iostream_t *stream, const char *format, ...);

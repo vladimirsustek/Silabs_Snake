@@ -16,10 +16,14 @@
 #include "sl_assert.h"
 #include "sl_sleeptimer.h"
 #include "sl_joystick.h"
+#include "nvm3_generic.h"
+#include "nvm3_default.h"
 
 #define SNAKE_SERVER_PORT	(uint16_t)(8000u)
 #define UPPER_CASE_IDX (uint32_t)(6u)
 #define ALLOWED_LETTERS_LNG (uint32_t)(12u)
+
+#define SCORE_FLASH_OBJ (uint32_t)0x5A000000
 
 #define TO_LOWERCASE(x) (x = (x >= 'a') ? (x-('a'-'A')):(x))
 #define IS_ALOWED_LETTER(x) ((x) == 'W'||(x) == 'A'||(x) == 'S'||(x) == 'D'||\
@@ -429,13 +433,34 @@ void platform_display_border(void)
  *
  * @retval None
  */
-void platform_print_text(char *str, uint16_t length, uint16_t color)
+void platform_print_text_line_0(char *str, uint16_t length, uint16_t color)
 {
-	(void) (str);
 	(void) (length);
 	(void) (color);
 
 	GLIB_drawStringOnLine(&glibContext, str, currentLine, GLIB_ALIGN_LEFT, 5, 5,
+	true);
+	DMD_updateDisplay();
+}
+
+/**
+ * @brief  Print text of size into upper-center,
+ *
+ * @note   Prints text with
+ *
+ *
+ * @param str - string to print
+ * @param length -
+ * @param color -
+ *
+ * @retval None
+ */
+void platform_print_text_line_1(char *str, uint16_t length, uint16_t color)
+{
+	(void) (length);
+	(void) (color);
+
+	GLIB_drawStringOnLine(&glibContext, str, currentLine+1, GLIB_ALIGN_LEFT, 5, 5,
 	true);
 	DMD_updateDisplay();
 }
@@ -445,4 +470,46 @@ void platform_delay(uint32_t Delay, fn_t func)
 	(void) (func);
 	sl_sleeptimer_delay_millisecond(Delay);
 
+}
+
+void platform_save_score(uint32_t score)
+{
+	uint32_t prev_score = platform_load_score();
+
+	if (score > prev_score)
+	{
+		/* Add an SCORE_OBJ identifier */
+		score |= SCORE_FLASH_OBJ;
+		if (ECODE_OK
+				!= nvm3_writeData(nvm3_defaultHandle, NVM3_KEY_MAX, &score,
+						sizeof(uint32_t)))
+		{
+			platform_fatal();
+		}
+	}
+}
+
+uint32_t platform_load_score()
+{
+	uint32_t prev_score;
+
+	if (ECODE_OK
+			!= nvm3_readData(nvm3_defaultHandle, NVM3_KEY_MAX, &prev_score,
+					sizeof(uint32_t)))
+	{
+		platform_fatal();
+	}
+
+	/* Check whether the score object is already present, to
+	 * prevent from using an NVM inital random data value */
+	if ((prev_score & 0xFF000000) != SCORE_FLASH_OBJ)
+	{
+		prev_score = 0;
+	}
+	else
+	{
+		prev_score &= 0x00FFFFFF;
+	}
+
+	return prev_score;
 }

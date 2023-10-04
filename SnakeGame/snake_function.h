@@ -31,5 +31,6 @@ void
 snake_control(snake_t *snake);
 void
 snake_delay(uint32_t Delay, fn_t func);
-
+void snake_save_score(uint32_t score);
+uint32_t snake_load_score();
 #endif /* SNAKE_FUNCTION_H_ */

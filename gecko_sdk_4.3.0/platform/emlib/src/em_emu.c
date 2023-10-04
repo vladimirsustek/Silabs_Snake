@@ -1653,9 +1653,8 @@ if (end > RAM0_END)
 	for (unsigned i = 1; i < RAM0_BLOCKS; i++)
 	{
 		mask |=
-				ADDRESS_NOT_IN_BLOCK(start,
-						RAM_MEM_BASE + (i * RAM0_BLOCK_SIZE))
-						<< (i - 1U);
+		ADDRESS_NOT_IN_BLOCK(start,
+				RAM_MEM_BASE + (i * RAM0_BLOCK_SIZE)) << (i - 1U);
 	}
 #endif
 }

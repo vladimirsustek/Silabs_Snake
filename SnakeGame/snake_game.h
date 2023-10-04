@@ -16,6 +16,7 @@ typedef struct
 	snake_t snake;
 	food_t food;
 	uint32_t progCycle;
+	uint32_t bestScore;
 } snake_game_t;
 
 snake_game_t*

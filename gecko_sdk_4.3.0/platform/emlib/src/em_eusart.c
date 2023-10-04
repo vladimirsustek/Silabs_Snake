@@ -1370,10 +1370,10 @@ static void EUSART_SyncInitCommon(EUSART_TypeDef *eusart,
 
 	// Finally enable the Rx and/or Tx channel (as specified).
 	eusart_sync(eusart,
-			_EUSART_SYNCBUSY_RXEN_MASK | _EUSART_SYNCBUSY_TXEN_MASK); // Wait for low frequency register synchronization.
+	_EUSART_SYNCBUSY_RXEN_MASK | _EUSART_SYNCBUSY_TXEN_MASK); // Wait for low frequency register synchronization.
 	eusart->CMD = (uint32_t) init->enable;
 	eusart_sync(eusart,
-			_EUSART_SYNCBUSY_RXEN_MASK | _EUSART_SYNCBUSY_TXEN_MASK);
+	_EUSART_SYNCBUSY_RXEN_MASK | _EUSART_SYNCBUSY_TXEN_MASK);
 	while (~EUSART_StatusGet(eusart)
 			& (_EUSART_STATUS_RXIDLE_MASK | _EUSART_STATUS_TXIDLE_MASK))
 	{

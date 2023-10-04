@@ -26,12 +26,13 @@ snake_game_cycle(snake_game_t *game)
 
 	if (game->snake.state == GAME_OVER || game->snake.state == GAME_WON)
 	{
-		if(game->snake.direction != PAUSE)
+		if (game->snake.direction != PAUSE)
 		{
 			return true;
 		}
 		else
 		{
+			snake_save_score(game->snake.length);
 			return false;
 		}
 	}
