@@ -460,8 +460,9 @@ void platform_print_text_line_1(char *str, uint16_t length, uint16_t color)
 	(void) (length);
 	(void) (color);
 
-	GLIB_drawStringOnLine(&glibContext, str, currentLine+1, GLIB_ALIGN_LEFT, 5, 5,
-	true);
+	GLIB_drawStringOnLine(&glibContext, str, currentLine + 1, GLIB_ALIGN_LEFT,
+			5, 5,
+			true);
 	DMD_updateDisplay();
 }
 

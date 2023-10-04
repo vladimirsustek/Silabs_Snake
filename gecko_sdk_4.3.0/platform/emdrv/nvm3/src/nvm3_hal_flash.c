@@ -96,7 +96,8 @@ static Ecode_t convertMscStatusToNvm3Status(MSC_Status_TypeDef result)
 }
 
 // Check if the page is erased.
-static bool isErased(void *adr, size_t len)
+static bool
+isErased(void *adr, size_t len)
 {
 	size_t i;
 	size_t cnt;

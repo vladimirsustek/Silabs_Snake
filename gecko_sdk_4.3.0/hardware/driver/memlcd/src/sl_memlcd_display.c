@@ -40,7 +40,8 @@ sl_status_t sl_memlcd_init(void)
 			SL_MEMLCD_COLOR_MODE_MONOCHROME, .spi_freq = SL_MEMLCD_SCLK_FREQ,
 			.extcomin_freq = SL_MEMLCD_EXTCOMIN_FREQUENCY, .setup_us =
 			SL_MEMLCD_SCS_SETUP_US, .hold_us = SL_MEMLCD_SCS_HOLD_US,
-			.custom_data = NULL, };
+			.custom_data =
+			NULL, };
 
 	return sl_memlcd_configure(&memlcd);
 }

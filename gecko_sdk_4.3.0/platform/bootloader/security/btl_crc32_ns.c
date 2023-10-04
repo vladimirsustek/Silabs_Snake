@@ -22,8 +22,8 @@
 // -----------------------------------------------------------------------------
 // NSC functions
 
-extern uint32_t btl_nsc_crc32Stream(const uint8_t *buffer, size_t length,
-		uint32_t prevResult);
+extern uint32_t
+btl_nsc_crc32Stream(const uint8_t *buffer, size_t length, uint32_t prevResult);
 
 // -----------------------------------------------------------------------------
 // NS functions

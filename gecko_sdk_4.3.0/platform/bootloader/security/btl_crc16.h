@@ -42,7 +42,8 @@
  *                   when starting a new calculation.
  * @return Result of the CRC16 operation
  ******************************************************************************/
-uint16_t btl_crc16(const uint8_t newByte, uint16_t prevResult);
+uint16_t
+btl_crc16(const uint8_t newByte, uint16_t prevResult);
 
 /***************************************************************************//**
  * Calculate CRC16 on input stream.
@@ -53,8 +54,8 @@ uint16_t btl_crc16(const uint8_t newByte, uint16_t prevResult);
  *                   when starting a new calculation.
  * @returns Result of the CRC16 operation
  ******************************************************************************/
-uint16_t btl_crc16Stream(const uint8_t *buffer, size_t length,
-		uint16_t prevResult);
+uint16_t
+btl_crc16Stream(const uint8_t *buffer, size_t length, uint16_t prevResult);
 
 /** @} addtogroup CRC16 */
 /** @} addtogroup Security */

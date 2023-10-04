@@ -134,38 +134,24 @@ typedef struct food_tag
 typedef uint32_t
 fn_t(uint32_t);
 
-void
-platform_drawCell(uint16_t x, uint16_t y);
-void
-platform_eraseCell(uint16_t x, uint16_t y);
-void
-platform_drawFood(uint16_t x, uint16_t y);
-void
-platform_eraseFood(uint16_t x, uint16_t y);
+void platform_drawCell(uint16_t x, uint16_t y);
+void platform_eraseCell(uint16_t x, uint16_t y);
+void platform_drawFood(uint16_t x, uint16_t y);
+void platform_eraseFood(uint16_t x, uint16_t y);
 
-void
-platform_init(void);
-void
-platform_init_randomizer(void);
-void
-platform_printXY(uint16_t x, uint16_t y, char symbol);
-uint16_t
-platform_randomize(void);
-uint16_t
-platform_msTickGet(void);
-void
-platform_fatal(void);
-void
-platform_get_control(snake_t *snake);
-void
-platform_refresh_hw(void);
-void
-platform_display_border(void);
+void platform_init(void);
+void platform_init_randomizer(void);
+void platform_printXY(uint16_t x, uint16_t y, char symbol);
+uint16_t platform_randomize(void);
+uint16_t platform_msTickGet(void);
+void platform_fatal(void);
+void platform_get_control(snake_t *snake);
+void platform_refresh_hw(void);
+void platform_display_border(void);
 void platform_print_text_line_0(char *str, uint16_t length, uint16_t color);
 void platform_print_text_line_1(char *str, uint16_t length, uint16_t color);
 void platform_snake_set_control(char c);
-void
-platform_delay(uint32_t Delay, fn_t func);
+void platform_delay(uint32_t Delay, fn_t func);
 
 void platform_save_score(uint32_t score);
 

@@ -22,9 +22,10 @@
 // -----------------------------------------------------------------------------
 // NSC functions
 
-extern uint16_t btl_nsc_crc16(const uint8_t newByte, uint16_t prevResult);
-extern uint16_t btl_nsc_crc16Stream(const uint8_t *buffer, size_t length,
-		uint16_t prevResult);
+extern uint16_t
+btl_nsc_crc16(const uint8_t newByte, uint16_t prevResult);
+extern uint16_t
+btl_nsc_crc16Stream(const uint8_t *buffer, size_t length, uint16_t prevResult);
 
 // -----------------------------------------------------------------------------
 // NS functions

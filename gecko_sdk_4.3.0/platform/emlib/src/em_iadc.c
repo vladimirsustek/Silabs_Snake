@@ -300,7 +300,7 @@ void IADC_init(IADC_TypeDef *iadc, const IADC_Init_t *init,
 #endif
 				);
 		iadc->CFG[config].CFG =
-								tmp
+				tmp
 						| (((uint32_t) (adcMode) << _IADC_CFG_ADCMODE_SHIFT)
 								& _IADC_CFG_ADCMODE_MASK)
 						| (((uint32_t) (allConfigs->configs[config].osrHighSpeed)

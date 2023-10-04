@@ -63,19 +63,22 @@ extern "C" {
  * @brief
  *  Begin a lock section.
  ******************************************************************************/
-void nvm3_lockBegin(void);
+void
+nvm3_lockBegin(void);
 
 /***************************************************************************//**
  * @brief
  *  End a lock section.
  ******************************************************************************/
-void nvm3_lockEnd(void);
+void
+nvm3_lockEnd(void);
 
 /***************************************************************************//**
  * @brief
  *  Disable execution from data area.
  ******************************************************************************/
-void nvm3_lockDisableExecute(void *address, size_t size);
+void
+nvm3_lockDisableExecute(void *address, size_t size);
 
 /** @} (end addtogroup nvm3lock) */
 /** @} (end addtogroup nvm3) */

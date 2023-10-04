@@ -6,8 +6,7 @@
  */
 #include "snake_game.h"
 
-snake_game_t*
-snake_game_init()
+snake_game_t* snake_game_init()
 {
 	static snake_game_t game;
 
@@ -17,8 +16,7 @@ snake_game_init()
 
 }
 
-bool
-snake_game_cycle(snake_game_t *game)
+bool snake_game_cycle(snake_game_t *game)
 {
 	snake_control(&game->snake);
 	snake_move(&game->snake);

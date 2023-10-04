@@ -54,7 +54,8 @@ extern nvm3_Init_t *nvm3_defaultInit;         ///< Default initialization data.
  * @return
  *   @ref ECODE_NVM3_OK on success and a NVM3 @ref Ecode_t on failure.
  ******************************************************************************/
-Ecode_t nvm3_initDefault(void);
+Ecode_t
+nvm3_initDefault(void);
 
 /***************************************************************************//**
  * @brief
@@ -63,7 +64,8 @@ Ecode_t nvm3_initDefault(void);
  * @return
  *   @ref ECODE_NVM3_OK on success and a NVM3 @ref Ecode_t on failure.
  ******************************************************************************/
-Ecode_t nvm3_deinitDefault(void);
+Ecode_t
+nvm3_deinitDefault(void);
 
 /** @} (end addtogroup nvm3default) */
 /** @} (end addtogroup nvm3) */

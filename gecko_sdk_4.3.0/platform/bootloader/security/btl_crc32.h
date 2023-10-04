@@ -45,8 +45,8 @@
  *                   starting a new calculation
  * @returns Result of the CRC32 operation
  ******************************************************************************/
-uint32_t btl_crc32Stream(const uint8_t *buffer, size_t length,
-		uint32_t prevResult);
+uint32_t
+btl_crc32Stream(const uint8_t *buffer, size_t length, uint32_t prevResult);
 
 /** @} addtogroup CRC32 */
 /** @} addtogroup Security */

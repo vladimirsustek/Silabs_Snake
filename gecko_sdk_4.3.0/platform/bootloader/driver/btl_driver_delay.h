@@ -41,12 +41,14 @@
  *
  * @param usecs Number of microseconds to delay
  */
-void delay_microseconds(uint32_t usecs);
+void
+delay_microseconds(uint32_t usecs);
 
 /**
  * Initialize the delay driver's millisecond counter.
  */
-void delay_init(void);
+void
+delay_init(void);
 
 /**
  * Delay for a number of milliseconds.
@@ -57,14 +59,16 @@ void delay_init(void);
  *                 @ref delay_expired() function can be called to check whether
  *                 the delay has expired.
  */
-void delay_milliseconds(uint32_t msecs, bool blocking);
+void
+delay_milliseconds(uint32_t msecs, bool blocking);
 
 /**
  * Check whether the current delay has expired.
  *
  * @return True if the delay has expired.
  */
-bool delay_expired(void);
+bool
+delay_expired(void);
 
 /**
  * @} (end addtogroup Delay)

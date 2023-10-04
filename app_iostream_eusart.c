@@ -24,6 +24,7 @@
 #include "glib.h"
 #include "dmd.h"
 #include "SnakeGame/snake_port.h"
+#include "nvm3_default.h"
 
 #ifdef ORIGINAL_DEMO_APPLICATION
 /*******************************************************************************

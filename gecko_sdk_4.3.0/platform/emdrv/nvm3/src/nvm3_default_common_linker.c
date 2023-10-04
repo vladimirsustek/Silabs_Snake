@@ -44,7 +44,7 @@ __root uint8_t nvm3_default_storage[NVM3_DEFAULT_NVM_SIZE] @ "SIMEE";
 
 extern char linker_nvm_begin;
 
-__attribute__((used))  uint8_t nvm3_default_storage[NVM3_DEFAULT_NVM_SIZE] __attribute__ ((section(".simee")));
+__attribute__((used))    uint8_t nvm3_default_storage[NVM3_DEFAULT_NVM_SIZE] __attribute__ ((section(".simee")));
 #define NVM3_BASE (&linker_nvm_begin)
 
 #else

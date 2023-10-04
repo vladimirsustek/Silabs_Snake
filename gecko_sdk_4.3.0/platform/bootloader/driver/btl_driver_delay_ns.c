@@ -24,10 +24,14 @@
 // -----------------------------------------------------------------------------
 // NSC functions
 
-extern void delay_nsc_init(void);
-extern void delay_nsc_microseconds(uint32_t usecs);
-extern void delay_nsc_milliseconds(uint32_t msecs, bool blocking);
-extern bool delay_nsc_expired(void);
+extern void
+delay_nsc_init(void);
+extern void
+delay_nsc_microseconds(uint32_t usecs);
+extern void
+delay_nsc_milliseconds(uint32_t msecs, bool blocking);
+extern bool
+delay_nsc_expired(void);
 
 // -----------------------------------------------------------------------------
 // NS functions
@@ -47,7 +51,8 @@ void delay_milliseconds(uint32_t msecs, bool blocking)
 	delay_nsc_milliseconds(msecs, blocking);
 }
 
-bool delay_expired(void)
+bool
+delay_expired(void)
 {
 	return delay_nsc_expired();
 }

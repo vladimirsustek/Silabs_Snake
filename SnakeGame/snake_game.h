@@ -19,9 +19,7 @@ typedef struct
 	uint32_t bestScore;
 } snake_game_t;
 
-snake_game_t*
-snake_game_init();
-bool
-snake_game_cycle(snake_game_t *game);
+snake_game_t* snake_game_init();
+bool snake_game_cycle(snake_game_t *game);
 
 #endif /* SNAKEGAME_SNAKE_GAME_H_ */

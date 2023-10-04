@@ -216,7 +216,8 @@ typedef struct
  * @return
  *   @ref ECODE_NVM3_OK on success and a NVM3 @ref Ecode_t on failure.
  ******************************************************************************/
-Ecode_t nvm3_open(nvm3_Handle_t *h, const nvm3_Init_t *i);
+Ecode_t
+nvm3_open(nvm3_Handle_t *h, const nvm3_Init_t *i);
 
 /***************************************************************************//**
  * @brief
@@ -228,7 +229,8 @@ Ecode_t nvm3_open(nvm3_Handle_t *h, const nvm3_Init_t *i);
  * @return
  *   @ref ECODE_NVM3_OK is always returned.
  ******************************************************************************/
-Ecode_t nvm3_close(nvm3_Handle_t *h);
+Ecode_t
+nvm3_close(nvm3_Handle_t *h);
 
 /***************************************************************************//**
  * @brief
@@ -252,8 +254,9 @@ Ecode_t nvm3_close(nvm3_Handle_t *h);
  * @return
  *   @ref ECODE_NVM3_OK on success or a NVM3 @ref Ecode_t on failure.
  ******************************************************************************/
-Ecode_t nvm3_writeData(nvm3_Handle_t *h, nvm3_ObjectKey_t key,
-		const void *value, size_t len);
+Ecode_t
+nvm3_writeData(nvm3_Handle_t *h, nvm3_ObjectKey_t key, const void *value,
+		size_t len);
 
 /***************************************************************************//**
  * @brief
@@ -276,8 +279,8 @@ Ecode_t nvm3_writeData(nvm3_Handle_t *h, nvm3_ObjectKey_t key,
  * @return
  *   @ref ECODE_NVM3_OK on success or a NVM3 @ref Ecode_t on failure.
  ******************************************************************************/
-Ecode_t nvm3_readData(nvm3_Handle_t *h, nvm3_ObjectKey_t key, void *value,
-		size_t len);
+Ecode_t
+nvm3_readData(nvm3_Handle_t *h, nvm3_ObjectKey_t key, void *value, size_t len);
 
 /***************************************************************************//**
  * @brief
@@ -302,8 +305,9 @@ Ecode_t nvm3_readData(nvm3_Handle_t *h, nvm3_ObjectKey_t key, void *value,
  * @return
  *   @ref ECODE_NVM3_OK on success or a NVM3 @ref Ecode_t on failure.
  ******************************************************************************/
-Ecode_t nvm3_readPartialData(nvm3_Handle_t *h, nvm3_ObjectKey_t key,
-		void *value, size_t ofs, size_t len);
+Ecode_t
+nvm3_readPartialData(nvm3_Handle_t *h, nvm3_ObjectKey_t key, void *value,
+		size_t ofs, size_t len);
 
 /***************************************************************************//**
  * @brief
@@ -325,8 +329,9 @@ Ecode_t nvm3_readPartialData(nvm3_Handle_t *h, nvm3_ObjectKey_t key,
  * @return
  *   @ref ECODE_NVM3_OK on success or a NVM3 @ref Ecode_t on failure.
  ******************************************************************************/
-Ecode_t nvm3_getObjectInfo(nvm3_Handle_t *h, nvm3_ObjectKey_t key,
-		uint32_t *type, size_t *len);
+Ecode_t
+nvm3_getObjectInfo(nvm3_Handle_t *h, nvm3_ObjectKey_t key, uint32_t *type,
+		size_t *len);
 
 /***************************************************************************//**
  * @brief
@@ -358,7 +363,8 @@ Ecode_t nvm3_getObjectInfo(nvm3_Handle_t *h, nvm3_ObjectKey_t key,
  *   to @p keyListSize. If the @p keyListSize = 0, the function will return the
  *   total number of objects matching the key Min - Max pattern.
  ******************************************************************************/
-size_t nvm3_enumObjects(nvm3_Handle_t *h, nvm3_ObjectKey_t *keyListPtr,
+size_t
+nvm3_enumObjects(nvm3_Handle_t *h, nvm3_ObjectKey_t *keyListPtr,
 		size_t keyListSize, nvm3_ObjectKey_t keyMin, nvm3_ObjectKey_t keyMax);
 
 /***************************************************************************//**
@@ -391,7 +397,8 @@ size_t nvm3_enumObjects(nvm3_Handle_t *h, nvm3_ObjectKey_t *keyListPtr,
  *   to @p keyListSize. If the @p keyListSize = 0, the function will return the
  *   total number of objects matching the key Min - Max pattern.
  ******************************************************************************/
-size_t nvm3_enumDeletedObjects(nvm3_Handle_t *h, nvm3_ObjectKey_t *keyListPtr,
+size_t
+nvm3_enumDeletedObjects(nvm3_Handle_t *h, nvm3_ObjectKey_t *keyListPtr,
 		size_t keyListSize, nvm3_ObjectKey_t keyMin, nvm3_ObjectKey_t keyMax);
 
 /***************************************************************************//**
@@ -407,7 +414,8 @@ size_t nvm3_enumDeletedObjects(nvm3_Handle_t *h, nvm3_ObjectKey_t *keyListPtr,
  * @return
  *   @ref ECODE_NVM3_OK on success or a NVM3 @ref Ecode_t on failure.
  ******************************************************************************/
-Ecode_t nvm3_deleteObject(nvm3_Handle_t *h, nvm3_ObjectKey_t key);
+Ecode_t
+nvm3_deleteObject(nvm3_Handle_t *h, nvm3_ObjectKey_t key);
 
 /***************************************************************************//**
  * @brief
@@ -425,8 +433,8 @@ Ecode_t nvm3_deleteObject(nvm3_Handle_t *h, nvm3_ObjectKey_t key);
  * @return
  *   @ref ECODE_NVM3_OK on success or a NVM3 @ref Ecode_t on failure.
  ******************************************************************************/
-Ecode_t nvm3_writeCounter(nvm3_Handle_t *h, nvm3_ObjectKey_t key,
-		uint32_t value);
+Ecode_t
+nvm3_writeCounter(nvm3_Handle_t *h, nvm3_ObjectKey_t key, uint32_t value);
 
 /***************************************************************************//**
  * @brief
@@ -445,8 +453,8 @@ Ecode_t nvm3_writeCounter(nvm3_Handle_t *h, nvm3_ObjectKey_t key,
  * @return
  *   @ref ECODE_NVM3_OK on success or a NVM3 @ref Ecode_t on failure.
  ******************************************************************************/
-Ecode_t nvm3_readCounter(nvm3_Handle_t *h, nvm3_ObjectKey_t key,
-		uint32_t *value);
+Ecode_t
+nvm3_readCounter(nvm3_Handle_t *h, nvm3_ObjectKey_t key, uint32_t *value);
 
 /***************************************************************************//**
  * @brief
@@ -465,7 +473,8 @@ Ecode_t nvm3_readCounter(nvm3_Handle_t *h, nvm3_ObjectKey_t key,
  * @return
  *   @ref ECODE_NVM3_OK on success or a NVM3 @ref Ecode_t on failure.
  ******************************************************************************/
-Ecode_t nvm3_incrementCounter(nvm3_Handle_t *h, nvm3_ObjectKey_t key,
+Ecode_t
+nvm3_incrementCounter(nvm3_Handle_t *h, nvm3_ObjectKey_t key,
 		uint32_t *newValue);
 
 /***************************************************************************//**
@@ -486,7 +495,8 @@ Ecode_t nvm3_incrementCounter(nvm3_Handle_t *h, nvm3_ObjectKey_t key,
  * @return
  *   @ref ECODE_NVM3_OK on success or a NVM3 @ref Ecode_t on failure.
  ******************************************************************************/
-Ecode_t nvm3_eraseAll(nvm3_Handle_t *h);
+Ecode_t
+nvm3_eraseAll(nvm3_Handle_t *h);
 
 /***************************************************************************//**
  * @brief
@@ -507,7 +517,8 @@ Ecode_t nvm3_eraseAll(nvm3_Handle_t *h);
  * @return
  *   @ref ECODE_NVM3_OK on success or a NVM3 @ref Ecode_t on failure.
  ******************************************************************************/
-Ecode_t nvm3_getEraseCount(nvm3_Handle_t *h, uint32_t *eraseCnt);
+Ecode_t
+nvm3_getEraseCount(nvm3_Handle_t *h, uint32_t *eraseCnt);
 
 /***************************************************************************//**
  * @brief
@@ -524,7 +535,8 @@ Ecode_t nvm3_getEraseCount(nvm3_Handle_t *h, uint32_t *eraseCnt);
  * @param[in] eraseCnt
  *   The erase count.
  ******************************************************************************/
-void nvm3_setEraseCount(uint32_t eraseCnt);
+void
+nvm3_setEraseCount(uint32_t eraseCnt);
 
 /***************************************************************************//**
  * @brief
@@ -549,7 +561,8 @@ void nvm3_setEraseCount(uint32_t eraseCnt);
  * @return
  *   @ref ECODE_NVM3_OK on success or a NVM3 @ref Ecode_t on failure.
  ******************************************************************************/
-Ecode_t nvm3_repack(nvm3_Handle_t *h);
+Ecode_t
+nvm3_repack(nvm3_Handle_t *h);
 
 /***************************************************************************//**
  * @brief
@@ -563,7 +576,8 @@ Ecode_t nvm3_repack(nvm3_Handle_t *h);
  * @return
  *   true if repacking is needed, false if repacking is not needed.
  ******************************************************************************/
-bool nvm3_repackNeeded(nvm3_Handle_t *h);
+bool
+nvm3_repackNeeded(nvm3_Handle_t *h);
 
 /***************************************************************************//**
  * @brief
@@ -596,7 +610,8 @@ bool nvm3_repackNeeded(nvm3_Handle_t *h);
  * @return
  *   @ref ECODE_NVM3_OK on success or a NVM3 @ref Ecode_t on failure.
  ******************************************************************************/
-Ecode_t nvm3_resize(nvm3_Handle_t *h, nvm3_HalPtr_t newAddr, size_t newSize);
+Ecode_t
+nvm3_resize(nvm3_Handle_t *h, nvm3_HalPtr_t newAddr, size_t newSize);
 
 /***************************************************************************//**
  * @brief
@@ -608,7 +623,8 @@ Ecode_t nvm3_resize(nvm3_Handle_t *h, nvm3_HalPtr_t newAddr, size_t newSize);
  * @return
  *   The number of valid objects.
  ******************************************************************************/
-__STATIC_INLINE size_t nvm3_countObjects(nvm3_Handle_t *h)
+__STATIC_INLINE size_t
+nvm3_countObjects(nvm3_Handle_t *h)
 {
 	return nvm3_enumObjects(h, NULL, 0, NVM3_KEY_MIN, NVM3_KEY_MAX);
 }
@@ -623,7 +639,8 @@ __STATIC_INLINE size_t nvm3_countObjects(nvm3_Handle_t *h)
  * @return
  *   The number of deleted objects.
  ******************************************************************************/
-__STATIC_INLINE size_t nvm3_countDeletedObjects(nvm3_Handle_t *h)
+__STATIC_INLINE size_t
+nvm3_countDeletedObjects(nvm3_Handle_t *h)
 {
 	return nvm3_enumDeletedObjects(h, NULL, 0, NVM3_KEY_MIN, NVM3_KEY_MAX);
 }

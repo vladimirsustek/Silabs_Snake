@@ -143,7 +143,7 @@ void snake_init(snake_t *snake, food_t *food, uint32_t *cycle)
  * @param snake - pointer to a snake structure
  * @retval None
  */
-void snake_display(snake_t *snake, food_t* food)
+void snake_display(snake_t *snake, food_t *food)
 {
 	if (NULL == snake || snake->direction == PAUSE)
 	{
@@ -212,7 +212,8 @@ void snake_diplay_borders(void)
  */
 void snake_move(snake_t *snake)
 {
-	if (NULL == snake || PAUSE == snake->direction || GAME_ONGOING != snake->state)
+	if (NULL == snake || PAUSE == snake->direction
+			|| GAME_ONGOING != snake->state)
 	{
 		return;
 	}
@@ -511,7 +512,6 @@ void snake_inform(snake_t *snake, food_t *food)
 	}
 
 	sprintf(line_1, "Best score %ld", snake_load_score());
-
 
 	platform_print_text_line_0(line_0, strlen(line_0), white);
 	platform_print_text_line_1(line_1, strlen(line_1), white);
