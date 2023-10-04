@@ -38,7 +38,7 @@ snake_game_cycle(snake_game_t *game)
 	}
 
 	snake_haseaten(&game->snake, &game->food);
-	snake_display(&game->snake);
+	snake_display(&game->snake, &game->food);
 	snake_place_food(&game->snake, &game->food, &game->progCycle);
 
 	return true;

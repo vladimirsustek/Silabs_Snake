@@ -15,8 +15,8 @@ void
 snake_hw_init(void);
 void
 snake_init(snake_t *snake, food_t *food, uint32_t *cycle);
-void
-snake_display(snake_t *snake);
+
+void snake_display(snake_t *snake, food_t* food);
 void
 snake_diplay_borders(void);
 void

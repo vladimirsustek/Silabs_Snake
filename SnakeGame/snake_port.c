@@ -475,7 +475,7 @@ void platform_delay(uint32_t Delay, fn_t func)
 void platform_save_score(uint32_t score)
 {
 	uint32_t prev_score = platform_load_score();
-
+	score -= SNAKE_INIT_LNG;
 	if (score > prev_score)
 	{
 		/* Add an SCORE_OBJ identifier */

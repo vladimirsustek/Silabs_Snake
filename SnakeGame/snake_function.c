@@ -143,7 +143,7 @@ void snake_init(snake_t *snake, food_t *food, uint32_t *cycle)
  * @param snake - pointer to a snake structure
  * @retval None
  */
-void snake_display(snake_t *snake)
+void snake_display(snake_t *snake, food_t* food)
 {
 	if (NULL == snake || snake->direction == PAUSE)
 	{
@@ -167,6 +167,12 @@ void snake_display(snake_t *snake)
 		for (int idx = 0; idx < snake->length; idx++)
 		{
 			platform_drawCell(snake->body[idx].x, snake->body[idx].y);
+		}
+
+		if (food->rePrintFood && FOOD_PLACED == food->state)
+		{
+			platform_drawFood(food->coord.x, food->coord.y);
+			food->rePrintFood = 0;
 		}
 
 		/* From now onwards display new head and erase old tail */
@@ -398,11 +404,6 @@ void snake_place_food(snake_t *snake, food_t *food, uint32_t *cycle)
 	{
 		return;
 	}
-	if (food->rePrintFood && FOOD_PLACED == food->state)
-	{
-		platform_drawFood(food->coord.x, food->coord.y);
-		food->rePrintFood = 0;
-	}
 	if (PAUSE == snake->direction)
 	{
 		return;
@@ -494,6 +495,7 @@ void snake_inform(snake_t *snake, food_t *food)
 	}
 
 	snake->showmode = SHOW_WHOLE_SNAKE;
+	food->rePrintFood = 1;
 
 	if (snake->direction == PAUSE)
 	{
